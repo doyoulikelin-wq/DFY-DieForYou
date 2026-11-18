@@ -1,0 +1,23 @@
+{
+  "id": "pair_execution",
+  "role": "execution",
+  "effort": "low",
+  "requested_model": "gpt-6.1-sol",
+  "round": "R1",
+  "kind": "pair_execution",
+  "input_messages": [
+    {
+      "id": "R1-APPROVAL",
+      "from": "review",
+      "body": {
+        "pass": true,
+        "approved_reply": "先看看附近有没有人或醒目的标记，告诉我你看到了什么，好吗？",
+        "issues": []
+      }
+    }
+  ],
+  "expected_state_version": 1,
+  "token_usage": null,
+  "input_sha256": "025b99dd0ecd8ed124c6e8451aeda37df057922bcfed6c51301c0a0869c95a92",
+  "dispatch_unix_ms": 1794684222720.997
+}

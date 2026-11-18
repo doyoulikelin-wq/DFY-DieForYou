@@ -1,0 +1,804 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="陪伴精灵多Agent协作设计台：功能看板、动态链路、并发调度、主动试探、全流程模拟验收与调整。">
+<meta name="theme-color" content="#14233d">
+<title>陪伴精灵 · 协作设计台</title>
+<style>
+:root{--bg:#f4f6fa;--paper:#fff;--ink:#182841;--muted:#68788f;--line:#e1e7ef;--nav:#14233d;--nav2:#22334e;--teal:#087f80;--teal-soft:#e5f4f1;--purple:#7654be;--blue:#3976c9;--amber:#b56f16;--red:#c34d58;--green:#188562;--shadow:0 8px 28px rgba(25,44,76,.045);--radius:16px}*{box-sizing:border-box}body{margin:0;color:var(--ink);background:var(--bg);font:14px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer}button:disabled{cursor:not-allowed;opacity:.45}button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid #80c6c8;outline-offset:3px}input,select,textarea{color:var(--ink);background:white;border:1px solid #d6deea;border-radius:9px;padding:9px 11px;max-width:100%}input[type=checkbox]{accent-color:var(--teal);width:16px;height:16px}textarea{resize:vertical;width:100%;min-height:94px}h1,h2,h3,h4,p{margin-top:0}h1{font-size:29px;line-height:1.35;letter-spacing:-.6px;margin-bottom:9px}h2{font-size:19px;line-height:1.5;margin-bottom:6px}h3{font-size:16px;margin-bottom:6px}h4{font-size:14px;margin-bottom:6px}p{margin-bottom:13px}a{color:var(--teal);text-decoration:none}a:hover{text-decoration:underline}svg{flex-shrink:0}.icon{width:18px;height:18px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}.app{min-height:100vh;display:grid;grid-template-columns:224px minmax(0,1fr)}.sidebar{background:var(--nav);color:#c4cede;position:sticky;top:0;height:100vh;padding:29px 17px 18px;display:flex;flex-direction:column;z-index:10}.brand{display:flex;align-items:center;gap:12px;padding:0 9px 27px;color:white}.brand-logo{display:grid;grid-template-columns:repeat(3,6px);gap:4px;transform:rotate(-12deg);padding:8px}.brand-logo i{display:block;width:6px;height:6px;background:#73d2c5;border-radius:50%}.brand-logo i:nth-child(2n){background:#b7abf2}.brand-name{font-size:18px;letter-spacing:.5px;font-weight:700}.brand-sub{font-size:11px;letter-spacing:1.4px;color:#96a7bd;margin-top:2px}.nav-label{font-size:10px;letter-spacing:1.5px;color:#8fa0b9;padding:0 14px;margin:14px 0 10px}.nav-btn{display:flex;align-items:center;gap:12px;border:0;background:transparent;color:#b8c5d7;width:100%;text-align:left;padding:12px 14px;border-radius:10px;margin-bottom:5px;transition:.15s}.nav-btn:hover{background:#1d304d;color:#fff}.nav-btn.active{background:#2a4159;color:#adf0e3}.nav-btn .num{margin-left:auto;background:#354a63;color:#d5e0ee;font-size:11px;border-radius:5px;padding:0 6px}.sidebar-note{margin-top:auto;border-top:1px solid #31415a;padding:20px 12px 0;font-size:11px;line-height:1.9;color:#9cacc1}.sidebar-note strong{display:block;color:#d8e3ef;font-size:12px}.sidebar-note .status-dot{background:#60c4ac}.workspace{min-width:0}.topbar{height:76px;background:rgba(255,255,255,.92);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 30px;gap:16px}.breadcrumbs{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:10px}.breadcrumbs strong{color:var(--ink);font-weight:600}.actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.btn{border:1px solid #dce3ec;background:#fff;color:var(--ink);border-radius:9px;padding:8px 13px;display:inline-flex;align-items:center;justify-content:center;gap:7px;white-space:nowrap;font-weight:550;transition:.15s}.btn:hover{border-color:#96adb8;background:#f8fafc}.btn.primary{background:var(--teal);color:white;border-color:var(--teal)}.btn.primary:hover{background:#076b6e}.btn.dark{background:var(--nav);color:white;border-color:var(--nav)}.btn.danger{color:var(--red);border-color:#ebcbd0;background:#fff9fa}.btn.ghost{border-color:transparent;background:transparent;color:var(--muted)}.btn.small{font-size:12px;padding:5px 9px;border-radius:7px}.btn.icon-only{padding:8px}.chip{display:inline-flex;align-items:center;gap:5px;padding:3px 8px;border-radius:6px;background:#eef2f7;font-size:11px;line-height:1.7;white-space:nowrap;color:#52647e}.chip.teal{background:var(--teal-soft);color:var(--teal)}.chip.purple{background:#f0eafa;color:var(--purple)}.chip.blue{background:#ebf2fe;color:var(--blue)}.chip.amber{background:#fff3df;color:var(--amber)}.chip.red{background:#fcecef;color:var(--red)}.chip.green{background:#e7f5ed;color:var(--green)}.chip.outline{background:transparent;border:1px solid var(--line)}.status-dot{width:6px;height:6px;background:currentColor;border-radius:50%;display:inline-block}.main{padding:29px 30px 44px;max-width:1600px;margin:auto}.page-heading{display:flex;justify-content:space-between;gap:20px;align-items:flex-start;margin-bottom:22px}.eyebrow{font-size:10px;letter-spacing:1.5px;color:var(--teal);font-weight:700;margin-bottom:8px}.muted{color:var(--muted)}.small-text{font-size:12px}.tiny{font-size:11px}.mono{font-family:ui-monospace,SFMono-Regular,Consolas,monospace}.panel{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}.pad{padding:22px}.panel-head{display:flex;justify-content:space-between;align-items:flex-start;gap:15px;padding:20px 22px;border-bottom:1px solid var(--line)}.panel-head h2{font-size:16px}.panel-body{padding:20px 22px}.metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-bottom:22px}.metric{padding:18px 20px;position:relative}.metric .metric-label{font-size:12px;color:var(--muted)}.metric .metric-number{font-size:29px;font-weight:650;letter-spacing:-.7px;line-height:1.5}.metric .metric-number small{font-size:13px;font-weight:450;margin-left:5px;letter-spacing:0}.metric .metric-caption{font-size:11px;color:var(--muted)}.metric .metric-icon{position:absolute;right:19px;top:21px;background:#f0f4f8;color:#6b7f96;padding:8px;border-radius:10px}.notice{padding:12px 15px;border:1px solid #d8e9e7;background:#edf7f5;color:#326663;border-radius:10px;font-size:12px;margin-bottom:18px;display:flex;gap:9px;align-items:flex-start}.notice.amber{background:#fff8ed;border-color:#eedfc4;color:#885c23}.notice.red{background:#fff1f2;border-color:#efcbd0;color:#9e3e49}.notice.blue{background:#f0f5fe;border-color:#dae5f6;color:#48668e}.notice p{margin:0}.toolbar{display:flex;justify-content:space-between;gap:14px;align-items:center;margin-bottom:18px;flex-wrap:wrap}.filters{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.search{position:relative}.search input{padding-left:35px;min-width:220px}.search .icon{position:absolute;left:11px;top:12px;color:#8a99ab}.tab-pills{display:inline-flex;padding:4px;background:#e9eef5;border-radius:9px;gap:3px}.tab-pills button{padding:6px 12px;border:0;border-radius:6px;background:transparent;color:var(--muted);font-size:12px}.tab-pills button.active{background:#fff;color:var(--ink);box-shadow:0 2px 5px #2233440b}.kanban{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;align-items:start}.board-col{background:#edf1f6;border-radius:13px;padding:12px;min-height:380px;transition:.15s}.board-col.drop-over{background:#dfefeb;outline:2px dashed #449d90}.board-col-head{display:flex;align-items:center;gap:7px;padding:3px 2px 14px;font-size:12px;font-weight:650}.board-count{margin-left:auto;color:#8291a6;font-weight:450}.feature-card{background:white;border:1px solid #e2e8f1;border-radius:11px;padding:14px;margin-bottom:10px;cursor:pointer;box-shadow:0 3px 7px #22334402;transition:.15s}.feature-card:hover{border-color:#9fbabf;box-shadow:0 5px 14px #21374e0a;transform:translateY(-1px)}.feature-card[draggable=true]:active{cursor:grabbing}.card-top{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px}.feature-card h3{font-size:13px;line-height:1.55;margin-bottom:7px}.feature-card p{font-size:11px;color:var(--muted);line-height:1.7;margin-bottom:12px}.card-footer{border-top:1px solid #f0f3f7;padding-top:10px;display:flex;justify-content:space-between;gap:6px;font-size:10px;color:#8391a4}.role-label{font-size:11px;display:inline-flex;align-items:center;gap:5px}.role-label i{width:6px;height:6px;border-radius:50%;display:inline-block}.empty{padding:34px 20px;text-align:center;color:#8694a6;font-size:12px;border:1px dashed #d4dde7;border-radius:10px}.scenario-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin-bottom:20px}.scenario{border:1px solid var(--line);background:white;text-align:left;padding:14px 14px 12px;border-radius:12px;color:var(--ink);transition:.15s}.scenario:hover{border-color:#8db4b0}.scenario.active{border-color:#45a196;background:#edf8f4;box-shadow:inset 0 0 0 1px #45a196}.scenario-icon{margin-bottom:9px;color:var(--teal)}.scenario strong{display:block;font-size:13px;margin-bottom:3px}.scenario span{font-size:10px;color:var(--muted);line-height:1.5;display:block}.split{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:18px;align-items:start}.split.wide-aside{grid-template-columns:minmax(0,1fr) 330px}.stack{display:grid;gap:16px}.context-fields{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.field{display:flex;flex-direction:column;gap:5px}.field label,.field-label{font-size:11px;font-weight:600;color:#66758c}.field input,.field select{width:100%;font-size:12px}.check-field{display:flex;align-items:center;gap:8px;font-size:12px;padding:6px 0}.check-field label{cursor:pointer}.context-toggle{margin-top:12px;border-top:1px solid #e5eaf1;padding-top:12px;display:flex;gap:16px;flex-wrap:wrap}.subtle-label{font-size:10px;letter-spacing:.8px;color:#8190a5;font-weight:650}.node-legend{display:flex;gap:12px;flex-wrap:wrap;font-size:10px;color:#7a899e;margin-top:9px}.diagram-wrap{max-height:720px;overflow:auto;padding:20px 18px;background:radial-gradient(#dfe6ec .6px,transparent .6px);background-size:14px 14px;min-height:280px}.wave{display:grid;grid-template-columns:50px minmax(0,1fr);gap:12px;position:relative;padding-bottom:20px}.wave:last-child{padding-bottom:0}.wave:not(:last-child):before{content:"";position:absolute;left:21px;top:31px;bottom:0;border-left:1px solid #ccd8e4}.wave-num{display:flex;align-items:center;justify-content:center;height:29px;width:42px;border:1px solid #d8e1ea;border-radius:8px;color:#8494a8;background:#f8fafc;font-size:10px;z-index:1}.wave-nodes{display:grid;grid-template-columns:repeat(auto-fit,minmax(166px,1fr));gap:10px;max-width:760px}.flow-node{border:1px solid #dfe6ee;border-top:3px solid var(--node-color,#6b819c);padding:12px;border-radius:10px;background:#fff;text-align:left;color:var(--ink);min-height:93px;box-shadow:0 3px 7px #18284004;transition:.15s;position:relative}.flow-node:hover,.flow-node.selected{border-color:var(--node-color,#6b819c);box-shadow:0 3px 12px #1828400b}.flow-node.selected{background:#f7fafb;outline:2px solid #c1dad7;outline-offset:2px}.flow-node.related{background:#f1f9f6}.flow-node.running{background:#eaf7f4;box-shadow:0 0 0 2px #69c0aa66}.flow-node.done:after{content:"✓";position:absolute;right:10px;top:10px;color:var(--green)}.flow-node.blocked{background:#fff3f3;border-color:#d99097}.flow-node-title{font-size:12px;font-weight:650;margin:5px 0}.flow-node-meta{display:flex;gap:5px;align-items:center;color:#8391a4;font-size:10px}.flow-node-dep{font-size:9px;color:#8391a4;margin-top:7px;line-height:1.5}.phase-separator{display:flex;gap:10px;align-items:center;font-size:10px;color:#8a98aa;margin:5px 0 18px}.phase-separator:after{content:"";height:1px;background:#dce5ed;flex:1}.detail-panel{position:sticky;top:20px}.detail-empty{padding:22px;font-size:12px;color:var(--muted)}.detail-row{margin:14px 0}.detail-row .value{font-size:12px;margin-top:5px;line-height:1.7}.detail-row strong{font-size:11px;color:#7b8ba0;font-weight:550}.detail-list{padding-left:18px;font-size:12px;margin:6px 0}.detail-list li{margin:4px 0}.dependency-chip{display:inline-block;margin:3px 4px 3px 0;padding:4px 7px;background:#f0f4f8;border-radius:5px;font-size:10px}.divider{height:1px;background:var(--line);margin:16px 0}.validation{display:grid;gap:8px}.validation-item{display:flex;gap:9px;font-size:11px;line-height:1.6;padding:10px 12px;border-radius:8px;background:#f7fafc}.validation-item.error{background:#fff1f3;color:#a2424e}.validation-item.warning{background:#fff6e7;color:#966b2a}.validation-item.good{background:#edf7f1;color:#2c7357}.skip-list{padding:0;margin:0;list-style:none}.skip-list li{padding:10px 0;border-bottom:1px solid #edf1f6;font-size:11px}.skip-list li:last-child{border-bottom:0}.skip-list b{display:block;margin-bottom:3px}.gantt{overflow:auto;padding:20px;min-height:280px}.gantt-chart{min-width:520px}.gantt-row{display:grid;grid-template-columns:128px minmax(0,1fr);align-items:center;gap:10px;min-height:36px}.gantt-label{font-size:11px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.gantt-track{height:26px;position:relative;background:linear-gradient(to right,#e3eaf2 1px,transparent 1px);background-size:25% 100%;border-right:1px solid #e3eaf2}.gantt-bar{position:absolute;top:5px;height:16px;border-radius:4px;min-width:3px;opacity:.82}.gantt-axis{display:flex;justify-content:space-between;font-size:9px;color:#8d9bae;margin-left:138px;border-bottom:1px solid #d9e2ed;padding-bottom:8px;margin-bottom:8px}.gantt-bar.critical{outline:1px solid #293b55;outline-offset:2px}.inline-note{font-size:11px;color:var(--muted);margin-top:14px}.stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.mini-stat{padding:13px;background:#f7f9fc;border:1px solid #e9eef5;border-radius:10px}.mini-stat b{font-size:20px;display:block;line-height:1.4}.mini-stat span{font-size:10px;color:var(--muted)}.run-controls{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.progress-track{height:6px;background:#e9eff5;border-radius:10px;overflow:hidden}.progress-fill{height:100%;background:var(--teal);transition:width .15s;border-radius:10px}.run-progress{margin:18px 0}.run-progress-head{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-bottom:7px}.event-log{max-height:350px;overflow:auto;display:grid;gap:0}.log-line{display:grid;grid-template-columns:57px 18px 1fr;gap:7px;padding:11px 0;border-bottom:1px solid #eef2f7;font-size:11px;align-items:start}.log-line time{font-size:10px;color:#8a98a9}.log-line .log-dot{width:7px;height:7px;border-radius:50%;background:#76b5ac;margin-top:6px}.log-line strong{font-size:11px}.log-line p{margin:2px 0 0;color:var(--muted);font-size:10px}.log-line.error .log-dot{background:var(--red)}.fault-list{display:grid;gap:6px}.fault-item{display:flex;align-items:flex-start;gap:8px;padding:9px 0;border-bottom:1px solid #eff2f6;font-size:12px}.fault-item input{margin-top:4px}.fault-item small{display:block;font-size:10px;color:var(--muted)}.result-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:16px}.result-cell{border:1px solid var(--line);border-radius:10px;padding:14px;background:#fbfcfe}.result-cell .label{font-size:10px;color:#8392a7}.result-cell .value{font-size:12px;margin-top:5px;font-weight:550}.table-wrap{overflow:auto}table{width:100%;border-collapse:collapse;font-size:12px;text-align:left}th{padding:11px 14px;color:#7c8b9f;font-size:10px;letter-spacing:.3px;background:#f7f9fc;font-weight:550;white-space:nowrap}td{padding:13px 14px;border-top:1px solid #e9eef5;vertical-align:top}tbody tr:hover{background:#fbfcfe}.test-name{font-weight:600;font-size:12px}.test-sub{font-size:10px;color:#8695a9;margin-top:3px}.test-row{cursor:pointer}.test-detail td{background:#f8fafc;padding:19px 22px}.test-detail-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.test-detail-grid p{font-size:12px;margin:5px 0 0}.test-detail-grid h4{font-size:10px;color:#7e8da2}.test-evidence{font-size:11px;color:#587086;padding:10px 12px;background:#edf3f8;border-radius:8px;margin-top:12px}.pill-tab-count{font-size:10px;margin-left:4px;opacity:.7}.real-check{padding:17px 0;border-bottom:1px solid #edf1f5}.real-check:last-child{border-bottom:0}.real-check-top{display:flex;justify-content:space-between;gap:14px;align-items:center}.real-check p{font-size:11px;color:var(--muted);margin:4px 0 9px}.real-check textarea{font-size:11px;min-height:62px}.settings-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.setting-row{display:grid;grid-template-columns:1fr 100px;gap:18px;align-items:center;padding:13px 0;border-bottom:1px solid #eef2f6}.setting-row:last-child{border-bottom:0}.setting-row label{font-size:12px;font-weight:550;display:block}.setting-row p{font-size:10px;color:var(--muted);margin:3px 0 0}.setting-row input{width:100%;font-size:12px}.role-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.role-card{padding:20px;border-top:3px solid var(--role-color)}.role-card .role-initial{display:flex;width:34px;height:34px;background:var(--role-bg);color:var(--role-color);border-radius:10px;align-items:center;justify-content:center;font-size:16px;font-weight:600;margin-bottom:12px}.role-card p{font-size:11px;color:var(--muted);margin:6px 0}.role-card .role-title{display:flex;justify-content:space-between;gap:10px;align-items:center}.role-card summary{font-size:11px;color:var(--teal);cursor:pointer;margin-top:12px}.role-card .role-detail{margin-top:14px;border-top:1px solid var(--line);padding-top:8px}.guide-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.guide-card{padding:18px}.guide-card h3{font-size:13px}.guide-card p{font-size:12px;color:var(--muted);margin-bottom:0}.history-list{display:grid;gap:10px}.history-item{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:13px 15px;border:1px solid var(--line);border-radius:10px;background:#fff}.history-item strong{font-size:12px}.history-item p{font-size:10px;color:var(--muted);margin:2px 0 0}.modal-mask{position:fixed;inset:0;background:#0d1c316b;backdrop-filter:blur(3px);z-index:100;display:flex;justify-content:flex-end}.modal{width:min(570px,100%);height:100%;background:#fff;box-shadow:-15px 0 50px #0e1d3020;display:flex;flex-direction:column;animation:slidein .17s ease-out}.modal.center{margin:auto;width:min(680px,calc(100% - 32px));height:auto;max-height:90vh;border-radius:16px;overflow:hidden}.modal-head{padding:25px 27px 20px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:flex-start;gap:20px}.modal-head h2{font-size:21px;margin-top:7px}.modal-body{overflow:auto;padding:22px 27px;flex:1}.modal-footer{padding:16px 27px;border-top:1px solid var(--line);display:flex;gap:9px;justify-content:flex-end;background:#fcfdff}.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}.form-grid .full{grid-column:1/-1}.form-grid label{font-size:11px;color:#74849a;font-weight:550}.form-grid input,.form-grid select{width:100%;font-size:12px}.form-grid textarea{font-size:12px}.checklist{list-style:none;padding:0;margin:12px 0;display:grid;gap:10px}.checklist li{display:flex;gap:9px;font-size:12px;align-items:flex-start}.checklist .icon{width:15px;height:15px;color:var(--teal);margin-top:3px}.toast-stack{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:200;pointer-events:none;display:grid;gap:8px}.toast{padding:12px 20px;border-radius:10px;background:#20334b;color:#fff;box-shadow:0 5px 25px #10203b22;font-size:12px;max-width:min(600px,90vw);animation:fadein .15s}.toast.error{background:#a64b56}.save-state{font-size:10px;color:#a2b5c9;display:flex;align-items:center;gap:6px}.section-space{margin-top:22px}.flex{display:flex;align-items:center;gap:8px}.space-between{justify-content:space-between}.wrap{flex-wrap:wrap}.two-col{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.three-col{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.edge-list{display:grid;gap:7px;max-height:260px;overflow:auto}.edge-row{display:flex;align-items:center;gap:7px;font-size:11px;background:#f5f8fb;padding:8px 10px;border-radius:7px}.edge-row .btn{margin-left:auto}.issue-box{border:1px solid #ebd6af;background:#fff9ed;padding:14px;border-radius:10px;font-size:12px;margin-top:12px}.hidden{display:none!important}details>summary{cursor:pointer}.info-list{padding-left:18px;margin:10px 0;font-size:12px;color:var(--muted)}.info-list li{margin:7px 0}.sources{font-size:11px;color:var(--muted);line-height:2}.sources a{display:block}.plan-reasons{font-size:11px;color:#5e748a;line-height:1.8;margin:0;padding-left:17px}.mobile-menu{display:none}.footer-label{font-size:10px;color:#8d9aab;margin-top:26px;display:flex;justify-content:space-between;gap:15px}hr{border:0;border-top:1px solid var(--line);margin:20px 0}@keyframes slidein{from{transform:translateX(30px);opacity:.5}to{transform:translateX(0);opacity:1}}@keyframes fadein{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+.kanban.by-role{grid-template-columns:repeat(3,minmax(0,1fr))}.by-role .board-col{min-height:120px}.by-role .system-col{grid-column:1/-1}.system-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.flow-node.skipped{opacity:.48;background:#f2f4f7}
+@media(min-width:1600px){.app{grid-template-columns:240px minmax(0,1fr)}.sidebar{padding-left:23px;padding-right:23px}.main{padding:34px 42px}}
+@media(max-width:1250px){.app{grid-template-columns:190px minmax(0,1fr)}.sidebar{padding-left:10px;padding-right:10px}.brand{gap:5px}.brand-name{font-size:16px}.topbar{padding:0 22px}.main{padding:24px 22px}.split,.split.wide-aside{grid-template-columns:minmax(0,1fr) 270px}.kanban{gap:10px}.board-col{padding:9px}.feature-card{padding:11px}.context-fields{grid-template-columns:repeat(2,minmax(0,1fr))}.role-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.scenario{padding:11px}.scenario span{font-size:9px}}
+@media(max-width:1000px){.app{grid-template-columns:72px minmax(0,1fr)}.sidebar{padding:24px 10px}.brand{padding:0 8px 25px}.brand>div:last-child,.brand-sub,.nav-label,.nav-btn span,.nav-btn .num,.sidebar-note{display:none}.nav-btn{justify-content:center;padding:14px}.brand-logo{padding:3px}.main{padding:24px 20px}.topbar{padding:0 20px}.split,.split.wide-aside{grid-template-columns:minmax(0,1fr)}.detail-panel{position:static}.kanban{grid-template-columns:repeat(2,minmax(0,1fr))}.metrics{gap:10px}.metric{padding:14px}.metric-icon{display:none}.scenario-grid{grid-template-columns:repeat(5,minmax(0,1fr))}.settings-grid{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:1000px){.kanban.by-role{grid-template-columns:repeat(2,minmax(0,1fr))}.system-cards{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:650px){.kanban.by-role,.system-cards{grid-template-columns:minmax(0,1fr)}.app{display:block}.sidebar{position:sticky;height:58px;padding:6px 9px;top:0;flex-direction:row;align-items:center;justify-content:center;gap:0}.brand{display:none}.sidebar nav{display:flex;flex:1;justify-content:space-around}.nav-btn{width:auto;padding:10px 11px;margin:0}.nav-btn .icon{width:19px;height:19px}.topbar{height:auto;min-height:65px;padding:12px 14px;align-items:flex-start;gap:10px}.breadcrumbs{display:none}.topbar .actions{gap:6px;width:100%;justify-content:space-between}.topbar .btn{font-size:11px;padding:6px 9px}.topbar .btn .icon{width:14px;height:14px}.topbar .chip{font-size:9px}.main{padding:21px 14px 40px}.page-heading{display:block;margin-bottom:18px}.page-heading .actions{margin-top:13px}h1{font-size:24px}.metrics{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.metric-number{font-size:25px!important}.metric-caption{font-size:10px!important}.kanban{grid-template-columns:minmax(0,1fr)}.board-col{min-height:90px}.scenario-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.scenario:last-child{grid-column:1/-1}.scenario-icon{display:none}.scenario span{font-size:10px}.scenario strong{font-size:12px}.pad,.panel-body{padding:17px}.panel-head{padding:17px}.context-fields{grid-template-columns:repeat(2,minmax(0,1fr))}.wave{grid-template-columns:33px minmax(0,1fr);gap:7px}.wave-num{width:29px}.wave:not(:last-child):before{left:14px}.wave-nodes{grid-template-columns:minmax(0,1fr)}.diagram-wrap{padding:15px 10px;max-height:600px}.role-grid,.guide-grid,.two-col,.three-col,.result-grid,.test-detail-grid{grid-template-columns:minmax(0,1fr)}.search input{min-width:0;width:170px}.filters select{max-width:140px;font-size:11px}.stat-row{gap:7px}.mini-stat{padding:10px}.mini-stat b{font-size:18px}.field-label{font-size:10px}.form-grid{grid-template-columns:minmax(0,1fr)}.form-grid .full{grid-column:auto}.modal-head,.modal-body,.modal-footer{padding-left:19px;padding-right:19px}.notice{font-size:11px}.tab-pills button{padding:6px 9px}.footer-label{display:block}.real-check-top{align-items:flex-start}.test-detail td{padding:15px}.history-item{align-items:flex-start}.gantt{padding:15px}.gantt-label{font-size:10px}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media print{.sidebar,.topbar,.actions,.toolbar,.btn,.modal-mask,.toast-stack{display:none!important}.app{display:block}.main{max-width:none;padding:0}.panel{box-shadow:none;break-inside:avoid}.kanban{grid-template-columns:repeat(2,1fr)}.diagram-wrap{max-height:none;overflow:visible}body{background:#fff}.split{grid-template-columns:1fr}.page-heading{margin-top:0}}
+</style>
+</head>
+<body>
+<script type="application/json" id="document-seed">null</script>
+<div class="app"><aside class="sidebar" id="sidebar"></aside><section class="workspace"><header class="topbar" id="topbar"></header><main class="main" id="main"></main></section></div>
+<div id="modal-root"></div><div class="toast-stack" id="toast-root" aria-live="polite"></div><input type="file" id="import-file" accept="application/json,.json" hidden>
+<script>
+window.CompanionCatalog = {
+  features: [
+    {
+      id: "F01", title: "事件与场景快照", role: "system", phase: "front", priority: "P0", status: "design",
+      summary: "为每次用户输入、游戏变化和执行结果建立带版本的场景记录，供所有角色读取同一份事实。",
+      acceptance: ["保留事件时间、来源和场景版本。", "区分当前事实、过期事实与尚未确认的信息。", "场景变化能够使待执行行动重新检查。"],
+      adjustment: "检查事件是否漏报、时间顺序是否错误，以及场景有效期是否过长。"
+    },
+    {
+      id: "F02", title: "并发与先后调度", role: "system", phase: "both", priority: "P0", status: "design",
+      summary: "按依赖关系安排任务；独立任务可并发，等待前序结果的任务按顺序执行。",
+      acceptance: ["所有前置任务完成后，依赖任务才能开始。", "同时运行数量不超过配置上限。", "写入同一对象的任务串行处理，前台任务可优先占用资源。"],
+      adjustment: "查看阻塞依赖和资源占用，删除无必要的先后关系，保留真正的数据依赖。"
+    },
+    {
+      id: "F03", title: "共同人格与偏好读取", role: "memory", phase: "both", priority: "P0", status: "design",
+      summary: "所有角色使用同一份人格档案，并按当前情境读取相关偏好，保持精灵的连续性。",
+      acceptance: ["人格档案与用户偏好分开保存。", "每条偏好带有来源和适用范围。", "整理记忆不会自行重写人格底色。"],
+      adjustment: "核对人格版本、偏好检索范围和冲突处理，避免多个角色各自生成一套用户画像。"
+    },
+    {
+      id: "F04", title: "规划 Agent 生成任务链路", role: "planning", phase: "both", priority: "P0", status: "design",
+      summary: "把目标拆成任务实例，选择所需角色，明确输入输出、依赖、并发机会与结束条件。",
+      acceptance: ["每个任务都有目标、产物和依赖。", "同一角色可以承担多个任务实例。", "规划结果经程序校验后才能执行。"],
+      adjustment: "调整任务拆分粒度，检查过度拆分、缺少证据获取任务或目标不清的问题。"
+    },
+    {
+      id: "F05", title: "链路结构与硬条件校验", role: "system", phase: "both", priority: "P0", status: "design",
+      summary: "检查候选链路是否无环、依赖是否完整，以及对外输出所需的审核和发布前检查是否存在。",
+      acceptance: ["能指出环路涉及的具体任务。", "缺少前置任务或必要输出条件时拒绝运行。", "重规划创建新图版本，不能形成无限循环。"],
+      adjustment: "定位无效边或被删节点，修复依赖后重新校验；规划不能自行放宽硬条件。"
+    },
+    {
+      id: "F06", title: "按需启用与跳过任务", role: "planning", phase: "both", priority: "P0", status: "design",
+      summary: "根据场景决定哪些角色需要调用、哪些可以复用结果或跳过，并显示理由。",
+      acceptance: ["简单回应可以跳过重规划。", "跳过任务必须说明原因，并保留后续任务所需输入。", "只执行停止操作时可以采用规则路线。"],
+      adjustment: "检查每次调用是否有独立产物；删除重复推演，保留不可省略的行为约束。"
+    },
+    {
+      id: "F07", title: "决策思考强度路由", role: "decision", phase: "front", priority: "P0", status: "design",
+      summary: "按复杂度、不确定性、影响和时效，在程序、轻思考与重思考之间选择。",
+      acceptance: ["明确停止指令立即进入规则处理。", "复杂且证据不足的问题升级分析或获取证据。", "人格影响行为倾向，不单独决定计算强度。"],
+      adjustment: "结合实际响应时间和回答质量调整路由；不要仅按问题长度判断难度。"
+    },
+    {
+      id: "F08", title: "当下行为选择", role: "decision", phase: "front", priority: "P0", status: "design",
+      summary: "结合人格、计划和当前局面，在提醒、交流、试探、等待与沉默之间选择。",
+      acceptance: ["每次只提交一个明确行动意图。", "行动包含时机、目的、表达方式和有效期。", "沉默与放弃是合法结果。"],
+      adjustment: "检查候选行为是否齐全，尤其是否遗漏等待和沉默；核对情境偏好的使用范围。"
+    },
+    {
+      id: "F09", title: "表达与动作执行", role: "execution", phase: "front", priority: "P0", status: "design",
+      summary: "将选定意图转换成具体文字、语音、表情或操作，记录真正执行的内容。",
+      acceptance: ["准备内容后再进入审核。", "表达可以自然化，但不能扩大行动目的。", "区分成功输出、部分输出、被打断和未输出。"],
+      adjustment: "检查措辞、长度、语音和动作是否忠实于意图；学习记录以实际执行回执为准。"
+    },
+    {
+      id: "F10", title: "审核具体内容", role: "review", phase: "front", priority: "P0", status: "design",
+      summary: "对实际将要发布的内容执行规则检查，并按需判断语义、情境与已知偏好。",
+      acceptance: ["审核覆盖实际内容，内容变更后重新检查。", "输出通过、修改或取消及其原因。", "修改次数有上限，仍不合格时结束行动。"],
+      adjustment: "区分可编程规则与语义歧义；复杂情况升级判断，避免无止境修改。"
+    },
+    {
+      id: "F11", title: "发布前再次检查", role: "system", phase: "front", priority: "P0", status: "design",
+      summary: "在真正发声或执行前，再次确认场景、用户指令、有效期和互动额度。",
+      acceptance: ["审核后出现的新场景仍能取消行动。", "过期内容不会继续发布。", "未曝光的行动不计入用户偏好反馈。"],
+      adjustment: "缩短从检查到发布的时间窗口，核对是否遗漏最后一刻的状态更新。"
+    },
+    {
+      id: "F12", title: "停止与任务取消", role: "system", phase: "both", priority: "P0", status: "design",
+      summary: "用户要求停止时，及时取消相关播放和队列；慢速任务结果不能重新触发旧行动。",
+      acceptance: ["停止不等待重规划或重反思完成。", "正在播放与尚未播放的任务分别处理。", "过期后台结果不能越过新的明确指令。"],
+      adjustment: "检查取消信号传播、队列清理和后台结果的版本检查。"
+    },
+    {
+      id: "F13", title: "有目标的主动试探", role: "planning", phase: "front", priority: "P1", status: "design",
+      summary: "围绕一个会影响后续行为的未知问题，设计低打扰、可停止的探索。",
+      acceptance: ["每次试探有具体问题、现有依据和停止条件。", "尽量只验证一个主要因素。", "已有明确答案时不重复试探。"],
+      adjustment: "检查答案是否真的能改变后续行动；优先利用自然反馈，减少重复提问。"
+    },
+    {
+      id: "F14", title: "总互动额度与冷却", role: "system", phase: "front", priority: "P0", status: "design",
+      summary: "所有需要用户额外注意的主动输出共用额度，并单独限制主动试探。",
+      acceptance: ["不能用闲聊、分享等标签绕过总额度。", "冷却结束只获得候选资格，不自动发声。", "未回答的问题不追问，明确安静指令立即生效。"],
+      adjustment: "用实际打扰反馈校准间隔和次数；测试默认值是产品假设，不是效果承诺。"
+    },
+    {
+      id: "F15", title: "反馈识别与归因", role: "reflection", phase: "back", priority: "P0", status: "design",
+      summary: "判断反馈指向内容、态度、时机还是功能，并保留不确定性。",
+      acceptance: ["没有回应标为证据不足。", "通关等结果不能自动归功于精灵。", "只有实际发生的互动才能形成相应学习样本。"],
+      adjustment: "回看原始事件，增加替代解释，缩小单次反馈的影响范围。"
+    },
+    {
+      id: "F16", title: "后台反思与改进建议", role: "reflection", phase: "back", priority: "P1", status: "design",
+      summary: "在纠正、冲突、试探结果或阶段结束后进行重分析，提出下一步改进与待验证问题。",
+      acceptance: ["每项建议能够引用具体经历。", "输出证据、可能解释、适用范围和待确认部分。", "后台反思不会直接向用户补问。"],
+      adjustment: "调整反思触发条件和批次大小；拒绝缺少依据的过度泛化。"
+    },
+    {
+      id: "F17", title: "事实、偏好与假设整理", role: "memory", phase: "both", priority: "P0", status: "design",
+      summary: "分开保存经历事实、明确偏好和暂定假设，处理重复、冲突和过期信息。",
+      acceptance: ["保留来源、时间和适用场景。", "猜测不会因反复总结而变成事实。", "用户的新明确偏好能够替代冲突的旧推测。"],
+      adjustment: "检查分类、合并和检索规则，保留可回溯的原始依据。"
+    },
+    {
+      id: "F18", title: "版本检查与受控提交", role: "system", phase: "back", priority: "P0", status: "design",
+      summary: "反思和整理提出更新后，按对象版本提交，防止旧结果覆盖新指令。",
+      acceptance: ["提交前检查所依据的版本。", "同一记忆或策略对象的写入串行。", "冲突更新取消或重新评估，并保留记录。"],
+      adjustment: "检查写入权限、版本比较与冲突原因；不要用最后写入直接覆盖。"
+    },
+    {
+      id: "F19", title: "行为策略学习", role: "decision", phase: "back", priority: "P1", status: "todo",
+      summary: "使用可靠反馈调整行为选择倾向，评估是否改善介入时机和表达方式。",
+      acceptance: ["明确区分记忆更新与策略参数更新。", "保留数据来源、策略版本和离线评估结果。", "学习只能在既定行为边界内调整选择。"],
+      adjustment: "先验证奖励定义和样本质量，再调整学习方法；不以互动时长单独定义成功。"
+    },
+    {
+      id: "F20", title: "全链路日志与回放", role: "system", phase: "both", priority: "P0", status: "design",
+      summary: "把事件、计划、选择、审核、执行和后续更新串联起来，支持复现与定位。",
+      acceptance: ["一次互动可以追溯所有相关任务和版本。", "记录选中与跳过的原因。", "回放区分模拟结果和真实执行证据。"],
+      adjustment: "补齐缺失的关联信息和实际执行回执，避免只记录成功结果。"
+    },
+    {
+      id: "F21", title: "真实验收、发布与回滚", role: "system", phase: "both", priority: "P0", status: "todo",
+      summary: "在接入真实模型后，通过回放、小规模试用和人工评审验证，再逐步发布。",
+      acceptance: ["模拟通过不会自动标记真实 Agent 已验收。", "保留发布前基线、配置和策略版本。", "异常时可切回稳定版本，并停止新增主动试探。"],
+      adjustment: "根据失败归因修改对应模块，重跑受影响用例；对已发送内容只能记录并纠正，不能宣称撤销现实影响。"
+    }
+  ],
+  checks: [
+    {id:"T01", title:"简单问题走轻路线", owner:"decision", condition:"用户主动提问，问题简单且相关信息充分。", expected:"跳过重规划；轻决策完成；对外输出仍经过内容检查和发布前复查。", failure:"无必要地调用全部角色，或为提速跳过输出约束。", fix:"调整路由条件，复用有效计划，保留必要检查。"},
+    {id:"T02", title:"复杂复盘等待证据", owner:"planning", condition:"需要两项独立证据，才能分析多个失败原因。", expected:"重规划拆分任务；独立证据读取可并发；综合决策等待所需证据齐备。", failure:"证据读取被无故串行，或综合判断提前开始。", fix:"修正任务粒度和依赖，区分数据依赖与普通排列顺序。"},
+    {id:"T03", title:"合格窗口发起一次试探", owner:"planning", condition:"当前空闲、冷却满足、额度可用，且没有等待回应的试探。", expected:"只发起一次试探；更新总主动额度和试探计数；记录一个待回应问题。", failure:"重复发送、漏计次数，或多个角色各自发起试探。", fix:"使用统一输出入口、任务标识与共享额度。"},
+    {id:"T04", title:"战斗中暂停试探", owner:"system", condition:"准备试探时检测到战斗或其他高负担场景。", expected:"阻止主动试探；用户主动请求仍可按自身路线处理。", failure:"仍主动试探，或错误地冻结所有正常响应。", fix:"限定场景门控的作用范围，区分主动探索和用户请求。"},
+    {id:"T05", title:"改标签也不能绕开冷却", owner:"system", condition:"距上次主动发言仅 10 分钟，又以分享或闲聊名义发起主动输出。", expected:"统一总额度阻止本次输出；不消耗一次未实际发出的互动。", failure:"不同类别分别计数，造成连续打扰。", fix:"所有需要用户额外注意的主动输出使用同一计数入口。"},
+    {id:"T06", title:"会话试探额度耗尽", owner:"system", condition:"本会话已执行两次试探，当前冷却已经满足。", expected:"按测试默认额度阻止第三次试探；用户主动请求正常处理。", failure:"只检查冷却，忽略会话上限。", fix:"发布前同时检查间隔、会话额度和待回应数量。"},
+    {id:"T07", title:"停止指令优先", owner:"system", condition:"语音正在播放，另有主动行动排队，重规划尚未完成；用户要求停止。", expected:"立即停止相关输出并取消相关队列；不等待规划完成。", failure:"等待模型回答后才停止，或后台结果又触发旧行动。", fix:"增加直接取消通道，并在慢任务返回时检查任务与场景版本。"},
+    {id:"T08", title:"未回应保留未知", owner:"reflection", condition:"两次不同机会的试探在观察窗口结束后都未得到回应。", expected:"均记录为结果未知；按测试规则暂停剩余会话试探；不写入用户讨厌聊天。", failure:"把沉默当作明确负奖励，或立即追问。", fix:"分开处理减少打扰的运行措施和长期偏好结论。"},
+    {id:"T09", title:"审核拒绝后及时结束", owner:"review", condition:"草稿违反已知偏好，一次修改后仍不符合要求。", expected:"达到配置的修改上限后取消输出；原草稿不能发布。", failure:"无限修改，或未经重新检查就发出改写内容。", fix:"绑定审核结果与实际内容，并设置明确的修改次数上限。"},
+    {id:"T10", title:"审核后场景改变", owner:"system", condition:"草稿在空闲时通过审核，发布前玩家进入战斗。", expected:"取消该主动表达；记录未曝光，不产生对应偏好奖励样本。", failure:"只信任先前审核，忽略发布时的场景。", fix:"在实际输出前读取最新状态，核对有效期与任务版本。"},
+    {id:"T11", title:"拒绝有环链路", owner:"system", condition:"把一个任务的前置条件设为它自己的后继，形成循环。", expected:"运行前拒绝该图，指出参与成环的任务。", failure:"任务永久等待，或反复重启。", fix:"删除错误依赖；重规划使用新图版本和有上限的重试。"},
+    {id:"T12", title:"规划不能删除必要检查", owner:"system", condition:"候选链路删除对外输出所需的内容审核或发布前复查。", expected:"结构校验拒绝运行，并指出受影响的输出。", failure:"规划 Agent 以提速为由自行放宽边界。", fix:"把必要约束交给独立程序校验；无对外表达的规则任务可采用相应简化路线。"},
+    {id:"T13", title:"并发读取、串行写入", owner:"system", condition:"存在两个独立只读任务，以及两个写入同一记忆对象的任务。", expected:"只读任务可同批运行；共享对象写入串行；运行数量不超过并发上限。", failure:"所有任务被串行，或并发写入覆盖内容。", fix:"明确依赖与共享资源，分别处理计算并发和写入互斥。"},
+    {id:"T14", title:"旧反思不覆盖新偏好", owner:"memory", condition:"反思基于记忆版本 12；期间用户明确要求安静，记忆已变为版本 13。", expected:"旧建议取消或重新评估；新的明确指令保留；暂定假设不升级为事实。", failure:"后台任务最后写入，覆盖了新的用户要求。", fix:"提交时比较依据版本，按来源和时间解决冲突，保留可回溯记录。"}
+  ],
+  roles: [
+    {id:"planning", title:"规划 Agent", thinking:"重思考，按需启动", trigger:"新目标、复杂问题、已有计划失效，或出现值得验证的未知问题。", input:"目标、场景快照、相关记忆、人格、可用能力与预算。", output:"候选任务图、各任务输入输出、依赖与并发安排、停止条件。", permission:"可以提出链路与调整建议；不能删除程序硬条件或直接对外发言。", acceptance:"任务图可校验，跳过有理由，独立任务有并发机会，结束条件明确。", avoid:"把每次简单互动都拆成完整大链路；把重规划做成无限循环。"},
+    {id:"review", title:"审核 Agent", thinking:"程序规则优先，轻思考补充，疑难时升级", trigger:"具体内容准备完成，或需要审核记忆与策略修改建议。", input:"实际候选内容、已知偏好、规则、场景和相关证据。", output:"通过、修改要求或取消，以及明确依据。", permission:"可以否决或要求修改；不能自行改变目标和放宽规则。", acceptance:"检查覆盖真正准备发布的内容，修改次数受限，原因可定位。", avoid:"只审核抽象意图；把语言模型的判断当作唯一硬边界。"},
+    {id:"decision", title:"决策 Agent", thinking:"程序、轻思考、重思考多路由", trigger:"用户输入、相关场景变化，或已有计划到达下一行动点。", input:"允许的候选行为、人格、当前场景、相关记忆、有效计划与额度。", output:"当下一个明确行动意图，也可以是等待、取消或沉默。", permission:"选择行为和时机，按需请求规划或证据；不能绕过发布条件。", acceptance:"考虑时效与不确定性；人格影响行动倾向，复杂度决定分析深度。", avoid:"缺少沉默选项；把性格直接绑定昂贵模型；在证据未齐时定论。"},
+    {id:"execution", title:"执行 Agent", thinking:"轻思考，简单任务直接使用程序或模板", trigger:"收到明确行动意图，或收到获准的信息读取任务。", input:"行动意图、可使用工具、表达约束、证据与有效期。", output:"草稿或工具结果，以及实际输出、部分输出、取消等执行回执。", permission:"通过统一入口落实获准行动；不能扩大目的或自行发起新的互动。", acceptance:"表达忠实于意图；审核通过后发布；记录玩家实际接触到的内容。", avoid:"把自然化表达变成追加目的；用计划内容代替实际执行记录。"},
+    {id:"reflection", title:"反馈反思 Agent", thinking:"后台重思考，按事件或批次启动", trigger:"明确纠正、重复失败、偏好冲突、有效试探结果或阶段结束。", input:"实际互动、反馈、相关历史、所用场景与策略版本。", output:"证据、替代解释、影响范围、改进建议和待验证问题。", permission:"提出修改与验证建议；不能自行补问用户或直接使策略生效。", acceptance:"结论有经历依据，未知保持未知，单次反馈的影响范围适当。", avoid:"每轮都重度反思；把自己的解释当成用户已经确认的事实。"},
+    {id:"memory", title:"记忆整理 Agent", thinking:"日常轻处理，冲突与阶段整理可升级", trigger:"新事实、明确偏好、反思建议、过期或重复信息出现。", input:"原始事件、来源、时间、适用场景、更新建议与当前版本。", output:"分开的事件事实、明确偏好和暂定假设，以及可检索的更新记录。", permission:"整理和提交长期记忆；不能把推测改写成事实或随意改动人格。", acceptance:"来源可追溯，冲突可解释，新明确要求及时生效，提交检查版本。", avoid:"最后写入直接覆盖；层层总结后丢失原话与适用范围。"},
+    {id:"system", title:"程序调度与规则层", thinking:"确定性程序为主", trigger:"事件到达、任务就绪、状态变化、输出和更新提交之前。", input:"当前任务图、状态、规则、额度、版本、优先级和执行回执。", output:"执行次序、并发批次、取消与阻止结果，以及完整运行记录。", permission:"执行硬条件、控制输出入口和写入顺序；不能擅自编造用户偏好。", acceptance:"无环依赖、限额、取消、版本检查和记录均可被独立验证。", avoid:"用模型自由发挥替代明确的冷却规则；把冷却结束当作发言命令。"}
+  ],
+  guide: [
+    {title:"先区分方案、模拟和真实验收", body:"这里展示功能设计、链路模拟和验收方法。功能卡状态表示方案推进，模拟通过表示当前模拟逻辑符合用例预期；两者都不能证明真实 Agent 已完成接入或已获得用户体验改善。真实验收需要保存实际执行证据。"},
+    {title:"读图时先看任务，再看角色", body:"每个节点是一个任务实例。六类 Agent 是职责类别，同一角色可以出现多次。只有不存在数据依赖、也不争用互斥资源的任务才能并发。重规划生成新链路版本，避免在执行图内形成循环。"},
+    {title:"失败后调整对应模块", body:"先查看预期与实际差异，再定位负责节点、依赖或规则。记录改动原因，修改后重跑受影响用例及必要的关联用例。正确阻止一次不合条件的行动，也可以是验收通过。"},
+    {title:"第一步：真实日志回放", body:"接入后采集事件、场景版本、计划、路由、审核、实际执行回执与后续更新。用历史记录回放简单回应、复杂复盘、主动试探和停止指令，核对能否复现决策。回放需要区分历史结果与新策略的预测，不能把预测当作实际用户反馈。"},
+    {title:"第二步：受控小规模试用", body:"在明确范围内邀请愿意参与的用户，固定一段时间的策略版本，保留稳定基线与人工复核。先开放有限场景和低打扰的主动互动；发现取消失效、规则被绕过或偏好错误覆盖时，先缩小范围并修复，再继续扩大。"},
+    {title:"第三步：用真实指标验收", body:"同时观察每百次可比较互动中的重复纠正、每百次主动互动中的不合时宜反馈、明确偏好的执行情况和人工评审的角色一致性。记录样本量、场景与未知反馈比例。不能只用聊天时长、训练奖励或模型自评作为通过依据。"},
+    {title:"阈值是待校准假设", body:"30 分钟主动间隔、每会话两次试探等值，只是保守的设计起点。应结合用户设置、场景负担和真实反馈校准；冷却结束不要求发言，错过的额度不补发。界面中的模拟耗时与并发安排也不等于真实模型性能承诺。"},
+    {title:"发布前保留完整版本", body:"每次发布同时记录链路、规则、模型配置、策略和记忆更新方式，并保留上一稳定版本。异常时先停用新增主动试探，再切回稳定策略；核对需要保留的新明确偏好。回滚可以改变未来行为，已经发送的内容只能记录和纠正。"},
+    {title:"学习的依据始终可追溯", body:"没有回应先记为证据不足；没有实际输出就没有对应曝光反馈。反思提出的解释保留为假设，明确偏好保留用户原话和适用范围。记忆更新与模型参数训练分别记录，避免把记住一条偏好误称为已完成强化学习。"}
+  ]
+};
+
+</script>
+<script>
+(function (root, factory) {
+  'use strict';
+  const api = factory();
+  if (typeof module === 'object' && module.exports) module.exports = api;
+  if (root) root.CompanionEngine = api;
+})(typeof globalThis !== 'undefined' ? globalThis : this, function () {
+  'use strict';
+  const clone = value => JSON.parse(JSON.stringify(value));
+  const DEFAULTS = {
+    maxParallel: 3, heavySlots: 1, activeCooldownMinutes: 30,
+    maxProbesPerSession: 2, retryLimit: 1, replyDeadlineMs: 8000,
+    modelTimeScale: 1
+  };
+  const ROLES = {
+    system: { id: 'system', name: '程序调度', label: '程序调度', color: '#6d7b8f', thought: 'rule', purpose: '统一状态、额度、取消与唯一发布出口', input: '事件、状态版本、运行额度', output: '可执行状态与不可跳过的门控', permissions: '立即停止、取消过期任务、管理并发；不生成新人格' },
+    planning: { id: 'planning', name: '规划 Agent', label: '规划', color: '#8b5cf6', thought: 'heavy', purpose: '定义互动目标并组织需要的任务链路', input: '当前目标、情境快照、相关记忆', output: '带依赖、预算、停止条件和有效期的计划', permissions: '可选择可选任务、增加依赖；不可删除硬性门控' },
+    review: { id: 'review', name: '审核 Agent', label: '审核', color: '#ef9e35', thought: 'light', purpose: '检查具体内容及更新依据', input: '实际草稿、明确偏好、规则与证据', output: '通过、修改或取消及其依据', permissions: '可否决和要求修改；不能自行放宽边界' },
+    decision: { id: 'decision', name: '决策 Agent', label: '决策', color: '#3184f5', thought: 'light', purpose: '选择此刻最合适的行动及思考路由', input: '计划、事实、人格、剩余时间', output: '单个行动意图、思考档位与截止时间', permissions: '选择、推迟或放弃行动；沉默也是有效选择' },
+    execution: { id: 'execution', name: '执行 Agent', label: '执行', color: '#12a991', thought: 'light', purpose: '只读获取资料并按意图准备表达', input: '已明确的读取任务或行动意图', output: '原始证据、具体草稿或送达回执', permissions: '可以读取获准资料；对外发布必须经过审核和状态复核' },
+    reflection: { id: 'reflection', name: '反馈反思 Agent', label: '反馈反思', color: '#d866b4', thought: 'heavy', purpose: '后台解释实际反馈并提出待验证改进', input: '已送达行为、用户反馈、替代解释', output: '证据、解释、适用范围与改进建议', permissions: '只提建议；不能自行发言或直接覆盖偏好' },
+    memory: { id: 'memory', name: '记忆整理 Agent', label: '记忆整理', color: '#6374db', thought: 'light', purpose: '分别整理事实、明确偏好和推测', input: '事件事实、原话、反思建议与版本', output: '有来源和适用范围的记忆更新', permissions: '版本检查后单写入；推测不得转为已确认事实' }
+  };
+  const BASE_INPUT = {
+    kind: 'simple', complexity: 2, uncertainty: 1, hasPlan: false,
+    inCombat: false, quietMode: false, pendingProbe: false,
+    minutesSinceActive: 40, probesUsed: 0, failedNoReplyCount: 0, allowProactive: true,
+    feedback: 'positive', explicitPreference: false,
+    stateVersion: 1, memoryVersion: 1
+  };
+  const SCENARIOS = [
+    { id: 'simple', title: '普通回应', description: '复用已有规则与记忆，跳过重规划和重反思。', input: { ...BASE_INPUT, kind: 'simple', complexity: 2, uncertainty: 1, hasPlan: true } },
+    { id: 'complex', title: '复杂战斗复盘', description: '战斗记录、机制资料与方案规划并发，决策等待证据齐备。', input: { ...BASE_INPUT, kind: 'complex', complexity: 5, uncertainty: 4 } },
+    { id: 'probe', title: '主动互动试探', description: '先检查打扰额度，围绕一个未知偏好设计低负担试探。', input: { ...BASE_INPUT, kind: 'probe', complexity: 3, uncertainty: 3, feedback: 'explicit', explicitPreference: true } },
+    { id: 'quiet', title: '立即保持安静', description: '直接取消待发言任务，无需等待重度思考。', input: { ...BASE_INPUT, kind: 'quiet', quietMode: true, feedback: 'explicit', explicitPreference: true } },
+    { id: 'conflict', title: '偏好发生冲突', description: '当前明确要求优先生效，后台根据证据整理冲突。', input: { ...BASE_INPUT, kind: 'conflict', complexity: 4, uncertainty: 5, feedback: 'explicit', explicitPreference: true } }
+  ];
+  function settingsFor(settings) { return { ...DEFAULTS, ...(settings || {}) }; }
+  function inputFor(input) {
+    const obj = typeof input === 'string' ? { kind: input } : (input || {});
+    return { ...BASE_INPUT, ...obj, kind: obj.kind || obj.scenario || obj.taskType || 'simple' };
+  }
+  function probeBlockers(input, settings) {
+    const i = inputFor(input), s = settingsFor(settings), reasons = [];
+    if (!i.allowProactive) reasons.push('主动互动已关闭');
+    if (i.quietMode) reasons.push('用户要求安静，时间流逝不会自动恢复');
+    if (i.inCombat) reasons.push('当前处于战斗，高负担窗口不试探');
+    if (i.pendingProbe) reasons.push('已有一个试探等待回应');
+    if (Number(i.failedNoReplyCount) >= 2) reasons.push('连续两次未回应，本会话暂停试探；这不代表长期偏好');
+    if (Number(i.minutesSinceActive) < Number(s.activeCooldownMinutes)) reasons.push('主动互动冷却尚未结束');
+    if (Number(i.probesUsed) >= Number(s.maxProbesPerSession)) reasons.push('本会话试探额度已用完');
+    return reasons;
+  }
+  function makeNode(id, label, role, phase, thought, duration, required, reason, extra) {
+    return { id, label, role, phase, thought, duration, required, enabled: true, reason, ...(extra || {}) };
+  }
+  function makeEdge(from, to, reason, hard = true) { return { from, to, hard, reason }; }
+  function plan(input, settings) {
+    const i = inputFor(input), s = settingsFor(settings), nodes = [], edges = [], skipped = [], rationale = [];
+    const add = (...args) => { const n = makeNode(...args); nodes.push(n); return n; };
+    const link = (a, b, reason, hard) => edges.push(makeEdge(a, b, reason, hard));
+    const omit = (id, label, reason) => skipped.push({ id, label, reason });
+    const quiet = i.kind === 'quiet';
+    const blockedReasons = i.kind === 'probe' ? probeBlockers(i, s) : [];
+    if (quiet) {
+      add('cancel', '立即取消待发言', 'system', 'front', 'rule', 20, true, '明确安静指令优先，立即中止待发言队列');
+      add('receipt', '记录取消回执', 'system', 'front', 'rule', 30, true, '记录取消结果，无语音或消息发布');
+      add('facts', '保存明确要求', 'memory', 'back', 'light', 120, true, '用户原话与当前生效范围分别保存');
+      add('updateReview', '检查更新范围', 'review', 'back', 'light', 100, true, '只改变用户指令明确指向的范围');
+      add('memoryCommit', '版本校验后提交', 'memory', 'back', 'rule', 60, true, '只在版本一致时写入', { resource: 'memory-write' });
+      link('cancel', 'receipt', '先取消，再记录实际结果');
+      link('receipt', 'facts', '保存已生效的要求');
+      link('facts', 'updateReview', '审核基于原话整理的更新');
+      link('updateReview', 'memoryCommit', '审核通过后才可持久提交');
+      omit('planner', '重度方案规划', '明确停止无需规划');
+      omit('decision', '模型决策', '直接执行停止要求');
+      omit('draft', '准备表达', '不新增对外发言');
+      omit('reflection', '重度反馈反思', '先立即生效；仅在以后出现冲突时再分析');
+      rationale.push('安静要求走直接路线；当前状态立即改变，长期整理在后台完成。');
+    } else {
+      add('snapshot', '读取情境与记忆', 'memory', 'front', 'light', 120, true, '读取同一份人格、偏好和状态快照');
+      add('precheck', '规则与额度预检', 'system', 'front', 'rule', 50, true, '在耗费思考前检查明确边界');
+      if (blockedReasons.length) {
+        add('cancel', '取消本次试探', 'system', 'front', 'rule', 20, true, blockedReasons.join('；'));
+        add('receipt', '记录未执行原因', 'system', 'front', 'rule', 30, true, '未执行不消耗试探额度，不产生用户评价');
+        link('snapshot', 'cancel', '保留判定时的场景依据');
+        link('precheck', 'cancel', '不满足试探条件即停止');
+        link('cancel', 'receipt', '记录具体取消原因');
+        ['planner', 'decision', 'draft', 'review', 'reflection', 'memoryCommit'].forEach(id => omit(id, ({ planner: '重度方案规划', decision: '模型决策', draft: '准备表达', review: '内容审核', reflection: '重度反馈反思', memoryCommit: '长期偏好提交' })[id], '试探预检未通过，不启动后续链路'));
+        rationale.push('当前试探被阻止：' + blockedReasons.join('；') + '。');
+      } else {
+        const needPlan = !i.hasPlan && (i.kind !== 'simple' || Number(i.complexity) >= 4 || Number(i.uncertainty) >= 4);
+        const heavyDecision = i.kind === 'complex' || i.kind === 'conflict' || Number(i.complexity) >= 4 || Number(i.uncertainty) >= 4;
+        if (needPlan) {
+          add('planner', '重度方案规划', 'planning', 'front', 'heavy', 1700, false, '缺少可复用计划，需要明确目标、候选路径和停止条件');
+          link('snapshot', 'planner', '规划需要同一版本的情境与记忆');
+          link('precheck', 'planner', '明确边界通过后才投入重度思考');
+        } else omit('planner', '重度方案规划', i.hasPlan ? '已有有效计划，直接复用' : '当前问题简单，不需要重度方案规划');
+        if (i.kind === 'complex') {
+          add('battleRead', '读取战斗记录', 'execution', 'front', 'light', 900, true, '复盘需要实际战斗证据；只读任务可并发');
+          add('mechanicsRead', '读取机制资料', 'execution', 'front', 'light', 1400, true, '读取可核对的机制依据；与记录读取相互独立');
+          ['battleRead', 'mechanicsRead'].forEach(id => { link('snapshot', id, '读取同一事件对应的资料'); link('precheck', id, '资料访问必须符合允许范围'); });
+        } else {
+          omit('battleRead', '读取战斗记录', '本次任务不需要战斗证据');
+          omit('mechanicsRead', '读取机制资料', '本次任务不需要机制检索');
+        }
+        add('decision', '选择下一步行动', 'decision', 'front', heavyDecision ? 'heavy' : 'light', heavyDecision ? 1100 : 420, true, heavyDecision ? '复杂度或不确定性较高，聚合证据后作出决定' : '熟悉场景使用轻路线；人格影响行为选择');
+        link('snapshot', 'decision', '决策需要当前情境与偏好');
+        link('precheck', 'decision', '不可在规则预检前选择对外行动');
+        if (needPlan) link('planner', 'decision', '决策等待计划完成');
+        if (i.kind === 'complex') {
+          link('battleRead', 'decision', '等待战斗记录完成，不使用尚未返回的证据');
+          link('mechanicsRead', 'decision', '等待机制资料完成，再综合判断');
+        }
+        add('draft', '准备表达与动作', 'execution', 'front', 'light', 220, true, '落实已确定的行动意图，不扩大目的');
+        add('review', '审核具体内容', 'review', 'front', 'light', 180, true, '审核实际草稿与边界，不只审核行动名称');
+        add('recheck', '发布前状态复核', 'system', 'front', 'rule', 40, true, '确认没有新安静指令、场景变化或任务过期');
+        add('publish', '唯一出口发布', 'execution', 'front', 'rule', 90, true, '只有已通过审核且仍有效的内容可发布', { resource: 'voice-output' });
+        add('receipt', '记录送达回执', 'system', 'front', 'rule', 30, true, '区分实际送达、被打断与未送达');
+        add('feedback', '观察实际反馈', 'system', 'back', 'rule', 600, true, '演示反馈窗口；未回复保持未知，不视为负反馈');
+        add('facts', '整理事实与原话', 'memory', 'back', 'light', 360, true, '事实整理可与反思并发，不把推测写成事实');
+        const needReflection = i.kind !== 'simple' || i.feedback === 'negative' || i.explicitPreference;
+        if (needReflection) {
+          add('reflection', '后台反馈反思', 'reflection', 'back', 'heavy', 1900, false, '分析反馈范围、替代解释与可验证的调整');
+          link('feedback', 'reflection', '只分析实际行为之后的反馈');
+        } else omit('reflection', '后台反馈反思', '普通回应未触发复杂反馈，保留记录即可');
+        add('merge', '汇总更新建议', 'memory', 'back', 'light', 120, true, '等待事实及所需反思完成，明确证据与假设');
+        add('updateReview', '审核记忆与策略更新', 'review', 'back', 'light', 150, true, '检查依据、适用范围和是否覆盖新指令');
+        add('memoryCommit', '版本校验后提交', 'memory', 'back', 'rule', 70, true, '单写入并校验版本；冲突建议重新整理', { resource: 'memory-write' });
+        [['decision', 'draft', '先决定意图，再生成表达'], ['draft', 'review', '必须审核实际准备发出的内容'], ['review', 'recheck', '审核通过后再核对当前状态'], ['recheck', 'publish', '状态仍有效才允许发布'], ['publish', 'receipt', '记录实际发布结果'], ['receipt', 'feedback', '只有实际送达才能解释用户反馈'], ['feedback', 'facts', '整理真实事件及反馈'], ['facts', 'merge', '汇总须等待事实整理'], ['merge', 'updateReview', '审核完整更新建议'], ['updateReview', 'memoryCommit', '通过审核并校验版本后才提交']].forEach(x => link(...x));
+        if (needReflection) link('reflection', 'merge', '需要反思时，汇总等待反思完成');
+        rationale.push(needPlan ? '本次启用重度方案规划；其余任务按明确依赖执行。' : '复用有效规则或计划，跳过重度方案规划。');
+        if (i.kind === 'complex') rationale.push('方案规划、战斗记录和机制资料相互独立，可在资源允许时并发；综合决策等待三者齐备。');
+        rationale.push(heavyDecision ? '决策使用重思考：由复杂度与不确定性触发。' : '决策使用轻思考：当前信息足以选择行动。');
+        if (needReflection) rationale.push('事实整理与反馈反思可以并发；记忆提交等待汇总审核，保持单写入。');
+        if (i.kind === 'probe') rationale.push('本次只验证一个偏好问题；额度仅在实际送达时消耗。');
+        if (i.kind === 'conflict') rationale.push('当前明确要求优先生效；后台冲突整理不能覆盖更新的指令。');
+      }
+    }
+    const graph = {
+      version: 1, simulation: true, nodes, edges, skipped, rationale, input: i, settings: s,
+      entryIds: quiet ? ['cancel'] : ['snapshot', 'precheck'],
+      blockedReasons,
+      requiredNodeIds: nodes.filter(n => n.required).map(n => n.id),
+      requiredEdges: edges.filter(e => e.hard).map(clone),
+      disabledIds: []
+    };
+    graph._baseNodes = clone(nodes); graph._baseEdges = clone(edges); graph._baseSkipped = clone(skipped);
+    if (Array.isArray(i.skipNodes)) i.skipNodes.forEach(id => { if (graph.nodes.some(n => n.id === id && !n.required)) Object.assign(graph, toggleNode(graph, id, false)); });
+    return graph;
+  }
+  function activeNodes(graph) { return (graph.nodes || []).filter(n => n.enabled !== false); }
+  function adjacency(graph) {
+    const nodes = activeNodes(graph), ids = new Set(nodes.map(n => n.id)), next = {}, prev = {};
+    nodes.forEach(n => { next[n.id] = []; prev[n.id] = []; });
+    (graph.edges || []).forEach(e => { if (ids.has(e.from) && ids.has(e.to) && !next[e.from].includes(e.to)) { next[e.from].push(e.to); prev[e.to].push(e.from); } });
+    return { nodes, ids, next, prev };
+  }
+  function reaches(start, end, next) {
+    const stack = [start], seen = new Set();
+    while (stack.length) { const id = stack.pop(); if (id === end) return true; if (seen.has(id)) continue; seen.add(id); (next[id] || []).forEach(x => stack.push(x)); }
+    return false;
+  }
+  function validate(graph) {
+    if (!graph || !Array.isArray(graph.nodes) || !Array.isArray(graph.edges)) return [{ severity: 'error', code: 'GRAPH_SHAPE', message: '链路必须包含任务节点和依赖列表。', nodeIds: [] }];
+    const issues = [], a = adjacency(graph), add = (severity, code, message, nodeIds = []) => issues.push({ severity, code, message, nodeIds });
+    const counts = {};
+    graph.nodes.forEach(n => {
+      counts[n.id] = (counts[n.id] || 0) + 1;
+      if (!n.id || !Number.isFinite(Number(n.duration)) || Number(n.duration) < 0) add('error', 'NODE_INVALID', '任务标识或演示时长无效。', [n.id]);
+      if (!['rule', 'light', 'heavy'].includes(n.thought)) add('error', 'THOUGHT_INVALID', '思考档位须为规则、轻思考或重思考。', [n.id]);
+      if (!['front', 'back'].includes(n.phase)) add('error', 'PHASE_INVALID', '任务须属于前台互动或后台学习。', [n.id]);
+    });
+    Object.keys(counts).filter(k => counts[k] > 1).forEach(id => add('error', 'DUPLICATE_NODE', '任务标识重复：' + id, [id]));
+    (graph.requiredNodeIds || graph.nodes.filter(n => n.required).map(n => n.id)).forEach(id => { if (!a.ids.has(id)) add('error', 'MISSING_REQUIRED_NODE', '不能删除必需任务：' + id, [id]); });
+    const edgeKeys = new Set();
+    graph.edges.forEach(e => {
+      if (!a.ids.has(e.from) || !a.ids.has(e.to)) add('error', 'DANGLING_EDGE', '依赖引用了缺失或停用的任务。', [e.from, e.to]);
+      const key = e.from + '>' + e.to;
+      if (edgeKeys.has(key)) add('warning', 'DUPLICATE_EDGE', '存在重复依赖，可删除多余连线。', [e.from, e.to]);
+      edgeKeys.add(key);
+      const from = a.nodes.find(n => n.id === e.from), to = a.nodes.find(n => n.id === e.to);
+      if (from && to && from.phase === 'back' && to.phase === 'front') add('error', 'FRONT_WAITS_BACKGROUND', '前台互动不能等待本轮后台学习完成。', [e.from, e.to]);
+    });
+    (graph.requiredEdges || []).forEach(e => {
+      if (a.ids.has(e.from) && a.ids.has(e.to) && !reaches(e.from, e.to, a.next)) add('error', 'MISSING_DEPENDENCY', '缺少必须先后关系：' + e.from + ' → ' + e.to, [e.from, e.to]);
+    });
+    const degree = Object.fromEntries(a.nodes.map(n => [n.id, a.prev[n.id].length]));
+    const queue = a.nodes.filter(n => degree[n.id] === 0).map(n => n.id), visited = [];
+    while (queue.length) { const id = queue.shift(); visited.push(id); a.next[id].forEach(to => { if (--degree[to] === 0) queue.push(to); }); }
+    if (visited.length !== a.nodes.length) add('error', 'CYCLE', '依赖形成循环，任务将相互等待。', a.nodes.filter(n => !visited.includes(n.id)).map(n => n.id));
+    const entries = (graph.entryIds || a.nodes.filter(n => a.prev[n.id].length === 0).map(n => n.id)).filter(id => a.ids.has(id));
+    a.nodes.forEach(n => { if (!entries.some(id => reaches(id, n.id, a.next))) add('error', 'UNREACHABLE', '任务无法从本次入口到达：' + n.label, [n.id]); });
+    if (a.ids.has('publish')) {
+      ['precheck', 'decision', 'draft', 'review', 'recheck', 'receipt', 'feedback'].forEach(id => { if (!a.ids.has(id)) add('error', id === 'review' ? 'MISSING_REVIEW' : 'MISSING_DELIVERY_GATE', '发布链路缺少关键任务：' + id, [id, 'publish']); });
+      [['precheck', 'decision'], ['decision', 'draft'], ['draft', 'review'], ['review', 'recheck'], ['recheck', 'publish'], ['publish', 'receipt'], ['receipt', 'feedback']].forEach(([from, to]) => {
+        if (a.ids.has(from) && a.ids.has(to) && !reaches(from, to, a.next)) add('error', 'DELIVERY_ORDER', '发布链路先后关系不完整：' + from + ' → ' + to, [from, to]);
+      });
+      if (graph.input && graph.input.kind === 'quiet') add('error', 'QUIET_HAS_PUBLISH', '立即安静链路不得包含对外发布。', ['publish']);
+    }
+    if (a.ids.has('memoryCommit')) {
+      if (!a.ids.has('updateReview') || !reaches('updateReview', 'memoryCommit', a.next)) add('error', 'UNREVIEWED_MEMORY', '记忆提交必须等待更新审核。', ['updateReview', 'memoryCommit']);
+      if (a.ids.has('reflection') && !reaches('reflection', 'memoryCommit', a.next)) add('error', 'UNJOINED_REFLECTION', '启用反思后，提交必须等待其结果汇总。', ['reflection', 'memoryCommit']);
+      if (a.ids.has('facts') && !reaches('facts', 'memoryCommit', a.next)) add('error', 'UNJOINED_FACTS', '记忆提交必须有已整理的事实依据。', ['facts', 'memoryCommit']);
+    }
+    if (graph.input && graph.input.kind === 'complex' && !a.ids.has('planner') && !graph.input.hasPlan) add('warning', 'HEAVY_PLAN_SKIPPED', '复杂任务已跳过重规划；请确认当前决策拥有足够计划。', ['decision']);
+    const s = settingsFor(graph.settings);
+    if (!Number.isInteger(Number(s.maxParallel)) || Number(s.maxParallel) < 1 || Number(s.maxParallel) > 12) add('error', 'PARALLEL_LIMIT', '总并发上限应为 1–12 的整数。');
+    if (!Number.isInteger(Number(s.heavySlots)) || Number(s.heavySlots) < 1 || Number(s.heavySlots) > Number(s.maxParallel)) add('error', 'HEAVY_LIMIT', '重思考并发应至少为 1，且不超过总并发。');
+    if (!Number.isFinite(Number(s.activeCooldownMinutes)) || Number(s.activeCooldownMinutes) < 0) add('error', 'COOLDOWN_INVALID', '主动冷却应为非负分钟数。');
+    if (!Number.isInteger(Number(s.maxProbesPerSession)) || Number(s.maxProbesPerSession) < 0) add('error', 'PROBE_LIMIT_INVALID', '会话试探上限应为非负整数。');
+    if (!Number.isInteger(Number(s.retryLimit)) || Number(s.retryLimit) < 0 || Number(s.retryLimit) > 5) add('error', 'RETRY_LIMIT_INVALID', '审核修改上限应为 0–5 的整数。');
+    if (!Number.isFinite(Number(s.replyDeadlineMs)) || Number(s.replyDeadlineMs) <= 0) add('error', 'DEADLINE_INVALID', '回应截止时间应为正的有限毫秒数。');
+    if (!Number.isFinite(Number(s.modelTimeScale)) || Number(s.modelTimeScale) < 0.01 || Number(s.modelTimeScale) > 20) add('error', 'TIME_SCALE_INVALID', '演示时长倍率应介于 0.01 与 20 之间。');
+    if (graph.input) {
+      ['complexity', 'uncertainty'].forEach(key => {
+        if (!Number.isFinite(Number(graph.input[key])) || Number(graph.input[key]) < 1 || Number(graph.input[key]) > 5) add('error', 'INPUT_LEVEL_INVALID', '复杂度和不确定性应介于 1 与 5 之间。');
+      });
+      ['minutesSinceActive', 'probesUsed', 'failedNoReplyCount'].forEach(key => {
+        if (graph.input[key] !== undefined && (!Number.isFinite(Number(graph.input[key])) || Number(graph.input[key]) < 0)) add('error', 'INPUT_BUDGET_INVALID', '互动间隔与计数应为非负有限数。');
+      });
+    }
+    return issues.filter((x, index, arr) => arr.findIndex(y => y.code === x.code && y.nodeIds.join() === x.nodeIds.join()) === index);
+  }
+  function schedule(graph, settings) {
+    const s = settingsFor({ ...(graph.settings || {}), ...(settings || {}) }), a = adjacency(graph);
+    const cap = Math.max(1, Math.min(12, Math.floor(Number(s.maxParallel) || 1)));
+    const heavyCap = Math.max(1, Math.min(cap, Math.floor(Number(s.heavySlots) || 1)));
+    const scale = Math.max(0.01, Math.min(20, Number(s.modelTimeScale) || 1));
+    const tasks = [], running = [], done = new Map(), started = new Set(), laneFree = Array(cap).fill(true);
+    const durationFor = n => Math.max(1, Math.round((Number.isFinite(Number(n.duration)) ? Math.max(0, Number(n.duration)) : 0) * (n.thought === 'rule' ? 1 : scale)));
+    let time = 0, maxConcurrency = 0, iterations = 0;
+    while (done.size < a.nodes.length && iterations++ < a.nodes.length * 5 + 20) {
+      for (let p = running.length - 1; p >= 0; p--) {
+        if (running[p].end <= time) { const task = running.splice(p, 1)[0]; done.set(task.id, task.end); laneFree[task.lane] = true; }
+      }
+      const ready = a.nodes.filter(n => !started.has(n.id) && a.prev[n.id].every(id => done.has(id))).sort((x, y) => {
+        if (x.phase !== y.phase) return x.phase === 'front' ? -1 : 1;
+        return a.nodes.indexOf(x) - a.nodes.indexOf(y);
+      });
+      for (const node of ready) {
+        if (running.length >= cap) break;
+        if (node.thought === 'heavy' && running.filter(t => t.thought === 'heavy').length >= heavyCap) continue;
+        if (node.resource && running.some(t => t.resource === node.resource)) continue;
+        const lane = laneFree.findIndex(Boolean), task = { id: node.id, label: node.label, start: time, end: time + durationFor(node), lane, phase: node.phase, thought: node.thought, resource: node.resource || null };
+        tasks.push(task); running.push(task); started.add(node.id); laneFree[lane] = false;
+        maxConcurrency = Math.max(maxConcurrency, running.length);
+      }
+      if (running.length) time = Math.min(...running.map(t => t.end));
+      else if (done.size < a.nodes.length) break;
+    }
+    const blocked = a.nodes.filter(n => !started.has(n.id)).map(n => n.id);
+    const ordered = tasks.slice().sort((x, y) => x.end - y.end), best = {}, predecessor = {};
+    ordered.forEach(t => {
+      let parent = null, max = 0;
+      (a.prev[t.id] || []).forEach(p => { if ((best[p] || 0) > max) { max = best[p]; parent = p; } });
+      best[t.id] = max + t.end - t.start; predecessor[t.id] = parent;
+    });
+    let tail = Object.keys(best).reduce((id, x) => !id || best[x] > best[id] ? x : id, null), criticalPath = [];
+    while (tail) { criticalPath.unshift(tail); tail = predecessor[tail]; }
+    return {
+      tasks, duration: tasks.length ? Math.max(...tasks.map(t => t.end)) : 0,
+      frontDuration: tasks.filter(t => t.phase === 'front').reduce((max, t) => Math.max(max, t.end), 0),
+      criticalPath, criticalDuration: criticalPath.reduce((sum, id) => { const t = tasks.find(x => x.id === id); return sum + (t ? t.end - t.start : 0); }, 0),
+      maxConcurrency, blocked, simulated: true,
+      note: '时长为预设演示值；调度遵循真实依赖和资源上限，非实测模型性能。'
+    };
+  }
+  function toggleNode(graph, id, enabled) {
+    const g = clone(graph), allNodes = g._baseNodes || clone(g.nodes), allEdges = g._baseEdges || clone(g.edges);
+    g.nodes.forEach(current => { const index = allNodes.findIndex(n => n.id === current.id); if (index >= 0) allNodes[index] = clone(current); else allNodes.push(clone(current)); });
+    const node = allNodes.find(n => n.id === id);
+    if (!node) throw new Error('此链路没有该任务：' + id);
+    if (node.required && !enabled) throw new Error('该任务为当前链路的必需步骤，不能关闭。');
+    const disabled = new Set(g.disabledIds || []);
+    if (enabled) disabled.delete(id); else disabled.add(id);
+    const currentSoft = g.edges.filter(e => !e.hard && !e.viaSkipped);
+    const baseSoft = allEdges.filter(e => !e.hard && ((g.disabledIds || []).includes(e.from) || (g.disabledIds || []).includes(e.to)));
+    const retained = allEdges.filter(e => e.hard).concat(currentSoft, baseSoft);
+    let edges = retained.map(clone);
+    for (const skip of disabled) {
+      const incoming = edges.filter(e => e.to === skip), outgoing = edges.filter(e => e.from === skip);
+      edges = edges.filter(e => e.from !== skip && e.to !== skip);
+      incoming.forEach(before => outgoing.forEach(after => {
+        if (before.from !== after.to) edges.push({ from: before.from, to: after.to, hard: before.hard || after.hard, viaSkipped: true, reason: '跳过可选任务后保留必要先后关系' });
+      }));
+    }
+    const unique = new Map();
+    edges.forEach(e => { const key = e.from + '>' + e.to; if (!unique.has(key) || e.hard) unique.set(key, e); });
+    g.nodes = allNodes.filter(n => !disabled.has(n.id)); g.edges = [...unique.values()]; g.disabledIds = [...disabled];
+    g.requiredEdges = g.edges.filter(e => e.hard).map(clone);
+    g.skipped = clone(g._baseSkipped || []).concat(allNodes.filter(n => disabled.has(n.id)).map(n => ({ id: n.id, label: n.label, reason: '在当前方案中手动跳过；系统已连接其必要前后依赖' })));
+    g._baseNodes = allNodes; g._baseEdges = allEdges.filter(e => e.hard).concat(currentSoft, baseSoft);
+    return g;
+  }
+  function simulate(graph, settings, faults) {
+    const s = settingsFor({ ...(graph.settings || {}), ...(settings || {}) }), i = inputFor(graph.input), f = faults || {};
+    const effective = { ...graph, settings: s }, issues = validate(effective), timeline = schedule(effective, s), events = [];
+    const errors = issues.filter(x => x.severity === 'error');
+    const emptyMetrics = { simulated: true, frontDurationMs: 0, totalDurationMs: 0, maxConcurrency: 0, heavyCalls: 0, plannedFrontDurationMs: timeline.frontDuration, plannedTotalDurationMs: timeline.duration, plannedHeavyCalls: graph.nodes.filter(n => n.thought === 'heavy').length, retries: 0, probesConsumed: 0, rewardEligible: false, preferenceUpdates: 0, policyVersionApplied: false, immediateInstructionApplied: false };
+    if (errors.length || timeline.blocked.length) return { events: [], outcome: '链路不合法，禁止运行', delivered: false, probesIncrement: 0, feedbackSampleValid: false, feedbackClass: 'not_observed', memoryOutcome: '未提交', violations: errors, metrics: emptyMetrics, schedule: timeline, nodeStates: {}, cancelled: true };
+    const taskById = Object.fromEntries(timeline.tasks.map(t => [t.id, t]));
+    const nodeStates = Object.fromEntries(graph.nodes.map(n => [n.id, 'done']));
+    let delivered = !!taskById.publish, feedbackClass = 'unknown', memoryOutcome = taskById.memoryCommit ? '仅归档事实，未新增偏好' : '未提交', outcome = '模拟完成', stopId = null, reason = '', retries = 0;
+    let reviewRetry = null;
+    const feedback = f.feedback || i.feedback || 'none';
+    const runtimeBlockers = i.kind === 'probe' ? probeBlockers(i, s) : [];
+    if (i.kind === 'quiet') { delivered = false; outcome = '已立即保持安静'; memoryOutcome = f.staleMemory || f.writeConflict ? '提交冲突，保留当前安静状态' : '明确要求已即时生效并归档'; }
+    else if ((graph.blockedReasons || []).length || runtimeBlockers.length) {
+      delivered = false; outcome = '主动试探被取消'; reason = (runtimeBlockers.length ? runtimeBlockers : graph.blockedReasons).join('；'); stopId = taskById.precheck ? 'precheck' : 'cancel';
+    } else if (f.reviewFail) {
+      retries = Math.max(0, Math.min(5, Number(s.retryLimit) || 0));
+      if (f.reviewRecovers && retries > 0) { retries = 1; outcome = '修改后通过审核并发布'; }
+      else { stopId = 'review'; delivered = false; outcome = '审核未通过，停止发布'; reason = '达到修改上限仍未通过，不再循环重试'; }
+      if (retries && taskById.review && taskById.draft) {
+        const draftMs = taskById.draft.end - taskById.draft.start, reviewMs = taskById.review.end - taskById.review.start;
+        const cost = retries * (draftMs + reviewMs), baseEnd = taskById.review.end, next = adjacency(graph).next;
+        reviewRetry = { baseEnd, draftMs, reviewMs, cost };
+        timeline.tasks.forEach(t => {
+          if (t.id !== 'review' && reaches('review', t.id, next)) { t.start += cost; t.end += cost; }
+        });
+        taskById.review.end += cost;
+        timeline.frontDuration += cost; timeline.duration += cost; timeline.criticalDuration += cost;
+        timeline.retryDurationMs = cost;
+      }
+    }
+    if (!stopId && delivered && (f.newQuiet || f.stateChanged)) {
+      stopId = 'recheck'; delivered = false; outcome = f.newQuiet ? '新安静要求已生效，取消发布' : '场景已变化，取消过期行动'; reason = '发布前复核取消了已过期的行动意图';
+    }
+    if (!stopId && delivered && timeline.frontDuration > Number(s.replyDeadlineMs)) {
+      stopId = 'recheck'; delivered = false; outcome = '已超过回应截止时间，取消过期发布'; reason = '演示前台耗时超过配置的截止时间';
+    }
+    if (!stopId && delivered && f.undelivered) { delivered = false; stopId = 'receipt'; outcome = '未送达，反馈不进入体验学习'; reason = '没有实际曝光，不解释用户反应，也不消耗试探额度'; }
+    if (delivered) {
+      feedbackClass = feedback === 'none' ? 'unknown' : feedback === 'explicit' ? 'explicit_preference' : feedback === 'negative' ? 'negative_contextual' : 'positive_contextual';
+      if (feedbackClass === 'explicit_preference') memoryOutcome = '明确偏好在对应情境内生效';
+      else if (feedbackClass === 'negative_contextual') memoryOutcome = '保存情境反馈与待验证假设';
+      else memoryOutcome = '仅归档事实，未新增长期偏好';
+    } else feedbackClass = 'not_observed';
+    if (i.kind === 'quiet') feedbackClass = 'explicit_instruction';
+    if (f.staleMemory || f.writeConflict) { if (taskById.memoryCommit) { nodeStates.memoryCommit = 'blocked'; memoryOutcome = '版本冲突，阻止覆盖并保留待整理建议'; } }
+    if (stopId) {
+      const afterStop = new Set(), stack = [...(adjacency(graph).next[stopId] || [])];
+      while (stack.length) { const id = stack.pop(); if (afterStop.has(id)) continue; afterStop.add(id); (adjacency(graph).next[id] || []).forEach(x => stack.push(x)); }
+      afterStop.forEach(id => { nodeStates[id] = 'skipped'; });
+      nodeStates[stopId] = stopId === 'receipt' ? 'failed' : 'cancelled';
+      if (taskById.receipt && stopId !== 'receipt') {
+        nodeStates.receipt = 'done';
+        const receiptDuration = taskById.receipt.end - taskById.receipt.start;
+        taskById.receipt.start = taskById[stopId] ? taskById[stopId].end : taskById.receipt.start;
+        taskById.receipt.end = taskById.receipt.start + receiptDuration;
+      }
+      if (i.kind !== 'quiet') memoryOutcome = '仅记录未执行原因；不写入用户偏好';
+    }
+    timeline.tasks.forEach(t => {
+      const state = nodeStates[t.id];
+      if (state === 'skipped') { events.push({ time: taskById[stopId] ? taskById[stopId].end : t.start, nodeId: t.id, state: 'skipped', detail: '前置条件已取消，此任务不运行' }); return; }
+      events.push({ time: t.start, nodeId: t.id, state: 'running', detail: t.label + '开始；演示时长 ' + (t.end - t.start) + ' ms' });
+      let detail = t.label + '完成';
+      if (t.id === stopId) detail = reason;
+      if (t.id === 'publish') detail = delivered ? '已通过审核与状态复核，由唯一出口模拟发布' : (f.undelivered ? '模拟发布已尝试，等待送达回执' : detail);
+      if (t.id === 'feedback') detail = feedbackClass === 'unknown' ? '未获得明确回应，标记为未知；不产生负奖励' : '反馈类型：' + feedbackClass;
+      if (t.id === 'facts') detail = i.kind === 'quiet' ? '保存用户明确的安静要求及适用范围' : '分别保存事件事实、用户原话和待验证推测';
+      if (t.id === 'reflection') detail = '后台分析适用范围与替代解释，不向用户发言';
+      if (t.id === 'memoryCommit') detail = memoryOutcome;
+      events.push({ time: t.end, nodeId: t.id, state, detail });
+    });
+    if (reviewRetry) {
+      for (let r = 1; r <= retries; r++) {
+        const start = reviewRetry.baseEnd + (r - 1) * (reviewRetry.draftMs + reviewRetry.reviewMs);
+        events.push({ time: start, nodeId: 'review', state: 'retry', detail: '开始第 ' + r + ' 次有界修改，草稿和复核耗时均计入预算' });
+        events.push({ time: start, nodeId: 'draft', state: 'running', detail: '第 ' + r + ' 次修改具体表达' });
+        events.push({ time: start + reviewRetry.draftMs, nodeId: 'draft', state: 'done', detail: '修改后的草稿交付重新审核' });
+        events.push({ time: start + reviewRetry.draftMs, nodeId: 'review', state: 'running', detail: '审核第 ' + r + ' 次修改后的具体内容' });
+      }
+    }
+    if (delivered && feedbackClass === 'explicit_preference') events.push({ time: taskById.feedback ? taskById.feedback.end : timeline.frontDuration, nodeId: 'feedback', state: 'applied', detail: '当前明确要求立即生效；长期归档不阻塞当前响应' });
+    events.sort((x, y) => x.time - y.time || (x.state === 'running' ? 1 : -1));
+    const duration = events.reduce((max, e) => e.state === 'skipped' ? max : Math.max(max, e.time), 0);
+    const actualFrontDuration = events.reduce((max, e) => e.state !== 'skipped' && taskById[e.nodeId] && taskById[e.nodeId].phase === 'front' ? Math.max(max, e.time) : max, 0);
+    const actualTasks = timeline.tasks.filter(t => nodeStates[t.id] !== 'skipped');
+    const heavyCalls = actualTasks.filter(t => t.thought === 'heavy').length + retries * ['draft', 'review'].filter(id => taskById[id] && taskById[id].thought === 'heavy').length;
+    return {
+      events, outcome, delivered, probesIncrement: delivered && i.kind === 'probe' ? 1 : 0, feedbackSampleValid: delivered && feedbackClass !== 'unknown', feedbackClass, memoryOutcome, violations: [], nodeStates, cancelled: !!stopId || i.kind === 'quiet', schedule: timeline,
+      metrics: {
+        ...emptyMetrics, frontDurationMs: actualFrontDuration, totalDurationMs: duration, maxConcurrency: concurrencyPeak(actualTasks), heavyCalls, retryDurationMs: reviewRetry ? reviewRetry.cost : 0, retries, probesConsumed: delivered && i.kind === 'probe' ? 1 : 0,
+        rewardEligible: delivered && feedbackClass !== 'unknown',
+        preferenceUpdates: delivered && feedbackClass === 'explicit_preference' && !f.staleMemory && !f.writeConflict ? 1 : 0,
+        policyVersionApplied: delivered && feedbackClass === 'explicit_preference' && !f.staleMemory && !f.writeConflict,
+        immediateInstructionApplied: i.kind === 'quiet' || !!f.newQuiet || (delivered && feedbackClass === 'explicit_preference')
+      }
+    };
+  }
+  function acceptance(settings) {
+    const s = settingsFor(settings), checks = [];
+    const add = (id, title, owner, expected, actual, pass, evidence, adjustment) => checks.push({ id, title, owner, expected, actual, pass: !!pass, evidence, adjustment });
+    const get = kind => clone(SCENARIOS.find(x => x.id === kind).input);
+    const g = plan(get('complex'), s), v = validate(g), sch = schedule(g, s), t = Object.fromEntries(sch.tasks.map(x => [x.id, x]));
+    add('A01', '完整链路可执行', '规划', '无循环、缺依赖或缺必需任务', v.filter(x => x.severity === 'error').length + ' 个结构错误', !v.some(x => x.severity === 'error'), 'validate(复杂复盘链路)', '检查节点开关、硬性依赖与入口');
+    const broken = clone(g); broken.edges.push(makeEdge('decision', 'snapshot', '故障注入：形成循环', false)); const bv = validate(broken);
+    add('A02', '循环依赖被拦截', '审核', '禁止相互等待的链路运行', bv.some(x => x.code === 'CYCLE') ? '已检测并阻止循环' : '未识别循环', bv.some(x => x.code === 'CYCLE'), '注入 决策→情境读取 的反向依赖', '补充有向图环检测');
+    const noReview = clone(g); noReview.nodes = noReview.nodes.filter(x => x.id !== 'review'); noReview.edges = noReview.edges.filter(x => x.from !== 'review' && x.to !== 'review'); noReview.edges.push(makeEdge('draft', 'recheck', '故障注入：跳过审核', false)); const nv = validate(noReview);
+    add('A03', '内容审核不可跳过', '审核', '草稿未审核时禁止发布', nv.some(x => x.code === 'MISSING_REVIEW') ? '缺审核已被拦截' : '未拦截', nv.some(x => x.code === 'MISSING_REVIEW'), '移除 review，再连接 draft→recheck', '恢复不可跳过的审核任务');
+    const joined = t.decision && ['battleRead', 'mechanicsRead', 'planner'].every(id => !t[id] || t.decision.start >= t[id].end);
+    add('A04', '综合决策等待全部证据', '决策', '记录、机制与规划完成后才开始决策', joined ? '所有必要证据均已汇合' : '发生过早决策', joined, ['battleRead', 'mechanicsRead', 'planner', 'decision'].map(id => t[id] ? id + ': ' + t[id].start + '–' + t[id].end + ' ms' : id + ': 跳过').join('；'), '补齐决策的全部前置依赖');
+    const independent = ['planner', 'battleRead', 'mechanicsRead'].map(id => t[id]).filter(Boolean);
+    const overlap = independent.some((a, idx) => independent.slice(idx + 1).some(b => Math.max(a.start, b.start) < Math.min(a.end, b.end)));
+    add('A05', '独立工作获得可用并发', '程序调度', '并发上限至少为 2 时，独立规划或资料任务有重叠', overlap ? '独立任务已并行；其余任务按资源槽位等待' : '当前独立任务全部串行', Number(s.maxParallel) >= 2 && overlap, '总并发上限 ' + s.maxParallel + '；规划和两项读取互不依赖', '将总并发调到至少 2；移除不必要的独立任务间依赖');
+    const capOkay = sch.maxConcurrency <= Number(s.maxParallel);
+    add('A06', '资源上限受到约束', '程序调度', '总并发及重思考并发均不超过配置', '峰值总并发 ' + sch.maxConcurrency + '；配置 ' + s.maxParallel + '/' + s.heavySlots, capOkay && concurrencyPeak(sch.tasks.filter(x => x.thought === 'heavy')) <= Number(s.heavySlots), '按任务开始/完成时间核算重叠，非按拓扑层计数', '检查资源槽位释放与任务选择');
+    const simple = plan(get('simple'), s); add('A07', '简单问题跳过重度环节', '规划', '不启动重规划与重反思', simple.nodes.filter(n => n.thought === 'heavy').length + ' 次重思考', !simple.nodes.some(n => ['planner', 'reflection'].includes(n.id)), simple.skipped.filter(n => ['planner', 'reflection'].includes(n.id)).map(n => n.reason).join('；'), '修正按复杂度与反馈触发的路由');
+    const quiet = simulate(plan(get('quiet'), s), s); add('A08', '安静指令立即生效', '程序调度', '取消发言并保留明确指令', quiet.outcome, !quiet.delivered && quiet.metrics.immediateInstructionApplied && quiet.metrics.frontDurationMs <= 100, '直接取消链路；前台演示耗时 ' + quiet.metrics.frontDurationMs + ' ms', '让停止指令绕过重思考并取消队列');
+    const combatInput = { ...get('probe'), inCombat: true }; const combat = simulate(plan(combatInput, s), s); add('A09', '高负担窗口禁止试探', '审核', '战斗时不发布、不消耗试探额度', combat.outcome, !combat.delivered && combat.metrics.probesConsumed === 0, '主动试探输入 inCombat=true', '把战斗状态纳入硬性预检');
+    const exhaustedInput = { ...get('probe'), probesUsed: Math.max(0, Number(s.maxProbesPerSession)) }; const exhausted = simulate(plan(exhaustedInput, s), s); add('A10', '额度用完后停止试探', '程序调度', '额度用完时不继续探索', exhausted.outcome, !exhausted.delivered, 'probesUsed=maxProbesPerSession', '所有主动输出共用预算入口');
+    const probeInput = { ...get('probe'), minutesSinceActive: Number(s.activeCooldownMinutes) + 1, probesUsed: 0 };
+    const usableProbeSettings = { ...s, maxProbesPerSession: Math.max(1, Number(s.maxProbesPerSession)), replyDeadlineMs: Math.max(10000, Number(s.replyDeadlineMs)) };
+    const missing = simulate(plan(probeInput, usableProbeSettings), usableProbeSettings, { feedback: 'none' }); add('A11', '未回复保持未知', '反馈反思', '实际送达后，无回应不产生负奖励或偏好更新', missing.feedbackClass + '；偏好更新 ' + missing.metrics.preferenceUpdates, missing.delivered && missing.feedbackClass === 'unknown' && !missing.metrics.rewardEligible && missing.metrics.preferenceUpdates === 0, '模拟试探已送达，feedback=none；保证测试前置额度可用', '区分未知反馈与明确拒绝');
+    const stale = simulate(g, { ...s, replyDeadlineMs: Math.max(10000, Number(s.replyDeadlineMs)) }, { newQuiet: true }); add('A12', '发布前新指令优先', '程序调度', '草稿完成后出现安静要求也必须取消', stale.outcome, !stale.delivered && stale.metrics.immediateInstructionApplied, '故障注入 newQuiet=true', '在实际发布前再次核对最新状态');
+    const undelivered = simulate(plan(probeInput, usableProbeSettings), usableProbeSettings, { undelivered: true, feedback: 'positive' }); add('A13', '未送达不进入体验学习', '反馈反思', '未曝光不消耗试探额度、不产生奖励', undelivered.outcome, !undelivered.delivered && !undelivered.metrics.rewardEligible && undelivered.metrics.probesConsumed === 0, '故障注入 undelivered=true，忽略假定正反馈', '让送达回执成为学习的前置条件');
+    const conflict = simulate(plan(get('conflict'), { ...s, replyDeadlineMs: 20000 }), { ...s, replyDeadlineMs: 20000 }, { staleMemory: true, feedback: 'explicit' }); add('A14', '旧建议不能覆盖新记忆', '记忆整理', '版本冲突阻止持久提交，当前明确指令仍生效', conflict.memoryOutcome, conflict.nodeStates.memoryCommit === 'blocked' && conflict.metrics.preferenceUpdates === 0 && conflict.metrics.immediateInstructionApplied, '故障注入 staleMemory=true；明确指令先即时执行', '以版本为条件提交，冲突重新整理');
+    const fail = simulate(g, s, { reviewFail: true }); add('A15', '审核失败有重试上限', '审核', '到达修改次数上限后停止发布', '重试 ' + fail.metrics.retries + ' 次；' + fail.outcome, !fail.delivered && fail.metrics.retries <= Number(s.retryLimit), '故障注入审核持续不通过', '设定有限修改次数及取消出口');
+    const backEdge = clone(g); backEdge.edges.push(makeEdge('reflection', 'decision', '故障注入：前台等待后台', false)); const be = validate(backEdge); add('A16', '前台不等待本轮反思', '规划', '禁止后台学习反向阻塞当前互动', be.some(x => x.code === 'FRONT_WAITS_BACKGROUND') ? '已阻止错误前后依赖' : '未阻止', be.some(x => x.code === 'FRONT_WAITS_BACKGROUND'), '注入 reflection→decision', '将学习成果用于后续事件');
+    add('A17', '前台回应满足演示预算', '决策', '复杂复盘演示前台耗时不超过配置预算', sch.frontDuration + ' / ' + s.replyDeadlineMs + ' ms', sch.frontDuration <= Number(s.replyDeadlineMs), '所有耗时为可调整的预设演示值，不代表真实模型时延', '复用计划、提升可用并发或调整合适的回应截止时间');
+    const mini = { nodes: [makeNode('a', '短读取', 'execution', 'front', 'light', 20, true, ''), makeNode('b', '长读取', 'execution', 'front', 'light', 100, true, ''), makeNode('c', '仅依赖短读取', 'decision', 'front', 'light', 10, true, '')], edges: [makeEdge('a', 'c', '')], settings: { ...s, maxParallel: 2 } };
+    const ms = schedule(mini, { ...s, maxParallel: 2 }), mt = Object.fromEntries(ms.tasks.map(x => [x.id, x])); add('A18', '调度没有全局层级屏障', '程序调度', '短任务的下游可以早于无关长任务完成启动', '下游启动 ' + mt.c.start + ' ms；无关任务完成 ' + mt.b.end + ' ms', mt.c.start < mt.b.end, '独立小图：a→c，b 独立；测试并发上限固定为 2', '按依赖完成事件调度，不按整层结束调度');
+    const gateTestSettings = { ...DEFAULTS, activeCooldownMinutes: Math.max(1, Number(s.activeCooldownMinutes) || 0), maxProbesPerSession: Math.max(1, Number(s.maxProbesPerSession) || 0), replyDeadlineMs: 10000 };
+    const gateInput = { ...get('probe'), minutesSinceActive: gateTestSettings.activeCooldownMinutes + 1, probesUsed: 0, failedNoReplyCount: 0, pendingProbe: false, quietMode: false, inCombat: false };
+    const isolation = '规则隔离用例：采用默认资源与演示耗时、10 秒截止、至少 1 次可用会话额度，避免其他配置干扰；';
+    const coldInput = { ...gateInput, minutesSinceActive: gateTestSettings.activeCooldownMinutes - 1 };
+    const coldGraph = plan(coldInput, gateTestSettings), coldRun = simulate(coldGraph, gateTestSettings);
+    add('A19', '主动互动总冷却约束试探', '程序调度', '主动试探也必须等待总冷却结束；本用例实际检查 kind=probe', coldRun.outcome + '；额度消耗 ' + coldRun.probesIncrement, !coldRun.delivered && coldRun.probesIncrement === 0 && coldGraph.blockedReasons.some(x => x.includes('冷却')), isolation + 'kind=probe；距离上次主动互动 ' + coldInput.minutesSinceActive + ' 分钟，要求 ' + gateTestSettings.activeCooldownMinutes + ' 分钟；零冷却配置在本例隔离为 1 分钟', '所有主动互动进入共用冷却检查，未执行不消耗额度');
+    const pendingGraph = plan({ ...gateInput, pendingProbe: true }, gateTestSettings), pendingRun = simulate(pendingGraph, gateTestSettings);
+    add('A20', '已有待回应试探时不叠加', '程序调度', '已有一个等待回应的试探时，取消新的试探', pendingRun.outcome + '；新试探额度消耗 ' + pendingRun.probesIncrement, !pendingRun.delivered && pendingRun.probesIncrement === 0 && pendingGraph.blockedReasons.some(x => x.includes('等待回应')), isolation + 'kind=probe、pendingProbe=true，其余试探条件满足', '保留单个等待回应的试探，不追加追问');
+    const noReplyRun = simulate(plan(gateInput, gateTestSettings), gateTestSettings, { feedback: 'none' });
+    const twiceGraph = plan({ ...gateInput, failedNoReplyCount: 2 }, gateTestSettings), twiceRun = simulate(twiceGraph, gateTestSettings);
+    add('A21', '两次未回应暂停，偏好仍未知', '反馈反思', '两次未回应会暂停本会话试探；沉默不写成厌恶或负反馈', '沉默反馈 ' + noReplyRun.feedbackClass + '；偏好更新 ' + noReplyRun.metrics.preferenceUpdates + '；' + twiceRun.outcome, noReplyRun.delivered && noReplyRun.feedbackClass === 'unknown' && !noReplyRun.metrics.rewardEligible && noReplyRun.metrics.preferenceUpdates === 0 && !twiceRun.delivered && twiceGraph.blockedReasons.some(x => x.includes('连续两次')), isolation + '分别检查已送达且 feedback=none，以及 failedNoReplyCount=2 的暂停状态；计数作为明确输入，不伪装成自动递增', '把暂停打扰的运行控制与长期偏好推断分开');
+    const writeGraph = { nodes: [makeNode('writeA', '记忆写入一', 'memory', 'back', 'rule', 100, true, '', { resource: 'memory-write' }), makeNode('writeB', '记忆写入二', 'memory', 'back', 'rule', 80, true, '', { resource: 'memory-write' }), makeNode('readOnly', '独立只读任务', 'execution', 'back', 'rule', 120, true, '')], edges: [], settings: { ...DEFAULTS, maxParallel: 3 } };
+    const writeSchedule = schedule(writeGraph, writeGraph.settings), writeTasks = writeSchedule.tasks.filter(x => x.resource === 'memory-write');
+    const writePeak = concurrencyPeak(writeTasks);
+    add('A22', '相同记忆写入资源保持串行', '记忆整理', '即使有多个并发槽位，memory-write 同时最多一项写入', '写入峰值并发 ' + writePeak + '；总任务峰值并发 ' + writeSchedule.maxConcurrency, writeTasks.length === 2 && writePeak === 1 && writeSchedule.maxConcurrency >= 2, '隔离资源锁测试：固定总并发为 3，两个无依赖的 memory-write 任务加一个独立只读任务；' + writeTasks.map(x => x.id + ': ' + x.start + '–' + x.end + ' ms').join('；'), '对记忆提交使用同一写入资源锁，读取仍可并发');
+    const requestGraph = plan({ ...get('simple'), quietMode: true }, gateTestSettings), requestRun = simulate(requestGraph, gateTestSettings);
+    add('A23', '安静模式仍回应主动请求', '决策', 'quietMode 限制主动打扰，用户主动请求应正常回应', requestRun.outcome + '；' + (requestRun.delivered ? '已回应用户' : '未回应'), requestRun.delivered && !requestRun.cancelled && requestRun.probesIncrement === 0, isolation + 'kind=simple、quietMode=true；不注入代表当下明确停止的 newQuiet；kind=quiet 的立即停止由 A08 验证', '将持续安静偏好与当下明确停止指令分别处理');
+    return checks;
+  }
+  function concurrencyPeak(tasks) {
+    const points = [];
+    tasks.forEach(t => { points.push([t.start, 1]); points.push([t.end, -1]); });
+    points.sort((a, b) => a[0] - b[0] || a[1] - b[1]);
+    let count = 0, max = 0; points.forEach(p => { count += p[1]; max = Math.max(max, count); }); return max;
+  }
+  return { DEFAULTS, ROLES, SCENARIOS, plan, validate, schedule, simulate, acceptance, toggleNode, probeBlockers, concurrencyPeak };
+});
+
+</script>
+<script>
+(function(){
+'use strict';
+const E=window.CompanionEngine,C=window.CompanionCatalog;
+const $=s=>document.querySelector(s),$$=s=>Array.from(document.querySelectorAll(s));
+const copy=x=>JSON.parse(JSON.stringify(x));
+const esc=x=>String(x==null?'':x).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const icons={board:'M3 3h7v7H3z M14 3h7v7h-7z M3 14h7v7H3z M14 14h7v7h-7z',flow:'M5 4h5v5H5z M15 15h5v5h-5z M4 15h5v5H4z M7.5 9v3h10v3 M7.5 12H6.5v3',play:'M8 4l12 8-12 8z',check:'M8 12l3 3 6-7 M20 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11',sliders:'M4 4v16 M12 4v16 M20 4v16 M1 8h6 M9 16h6 M17 10h6',people:'M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2 M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8 M20 21v-2a4 4 0 0 0-3-3.87 M16 3.13a4 4 0 0 1 0 7.75',download:'M12 3v12 M7 10l5 5 5-5 M5 16v5h14v-5',upload:'M12 16V4 M7 9l5-5 5 5 M5 16v5h14v-5',save:'M4 3h14l3 3v15H3V3z M7 3v6h10V3 M7 21v-8h10v8',plus:'M12 5v14 M5 12h14',search:'M10.5 18a7.5 7.5 0 1 0 0-15 7.5 7.5 0 0 0 0 15 M16 16l5 5',x:'M6 6l12 12 M6 18L18 6',arrow:'M5 12h14 M13 6l6 6-6 6',clock:'M12 8v5l3 2 M22 12a10 10 0 1 0-20 0 10 10 0 0 0 20 0',shield:'M12 2l8 4v6c0 5-8 10-8 10S4 17 4 12V6z M8 12l3 3 5-6',bolt:'M13 2L3 14h8l-1 8 11-14h-8z',reset:'M3 10a9 9 0 1 1 2 8 M3 3v7h7',pause:'M8 4v16 M16 4v16',step:'M5 4l12 8-12 8z M20 4v16',info:'M12 11v6 M12 7h.01 M22 12a10 10 0 1 0-20 0 10 10 0 0 0 20 0',lock:'M6 11h12v10H6z M8 11V7a4 4 0 0 1 8 0v4',layers:'M12 3l10 6-10 6L2 9z M2 13l10 6 10-6 M2 17l10 6 10-6',expand:'M8 3H3v5 M16 3h5v5 M3 16v5h5 M21 16v5h-5',file:'M14 2H5v20h14V7z M14 2v5h5 M8 12h8 M8 16h8',eye:'M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7 M15 12a3 3 0 1 0-6 0 3 3 0 0 0 6 0',alert:'M12 3L2 21h20z M12 9v5 M12 17h.01',chevron:'M9 5l7 7-7 7',code:'M8 6l-6 6 6 6 M16 6l6 6-6 6 M14 3l-4 18',spark:'M12 2l2.5 7.5L22 12l-7.5 2.5L12 22l-2.5-7.5L2 12l7.5-2.5z'};
+const icon=(n,cls='')=>`<svg class="icon ${cls}" viewBox="0 0 24 24" aria-hidden="true"><path d="${icons[n]||icons.info}"/></svg>`;
+const tabs=[['board','功能看板','board'],['flow','链路规划','flow'],['run','运行预演','play'],['accept','验收与调整','check'],['rules','规则与版本','sliders'],['roles','角色分工','people']];
+const statuses={todo:['待定义','#9aa8ba'],design:['设计中','#8270bc'],test:['待验证','#c78e42'],accepted:['已确认','#3e9f84']};
+const thoughtNames={rule:'程序规则',light:'轻思考',heavy:'重思考'};
+const realDefaults=[{id:'experience',title:'介入时机与打扰程度',description:'在真实游戏会话中记录主动出现、被打断和明确拒绝；与已有版本在相近场景对比。',status:'pending',evidence:''},{id:'correction',title:'重复纠正与偏好适用范围',description:'检查同一种偏好是否反复纠正，以及新情境中是否错误泛化；保留用户原话和事件来源。',status:'pending',evidence:''},{id:'persona',title:'人物性格与表达连续性',description:'跨场景、跨版本检查口吻和行为一致性；由真实用户或评审说明具体变化。',status:'pending',evidence:''},{id:'runtime',title:'实际响应、成本与失败恢复',description:'接入真实模型后测量响应分布、成本、取消延迟和冲突恢复，不能采用本页的演示毫秒数。',status:'pending',evidence:''}];
+let seed=null;try{seed=JSON.parse($('#document-seed').textContent)}catch(_){}
+const DOC_ID=seed?.docId||'companion-studio-20261115-v1';
+const STORE_KEY='companion-studio:'+DOC_ID;
+function initial(){return{schema:1,docId:DOC_ID,tab:'board',settings:copy(E.DEFAULTS),features:copy(C.features),scenario:'complex',input:copy(E.SCENARIOS.find(s=>s.id==='complex').input),graph:null,configVersion:1,graphVersion:1,versions:[],activity:[],realChecks:copy(realDefaults),testResults:null,testVersion:null,selectedNode:'planner',diagramMode:'flow',phaseFilter:'all',dirtyPlan:false};}
+function validImport(s){if(!s||s.schema!==1||!s.settings||!Array.isArray(s.features)||!Array.isArray(s.realChecks)||s.features.length>200||s.realChecks.length>30)throw Error('文件格式不符合本工作台的方案格式。');if(s.features.some(f=>!f.id||!/^[\w-]+$/.test(f.id)||!Array.isArray(f.acceptance)||!statuses[f.status]))throw Error('功能卡内容不完整或状态无效。');if(s.graph&&(!Array.isArray(s.graph.nodes)||!Array.isArray(s.graph.edges)||s.graph.nodes.length>100))throw Error('任务链路格式无效。');if(s.graph?.nodes.some(n=>!/^[-\w]+$/.test(n.id)||!E.ROLES[n.role]||!['front','back'].includes(n.phase)))throw Error('任务节点包含不支持的标识或角色。');for(const k of Object.keys(E.DEFAULTS)){if(!Number.isFinite(Number(s.settings[k]))||Number(s.settings[k])<0)throw Error('参数 '+k+' 无效。');}if(s.settings.maxParallel<1||s.settings.heavySlots<1||s.settings.heavySlots>s.settings.maxParallel||s.settings.replyDeadlineMs<=0||s.settings.modelTimeScale<=0)throw Error('并发或时间预算无效。');return true;}
+let state=initial(),storageAvailable=true;
+try{if(seed?.state){validImport(seed.state);state={...state,...seed.state,docId:DOC_ID};}}catch(_){}
+try{const saved=localStorage.getItem(STORE_KEY);if(saved){const p=JSON.parse(saved);validImport(p);state={...state,...p,docId:DOC_ID};}}catch(_){storageAvailable=false;}
+if(!state.graph)state.graph=E.plan(state.input,state.settings);
+let boardSearch='',boardRole='all',testFilter='all',expandedTest=null,run=null,runTimer=null,runTime=0,runSpeed=1,runPlaying=false;
+let faults={feedback:state.input.feedback||'explicit',reviewFail:false,stateChanged:false,newQuiet:false,staleMemory:false,writeConflict:false,undelivered:false};
+const ownerKey=id=>E.ROLES[id]?id:(Object.values(E.ROLES).find(r=>r.label===id||r.name===id)?.id||'system');
+const role=id=>E.ROLES[ownerKey(id)]||E.ROLES.system;
+const roleTag=id=>`<span class="role-label" style="color:${role(id).color}"><i style="background:${role(id).color}"></i>${esc(role(id).label)}</span>`;
+const chip=(t,c='')=>`<span class="chip ${c}">${esc(t)}</span>`;
+const btn=(a,t,i='',cl='',extra='')=>`<button type="button" class="btn ${cl}" data-act="${esc(a)}" ${extra}>${i?icon(i):''}${t}</button>`;
+const num=x=>Number.isFinite(Number(x))?Number(x):0;
+const sec=x=>(num(x)/1000).toFixed(2)+' s';
+const timeLabel=()=>new Date().toLocaleString('zh-CN',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hour12:false});
+function save(){try{localStorage.setItem(STORE_KEY,JSON.stringify(state));storageAvailable=true;}catch(_){storageAvailable=false;}const el=$('#save-text');if(el)el.textContent=storageAvailable?'修改已保存于当前浏览器':'存储不可用，请导出方案';}
+function logChange(text){state.activity.unshift({time:timeLabel(),text});state.activity=state.activity.slice(0,50);save();}
+function toast(message,error=false){const el=document.createElement('div');el.className='toast'+(error?' error':'');el.textContent=message;$('#toast-root').appendChild(el);setTimeout(()=>el.remove(),4200);}
+function stopRun(){if(runTimer)clearInterval(runTimer);runTimer=null;runPlaying=false;}
+function invalidate(){stopRun();run=null;runTime=0;state.testVersion=null;}
+function graphChange(note){state.graphVersion++;state.graph.version=state.graphVersion;invalidate();logChange(note);render();}
+function setTab(tab){stopRun();state.tab=tab;save();render();window.scrollTo({top:0,behavior:'instant'});}
+function formatText(x){if(Array.isArray(x))return x.join('；');if(x&&typeof x==='object')return JSON.stringify(x);return String(x??'');}
+function schedule(){try{return E.schedule(state.graph,state.settings)}catch(e){return{tasks:[],duration:0,frontDuration:0,criticalPath:[],maxConcurrency:0,error:e.message};}}
+function issues(){try{return E.validate(state.graph)}catch(e){return[{severity:'error',code:'INTERNAL',message:e.message,nodeIds:[]}]}}
+function activeNodes(){return state.graph.nodes.filter(n=>n.enabled!==false);}
+function nodeName(id){return state.graph.nodes.find(n=>n.id===id)?.label||id;}
+function renderChrome(){
+$('#sidebar').innerHTML=`<div class="brand"><div class="brand-logo">${'<i></i>'.repeat(9)}</div><div><div class="brand-name">陪伴精灵</div><div class="brand-sub">AGENT STUDIO</div></div></div><div class="nav-label">协作设计工作台</div><nav aria-label="主导航">${tabs.map(([id,label,ico])=>`<button class="nav-btn ${state.tab===id?'active':''}" data-act="nav" data-tab="${id}" aria-label="${label}" aria-current="${state.tab===id?'page':'false'}">${icon(ico)}<span>${label}</span>${id==='board'?'<b class="num">'+state.features.length+'</b>':''}</button>`).join('')}</nav><div class="sidebar-note"><strong>6 类 Agent · 1 个调度层</strong><div>同一人格，分工协作。<br>链路按需生成，更新有据可查。</div><div style="margin-top:18px" class="save-state"><i class="status-dot"></i><span id="save-text">${storageAvailable?'修改已保存于当前浏览器':'存储不可用，请导出方案'}</span></div><div>导出方案可跨设备继续。</div></div>`;
+$('#topbar').innerHTML=`<div class="breadcrumbs"><span>协作设计台</span>${icon('chevron')}<strong>${tabs.find(t=>t[0]===state.tab)?.[1]||''}</strong></div><div class="actions">${chip('规则模拟 · 未接真实模型','teal')}${btn('snapshot','存为版本','save','small')}${btn('export','导出方案','download','small')}${btn('downloadHtml','下载 HTML','code','small primary')}</div>`;
+}
+function heading(eye,title,description,actions=''){return`<div class="page-heading"><div><div class="eyebrow">${eye}</div><h1>${title}</h1><p class="muted small-text" style="margin:0">${description}</p></div>${actions?'<div class="actions">'+actions+'</div>':''}</div>`;}
+function metric(label,value,caption,ico='layers',unit=''){return`<div class="panel metric"><div class="metric-label">${label}</div><div class="metric-number">${value}${unit?'<small>'+unit+'</small>':''}</div><div class="metric-caption">${caption}</div><div class="metric-icon">${icon(ico)}</div></div>`;}
+function render(){renderChrome();$('#main').innerHTML=({board:renderBoard,flow:renderFlow,run:renderRun,accept:renderAccept,rules:renderRules,roles:renderRoles}[state.tab]||renderBoard)()+`<div class="footer-label"><span>陪伴精灵 · 多 Agent 协作设计台</span><span>设计方案 v${state.graphVersion} / 参数 v${state.configVersion} · 模拟耗时不代表模型实测</span></div>`;attachDrag();}
+function featureCard(f,draggable){return `<article class="feature-card" draggable="${draggable?'true':'false'}" tabindex="0" role="button" aria-label="编辑${esc(f.title)}" data-act="feature" data-id="${esc(f.id)}"><div class="card-top">${roleTag(f.role)}${chip(f.priority||'P1',f.priority==='P0'?'amber':'')}</div><h3>${esc(f.title)}</h3><p>${esc(f.summary)}</p><div class="card-footer"><span>${esc(f.id)} · ${f.phase==='front'?'前台':f.phase==='back'?'后台':'前台与后台'}</span><span>${statuses[f.status][0]} · ${f.acceptance.length} 项标准</span></div></article>`;}
+function renderBoard(){
+ const filtered=state.features.filter(f=>(boardRole==='all'||f.role===boardRole)&&(!boardSearch||(f.title+' '+f.summary+' '+f.id).toLowerCase().includes(boardSearch.toLowerCase()))),accepted=state.features.filter(f=>f.status==='accepted').length,group=state.boardGroup||'role';
+ const columns=group==='status'?Object.entries(statuses).map(([id,[label,color]])=>`<section class="board-col" data-status="${id}" aria-label="${label}"><div class="board-col-head"><i class="status-dot" style="background:${color}"></i>${label}<span class="board-count">${filtered.filter(f=>f.status===id).length}</span></div>${filtered.filter(f=>f.status===id).map(f=>featureCard(f,true)).join('')||'<div class="empty">暂无功能卡</div>'}</section>`).join(''):['planning','review','decision','execution','reflection','memory','system'].filter(id=>boardRole==='all'||boardRole===id).map(id=>`<section class="board-col ${id==='system'?'system-col':''}"><div class="board-col-head"><i class="status-dot" style="background:${role(id).color}"></i>${role(id).name}<span class="board-count">${filtered.filter(f=>f.role===id).length} 项功能</span></div><div class="${id==='system'?'system-cards':''}">${filtered.filter(f=>f.role===id).map(f=>featureCard(f,false)).join('')||'<div class="empty">暂无匹配功能</div>'}</div></section>`).join('');
+ return heading('01 / CAPABILITY BOARD','功能看板','逐项确定职责、输入输出和验收标准。卡片状态表示方案进度，真实系统验收单独记录。',btn('addFeature','新增功能','plus','primary'))+`<div class="metrics">${metric('功能模块',state.features.length,'覆盖互动、学习与运行控制','board')}${metric('方案已确认',accepted,'人工确认标准与分工','check','/ '+state.features.length)}${metric('模拟验收用例',E.acceptance(state.settings).length,'可注入异常并检查预期结果','shield')}${metric('真实接入验收',state.realChecks.filter(r=>r.status==='passed').length,'需实际运行记录或评审依据','eye','/ '+state.realChecks.length)}</div><div class="toolbar"><div class="filters"><div class="search">${icon('search')}<input id="board-search" aria-label="搜索功能" placeholder="搜索功能、职责、编号" value="${esc(boardSearch)}"></div><select id="board-role" aria-label="按负责角色筛选"><option value="all">全部负责模块</option>${Object.values(E.ROLES).map(r=>`<option value="${r.id}" ${boardRole===r.id?'selected':''}>${esc(r.name)}</option>`).join('')}</select></div><div class="tab-pills"><button class="${group==='role'?'active':''}" data-act="boardGroup" data-value="role">按角色</button><button class="${group==='status'?'active':''}" data-act="boardGroup" data-value="status">按进度</button></div></div><div class="kanban ${group==='role'?'by-role':''}">${columns}</div><div class="notice section-space">${icon('info')}<p>点击功能卡可编辑标准、负责人和验收记录；在“按进度”视图可拖动调整方案状态。模拟用例通过不会自动标记为真实上线。</p></div>`;
+}
+function scenarioCards(){const map={simple:'bolt',complex:'layers',probe:'spark',quiet:'pause',conflict:'flow'};return`<div class="scenario-grid">${E.SCENARIOS.map(s=>`<button class="scenario ${state.scenario===s.id?'active':''}" data-act="scenario" data-id="${s.id}"><div class="scenario-icon">${icon(map[s.id])}</div><strong>${esc(s.title)}</strong><span>${esc(s.description)}</span></button>`).join('')}</div>`;}
+function contextPanel(){const i=state.input;return`<div class="panel section-space" style="margin-top:0"><div class="panel-head"><div><h2>本次情境</h2><div class="muted tiny">调整输入后重新规划，查看哪些角色会被调用。</div></div>${btn('compile','规划本次链路','spark','primary small')}</div><div class="panel-body"><div class="context-fields"><div class="field"><label for="in-complexity">任务复杂度</label><select id="in-complexity" data-input="complexity">${[1,2,3,4,5].map(v=>`<option value="${v}" ${num(i.complexity)===v?'selected':''}>${v} / 5${v===1?' · 简单':v===5?' · 复杂':''}</option>`).join('')}</select></div><div class="field"><label for="in-uncertainty">信息不确定性</label><select id="in-uncertainty" data-input="uncertainty">${[1,2,3,4,5].map(v=>`<option value="${v}" ${num(i.uncertainty)===v?'selected':''}>${v} / 5</option>`).join('')}</select></div><div class="field"><label for="in-minutes">距上次主动互动 / 分钟</label><input id="in-minutes" type="number" min="0" max="14400" data-input="minutesSinceActive" value="${num(i.minutesSinceActive)}"></div><div class="field"><label for="in-probes">本会话已用试探次数</label><input id="in-probes" type="number" min="0" max="100" data-input="probesUsed" value="${num(i.probesUsed)}"></div><div class="field"><label for="in-missed">连续未回应次数</label><input id="in-missed" type="number" min="0" max="100" data-input="failedNoReplyCount" value="${num(i.failedNoReplyCount)}"></div><div class="field"><label for="in-feedback">预计反馈情形</label><select id="in-feedback" data-input="feedback">${[['positive','明确肯定'],['explicit','明确偏好 / 纠正'],['none','没有回应'],['negative','明确拒绝']].map(([v,t])=>`<option value="${v}" ${i.feedback===v?'selected':''}>${t}</option>`).join('')}</select></div></div><div class="context-toggle">${[['inCombat','战斗中'],['quietMode','安静模式（限制主动）'],['pendingProbe','已有待回应试探'],['hasPlan','有可复用计划'],['allowProactive','允许主动互动']].map(([key,label])=>`<label class="check-field"><input type="checkbox" data-input="${key}" ${i[key]?'checked':''}>${label}</label>`).join('')}</div></div></div>`;}
+function validationPanel(){const list=issues();return`<div class="validation">${list.length?list.map(x=>`<div class="validation-item ${x.severity}">${icon(x.severity==='error'?'alert':'info')}<span>${esc(x.message)}${x.nodeIds?.length?'<br><span class="tiny">'+x.nodeIds.map(id=>esc(nodeName(id))).join(' / ')+'</span>':''}</span></div>`).join(''):`<div class="validation-item good">${icon('shield')}<span>链路结构可运行：没有循环，必要顺序完整，前台不等待本轮后台学习。</span></div>`}</div>`;}
+function graphLayers(){const nodes=activeNodes(),ids=new Set(nodes.map(n=>n.id)),parents={};nodes.forEach(n=>parents[n.id]=state.graph.edges.filter(e=>e.to===n.id&&ids.has(e.from)).map(e=>e.from));const levels={},remaining=new Set(ids);for(let guard=0;remaining.size&&guard<nodes.length+1;guard++){let changed=false;for(const id of [...remaining])if(parents[id].every(p=>levels[p]!==undefined)){levels[id]=parents[id].length?Math.max(...parents[id].map(p=>levels[p]))+1:0;remaining.delete(id);changed=true;}if(!changed)break;}const max=Math.max(0,...Object.values(levels));for(const id of remaining)levels[id]=max+1;return{levels,parents};}
+function diagramHtml(forRun=false){const s=schedule();if(state.diagramMode==='gantt'&&!forRun)return ganttHtml(s);const {levels,parents}=graphLayers(),nodes=activeNodes().filter(n=>forRun||state.phaseFilter==='all'||n.phase===state.phaseFilter),allLayers=[...new Set(nodes.map(n=>levels[n.id]))].sort((a,b)=>a-b),sel=state.selectedNode,related=new Set(state.graph.edges.filter(e=>e.to===sel||e.from===sel).flatMap(e=>[e.from,e.to]));let phase='front';return`<div class="diagram-wrap">${allLayers.map(l=>{const ns=nodes.filter(n=>levels[n.id]===l);let sep='';if(phase==='front'&&ns.every(n=>n.phase==='back')){phase='back';sep='<div class="phase-separator">前台交付完成 · 后台静默整理</div>';}return sep+`<div class="wave"><div class="wave-num">${String(l+1).padStart(2,'0')}</div><div class="wave-nodes">${ns.map(n=>{const task=s.tasks.find(t=>t.id===n.id);let status='';if(forRun&&run){const seen=run.events.filter(e=>e.nodeId===n.id&&num(e.time)<=runTime),current=seen[seen.length-1]?.state;if(current==='skipped')status='skipped';else if(['blocked','cancelled','failed','conflict'].includes(current))status='blocked';else if(['running','retry'].includes(current))status='running';else if(current)status='done';}return`<button class="flow-node ${sel===n.id?'selected':related.has(n.id)?'related':''} ${status}" style="--node-color:${role(n.role).color}" data-act="node" data-id="${esc(n.id)}"><div class="flow-node-meta">${roleTag(n.role)}<span>· ${n.phase==='back'?'后台':'前台'}</span>${n.required?icon('lock'):''}</div><div class="flow-node-title">${esc(n.label)}</div><div class="flow-node-meta"><span>${thoughtNames[n.thought]||esc(n.thought)}</span><span>· ${num(n.duration)} ms</span></div><div class="flow-node-dep">${parents[n.id].length?'等待：'+parents[n.id].map(nodeName).map(esc).join('、'):'入口任务 · 无前置依赖'}</div></button>`;}).join('')}</div></div>`;}).join('')||'<div class="empty">此范围内没有任务</div>'}</div>`;}
+function ganttHtml(s){if(!s.tasks.length)return'<div class="gantt"><div class="empty">修复链路问题后生成时序。</div></div>';const tasks=s.tasks.filter(t=>{const n=state.graph.nodes.find(n=>n.id===t.id);return state.phaseFilter==='all'||n?.phase===state.phaseFilter}),duration=Math.max(1,s.duration),critical=new Set(s.criticalPath||[]);return`<div class="gantt"><div class="gantt-chart"><div class="gantt-axis">${[0,.25,.5,.75,1].map(v=>'<span>'+sec(duration*v)+'</span>').join('')}</div>${tasks.map(t=>{const n=state.graph.nodes.find(n=>n.id===t.id);return`<div class="gantt-row"><div class="gantt-label">${esc(n?.label||t.id)}</div><div class="gantt-track"><button title="${esc(n?.label||t.id)}：${num(t.start)}–${num(t.end)} ms" class="gantt-bar ${critical.has(t.id)?'critical':''}" style="left:${t.start/duration*100}%;width:${Math.max(.4,(t.end-t.start)/duration*100)}%;background:${role(n?.role).color};border:0" data-act="node" data-id="${esc(t.id)}" aria-label="查看${esc(n?.label||t.id)}"></button></div></div>`;}).join('')}</div><p class="inline-note">横向重叠表示实际可并发。任务在其前置完成且有资源时启动；黑色描边表示引擎标记的依赖关键路径。所有时长均为可编辑的演示参数。</p></div>`;}
+function nodeDetail(){const n=state.graph.nodes.find(n=>n.id===state.selectedNode&&n.enabled!==false);if(!n)return`<div class="panel detail-panel"><div class="detail-empty">${icon('eye')} 点击任务查看调用理由、依赖关系和调整入口。</div></div>`;const prev=state.graph.edges.filter(e=>e.to===n.id),next=state.graph.edges.filter(e=>e.from===n.id),s=schedule(),t=s.tasks.find(t=>t.id===n.id),parallel=t?s.tasks.filter(x=>x.id!==n.id&&x.start<t.end&&x.end>t.start).map(x=>nodeName(x.id)):[];return`<div class="panel detail-panel"><div class="panel-head"><div>${roleTag(n.role)}<h2 style="margin-top:8px">${esc(n.label)}</h2><div class="flex wrap">${chip(n.required?'必要任务':'可选任务',n.required?'amber':'teal')}${chip(n.phase==='back'?'后台静默':'前台互动')}</div></div></div><div class="panel-body"><div class="detail-row"><strong>本次为什么调用</strong><div class="value">${esc(n.reason)}</div></div><div class="two-col"><div class="field"><label>思考方式</label><select data-node-field="thought" data-id="${esc(n.id)}" ${n.thought==='rule'&&n.required?'disabled':''}>${Object.entries(thoughtNames).map(([v,l])=>`<option value="${v}" ${n.thought===v?'selected':''}>${l}</option>`).join('')}</select></div><div class="field"><label>演示耗时 / ms</label><input type="number" min="1" max="60000" data-node-field="duration" data-id="${esc(n.id)}" value="${num(n.duration)}"></div></div><div class="detail-row"><strong>必须等待</strong><div class="value">${prev.map(e=>`<span class="dependency-chip">${esc(nodeName(e.from))}${e.hard?' · 固定':''}</span>`).join('')||'本次入口，无前置'}</div></div><div class="detail-row"><strong>后续影响</strong><div class="value">${next.map(e=>`<span class="dependency-chip">${esc(nodeName(e.to))}</span>`).join('')||'本分支结束'}</div></div><div class="detail-row"><strong>当前资源配置下，可同时运行</strong><div class="value">${parallel.map(esc).join('、')||'当前时序没有重叠任务'}</div></div><div class="detail-row"><strong>操作权限</strong><div class="value">${esc(role(n.role).permissions)}</div></div><div class="divider"></div><div class="actions">${btn('editEdges','调整依赖','flow','small',`data-id="${esc(n.id)}"`)}${!n.required?btn('disableNode','跳过此任务','pause','small',`data-id="${esc(n.id)}"`):''}${btn('roleHelp','查看角色标准','check','small ghost',`data-id="${esc(n.role)}"`)}</div></div></div>`;}
+function renderFlow(){const s=schedule(),errors=issues().filter(x=>x.severity==='error');return heading('02 / ADAPTIVE ORCHESTRATION','让规划 Agent 编排任务','选择需要的任务、思考强度和先后关系；程序校验后才允许执行。当前链路由规则模拟生成。',btn('nav','进入运行预演','play','dark', 'data-tab="run"'))+scenarioCards()+contextPanel()+`${state.dirtyPlan?'<div class="notice amber section-space">'+icon('alert')+'<p>情境或参数已调整，当前图仍是上一版方案。点击“规划本次链路”应用新输入。</p></div>':''}<div class="split section-space"><div class="stack"><div class="panel"><div class="panel-head"><div><h2>本次任务链路 ${chip('v'+state.graphVersion,'outline')}</h2><div class="node-legend"><span>同一行：拓扑层级相同，可并发</span><span>任务内标明真实等待关系</span></div></div><div class="actions"><div class="tab-pills"><button class="${state.diagramMode==='flow'?'active':''}" data-act="diagramMode" data-mode="flow">依赖视图</button><button class="${state.diagramMode==='gantt'?'active':''}" data-act="diagramMode" data-mode="gantt">并发时序</button></div>${btn('addNode','添加任务','plus','small')}</div></div><div style="padding:11px 20px;border-bottom:1px solid var(--line)" class="flex space-between wrap"><div class="tab-pills">${[['all','全流程'],['front','前台'],['back','后台']].map(([v,l])=>`<button class="${state.phaseFilter===v?'active':''}" data-act="phase" data-value="${v}">${l}</button>`).join('')}</div><span class="tiny muted">${activeNodes().length} 个任务 · ${state.graph.edges.length} 条依赖</span></div>${diagramHtml()}</div><div class="panel pad"><div class="stat-row"><div class="mini-stat"><b>${sec(s.frontDuration)}</b><span>前台完成 · 示意</span></div><div class="mini-stat"><b>${sec(s.duration)}</b><span>含后台总时长 · 示意</span></div><div class="mini-stat"><b>${num(s.maxConcurrency)} / ${state.settings.maxParallel}</b><span>峰值并发 / 上限</span></div></div><div class="divider"></div>${validationPanel()}<details style="margin-top:15px"><summary class="tiny muted">异常演示：检查规划器越界时能否被阻止</summary><div class="actions" style="margin-top:12px">${btn('injectCycle','注入循环依赖','alert','small danger')}${btn('removeReview','模拟删除审核','alert','small danger')}${btn('compile','恢复场景链路','reset','small')}</div><p class="tiny muted" style="margin-top:10px">异常只修改当前设计图；检查通过前不能运行。重新规划可恢复。</p></details></div><div class="panel pad"><h3>规划依据</h3><ul class="plan-reasons">${(state.graph.rationale||[]).map(r=>'<li>'+esc(r)+'</li>').join('')}</ul><div class="divider"></div><h3>本次跳过的工作</h3><ul class="skip-list">${(state.graph.skipped||[]).map(x=>`<li><div class="flex space-between"><b>${esc(x.label)}</b>${state.graph._baseNodes?.some(n=>n.id===x.id&&!n.required)?btn('enableNode','恢复','','small',`data-id="${esc(x.id)}"`):''}</div><span class="muted">${esc(x.reason)}</span></li>`).join('')||'<li>没有额外跳过项。</li>'}</ul></div></div><div>${nodeDetail()}<div class="notice blue section-space">${icon('info')}<p>节点表示具体任务，同一角色可以出现多次。规划可添加依赖和调整可选任务；审核、复核、唯一发布等约束由校验器保留。</p></div></div></div>`;}
+function faultPanel(){return`<div class="panel"><div class="panel-head"><div><h2>反馈与异常注入</h2><div class="tiny muted">设置后重新预演，观察取消和更新结果。</div></div></div><div class="panel-body"><div class="field"><label for="fault-feedback">实际反馈</label><select id="fault-feedback" data-fault="feedback">${[['positive','明确肯定'],['explicit','明确偏好 / 纠正'],['none','没有回应'],['negative','明确拒绝']].map(([v,t])=>`<option value="${v}" ${faults.feedback===v?'selected':''}>${t}</option>`).join('')}</select></div><div class="fault-list" style="margin-top:12px">${[['stateChanged','发布前情境已失效','检验过期行动是否取消'],['newQuiet','收到新的安静指令','停止优先于旧计划'],['reviewFail','内容审核始终不通过','按重试上限结束行动'],['undelivered','内容未实际送达','不消耗试探额度，不学习偏好'],['staleMemory','反思期间版本已更新','旧建议不能覆盖新事实'],['writeConflict','提交时写入冲突','保留待处理建议，不强行覆盖']].map(([k,t,d])=>`<label class="fault-item"><input type="checkbox" data-fault="${k}" ${faults[k]?'checked':''}><span>${t}<small>${d}</small></span></label>`).join('')}</div></div></div>`;}
+function renderRun(){const s=schedule(),bad=issues().some(x=>x.severity==='error'),completed=run&&runTime>=runMaxTime();return heading('03 / EXECUTION REHEARSAL','预演一次完整互动','检查任务启动顺序、并发、审核、取消以及后台更新。事件来自规则模拟，尚未调用真实模型。',btn('nav','调整本次链路','flow','', 'data-tab="flow"'))+`<div class="notice ${bad||state.dirtyPlan?'amber':''}">${icon('info')}<p>当前场景：<strong>${esc(E.SCENARIOS.find(s=>s.id===state.scenario)?.title||state.scenario)}</strong> · 图 v${state.graphVersion} · 参数 v${state.configVersion}${state.dirtyPlan?'。输入已改变，请先重新规划。':bad?'。链路校验未通过，请先修复。':'。可逐事件检查，也可连续播放。'}</p></div><div class="split wide-aside"><div class="stack"><div class="panel"><div class="panel-head"><div><h2>运行控制</h2><div class="tiny muted">前台交付不等待后台反思完成</div></div><div class="run-controls">${btn('playRun',runPlaying?'暂停':run?'继续预演':'开始预演',runPlaying?'pause':'play','primary small',bad||state.dirtyPlan?'disabled':'')}${btn('stepRun','下一事件','step','small',bad||state.dirtyPlan?'disabled':'')}${btn('resetRun','重置','reset','small')}<select id="run-speed" aria-label="播放速度" style="font-size:11px;padding:5px">${[.5,1,2,4].map(v=>`<option value="${v}" ${runSpeed===v?'selected':''}>${v}×</option>`).join('')}</select></div></div><div class="panel-body"><div class="run-progress"><div class="run-progress-head"><span id="run-status">${runPlaying?'正在预演':completed?'本次预演结束':run?'已暂停':'等待开始'}</span><span id="run-clock">${sec(runTime)} / ${sec(run?runMaxTime():s.duration)}</span></div><div class="progress-track"><div class="progress-fill" id="run-fill" style="width:${run?Math.min(100,runTime/runMaxTime()*100):0}%"></div></div></div><div class="stat-row"><div class="mini-stat"><b>${sec(s.frontDuration)}</b><span>前台示意时长</span></div><div class="mini-stat"><b>${activeNodes().filter(n=>n.thought==='heavy').length}</b><span>重思考任务数</span></div><div class="mini-stat"><b>${s.maxConcurrency||0}</b><span>峰值并发任务数</span></div></div></div><div id="run-diagram">${diagramHtml(true)}</div></div><div class="panel"><div class="panel-head"><div><h2>执行轨迹</h2><div class="tiny muted">以实际模拟回执为准，取消和拒绝也可能是正确结果。</div></div>${run?btn('exportRun','导出本次轨迹','download','small'):''}</div><div class="panel-body"><div class="event-log" id="run-log">${runLogHtml()}</div><div id="run-result">${resultHtml()}</div></div></div></div><div class="stack">${faultPanel()}<div class="panel pad"><h3>本次应检查</h3><ul class="info-list"><li>需要资料的决策，是否等到了全部资料？</li><li>真正发出的内容，是否经过审核与最后状态检查？</li><li>没有送达或没有回应，是否避免产生错误偏好？</li><li>后台写入是否尊重最新版本和用户指令？</li></ul>${btn('nav','运行全部验收用例','check','small', 'data-tab="accept"')}</div></div></div>`;}
+function runMaxTime(){return Math.max(1,...(run?.events||[]).map(e=>num(e.time)),num(run?.metrics?.totalDurationMs));}
+function runLogHtml(){if(!run)return'<div class="empty">开始预演后，这里按发生顺序记录每一步。</div>';const es=run.events.filter(e=>num(e.time)<=runTime);return es.map(e=>`<div class="log-line ${/block|fail|cancel|conflict|reject/.test(e.state)?'error':''}"><time>${sec(e.time)}</time><i class="log-dot"></i><div><strong>${esc(nodeName(e.nodeId)||'系统事件')}</strong> ${chip(({start:'开始',running:'开始',done:'完成',completed:'完成',blocked:'阻止',cancelled:'取消',skipped:'跳过',failed:'失败',conflict:'冲突',retry:'重试',unknown:'未知',committed:'提交',delivered:'送达'})[e.state]||e.state)}<p>${esc(e.detail)}</p></div></div>`).join('')||'<div class="empty">等待首个事件。</div>';}
+function resultHtml(){if(!run||runTime<runMaxTime())return'';return`<div class="result-grid"><div class="result-cell"><div class="label">本次处理结果</div><div class="value">${esc(run.outcome)}</div></div><div class="result-cell"><div class="label">实际送达 / 反馈分类</div><div class="value">${run.delivered?'已送达':'未送达'} · ${esc(run.feedbackClass)}</div></div><div class="result-cell"><div class="label">记忆更新结果</div><div class="value">${esc(run.memoryOutcome)}</div></div><div class="result-cell"><div class="label">试探消耗 / 可用于奖励的样本</div><div class="value">${num(run.metrics?.probesConsumed)} 次 / ${run.metrics?.rewardEligible?'有有效反馈':'没有有效反馈'}</div></div></div><div class="actions" style="margin-top:14px">${btn('runToIssue','记录需要调整的问题','plus','small')}${btn('nav','前往全流程验收','check','small primary','data-tab="accept"')}</div>`;}
+function refreshRun(){if(state.tab!=='run')return;$('#run-status').textContent=runPlaying?'正在预演':runTime>=runMaxTime()?'本次预演结束':'已暂停';$('#run-clock').textContent=sec(runTime)+' / '+sec(runMaxTime());$('#run-fill').style.width=Math.min(100,runTime/runMaxTime()*100)+'%';$('#run-log').innerHTML=runLogHtml();$('#run-log').scrollTop=$('#run-log').scrollHeight;$('#run-result').innerHTML=resultHtml();const scroll=$('#run-diagram .diagram-wrap')?.scrollTop||0;$('#run-diagram').innerHTML=diagramHtml(true);const diagram=$('#run-diagram .diagram-wrap');if(diagram)diagram.scrollTop=scroll;const b=$('[data-act=playRun]');if(b)b.innerHTML=icon(runPlaying?'pause':'play')+(runPlaying?'暂停':runTime>=runMaxTime()?'重新预演':'继续预演');}
+function setupRun(){if(state.dirtyPlan){toast('请先重新规划以应用当前输入。',true);return false;}const errs=issues().filter(x=>x.severity==='error');if(errs.length){toast('链路校验未通过，请先修复。',true);return false;}try{run=E.simulate(copy(state.graph),copy(state.settings),copy(faults));runTime=0;return true;}catch(e){toast('预演失败：'+e.message,true);return false;}}
+function playRun(){if(runPlaying){stopRun();refreshRun();return;}if(!run||runTime>=runMaxTime()){if(!setupRun())return;render();}runPlaying=true;let last=performance.now();runTimer=setInterval(()=>{const now=performance.now();runTime=Math.min(runMaxTime(),runTime+(now-last)*runSpeed);last=now;if(runTime>=runMaxTime()){stopRun();toast('本次规则预演已完成。');}refreshRun();},150);refreshRun();}
+function testMeta(id){return C.checks.find(x=>x.id===id)||{};}
+function renderAccept(){const results=state.testResults,pass=results?.filter(r=>r.pass).length||0,fail=results?.filter(r=>!r.pass).length||0,stale=results&&state.testVersion!==state.configVersion;const all=results||E.acceptance(state.settings).map(r=>({...r,pass:null,actual:'尚未运行',evidence:[]}));const shown=all.filter(r=>testFilter==='all'||(testFilter==='pass'&&r.pass===true)||(testFilter==='fail'&&r.pass===false));return heading('04 / VALIDATION & ITERATION','验收、定位，再调整','结构约束、反馈归因和真实体验分别检查。正确阻止越界行为，同样属于验收通过。',btn('runTests','运行全部模拟验收','check','primary'))+`<div class="metrics">${metric('结构用例',all.length,'使用当前参数重新生成测试链路','shield')}${metric('模拟通过',pass,results?'实际结果符合用例预期':'尚未运行','check')}${metric('需要调整',fail,stale?'参数已改变，结果需要重跑':'失败可转成待调整功能卡','alert')}${metric('真实体验验收',state.realChecks.filter(r=>r.status==='passed').length,'须填入真实证据，独立记录','eye','/ '+state.realChecks.length)}</div>${stale?'<div class="notice amber">'+icon('alert')+'<p>这些模拟结果来自旧参数版本。请重新运行，不能用旧结果验收当前方案。</p></div>':''}<div class="panel"><div class="panel-head"><div><h2>模拟回归用例</h2><div class="tiny muted">每个用例运行其专用情境。当前编辑图另外接受链路校验。</div></div><div class="actions"><div class="tab-pills">${[['all','全部'],['pass','通过'],['fail','需调整']].map(([v,l])=>`<button class="${testFilter===v?'active':''}" data-act="testFilter" data-value="${v}">${l}</button>`).join('')}</div>${results?btn('exportTests','导出结果','download','small'):''}</div></div><div class="table-wrap"><table><thead><tr><th style="width:64px">编号</th><th>验收内容</th><th>负责模块</th><th>本次结果</th><th style="width:40px"></th></tr></thead><tbody>${shown.map(r=>{const m=testMeta(r.id);return`<tr class="test-row" data-act="testDetail" data-id="${esc(r.id)}" tabindex="0"><td class="mono muted tiny">${esc(r.id)}</td><td><div class="test-name">${esc(r.title)}</div><div class="test-sub">${esc(r.expected)}</div></td><td>${roleTag(r.owner||m.owner||'system')}</td><td>${r.pass===null?chip('待运行'):r.pass?chip('通过','green'):chip('需调整','red')}</td><td>${icon('chevron')}</td></tr>${expandedTest===r.id?`<tr class="test-detail"><td colspan="5"><div class="test-detail-grid"><div><h4>输入 / 触发条件</h4><p>${esc(m.condition||formatText(r.evidence)||'按该用例内置场景运行')}</p></div><div><h4>预期结果</h4><p>${esc(r.expected)}</p></div><div><h4>本次实际结果</h4><p>${esc(formatText(r.actual))}</p></div><div><h4>调整方向</h4><p>${esc(formatText(r.adjustment||m.fix||'核对对应规则与任务依赖。'))}</p></div></div>${r.evidence?.length?'<div class="test-evidence">'+esc(formatText(r.evidence))+'</div>':''}<div class="actions" style="margin-top:14px">${btn('testToIssue','生成调整卡','plus','small',`data-id="${esc(r.id)}"`)}${btn('nav','修改规则参数','sliders','small','data-tab="rules"')}${btn('nav','检查当前链路','flow','small','data-tab="flow"')}</div></td></tr>`:''}`;}).join('')}</tbody></table></div>${shown.length?'':'<div class="panel-body"><div class="empty">没有符合筛选条件的用例。</div></div>'}</div><div class="two-col section-space"><div class="panel"><div class="panel-head"><div><h2>当前编辑链路的校验</h2><div class="tiny muted">图 v${state.graphVersion} · 与场景用例分开检查</div></div>${btn('nav','定位并调整','flow','small','data-tab="flow"')}</div><div class="panel-body">${validationPanel()}</div></div><div class="panel pad"><h3>一次完整的调整闭环</h3><ol class="info-list"><li>展开未通过项，核对输入、预期与证据。</li><li>生成调整卡，指定负责角色和人工负责人。</li><li>修改任务依赖、思考档位或规则参数。</li><li>保存新版本，重跑相关模拟与日志回放。</li><li>在受控真实会话中验收体验，再考虑发布。</li></ol></div></div><div class="panel section-space"><div class="panel-head"><div><h2>真实接入后的验收记录</h2><div class="tiny muted">本区不会被模拟结果自动勾选。实际通过需要你填写可追溯的证据。</div></div>${chip('独立人工记录','amber')}</div><div class="panel-body">${state.realChecks.map(r=>`<div class="real-check"><div class="real-check-top"><h3>${esc(r.title)}</h3><select data-real-status="${esc(r.id)}" aria-label="${esc(r.title)}状态" style="font-size:11px"><option value="pending" ${r.status==='pending'?'selected':''}>待真实验证</option><option value="passed" ${r.status==='passed'?'selected':''}>已验证通过</option><option value="adjust" ${r.status==='adjust'?'selected':''}>需要调整</option></select></div><p>${esc(r.description)}</p><textarea data-real-evidence="${esc(r.id)}" aria-label="${esc(r.title)}证据" placeholder="填写记录编号、实际观察、评审结论或数据来源……">${esc(r.evidence)}</textarea></div>`).join('')}</div></div>`;}
+function settingRow(key,label,desc,min,max,step=1){return`<div class="setting-row"><div><label for="setting-${key}">${label}</label><p>${desc}</p></div><input id="setting-${key}" type="number" min="${min}" max="${max}" step="${step}" data-setting="${key}" value="${num(state.settings[key])}"></div>`;}
+function renderRules(){return heading('05 / RULES & VERSIONS','规则可调整，变更可回溯','下列阈值都是设计与测试假设。修改后应用参数，再重新规划并重跑验收。',btn('applySettings','应用参数','check','primary')+btn('import','导入已有方案','upload'))+`<div class="settings-grid"><div class="panel"><div class="panel-head"><div><h2>调用与并发预算</h2><div class="tiny muted">资源空闲且依赖已完成，任务才可以启动。</div></div>${icon('layers')}</div><div class="panel-body">${settingRow('maxParallel','总并发上限','同时运行的任务总数，包含轻重思考和程序任务。',1,8)}${settingRow('heavySlots','重思考并发上限','重规划、重决策与反思共享，不能超过总并发。',1,8)}${settingRow('replyDeadlineMs','前台响应期限 / ms','演示门控参数；真实阈值需接入模型后测量。',200,60000,100)}${settingRow('retryLimit','审核修改次数上限','持续不合格时结束行动，防止无限往返。',0,5)}</div></div><div class="panel"><div class="panel-head"><div><h2>主动互动与试探</h2><div class="tiny muted">硬条件先检查，再判断互动是否有价值。</div></div>${icon('spark')}</div><div class="panel-body">${settingRow('activeCooldownMinutes','主动互动最小间隔 / 分钟','所有需要额外注意的主动输出共用，不能换标签绕过。',1,240)}${settingRow('maxProbesPerSession','每会话主动试探上限','试探是总主动互动的子集；只在实际送达时消耗。',0,20)}<div class="notice" style="margin-top:14px;margin-bottom:0">${icon('lock')}<p>固定条件：已有待回应问题时不追加；战斗与安静模式不试探；没有回应保持未知；时间流逝不会自动撤销安静要求。</p></div></div></div></div><div class="notice amber section-space">${icon('info')}<p>默认间隔 30 分钟、每会话两次试探，只是保守测试起点。体验是否改善，需要真实使用记录。调大预算不会自动安排发言。</p></div><div class="two-col section-space"><div class="panel"><div class="panel-head"><div><h2>保存的方案版本</h2><div class="tiny muted">同时保存功能卡、参数、链路与人工验收记录。</div></div>${btn('snapshot','保存当前版本','save','small primary')}</div><div class="panel-body"><div class="history-list">${state.versions.length?state.versions.slice().reverse().map(v=>`<div class="history-item"><div><strong>${esc(v.name)}</strong><p>${esc(v.time)} · 图 v${v.graphVersion} / 参数 v${v.configVersion}</p></div>${btn('restoreVersion','恢复','reset','small',`data-id="${esc(v.id)}"`)}</div>`).join(''):'<div class="empty">尚未手动保存版本。当前编辑会自动保存在本浏览器。</div>'}</div></div></div><div class="panel"><div class="panel-head"><div><h2>近期调整记录</h2><div class="tiny muted">用于核对修改与验收结果的对应关系。</div></div></div><div class="panel-body"><div class="event-log">${state.activity.length?state.activity.map(a=>`<div class="log-line"><time>${esc(a.time.split(' ')[1]||a.time)}</time><i class="log-dot"></i><div><strong>${esc(a.text)}</strong></div></div>`).join(''):'<div class="empty">开始修改后，在这里记录变更。</div>'}</div></div></div></div><div class="panel pad section-space"><h3>携带与恢复</h3><p class="small-text muted">页面编辑保存在当前浏览器。导出 JSON 可在另一设备导入继续；下载 HTML 会将当前方案一并嵌入文件，可离线打开。浏览器清理数据前请先导出。</p><div class="actions">${btn('export','导出方案 JSON','download')}${btn('import','导入方案 JSON','upload')}${btn('downloadHtml','下载含当前方案的 HTML','code','primary')}${btn('resetAll','恢复初始方案','reset','danger')}</div></div>`;}
+function renderRoles(){return heading('06 / RESPONSIBILITIES','分工清楚，共同表现为一个精灵','角色是职责边界，节点是本次具体任务。多个角色可以复用模型，每次只唤醒需要的部分。')+`<div class="role-grid">${C.roles.map(r=>{const rr=role(r.id);return`<article class="panel role-card" style="--role-color:${rr.color};--role-bg:${rr.color}14"><div class="role-initial">${esc(rr.label.slice(0,1))}</div><div class="role-title"><h3>${esc(r.title)}</h3>${chip(r.thinking)}</div><p>${esc(r.trigger)}</p><details><summary>查看输入、输出与验收标准</summary><div class="role-detail">${[['输入',r.input],['必须交付',r.output],['权限',r.permission],['验收标准',r.acceptance],['避免的情况',r.avoid]].map(([l,v])=>`<div class="detail-row"><strong>${l}</strong><div class="value">${esc(formatText(v))}</div></div>`).join('')}</div></details></article>`;}).join('')}</div><div class="section-space"><h2>从模拟走向真实系统</h2><p class="muted small-text">保留证据、范围与版本，让每次调整都能说明原因。</p><div class="guide-grid">${C.guide.map(g=>`<article class="panel guide-card"><h3>${esc(g.title)}</h3><p>${esc(g.body)}</p></article>`).join('')}</div></div><div class="panel pad section-space"><h3>设计依据与适用边界</h3><p class="small-text muted">本页方案来自本次讨论。以下原始资料支持路由、反思记忆和人类互动反馈等技术方向；具体阈值、六角色分工与页面预演均为本项目的设计建议。</p><div class="sources"><a href="https://www.anthropic.com/research/building-effective-agents" target="_blank" rel="noopener">Anthropic · Building effective agents（路由与程序检查） ↗</a><a href="https://arxiv.org/abs/2303.11366" target="_blank" rel="noopener">Reflexion（通过反馈与记忆改善后续行为） ↗</a><a href="https://arxiv.org/abs/2509.25137" target="_blank" rel="noopener">RL from User Conversations（自然互动反馈） ↗</a><a href="https://arxiv.org/abs/2503.13657" target="_blank" rel="noopener">Why Do Multi-Agent LLM Systems Fail?（协作与验证问题） ↗</a></div></div>`;}
+function modal(title,body,footer,subtitle='',center=false){$('#modal-root').innerHTML=`<div class="modal-mask" data-act="modalBackdrop"><section class="modal ${center?'center':''}" role="dialog" aria-modal="true" aria-label="${esc(title)}"><div class="modal-head"><div>${subtitle?'<div class="eyebrow">'+subtitle+'</div>':''}<h2>${title}</h2></div>${btn('closeModal','', 'x','icon-only ghost','aria-label="关闭"')}</div><div class="modal-body">${body}</div><div class="modal-footer">${footer}</div></section></div>`;setTimeout(()=>$('#modal-root input, #modal-root select, #modal-root textarea, #modal-root button')?.focus(),20);}
+function closeModal(){$('#modal-root').innerHTML='';}
+function openFeature(id){const f=state.features.find(f=>f.id===id);if(!f)return;modal(esc(f.title),`<div class="form-grid"><div class="field full"><label>功能名称</label><input id="f-title" value="${esc(f.title)}"></div><div class="field"><label>方案状态</label><select id="f-status">${Object.entries(statuses).map(([v,[l]])=>`<option value="${v}" ${f.status===v?'selected':''}>${l}</option>`).join('')}</select></div><div class="field"><label>负责 Agent / 模块</label><select id="f-role">${Object.values(E.ROLES).map(r=>`<option value="${r.id}" ${f.role===r.id?'selected':''}>${esc(r.name)}</option>`).join('')}</select></div><div class="field"><label>人工负责人</label><input id="f-owner" placeholder="待指定" value="${esc(f.owner||'')}"></div><div class="field"><label>优先级</label><select id="f-priority"><option ${f.priority==='P0'?'selected':''}>P0</option><option ${f.priority==='P1'?'selected':''}>P1</option></select></div><div class="field full"><label>功能说明</label><textarea id="f-summary">${esc(f.summary)}</textarea></div><div class="field full"><label>验收标准 · 每行一项</label><textarea id="f-criteria" style="min-height:132px">${esc(f.acceptance.join('\n'))}</textarea></div><div class="field full"><label>失败后调整方向</label><textarea id="f-adjustment">${esc(f.adjustment)}</textarea></div><div class="field full"><label>实际验收记录 / 待确定问题</label><textarea id="f-notes" placeholder="记录真实证据、问题与下一步；模拟通过不等于真实验收……">${esc(f.notes||'')}</textarea></div></div>`,btn('closeModal','取消','','')+btn('saveFeature','保存修改','check','primary',`data-id="${esc(id)}"`),`${esc(id)} / FUNCTION SPEC`);}
+function addFeature(){modal('新增功能',`<div class="form-grid"><div class="field full"><label>功能名称</label><input id="new-feature-title" placeholder="例如：跨会话策略回滚"></div><div class="field"><label>负责模块</label><select id="new-feature-role">${Object.values(E.ROLES).map(r=>`<option value="${r.id}">${esc(r.name)}</option>`).join('')}</select></div><div class="field"><label>运行位置</label><select id="new-feature-phase"><option value="front">前台</option><option value="back">后台</option><option value="both">前台与后台</option></select></div><div class="field full"><label>功能说明</label><textarea id="new-feature-summary"></textarea></div><div class="field full"><label>验收标准 · 每行一项</label><textarea id="new-feature-criteria"></textarea></div></div>`,btn('closeModal','取消')+btn('createFeature','加入看板','plus','primary'),'NEW CAPABILITY');}
+function editEdges(id){const n=state.graph.nodes.find(n=>n.id===id);if(!n)return;const before=state.graph.edges.filter(e=>e.to===id);modal('调整任务依赖',`<h3>${esc(n.label)}</h3><p class="small-text muted">前置任务全部完成后才会启动。新增依赖会改变并发与时序；固定关系由程序保留。</p><div class="edge-list">${before.map(e=>`<div class="edge-row"><span>${esc(nodeName(e.from))}</span>${icon('arrow')}<span>本任务</span>${e.hard?chip('固定','amber'):btn('removeEdge','移除','','small',`data-from="${esc(e.from)}" data-to="${esc(e.to)}"`)}</div>`).join('')||'<div class="empty">当前没有前置依赖</div>'}</div><div class="divider"></div><div class="field"><label>添加必须先完成的任务</label><select id="edge-from">${activeNodes().filter(x=>x.id!==id&&!before.some(e=>e.from===x.id)).map(x=>`<option value="${esc(x.id)}">${esc(x.label)} · ${x.phase==='back'?'后台':'前台'}</option>`).join('')}</select></div><div class="actions" style="margin-top:12px">${btn('addEdge','增加依赖','plus','primary small',`data-id="${esc(id)}"`)}</div><div class="notice amber section-space">${icon('info')}<p>错误依赖会被校验器指出，不会自动运行。请回到图中检查提示。</p></div>`,btn('closeModal','完成','check','primary'),'DEPENDENCY EDITOR');}
+function addNode(){modal('添加任务实例',`<p class="small-text muted">一个 Agent 角色可以承担多项任务。先添加任务，再通过依赖设置说明其结果被谁使用。</p><div class="form-grid"><div class="field full"><label>任务名称</label><input id="n-label" placeholder="例如：读取最近三次复盘记录"></div><div class="field"><label>负责角色</label><select id="n-role">${Object.values(E.ROLES).map(r=>`<option value="${r.id}" ${r.id==='execution'?'selected':''}>${esc(r.name)}</option>`).join('')}</select></div><div class="field"><label>前台 / 后台</label><select id="n-phase"><option value="front">前台</option><option value="back">后台</option></select></div><div class="field"><label>思考方式</label><select id="n-thought">${Object.entries(thoughtNames).map(([v,l])=>`<option value="${v}" ${v==='light'?'selected':''}>${l}</option>`).join('')}</select></div><div class="field"><label>演示耗时 / ms</label><input id="n-duration" type="number" value="600" min="1" max="60000"></div><div class="field full"><label>调用理由 / 预期产物</label><textarea id="n-reason" placeholder="说明为什么需要这项任务，以及它向后续任务提供什么。"></textarea></div><label class="check-field full"><input id="n-write" type="checkbox">此任务写入共享记忆（参与串行写锁）</label></div>`,btn('closeModal','取消')+btn('createNode','加入当前链路','plus','primary'),'TASK INSTANCE');}
+function compile(readInputs=true){stopRun();if(readInputs)$$('[data-input]').forEach(el=>{const key=el.dataset.input;state.input[key]=el.type==='checkbox'?el.checked:el.type==='number'||['complexity','uncertainty'].includes(key)?Math.max(0,num(el.value)):el.value;});state.graph=E.plan(copy(state.input),copy(state.settings));state.graphVersion++;state.graph.version=state.graphVersion;state.dirtyPlan=false;state.selectedNode=state.graph.nodes.find(n=>n.id==='planner')?.id||state.graph.nodes[0]?.id;faults.feedback=state.input.feedback;invalidate();logChange('根据当前情境重新规划：'+(E.SCENARIOS.find(s=>s.id===state.scenario)?.title||state.scenario));render();toast('链路已更新，已重新计算依赖与并发。');}
+function exportFile(name,content,type='application/json'){const b=new Blob([content],{type});const url=URL.createObjectURL(b);const a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),2000);}
+function downloadHtml(){const root=document.documentElement.cloneNode(true);const docId='companion-export-'+Date.now();const embed={docId,state:{...copy(state),docId}};root.querySelector('#document-seed').textContent=JSON.stringify(embed).replace(/</g,'\\u003c');root.querySelector('#modal-root').innerHTML='';root.querySelector('#toast-root').innerHTML='';root.querySelector('#main').innerHTML='';root.querySelector('#sidebar').innerHTML='';root.querySelector('#topbar').innerHTML='';exportFile('陪伴精灵_协作设计台.html','<!doctype html>\n'+root.outerHTML,'text/html;charset=utf-8');toast('已下载独立 HTML，包含当前方案。');}
+function snapshot(){modal('保存当前方案版本',`<div class="field"><label>版本说明</label><input id="version-name" value="方案 ${state.versions.length+1} · ${timeLabel()}" maxlength="100"></div><p class="small-text muted" style="margin-top:15px">保存功能卡、规则参数、任务图和人工验收记录。以后可以恢复到这一版。</p>`,btn('closeModal','取消')+btn('confirmSnapshot','保存版本','save','primary'),'VERSION SNAPSHOT',true);}
+function snapshotData(){return{settings:copy(state.settings),features:copy(state.features),scenario:state.scenario,input:copy(state.input),graph:copy(state.graph),realChecks:copy(state.realChecks),dirtyPlan:!!state.dirtyPlan};}
+function addIssue(title,summary,owner,criteria,notes=''){const id='I'+Date.now().toString(36);state.features.push({id,title,role:ownerKey(owner),phase:'both',priority:'P0',status:'todo',summary,acceptance:criteria,adjustment:'修改后重新规划，重跑相关用例，并保留新的证据。',notes});logChange('创建调整卡：'+title);toast('已加入功能看板的“待定义”列。');}
+function attachDrag(){$$('.feature-card').forEach(el=>{el.addEventListener('dragstart',e=>{e.dataTransfer.setData('text/plain',el.dataset.id);e.dataTransfer.effectAllowed='move';});});$$('.board-col').forEach(el=>{el.addEventListener('dragover',e=>{e.preventDefault();el.classList.add('drop-over');});el.addEventListener('dragleave',()=>el.classList.remove('drop-over'));el.addEventListener('drop',e=>{e.preventDefault();el.classList.remove('drop-over');const f=state.features.find(f=>f.id===e.dataTransfer.getData('text/plain'));if(f&&statuses[el.dataset.status]){f.status=el.dataset.status;logChange(f.title+' → '+statuses[f.status][0]);render();}});});}
+document.addEventListener('click',e=>{const el=e.target.closest('[data-act]');if(!el)return;const a=el.dataset.act,id=el.dataset.id;
+try{switch(a){
+case'nav':setTab(el.dataset.tab);break;
+case'feature':openFeature(id);break;
+case'boardGroup':state.boardGroup=el.dataset.value;save();render();break;
+case'closeModal':closeModal();break;
+case'modalBackdrop':if(e.target===el)closeModal();break;
+case'addFeature':addFeature();break;
+case'createFeature':{const title=$('#new-feature-title').value.trim(),criteria=$('#new-feature-criteria').value.split('\n').map(x=>x.trim()).filter(Boolean);if(!title||!criteria.length){toast('请填写功能名称和至少一项验收标准。',true);break;}state.features.push({id:'F'+Date.now().toString(36),title,role:$('#new-feature-role').value,phase:$('#new-feature-phase').value,priority:'P1',status:'todo',summary:$('#new-feature-summary').value.trim(),acceptance:criteria,adjustment:'待补充'});logChange('新增功能：'+title);closeModal();render();break;}
+case'saveFeature':{const f=state.features.find(f=>f.id===id),title=$('#f-title').value.trim(),criteria=$('#f-criteria').value.split('\n').map(x=>x.trim()).filter(Boolean);if(!title||!criteria.length){toast('名称和验收标准不能为空。',true);break;}Object.assign(f,{title,status:$('#f-status').value,role:$('#f-role').value,owner:$('#f-owner').value.trim(),priority:$('#f-priority').value,summary:$('#f-summary').value.trim(),acceptance:criteria,adjustment:$('#f-adjustment').value.trim(),notes:$('#f-notes').value.trim()});logChange('更新功能标准：'+f.title);closeModal();render();toast('功能标准已保存。');break;}
+case'scenario':{const sc=E.SCENARIOS.find(s=>s.id===id);state.scenario=id;state.input=copy(sc.input);compile(false);break;}
+case'compile':compile();break;
+case'diagramMode':state.diagramMode=el.dataset.mode;save();render();break;
+case'phase':state.phaseFilter=el.dataset.value;save();render();break;
+case'node':state.selectedNode=id;if(state.tab==='flow'){save();render();}else{stopRun();setTab('flow');}break;
+case'disableNode':{const n=state.graph.nodes.find(n=>n.id===id);if(n.required){toast('该任务是当前行为的必要约束。',true);break;}if(n.custom){state.graph.nodes=state.graph.nodes.filter(x=>x.id!==id);state.graph.edges=state.graph.edges.filter(x=>x.from!==id&&x.to!==id);state.graph.skipped.push({id,label:n.label,reason:'手动删除自定义任务'});}else state.graph=E.toggleNode(state.graph,id,false);state.selectedNode='';graphChange('跳过可选任务：'+n.label);break;}
+case'enableNode':state.graph=E.toggleNode(state.graph,id,true);graphChange('恢复任务：'+nodeName(id));break;
+case'editEdges':editEdges(id);break;
+case'addEdge':{const from=$('#edge-from')?.value;if(!from){toast('没有可添加的任务。');break;}state.graph.edges.push({from,to:id,hard:false,reason:'手动设置的先后关系'});graphChange('增加依赖：'+nodeName(from)+' → '+nodeName(id));editEdges(id);break;}
+case'removeEdge':state.graph.edges=state.graph.edges.filter(x=>!(x.from===el.dataset.from&&x.to===el.dataset.to&&!x.hard));graphChange('移除可调整依赖');editEdges(el.dataset.to);break;
+case'addNode':addNode();break;
+case'createNode':{const label=$('#n-label').value.trim(),reason=$('#n-reason').value.trim();if(!label||!reason){toast('请填写任务名称和调用理由。',true);break;}const node={id:'task_'+Date.now().toString(36),label,role:$('#n-role').value,phase:$('#n-phase').value,thought:$('#n-thought').value,duration:Math.max(1,Math.min(60000,num($('#n-duration').value))),required:false,enabled:true,reason,custom:true};if($('#n-write').checked)node.resource='memory-write';const parent=node.phase==='back'?(state.graph.nodes.find(n=>n.id==='feedback')||state.graph.nodes.find(n=>n.id==='receipt')):(state.graph.nodes.find(n=>n.id==='snapshot')||state.graph.nodes[0]);state.graph.nodes.push(node);if(parent)state.graph.edges.push({from:parent.id,to:node.id,hard:false,reason:'自定义任务的初始前置，可编辑'});state.selectedNode=node.id;closeModal();graphChange('添加任务实例：'+label);toast('任务已添加；请设置其后续使用关系。');break;}
+case'injectCycle':{const ns=activeNodes();if(ns.length<2)break;state.graph.edges.push({from:ns[ns.length-1].id,to:ns[0].id,hard:false,reason:'异常演示：循环依赖'});graphChange('异常演示：加入循环依赖');toast('已注入异常；校验器应阻止运行。');break;}
+case'removeReview':if(!state.graph.nodes.some(n=>n.id==='review')){toast('当前链路无需对外表达，没有该审核节点。');break;}state.graph.nodes=state.graph.nodes.filter(n=>n.id!=='review');state.graph.edges=state.graph.edges.filter(e=>e.from!=='review'&&e.to!=='review');graphChange('异常演示：模拟规划器删除必要审核');break;
+case'roleHelp':setTab('roles');setTimeout(()=>{const els=$$('.role-card');const idx=C.roles.findIndex(r=>r.id===id);if(els[idx]){els[idx].querySelector('details').open=true;els[idx].scrollIntoView({behavior:'smooth',block:'center'});}},20);break;
+case'playRun':playRun();break;
+case'stepRun':stopRun();if(!run){if(!setupRun())break;render();}runTime=(run.events.find(e=>num(e.time)>runTime)?.time)||runMaxTime();refreshRun();break;
+case'resetRun':stopRun();run=null;runTime=0;render();break;
+case'exportRun':if(run)exportFile('陪伴精灵_模拟轨迹.json',JSON.stringify({simulation:true,graphVersion:state.graphVersion,configVersion:state.configVersion,graph:state.graph,faults,result:run},null,2));break;
+case'runToIssue':if(run){addIssue('预演调整：'+(E.SCENARIOS.find(s=>s.id===state.scenario)?.title||''),run.outcome,'system',['调整后重新运行该场景，核对输出与记忆结果。'],run.memoryOutcome);render();}break;
+case'runTests':state.testResults=E.acceptance(copy(state.settings));state.testVersion=state.configVersion;logChange('运行模拟验收：'+state.testResults.filter(r=>r.pass).length+'/'+state.testResults.length+' 通过');render();toast('模拟验收已完成；真实体验仍需实际记录。');break;
+case'testFilter':testFilter=el.dataset.value;render();break;
+case'testDetail':expandedTest=expandedTest===id?null:id;render();break;
+case'testToIssue':{const r=(state.testResults||E.acceptance(state.settings)).find(r=>r.id===id);if(r){addIssue('调整：'+r.title,formatText(r.adjustment||testMeta(id).fix),r.owner,[r.expected],r.id+' · '+formatText(r.actual));render();}break;}
+case'exportTests':exportFile('陪伴精灵_模拟验收结果.json',JSON.stringify({simulation:true,configVersion:state.testVersion,currentConfigVersion:state.configVersion,settings:state.settings,results:state.testResults,realChecks:state.realChecks},null,2));break;
+case'snapshot':snapshot();break;
+case'confirmSnapshot':{const name=$('#version-name').value.trim()||'未命名版本';state.versions.push({id:'v'+Date.now().toString(36),name,time:timeLabel(),graphVersion:state.graphVersion,configVersion:state.configVersion,data:snapshotData()});if(state.versions.length>15)state.versions.shift();logChange('保存版本：'+name);closeModal();render();toast('版本已保存，可在“规则与版本”中恢复。');break;}
+case'restoreVersion':{const v=state.versions.find(v=>v.id===id);if(!v)break;modal('恢复方案版本',`<p>恢复到 <strong>${esc(v.name)}</strong>。</p><p class="small-text muted">当前内容会先保存为一个回退版本，再应用选定版本。</p>`,btn('closeModal','取消')+btn('confirmRestore','恢复版本','reset','primary',`data-id="${esc(id)}"`),'RESTORE VERSION',true);break;}
+case'confirmRestore':{const v=copy(state.versions.find(v=>v.id===id));if(!v)break;state.versions.push({id:'v'+Date.now().toString(36),name:'恢复前自动备份',time:timeLabel(),graphVersion:state.graphVersion,configVersion:state.configVersion,data:snapshotData()});Object.assign(state,v.data);state.graphVersion++;state.configVersion++;const inputKeys=new Set([...Object.keys(state.input||{}),...Object.keys(state.graph?.input||{})]);const inputMismatch=!state.graph||[...inputKeys].some(k=>JSON.stringify(state.input?.[k])!==JSON.stringify(state.graph.input?.[k]));const settingsMismatch=!state.graph||Object.keys(E.DEFAULTS).some(k=>Number(state.settings[k])!==Number(state.graph.settings?.[k]));state.dirtyPlan=!!v.data.dirtyPlan||inputMismatch||settingsMismatch;invalidate();logChange('恢复版本：'+v.name);closeModal();render();toast(state.dirtyPlan?'已恢复，当前条件需重新规划，再重跑模拟验收。':'已恢复，模拟验收需重新运行。');break;}
+case'export':exportFile('陪伴精灵_协作方案.json',JSON.stringify(state,null,2));toast('方案已导出，可在另一设备导入。');break;
+case'downloadHtml':downloadHtml();break;
+case'applySettings':{let changed=false;$$('[data-setting]').forEach(el=>{const k=el.dataset.setting,v=Math.round(Math.max(num(el.min),Math.min(num(el.max),num(el.value))));if(state.settings[k]!==v){state.settings[k]=v;changed=true;}});if(state.settings.heavySlots>state.settings.maxParallel){state.settings.heavySlots=state.settings.maxParallel;changed=true;}if(changed){state.configVersion++;state.dirtyPlan=true;invalidate();logChange('应用新的规则参数');}render();toast(changed?'参数已应用，请重新规划并重跑验收。':'当前参数已保存。');break;}
+case'import':$('#import-file').click();break;
+case'resetAll':modal('恢复初始方案',`<p>恢复本工作台的默认功能卡、参数和场景。</p><p class="small-text muted">当前内容将先保存为回退版本；已有手动版本保留。</p>`,btn('closeModal','取消')+btn('confirmReset','恢复初始方案','reset','danger'),'RESET',true);break;
+case'confirmReset':{const backup={id:'v'+Date.now().toString(36),name:'恢复初始前自动备份',time:timeLabel(),graphVersion:state.graphVersion,configVersion:state.configVersion,data:snapshotData()},versions=[...state.versions,backup];state=initial();state.versions=versions.slice(-15);state.graph=E.plan(state.input,state.settings);state.tab='rules';invalidate();logChange('恢复初始设计方案');closeModal();render();break;}
+}}catch(err){toast('操作未完成：'+err.message,true);console.error(err);}});
+document.addEventListener('change',e=>{const el=e.target;try{
+if(el.id==='board-role'){boardRole=el.value;render();}
+if(el.dataset.input){const key=el.dataset.input;state.input[key]=el.type==='checkbox'?el.checked:el.type==='number'||['complexity','uncertainty'].includes(key)?Math.max(0,num(el.value)):el.value;state.dirtyPlan=true;invalidate();save();render();}
+if(el.dataset.nodeField){const n=state.graph.nodes.find(n=>n.id===el.dataset.id);n[el.dataset.nodeField]=el.dataset.nodeField==='duration'?Math.max(1,Math.min(60000,num(el.value))):el.value;graphChange('调整任务参数：'+n.label);}
+if(el.dataset.setting){const k=el.dataset.setting;state.settings[k]=Math.max(num(el.min),Math.min(num(el.max),num(el.value)));if(k!=='modelTimeScale')state.settings[k]=Math.round(state.settings[k]);if(state.settings.heavySlots>state.settings.maxParallel)state.settings.heavySlots=state.settings.maxParallel;state.configVersion++;state.dirtyPlan=true;invalidate();logChange('修改参数：'+({'maxParallel':'总并发上限',heavySlots:'重思考并发上限',replyDeadlineMs:'前台响应期限',retryLimit:'审核修改上限',activeCooldownMinutes:'主动互动间隔',maxProbesPerSession:'会话试探上限'}[k]||k)+' = '+state.settings[k]);render();}
+if(el.dataset.fault){faults[el.dataset.fault]=el.type==='checkbox'?el.checked:el.value;stopRun();run=null;runTime=0;render();}
+if(el.id==='run-speed'){runSpeed=num(el.value);}
+if(el.dataset.realStatus){const r=state.realChecks.find(r=>r.id===el.dataset.realStatus);if(el.value==='passed'&&!r.evidence.trim()){toast('请先填写真实验收依据，再标记通过。',true);el.value=r.status;return;}r.status=el.value;logChange('更新真实验收记录：'+r.title);render();}
+if(el.dataset.realEvidence){const r=state.realChecks.find(r=>r.id===el.dataset.realEvidence);r.evidence=el.value;if(!r.evidence.trim()&&r.status==='passed')r.status='pending';save();}
+}catch(err){toast(err.message,true);}});
+document.addEventListener('input',e=>{if(e.target.dataset.realEvidence){const r=state.realChecks.find(r=>r.id===e.target.dataset.realEvidence);if(r){r.evidence=e.target.value;if(!r.evidence.trim()&&r.status==='passed')r.status='pending';save();}}if(e.target.id==='board-search'){const pos=e.target.selectionStart;boardSearch=e.target.value;$('#main').innerHTML=renderBoard();attachDrag();const input=$('#board-search');input.focus();input.setSelectionRange(pos,pos);}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();if((e.key==='Enter'||e.key===' ')&&e.target.classList.contains('feature-card')){e.preventDefault();openFeature(e.target.dataset.id);}if(e.key==='Enter'&&e.target.classList.contains('test-row')){expandedTest=expandedTest===e.target.dataset.id?null:e.target.dataset.id;render();}if(e.key==='Tab'&&$('#modal-root .modal')){const elems=Array.from($('#modal-root .modal').querySelectorAll('button,input,select,textarea,[tabindex="0"]')).filter(n=>!n.disabled);if(!elems.length)return;const first=elems[0],last=elems[elems.length-1];if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}}});
+$('#import-file').addEventListener('change',async e=>{const file=e.target.files[0];if(!file)return;try{if(file.size>5000000)throw Error('方案文件超过 5 MB，无法导入。');const parsed=JSON.parse(await file.text());validImport(parsed);const backup={id:'v'+Date.now().toString(36),name:'导入前自动备份',time:timeLabel(),graphVersion:state.graphVersion,configVersion:state.configVersion,data:snapshotData()};state={...initial(),...parsed,docId:DOC_ID,versions:[...(parsed.versions||[]).slice(-13),backup],tab:'board'};if(!state.graph)state.graph=E.plan(state.input,state.settings);invalidate();logChange('导入方案：'+file.name);render();toast('已导入方案；可在版本记录中恢复导入前内容。');}catch(err){toast('导入失败：'+err.message,true);}e.target.value='';});
+window.addEventListener('beforeunload',()=>{save();stopRun();});
+window.CompanionStudio={getState:()=>copy(state),getRun:()=>run?copy(run):null,engine:E,validate:()=>issues()};
+render();save();
+})();
+
+</script>
+</body></html>

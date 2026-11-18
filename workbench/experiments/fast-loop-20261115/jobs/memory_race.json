@@ -1,0 +1,21 @@
+{
+  "id": "memory_race",
+  "role": "memory",
+  "effort": "medium",
+  "requested_model": "gpt-6.1-sol",
+  "kind": "memory_concurrency_probe",
+  "round": "R2",
+  "input_messages": [
+    {
+      "id": "OLD-PREFERENCE",
+      "from": "simulated_user",
+      "body": {
+        "source_quote": "先教我一步",
+        "base_memory_version": 0,
+        "scope": "current_turn"
+      }
+    }
+  ],
+  "token_usage": null,
+  "dispatch_unix_ms": 1794684363392.6406
+}

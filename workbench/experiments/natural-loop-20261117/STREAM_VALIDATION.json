@@ -1,0 +1,24 @@
+{
+  "source_event_count": 93,
+  "mapped_event_count": 91,
+  "timeline_tests": {
+    "passed": 7,
+    "total": 7
+  },
+  "ui_checks": [
+    "R9第6事件只有内部候选，无交付回复",
+    "R9第7事件被拦截，左侧仍没有assistant消息",
+    "R10两条用户消息、一条已接受回复",
+    "20倍播放按钮状态与事件呈现",
+    "暂停、拖动到终点",
+    "播放中切换轮次清零并取消旧播放",
+    "流程图与Log模式切换",
+    "展开原始payload和上海时间",
+    "浏览器下载7行JSONL与原始记录逐字节一致"
+  ],
+  "download_sha256": "e06c98849183de8b09336a98119e1bdbc39f2a71782ab42c77dd15ea334847cd",
+  "script_syntax": "passed",
+  "streaming_observation": "No SSE/token delta was recorded. Actual coordinator event replay only.",
+  "mobile_browser_tested": false,
+  "raw_source_sha256": "c084d71e46e2ace458747d877e3143bfb1c8cae85ca0111f3085af5fee1ffa49"
+}

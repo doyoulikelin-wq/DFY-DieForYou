@@ -1,0 +1,19 @@
+test_pending_background_work_does_not_block_foreground_and_late_results_are_rejected (__main__.ConcurrencyBoundaries.test_pending_background_work_does_not_block_foreground_and_late_results_are_rejected) ... ok
+test_accept_button_disappears (__main__.RuntimeBoundaries.test_accept_button_disappears) ... ok
+test_capture_and_input_mutations_do_not_leak (__main__.RuntimeBoundaries.test_capture_and_input_mutations_do_not_leak) ... ok
+test_closed_quest_window_rejects_accept (__main__.RuntimeBoundaries.test_closed_quest_window_rejects_accept) ... ok
+test_combat_blocks_both_old_and_current_observation_suggestion (__main__.RuntimeBoundaries.test_combat_blocks_both_old_and_current_observation_suggestion) ... ok
+test_even_current_memory_cannot_conflict_with_explicit_preference (__main__.RuntimeBoundaries.test_even_current_memory_cannot_conflict_with_explicit_preference) ... ok
+test_explicit_mute_wins_even_if_candidate_was_prepared_before_it (__main__.RuntimeBoundaries.test_explicit_mute_wins_even_if_candidate_was_prepared_before_it) ... ok
+test_known_target_or_absent_unknown_information_blocks_observe (__main__.RuntimeBoundaries.test_known_target_or_absent_unknown_information_blocks_observe) ... ok
+test_memory_requires_exact_user_source_and_proposals_are_inactive (__main__.RuntimeBoundaries.test_memory_requires_exact_user_source_and_proposals_are_inactive) ... ok
+test_no_mana_rule_requires_exact_evidence_and_spell_state (__main__.RuntimeBoundaries.test_no_mana_rule_requires_exact_evidence_and_spell_state) ... ok
+test_one_step_cannot_become_every_time (__main__.RuntimeBoundaries.test_one_step_cannot_become_every_time) ... ok
+test_only_reviewed_templates_are_delivered (__main__.RuntimeBoundaries.test_only_reviewed_templates_are_delivered) ... ok
+test_silence_still_requires_current_evidence (__main__.RuntimeBoundaries.test_silence_still_requires_current_evidence) ... ok
+test_stale_memory_cannot_overwrite_new_explicit_preference (__main__.RuntimeBoundaries.test_stale_memory_cannot_overwrite_new_explicit_preference) ... ok
+
+----------------------------------------------------------------------
+Ran 14 tests in 0.005s
+
+OK

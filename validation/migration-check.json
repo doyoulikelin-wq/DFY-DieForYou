@@ -1,0 +1,1574 @@
+{
+  "date": "2026-11-18",
+  "scope": "Offline migration verification; no model calls or game integration",
+  "passed": 313,
+  "total": 313,
+  "error": null,
+  "checks": [
+    {
+      "name": "original:workbench/.gitignore",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/.openai/hosting.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/README.md",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/build.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/build_experiment.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/build_fast_experiment.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/build_latency_design.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/build_natural_test.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/build_streaming_plan.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/design/VALIDATION.md",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/design/latency-spec.html",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/design/streaming-plan-20261118/DESIGN.md",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/design/streaming-plan-20261118/browser-validation.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/design/streaming-plan-20261118/data.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/design/streaming-plan-20261118/evidence.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/design/streaming-plan-20261118/make_data.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/design/streaming-plan-20261118/preview.jpg",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/design/streaming-plan-20261118/validation.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/dist/experiment.html",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/dist/fast-experiment.html",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/dist/index.html",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/dist/latency-design.html",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/dist/natural-test-data.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/dist/natural-test-events.jsonl",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/dist/natural-test-preference-failure.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/dist/natural-test-preference-fix.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/dist/natural-test-quality.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/dist/natural-test-raw.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/dist/natural-test-report.md",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/dist/natural-test.html",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/dist/streaming-plan-data.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/dist/streaming-plan-evidence.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/dist/streaming-plan-validation.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/dist/streaming-plan.html",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/dist/streaming-plan.md",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/fast-loop-20261115/.gitignore",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/fast-loop-20261115/REPORT.md",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/fast-loop-20261115/agent-invocations.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/fast-loop-20261115/build_results.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/fast-loop-20261115/collected/async_memory.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/fast-loop-20261115/collected/async_reflection.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/fast-loop-20261115/collected/memory_race.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/fast-loop-20261115/collected/pair_decision.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/fast-loop-20261115/collected/pair_execution.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/fast-loop-20261115/collected/pair_review.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/fast-loop-20261115/collected/stale_decision.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/fast-loop-20261115/commands/1794684252588867387_R2.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/fast-loop-20261115/commands/1794684285104996705_R3.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/fast-loop-20261115/commands/1794684362942163365_STOP.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/fast-loop-20261115/deliveries/R2.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/fast-loop-20261115/deliveries/R3.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/fast-loop-20261115/deliveries/pair_baseline.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/fast-loop-20261115/deliveries/pair_fast.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/fast-loop-20261115/deliveries/stale_probe.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/fast-loop-20261115/driver.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/fast-loop-20261115/events.jsonl",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/fast-loop-20261115/fast-replay.html",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/fast-loop-20261115/inputs/async_memory.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/fast-loop-20261115/inputs/async_reflection.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/fast-loop-20261115/inputs/memory_race.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/fast-loop-20261115/inputs/pair_decision.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/fast-loop-20261115/inputs/pair_execution.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/fast-loop-20261115/inputs/pair_review.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/fast-loop-20261115/inputs/stale_decision.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/fast-loop-20261115/jobs/async_memory.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/fast-loop-20261115/jobs/async_reflection.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/fast-loop-20261115/jobs/memory_race.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/fast-loop-20261115/jobs/pair_decision.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/fast-loop-20261115/jobs/pair_execution.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/fast-loop-20261115/jobs/pair_review.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/fast-loop-20261115/jobs/stale_decision.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/fast-loop-20261115/memory_race.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/fast-loop-20261115/memory_race_changed.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/fast-loop-20261115/memory_race_result.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/fast-loop-20261115/memory_race_result.original.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/fast-loop-20261115/memory_race_spawned.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/fast-loop-20261115/outbox/async_memory.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/fast-loop-20261115/outbox/async_reflection.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/fast-loop-20261115/outbox/memory_race.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/fast-loop-20261115/outbox/pair_decision.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/fast-loop-20261115/outbox/pair_execution.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/fast-loop-20261115/outbox/pair_review.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/fast-loop-20261115/outbox/stale_decision.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/fast-loop-20261115/results.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/fast-loop-20261115/rule-benchmark.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/fast-loop-20261115/runtime-tests.txt",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/fast-loop-20261115/runtime.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/fast-loop-20261115/runtime_test.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/fast-loop-20261115/state.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/fast-loop-20261115/trace-bundle.zip",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/fast-loop-20261115/ui-proof.jpg",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/fast-loop-20261115/verification.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/REPORT.md",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/STREAM_README.md",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/STREAM_VALIDATION.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/UI_VALIDATION.md",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/__pycache__/mailbox.cpython-312.pyc",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/__pycache__/runtime_v2.cpython-312.pyc",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/__pycache__/runtime_v2_test.cpython-312.pyc",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/__pycache__/runtime_v3.cpython-312.pyc",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/__pycache__/runtime_v3_test.cpython-312.pyc",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/fix_validation.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/fixtures.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/mailbox.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/make_report.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/natural-loop-test.jpg",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/natural-stream-log.jpg",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/preference_regression.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/quality_review.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/r9-original-events.jsonl",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/report-data.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/review_packet.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/run-01/events.jsonl",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/run-02/events.jsonl",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/run-03/events.jsonl",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/run-03/inbox/1794916163295356865-223fe66068b3455097de56dc3ef3c447.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/run-03/receipts/1794915297685732560-a738a0bd585d49019cb185e224455e42.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/run-03/receipts/1794915297696120928-1c2ff4a3a35b4f49a6fd76d6d8d14b25.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/run-03/receipts/1794915364842960663-c44d9da68d224edca6dece1e24197eaa.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/run-03/receipts/1794915364853895455-e983ab70dac14d6c9e18d6578b945609.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/run-03/receipts/1794915364864384655-e13da9577db746f1848221d5b8e85795.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/run-03/receipts/1794915379992736381-919ffa3ce9c148219adaabebe24884d4.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/run-03/receipts/1794915407985353127-919a74fa67b547b3a06c192b218c425d.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/run-03/receipts/1794915408005887629-49fb0963362f4ae1aedf8e9141126b26.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/run-03/receipts/1794915408016458263-b15a7af7e4a94deea2de816707d751c4.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/run-03/receipts/1794915424606476100-978fde6fd65c44c5bfc24b4c698f8a30.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/run-03/receipts/1794915470653925829-50c6cfff3a9a466583732363e8126b1b.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/run-03/receipts/1794915470664462142-fd5e108ab59e439cb0a6181a65db2e93.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/run-03/receipts/1794915470675040139-7e48a72b480341e3a9baf58e20e282fb.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/run-03/receipts/1794915481300289025-a2a3341901474370b19ce65179dc8e14.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/run-03/receipts/1794915539374385348-b5b75874312c4c32a19aac26a0cb69ac.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/run-03/receipts/1794915539397792292-160f51207ae4469ebe2ef1e4fd3cfea3.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/run-03/receipts/1794915539408177727-7ada94bb6eac497dad664bd37fc4ef55.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/run-03/receipts/1794915597385283070-7d4be34a97be48b5b0d87bb4d6755154.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/run-03/receipts/1794915597405952557-7dacc9481469474aa19e30d549d329e8.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/run-03/receipts/1794915656345664536-3525888e1d3c402ab07eb71062a4ef03.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/run-03/receipts/1794915656356204145-79933d71adb740a6bf6377505d9b2591.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/run-03/receipts/1794915656366657913-3018e1dae8a24b2cbb7f630af2cf3b24.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/run-03/receipts/1794915656377084270-ab70a51030f84ff5826c3fd8a7d19777.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/run-03/receipts/1794915712253540169-5e7ac183d8c84ef0a7c2dfb2328e3a3e.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/run-03/receipts/1794915712264087889-58f528102a1245c3a02bc33fe39d5540.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/run-03/receipts/1794915712285826490-b34b370ba775448cb474563fea63175a.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/run-03/receipts/1794915730074388581-f273b4b7ea4f4705be25c7022077bd2b.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/run-03/receipts/1794915730095303395-8798c47cbc7a46a7beb82f060f0e00d6.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/run-03/receipts/1794915741785313590-c1228e194db54c39b77a4e29df91dd11.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/run-03/receipts/1794915741805998760-b9884ec286e24af49e41ec60e60db254.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/run-03/receipts/1794915774339916639-92876aa057974cbcbaef952e267c57ff.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/run-03/receipts/1794915774350525490-faba66be17264f3e870ddba1277f53bd.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/run-03/receipts/1794915774371139182-2575aa4f0d7c4356b1162f063607e878.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/run-03/receipts/1794915796038618920-4e43698c78d64ba6a5c40af892cb3904.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/run-03/receipts/1794915796061954930-27a7e213c2de44bb90a958ecac2ec492.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/run-03/receipts/1794915796072345352-e39cfb5dadef49749b73e693ff2594a8.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/run-03/receipts/1794915843011042562-e8b7d0a07fdc47228807d455723a84a8.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/run-03/receipts/1794915843021752528-a7a45270012640dbb9f3f83996588c6a.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/run-03/receipts/1794915856278161134-1f4405ab871148a980284c2444815529.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/run-03/receipts/1794915856288725989-f19e7269ab23429a9aa88da50df9d487.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/run-03/receipts/1794915966950799909-c2a4021936f84488bf92208fe29861b7.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/run-03/receipts/1794915966972103283-da6e96d5725b4328a4858e15811ae00b.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/run-03/receipts/1794915966982643713-1ec4180ab0044746b51e471a692c08a6.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/run-03/receipts/1794915967003197174-17c38cc136ff435285d730baa203127c.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/run-03/receipts/1794915980421696401-dde90a2147154d1a93472a8cd290d4c5.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/run-03/receipts/1794916163274708080-fe64af895929438e87714dc42e55c7dd.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/run-03/receipts/decision-result.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/run-03/receipts/memory-result.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/run-03/receipts/planner-result.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/run-03/receipts/r1-spawn-low-result.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/run-03/receipts/r2-result.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/run-03/receipts/r3-result.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/run-03/receipts/r4-result.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/run-03/receipts/r5-result.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/run-03/receipts/r6-result.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/run-03/receipts/r7-refresh-result.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/run-03/receipts/r7-result.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/run-03/receipts/r8-result.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/run-03/receipts/reflection-result.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/run-03/receipts/stale-result.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/run-03/receipts/v2-quiet-result.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/run-03/receipts/v2-server-result.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/run-03/results.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/runner.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/runtime_v2.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/runtime_v2_test.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/runtime_v3.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/runtime_v3_test.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/timeline.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/natural-loop-20261117/timeline_test.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/sol-loop-20261115/REPORT.md",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/sol-loop-20261115/harness.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/sol-loop-20261115/inputs/cmp_r1_decision_high.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/sol-loop-20261115/inputs/cmp_r1_decision_low.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/sol-loop-20261115/inputs/cmp_r1_decision_medium.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/sol-loop-20261115/inputs/r1_decision_medium.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/sol-loop-20261115/inputs/r1_execution_low.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/sol-loop-20261115/inputs/r1_memory_medium.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/sol-loop-20261115/inputs/r1_planning_high.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/sol-loop-20261115/inputs/r1_reflection_high.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/sol-loop-20261115/inputs/r1_review_low.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/sol-loop-20261115/inputs/r2_decision_low.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/sol-loop-20261115/inputs/r2_execution_low.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/sol-loop-20261115/inputs/r2_memory_medium.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/sol-loop-20261115/inputs/r2_reflection_high.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/sol-loop-20261115/inputs/r2_review_low.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/sol-loop-20261115/inputs/r3_decision_low.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/sol-loop-20261115/inputs/r3_execution_low.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/sol-loop-20261115/inputs/r3_memory_medium.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/sol-loop-20261115/inputs/r3_reflection_high.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/sol-loop-20261115/inputs/r3_review_low.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/sol-loop-20261115/ledger.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/sol-loop-20261115/outbox/cmp_r1_decision_high.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/sol-loop-20261115/outbox/cmp_r1_decision_low.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/sol-loop-20261115/outbox/cmp_r1_decision_medium.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/sol-loop-20261115/outbox/r1_decision_medium.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/sol-loop-20261115/outbox/r1_execution_low.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/sol-loop-20261115/outbox/r1_memory_medium.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/sol-loop-20261115/outbox/r1_planning_high.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/sol-loop-20261115/outbox/r1_reflection_high.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/sol-loop-20261115/outbox/r1_review_low.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/sol-loop-20261115/outbox/r2_decision_low.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/sol-loop-20261115/outbox/r2_execution_low.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/sol-loop-20261115/outbox/r2_memory_medium.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/sol-loop-20261115/outbox/r2_reflection_high.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/sol-loop-20261115/outbox/r2_review_low.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/sol-loop-20261115/outbox/r3_decision_low.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/sol-loop-20261115/outbox/r3_execution_low.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/sol-loop-20261115/outbox/r3_memory_medium.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/sol-loop-20261115/outbox/r3_reflection_high.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/sol-loop-20261115/outbox/r3_review_low.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/sol-loop-20261115/outbox/wow_r1_planning_high.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/sol-loop-20261115/results.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/sol-loop-20261115/trace-bundle.zip",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/experiments/sol-loop-20261115/verification.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/src/app.js",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/src/catalog.js",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/src/engine.js",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/src/engine.test.cjs",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/src/experiment-app.js",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/src/experiment-style.css",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/src/fast-experiment-app.js",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/src/fast-experiment-style.css",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/src/latency-design-shell.html",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/src/natural-stream.css",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/src/natural-stream.js",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/src/natural-test-shell.html",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/src/shell.html",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/src/simple-app.js",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/src/simple-data.js",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/src/simple-shell.html",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/src/streaming-plan-shell.html",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/src/streaming-plan.css",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/src/streaming-plan.js",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:workbench/validate_streaming_plan.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:knowledge/dafeyu_forever_faq_20261118/PERSONA.md",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:knowledge/dafeyu_forever_faq_20261118/README.md",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:knowledge/dafeyu_forever_faq_20261118/SCHEMA.md",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:knowledge/dafeyu_forever_faq_20261118/SOURCES.md",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:knowledge/dafeyu_forever_faq_20261118/browser_validation.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:knowledge/dafeyu_forever_faq_20261118/checksums.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:knowledge/dafeyu_forever_faq_20261118/content_review.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:knowledge/dafeyu_forever_faq_20261118/coverage_gaps.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:knowledge/dafeyu_forever_faq_20261118/dafeyu_forever_faq.html",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:knowledge/dafeyu_forever_faq_20261118/facts.jsonl",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:knowledge/dafeyu_forever_faq_20261118/faq.jsonl",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:knowledge/dafeyu_forever_faq_20261118/faq.sqlite",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:knowledge/dafeyu_forever_faq_20261118/handwritten_hard_negatives.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:knowledge/dafeyu_forever_faq_20261118/manifest.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:knowledge/dafeyu_forever_faq_20261118/persona.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:knowledge/dafeyu_forever_faq_20261118/queries.jsonl",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:knowledge/dafeyu_forever_faq_20261118/retrieval_demo.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:knowledge/dafeyu_forever_faq_20261118/retrieval_validation.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:knowledge/dafeyu_forever_faq_20261118/runtime_policy.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:knowledge/dafeyu_forever_faq_20261118/sources.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:knowledge/dafeyu_forever_faq_20261118/story_frames.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:knowledge/dafeyu_forever_faq_20261118/validate_retrieval.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:knowledge/dafeyu_forever_faq_20261118/validation.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "original:archives/dafeyu_forever_faq_20261118.zip",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "FAQ original checksums",
+      "pass": true,
+      "detail": 22
+    },
+    {
+      "name": "FAQ ZIP CRC",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "FAQ ZIP equals extracted files",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "SQLite integrity",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "links:index.html",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "links:workbench/dist/design-board.html",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "links:workbench/dist/experiment.html",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "links:workbench/dist/fast-experiment.html",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "links:workbench/dist/index.html",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "links:workbench/dist/latency-design.html",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "links:workbench/dist/natural-test.html",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "links:workbench/dist/streaming-plan.html",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "links:knowledge/dafeyu_forever_faq_20261118/dafeyu_forever_faq.html",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "seven pages rebuild",
+      "pass": true,
+      "detail": "Built single self-contained HTML: 41,719 bytes\nBuilt experiment replay: 186,827 bytes\nBuilt fast experiment: 133,720 bytes; data: loaded\nBuilt dist/latency-design.html\n{\"output\": \"/private/var/folders/pz/q0np5s0s1wxd2bcdwrclrtth0000gn/T/dfy-verify-h6gburlh/build/workbench/dist/natural-test.html\", \"rounds\": 17, \"bytes\": 564649}\n{\"html_bytes\": 125828, \"scenarios\": 6, \"modules\": 10, \"sources\": 14}\nBuilt seven pages at /private/var/folders/pz/q0np5s0s1wxd2bcdwrclrtth0000gn/T/dfy-verify-h6gburlh/build/workbench/dist; archived originals unchanged."
+    },
+    {
+      "name": "rebuild byte equality:design-board.html",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "rebuild script/data equality:experiment.html",
+      "pass": true,
+      "detail": "Shared shell navigation and responsive CSS update on rebuild; embedded scripts and evidence must remain identical."
+    },
+    {
+      "name": "rebuild script/data equality:fast-experiment.html",
+      "pass": true,
+      "detail": "Shared shell navigation and responsive CSS update on rebuild; embedded scripts and evidence must remain identical."
+    },
+    {
+      "name": "rebuild byte equality:index.html",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "rebuild byte equality:latency-design.html",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "rebuild byte equality:natural-test.html",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "rebuild byte equality:streaming-plan.html",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "JS syntax:app.js",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "JS syntax:catalog.js",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "JS syntax:engine.js",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "JS syntax:experiment-app.js",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "JS syntax:fast-experiment-app.js",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "JS syntax:natural-stream.js",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "JS syntax:simple-app.js",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "JS syntax:simple-data.js",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "JS syntax:streaming-plan.js",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "simulation engine assertions",
+      "pass": true,
+      "detail": "{\n  \"assertions\": 154,\n  \"acceptance\": [\n    {\n      \"id\": \"A01\",\n      \"pass\": true\n    },\n    {\n      \"id\": \"A02\",\n      \"pass\": true\n    },\n    {\n      \"id\": \"A03\",\n      \"pass\": true\n    },\n    {\n      \"id\": \"A04\",\n      \"pass\": true\n    },\n    {\n      \"id\": \"A05\",\n      \"pass\": true\n    },\n    {\n      \"id\": \"A06\",\n      \"pass\": true\n    },\n    {\n      \"id\": \"A07\",\n      \"pass\": true\n    },\n    {\n      \"id\": \"A08\",\n      \"pass\": true\n    },\n    {\n      \"id\": \"A09\",\n      \"pass\": true\n    },\n    {\n      \"id\": \"A10\",\n      \"pass\": true\n    },\n    {\n      \"id\": \"A11\",\n      \"pass\": true\n    },\n    {\n      \"id\": \"A12\",\n      \"pass\": true\n    },\n    {\n      \"id\": \"A13\",\n      \"pass\": true\n    },\n    {\n      \"id\": \"A14\",\n      \"pass\": true\n    },\n    {\n      \"id\": \"A15\",\n      \"pass\": true\n    },\n    {\n      \"id\": \"A16\",\n      \"pass\": true\n    },\n    {\n      \"id\": \"A17\",\n      \"pass\": true\n    },\n    {\n      \"id\": \"A18\",\n      \"pass\": true\n    },\n    {\n      \"id\": \"A19\",\n      \"pass\": true\n    },\n    {\n      \"id\": \"A20\",\n      \"pass\": true\n    },\n    {\n      \"id\": \"A21\",\n      \"pass\": true\n    },\n    {\n      \"id\": \"A22\",\n      \"pass\": true\n    },\n    {\n      \"id\": \"A23\",\n      \"pass\": true\n    }\n  ],\n  \"scenarios\": [\n    {\n      \"id\": \"simple\",\n      \"nodes\": 13,\n      \"frontMs\": 1100,\n      \"totalMs\": 2400,\n      \"concurrency\": 2\n    },\n    {\n      \"id\": \"complex\",\n      \"nodes\": 17,\n      \"frontMs\": 3480,\n      \"totalMs\": 6320,\n      \"concurrency\": 3\n    },\n    {\n      \"id\": \"probe\",\n      \"nodes\": 15,\n      \"frontMs\": 2800,\n      \"totalMs\": 5640,\n      \"concurrency\": 2\n    },\n    {\n      \"id\": \"quiet\",\n      \"nodes\": 5,\n      \"frontMs\": 50,\n      \"totalMs\": 330,\n      \"concurrency\": 1\n    },\n    {\n      \"id\": \"conflict\",\n      \"nodes\": 15,\n      \"frontMs\": 3480,\n      \"totalMs\": 6320,\n      \"concurrency\": 2\n    }\n  ]\n}"
+    },
+    {
+      "name": "runtime_test.py",
+      "pass": true,
+      "detail": "test_pending_background_work_does_not_block_foreground_and_late_results_are_rejected (__main__.ConcurrencyBoundaries.test_pending_background_work_does_not_block_foreground_and_late_results_are_rejected) ... ok\ntest_accept_button_disappears (__main__.RuntimeBoundaries.test_accept_button_disappears) ... ok\ntest_capture_and_input_mutations_do_not_leak (__main__.RuntimeBoundaries.test_capture_and_input_mutations_do_not_leak) ... ok\ntest_closed_quest_window_rejects_accept (__main__.RuntimeBoundaries.test_closed_quest_window_rejects_accept) ... ok\ntest_combat_blocks_both_old_and_current_observation_suggestion (__main__.RuntimeBoundaries.test_combat_blocks_both_old_and_current_observation_suggestion) ... ok\ntest_even_current_memory_cannot_conflict_with_explicit_preference (__main__.RuntimeBoundaries.test_even_current_memory_cannot_conflict_with_explicit_preference) ... ok\ntest_explicit_mute_wins_even_if_candidate_was_prepared_before_it (__main__.RuntimeBoundaries.test_explicit_mute_wins_even_if_candidate_was_prepared_before_it) ... ok\ntest_known_target_or_absent_unknown_information_blocks_observe (__main__.RuntimeBoundaries.test_known_target_or_absent_unknown_information_blocks_observe) ... ok\ntest_memory_requires_exact_user_source_and_proposals_are_inactive (__main__.RuntimeBoundaries.test_memory_requires_exact_user_source_and_proposals_are_inactive) ... ok\ntest_no_mana_rule_requires_exact_evidence_and_spell_state (__main__.RuntimeBoundaries.test_no_mana_rule_requires_exact_evidence_and_spell_state) ... ok\ntest_one_step_cannot_become_every_time (__main__.RuntimeBoundaries.test_one_step_cannot_become_every_time) ... ok\ntest_only_reviewed_templates_are_delivered (__main__.RuntimeBoundaries.test_only_reviewed_templates_are_delivered) ... ok\ntest_silence_still_requires_current_evidence (__main__.RuntimeBoundaries.test_silence_still_requires_current_evidence) ... ok\ntest_stale_memory_cannot_overwrite_new_explicit_preference (__main__.RuntimeBoundaries.test_stale_memory_cannot_overwrite_new_explicit_preference) ... ok\n\n----------------------------------------------------------------------\nRan 14 tests in 0.006s\n\nOK"
+    },
+    {
+      "name": "runtime_v2_test.py",
+      "pass": true,
+      "detail": "......................\n----------------------------------------------------------------------\nRan 22 tests in 0.004s\n\nOK"
+    },
+    {
+      "name": "runtime_v3_test.py",
+      "pass": true,
+      "detail": "........\n----------------------------------------------------------------------\nRan 8 tests in 0.002s\n\nOK"
+    },
+    {
+      "name": "timeline_test.py",
+      "pass": true,
+      "detail": ".......\n----------------------------------------------------------------------\nRan 7 tests in 0.018s\n\nOK"
+    },
+    {
+      "name": "Streaming 52 checks",
+      "pass": true,
+      "detail": "{\"passed\": 52, \"total\": 52, \"scope\": \"页面数据、预算口径与模拟时序；不是游戏后端/API性能证明\"}"
+    },
+    {
+      "name": "FAQ 59 gate checks",
+      "pass": true,
+      "detail": "{\n  \"date\": \"2026-11-18\",\n  \"scope\": \"本机内存索引与示例发送门控，非真实游戏、非模型API、非UI端到端\",\n  \"gate_tests_passed\": 59,\n  \"gate_tests_total\": 59,\n  \"local_lookup_samples\": 160,\n  \"lookup_median_ms\": 0.2877499791793525,\n  \"lookup_p95_ms\": 0.3486250061541796,\n  \"cards\": 958,\n  \"evaluation_warning\": \"探针取自已有别名或近似表达，不是盲测；门控条件由测试夹具提供，不证明真实接口已正确识别条件。\"\n}"
+    },
+    {
+      "name": "source hashes unchanged after verification",
+      "pass": true,
+      "detail": null
+    }
+  ]
+}

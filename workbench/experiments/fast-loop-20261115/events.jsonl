@@ -1,0 +1,15 @@
+{"time_unix_ms": 1794684163418.9321, "kind": "watcher_ready"}
+{"time_unix_ms": 1794684170896.9824, "kind": "job_dispatched", "job_id": "pair_decision", "role": "decision", "effort": "low"}
+{"time_unix_ms": 1794684183720.7646, "kind": "model_candidate_gate", "job_id": "pair_decision", "result": {"accepted": true, "reason": "accepted", "reply": "先看看附近有没有人或醒目的标记，告诉我你看到了什么，好吗？", "action_id": "OBSERVE_SURROUNDINGS", "state_version": 1, "processing_ms": 0.01525299740023911}, "delivered_unix_ms": 1794684183720.5605}
+{"time_unix_ms": 1794684203361.972, "kind": "job_dispatched", "job_id": "pair_review", "role": "review", "effort": "low"}
+{"time_unix_ms": 1794684216168.8232, "kind": "background_or_review_result", "job_id": "pair_review", "role": "review"}
+{"time_unix_ms": 1794684222721.2114, "kind": "job_dispatched", "job_id": "pair_execution", "role": "execution", "effort": "low"}
+{"time_unix_ms": 1794684235779.0144, "kind": "baseline_model_delivery", "job_id": "pair_execution", "reply": "先看看附近有没有人或醒目的标记，告诉我你看到了什么，好吗？", "delivered_unix_ms": 1794684235778.8083}
+{"time_unix_ms": 1794684252594.2397, "kind": "rule_delivery", "round": "R2", "result": {"accepted": true, "reason": "accepted", "reply": "点“接受”就好呀。", "action_id": "ACCEPT_CURRENT_QUEST", "state_version": 2, "processing_ms": 0.00776100205257535}, "pending_model_jobs": [], "queued_unix_ms": 1794684252588.8594, "delivered_unix_ms": 1794684252593.9646}
+{"time_unix_ms": 1794684252868.6953, "kind": "job_dispatched", "job_id": "async_reflection", "role": "reflection", "effort": "high"}
+{"time_unix_ms": 1794684264270.9004, "kind": "job_dispatched", "job_id": "async_memory", "role": "memory", "effort": "medium"}
+{"time_unix_ms": 1794684271447.4985, "kind": "background_or_review_result", "job_id": "async_reflection", "role": "reflection"}
+{"time_unix_ms": 1794684274339.2332, "kind": "job_dispatched", "job_id": "stale_decision", "role": "decision", "effort": "low"}
+{"time_unix_ms": 1794684278395.0034, "kind": "memory_commit_gate", "job_id": "async_memory", "result": {"accepted": true, "reason": "memory_recorded", "memory_version": 1}, "active_preference": null}
+{"time_unix_ms": 1794684285105.885, "kind": "rule_delivery", "round": "R3", "result": {"accepted": true, "reason": "accepted", "reply": "蓝用完啦，先别施放闪电箭。", "action_id": "AVOID_UNUSABLE_SPELL", "state_version": 3, "processing_ms": 0.007251001079566777}, "pending_model_jobs": ["stale_decision"], "queued_unix_ms": 1794684285104.9885, "delivered_unix_ms": 1794684285105.6714}
+{"time_unix_ms": 1794684286999.2043, "kind": "model_candidate_gate", "job_id": "stale_decision", "result": {"accepted": false, "reason": "state_version_mismatch", "reply": "", "action_id": "ACCEPT_CURRENT_QUEST", "state_version": 3, "processing_ms": 0.0043670006562024355}, "delivered_unix_ms": 1794684286998.7407}

@@ -1,0 +1,13 @@
+{
+  "raw_model_records_verified": 7,
+  "timing_arithmetic_verified": true,
+  "paired_replies_identical": true,
+  "checked_false_items": [
+    "first_useful_target",
+    "memory_generation_overlap"
+  ],
+  "unmeasured_items": [
+    "production_e2e"
+  ],
+  "results_sha256": "f9068931c29b29ccb4fc79be54e644aecbc7c107243b0fae7edf0ef11054584f"
+}

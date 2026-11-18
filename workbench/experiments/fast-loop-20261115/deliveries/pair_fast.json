@@ -1,0 +1,15 @@
+{
+  "job_id": "pair_decision",
+  "result": {
+    "accepted": true,
+    "reason": "accepted",
+    "reply": "先看看附近有没有人或醒目的标记，告诉我你看到了什么，好吗？",
+    "action_id": "OBSERVE_SURROUNDINGS",
+    "state_version": 1,
+    "processing_ms": 0.01525299740023911
+  },
+  "delivered_unix_ms": 1794684183720.5605,
+  "foreground_ms": 12823.74853515625,
+  "expected_state_version": 1,
+  "current_state_version": 1
+}

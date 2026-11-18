@@ -1,0 +1,1 @@
+{"job_id": "pair_decision", "result": {"action_id": "OBSERVE_SURROUNDINGS", "template_id": "curious", "evidence_ids": ["FAST-R1-OBS"], "needs_deep_work": false}, "completed_unix_ms": 1794684183716}

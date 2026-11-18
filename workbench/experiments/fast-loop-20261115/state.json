@@ -1,0 +1,49 @@
+{
+  "snapshot": {
+    "observation_id": "FAST-R3-OBS",
+    "player": {
+      "race": "兽人",
+      "class": "萨满",
+      "level": 1,
+      "zone": "试炼谷",
+      "hp": 28,
+      "max_hp": 100,
+      "mana": 0,
+      "max_mana": 100,
+      "in_combat": true
+    },
+    "target": {
+      "name": "训练野猪",
+      "hostile": true
+    },
+    "quest_offer": null,
+    "quest_log": [
+      {
+        "title": "最初的试炼",
+        "progress": "0/3"
+      }
+    ],
+    "known_spell": {
+      "name": "闪电箭",
+      "usable": false,
+      "reason": "法力不足"
+    },
+    "unknown": [
+      "terrain",
+      "route",
+      "distance",
+      "keybindings",
+      "healing_spells"
+    ]
+  },
+  "state_version": 3,
+  "memory_version": 2,
+  "explicit_preference": {
+    "text": "以后每次只说一步",
+    "source_quote": "以后每次只说一步",
+    "value": {
+      "max_steps": 1
+    },
+    "scope": "future_guidance"
+  }
+}

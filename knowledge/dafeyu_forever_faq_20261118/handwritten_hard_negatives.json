@@ -1,0 +1,617 @@
+{
+  "cases": [
+    {
+      "id": "JN001",
+      "utterance": "就差最后一个目标了怎么办",
+      "candidate_id": "J0001",
+      "candidate_intent": "one_remaining",
+      "positive_case": {
+        "evidence": {
+          "quest.exactly_one_objective_incomplete": true,
+          "quest.objective_counters_current": true
+        },
+        "slot_values": {
+          "remaining_objective": "[测试用已核实内容槽；验收不包含真实剧情]"
+        },
+        "expected_gate": "allow_if_all_global_checks_pass"
+      },
+      "hard_negative": {
+        "evidence": {
+          "quest.exactly_one_objective_incomplete": false,
+          "quest.objective_counters_current": true
+        },
+        "changed_fact": "quest.exactly_one_objective_incomplete",
+        "scenario": "还有两个未完成目标，不能声称只剩一个",
+        "expected_gate": "reject",
+        "forbidden_delivery": "不得回答唯一没完成的那项",
+        "suggested_fallback_route": "unknown_or_general_objective_review"
+      },
+      "test_kind": "paired_state_hand_authored",
+      "no_performance_claim": true
+    },
+    {
+      "id": "JN002",
+      "utterance": "怪都杀够了怎么还没好",
+      "candidate_id": "J0002",
+      "candidate_intent": "kill_done_collect_left",
+      "positive_case": {
+        "evidence": {
+          "quest.kill_objective_complete": true,
+          "quest.collection_objective_incomplete": true,
+          "quest.only_collection_remaining": true
+        },
+        "slot_values": {
+          "remaining_objective": "[测试用已核实内容槽；验收不包含真实剧情]"
+        },
+        "expected_gate": "allow_if_all_global_checks_pass"
+      },
+      "hard_negative": {
+        "evidence": {
+          "quest.kill_objective_complete": true,
+          "quest.collection_objective_incomplete": true,
+          "quest.only_collection_remaining": false
+        },
+        "changed_fact": "quest.only_collection_remaining",
+        "scenario": "剩余其实是对话，不是收集",
+        "expected_gate": "reject",
+        "forbidden_delivery": "不得指挥继续收集",
+        "suggested_fallback_route": "dialogue_objective_route"
+      },
+      "test_kind": "paired_state_hand_authored",
+      "no_performance_claim": true
+    },
+    {
+      "id": "JN003",
+      "utterance": "两个分支只能选一个吗",
+      "candidate_id": "J0011",
+      "candidate_intent": "exclusive_branch",
+      "positive_case": {
+        "evidence": {
+          "dialogue.branches_explicitly_mutually_exclusive": true,
+          "dialogue.branch_outcomes_visible": true
+        },
+        "slot_values": {},
+        "expected_gate": "allow_if_all_global_checks_pass"
+      },
+      "hard_negative": {
+        "evidence": {
+          "dialogue.branches_explicitly_mutually_exclusive": false,
+          "dialogue.branch_outcomes_visible": true
+        },
+        "changed_fact": "dialogue.branches_explicitly_mutually_exclusive",
+        "scenario": "没有互斥证据，两个分支可以并行",
+        "expected_gate": "reject",
+        "forbidden_delivery": "不得声称选择会关掉另一条",
+        "suggested_fallback_route": "inspect_branch_rules"
+      },
+      "test_kind": "paired_state_hand_authored",
+      "no_performance_claim": true
+    },
+    {
+      "id": "JN004",
+      "utterance": "我只是想看看另一个选项",
+      "candidate_id": "J0012",
+      "candidate_intent": "preview_not_commit",
+      "positive_case": {
+        "evidence": {
+          "dialogue.current_option_preview_only": true,
+          "dialogue.commit_is_separate_and_visible": true
+        },
+        "slot_values": {},
+        "expected_gate": "allow_if_all_global_checks_pass"
+      },
+      "hard_negative": {
+        "evidence": {
+          "dialogue.current_option_preview_only": false,
+          "dialogue.commit_is_separate_and_visible": true
+        },
+        "changed_fact": "dialogue.current_option_preview_only",
+        "scenario": "当前按钮会直接不可逆提交",
+        "expected_gate": "reject",
+        "forbidden_delivery": "不得说可以先点开看看",
+        "suggested_fallback_route": "commit_warning_route"
+      },
+      "test_kind": "paired_state_hand_authored",
+      "no_performance_claim": true
+    },
+    {
+      "id": "JN005",
+      "utterance": "护送对象怎么一直不走",
+      "candidate_id": "J0021",
+      "candidate_intent": "escort_needs_start_dialogue",
+      "positive_case": {
+        "evidence": {
+          "escort.not_started": true,
+          "escort.explicit_start_option_visible": true,
+          "party.ready_or_solo": true
+        },
+        "slot_values": {},
+        "expected_gate": "allow_if_all_global_checks_pass"
+      },
+      "hard_negative": {
+        "evidence": {
+          "escort.not_started": true,
+          "escort.explicit_start_option_visible": false,
+          "party.ready_or_solo": true
+        },
+        "changed_fact": "escort.explicit_start_option_visible",
+        "scenario": "没有出发选项，当前正在遭受攻击",
+        "expected_gate": "reject",
+        "forbidden_delivery": "不得建议点不存在的开始按钮",
+        "suggested_fallback_route": "escort_combat_route"
+      },
+      "test_kind": "paired_state_hand_authored",
+      "no_performance_claim": true
+    },
+    {
+      "id": "JN006",
+      "utterance": "能给护送NPC加血吗",
+      "candidate_id": "J0025",
+      "candidate_intent": "escort_heal_allowed",
+      "positive_case": {
+        "evidence": {
+          "escort.target_healable": true,
+          "player.usable_heal_available": true,
+          "player.resource_sufficient": true,
+          "escort.health_below_requested_threshold": true
+        },
+        "slot_values": {},
+        "expected_gate": "allow_if_all_global_checks_pass"
+      },
+      "hard_negative": {
+        "evidence": {
+          "escort.target_healable": false,
+          "player.usable_heal_available": true,
+          "player.resource_sufficient": true,
+          "escort.health_below_requested_threshold": true
+        },
+        "changed_fact": "escort.target_healable",
+        "scenario": "对象明确不接受治疗",
+        "expected_gate": "reject",
+        "forbidden_delivery": "不得建议使用治疗",
+        "suggested_fallback_route": "escort_heal_not_allowed"
+      },
+      "test_kind": "paired_state_hand_authored",
+      "no_performance_claim": true
+    },
+    {
+      "id": "JN007",
+      "utterance": "任务物品点了变成圈怎么用",
+      "candidate_id": "J0031",
+      "candidate_intent": "item_ground_target",
+      "positive_case": {
+        "evidence": {
+          "item.ground_target_mode_active": true,
+          "quest.required_ground_area_identified": true,
+          "world.ground_target_within_required_area": true
+        },
+        "slot_values": {
+          "required_area": "[测试用已核实内容槽；验收不包含真实剧情]"
+        },
+        "expected_gate": "allow_if_all_global_checks_pass"
+      },
+      "hard_negative": {
+        "evidence": {
+          "item.ground_target_mode_active": true,
+          "quest.required_ground_area_identified": true,
+          "world.ground_target_within_required_area": false
+        },
+        "changed_fact": "world.ground_target_within_required_area",
+        "scenario": "选点圈当前位于任务要求区域外",
+        "expected_gate": "reject",
+        "forbidden_delivery": "不得确认当前落点可用",
+        "suggested_fallback_route": "reposition_targeting_area"
+      },
+      "test_kind": "paired_state_hand_authored",
+      "no_performance_claim": true
+    },
+    {
+      "id": "JN008",
+      "utterance": "目标已经虚弱了接下来呢",
+      "candidate_id": "J0040",
+      "candidate_intent": "item_ready_after_weaken",
+      "positive_case": {
+        "evidence": {
+          "item.requires_explicit_weakened_condition": true,
+          "target.condition_met": true,
+          "item.usable_on_current_target": true
+        },
+        "slot_values": {},
+        "expected_gate": "allow_if_all_global_checks_pass"
+      },
+      "hard_negative": {
+        "evidence": {
+          "item.requires_explicit_weakened_condition": true,
+          "target.condition_met": false,
+          "item.usable_on_current_target": true
+        },
+        "changed_fact": "target.condition_met",
+        "scenario": "目标仍未达到道具明确的削弱条件",
+        "expected_gate": "reject",
+        "forbidden_delivery": "不得立即使用消耗道具",
+        "suggested_fallback_route": "item_use_after_weaken"
+      },
+      "test_kind": "paired_state_hand_authored",
+      "no_performance_claim": true
+    },
+    {
+      "id": "JN009",
+      "utterance": "灯已经亮了还要按吗",
+      "candidate_id": "J0044",
+      "candidate_intent": "mechanism_activated_no_repeat",
+      "positive_case": {
+        "evidence": {
+          "mechanism.active": true,
+          "mechanism.repeat_interaction_turns_off": true,
+          "quest.next_step_unlocked": true
+        },
+        "slot_values": {},
+        "expected_gate": "allow_if_all_global_checks_pass"
+      },
+      "hard_negative": {
+        "evidence": {
+          "mechanism.active": true,
+          "mechanism.repeat_interaction_turns_off": false,
+          "quest.next_step_unlocked": true
+        },
+        "changed_fact": "mechanism.repeat_interaction_turns_off",
+        "scenario": "按钮不是切换开关，下一次会推进新阶段",
+        "expected_gate": "reject",
+        "forbidden_delivery": "不得套用重复会关闭的说法",
+        "suggested_fallback_route": "inspect_current_mechanism_action"
+      },
+      "test_kind": "paired_state_hand_authored",
+      "no_performance_claim": true
+    },
+    {
+      "id": "JN010",
+      "utterance": "两个开关需要同时按怎么办",
+      "candidate_id": "J0045",
+      "candidate_intent": "mechanism_two_people",
+      "positive_case": {
+        "evidence": {
+          "mechanism.simultaneous_two_activations_required": true,
+          "party.second_player_available": true,
+          "mechanism.controls_identified": true
+        },
+        "slot_values": {},
+        "expected_gate": "allow_if_all_global_checks_pass"
+      },
+      "hard_negative": {
+        "evidence": {
+          "mechanism.simultaneous_two_activations_required": false,
+          "party.second_player_available": true,
+          "mechanism.controls_identified": true
+        },
+        "changed_fact": "mechanism.simultaneous_two_activations_required",
+        "scenario": "已知要求是严格顺序触发",
+        "expected_gate": "reject",
+        "forbidden_delivery": "不得安排同时按",
+        "suggested_fallback_route": "mechanism_sequence_visible"
+      },
+      "test_kind": "paired_state_hand_authored",
+      "no_performance_claim": true
+    },
+    {
+      "id": "JN011",
+      "utterance": "我坐上去了怎么不能开",
+      "candidate_id": "J0052",
+      "candidate_intent": "vehicle_passenger_no_control",
+      "positive_case": {
+        "evidence": {
+          "vehicle.current_seat_passenger": true,
+          "vehicle.driver_controls_unavailable": true,
+          "vehicle.seat_rules_visible": true
+        },
+        "slot_values": {},
+        "expected_gate": "allow_if_all_global_checks_pass"
+      },
+      "hard_negative": {
+        "evidence": {
+          "vehicle.current_seat_passenger": false,
+          "vehicle.driver_controls_unavailable": true,
+          "vehicle.seat_rules_visible": true
+        },
+        "changed_fact": "vehicle.current_seat_passenger",
+        "scenario": "玩家在驾驶位，问题是资源不足",
+        "expected_gate": "reject",
+        "forbidden_delivery": "不得说没有驾驶控制权",
+        "suggested_fallback_route": "vehicle_resource_empty"
+      },
+      "test_kind": "paired_state_hand_authored",
+      "no_performance_claim": true
+    },
+    {
+      "id": "JN012",
+      "utterance": "怎么从载具下来",
+      "candidate_id": "J0053",
+      "candidate_intent": "vehicle_exit_safe",
+      "positive_case": {
+        "evidence": {
+          "vehicle.confirmed_active": true,
+          "vehicle.stationary_safe_exit_confirmed": true,
+          "vehicle.exit_control_available": true
+        },
+        "slot_values": {},
+        "expected_gate": "allow_if_all_global_checks_pass"
+      },
+      "hard_negative": {
+        "evidence": {
+          "vehicle.confirmed_active": true,
+          "vehicle.stationary_safe_exit_confirmed": false,
+          "vehicle.exit_control_available": true
+        },
+        "changed_fact": "vehicle.stationary_safe_exit_confirmed",
+        "scenario": "载具处于空中且没有安全退出保护",
+        "expected_gate": "reject",
+        "forbidden_delivery": "不得建议立即退出",
+        "suggested_fallback_route": "vehicle_exit_in_air"
+      },
+      "test_kind": "paired_state_hand_authored",
+      "no_performance_claim": true
+    },
+    {
+      "id": "JN013",
+      "utterance": "这个物品只差声望了吗",
+      "candidate_id": "J0061",
+      "candidate_intent": "reputation_only_gate",
+      "positive_case": {
+        "evidence": {
+          "vendor.only_unmet_requirement_reputation": true,
+          "vendor.reputation_threshold_visible": true
+        },
+        "slot_values": {},
+        "expected_gate": "allow_if_all_global_checks_pass"
+      },
+      "hard_negative": {
+        "evidence": {
+          "vendor.only_unmet_requirement_reputation": false,
+          "vendor.reputation_threshold_visible": true
+        },
+        "changed_fact": "vendor.only_unmet_requirement_reputation",
+        "scenario": "当前同时缺等级和声望",
+        "expected_gate": "reject",
+        "forbidden_delivery": "不得说其他条件已满足",
+        "suggested_fallback_route": "list_actual_unmet_requirements"
+      },
+      "test_kind": "paired_state_hand_authored",
+      "no_performance_claim": true
+    },
+    {
+      "id": "JN014",
+      "utterance": "坐标到了怎么见不到任务点",
+      "candidate_id": "J0071",
+      "candidate_intent": "map_same_xy_different_floor",
+      "positive_case": {
+        "evidence": {
+          "map.horizontal_position_matches": true,
+          "map.floor_differs": true,
+          "world.route_to_required_floor_known": true
+        },
+        "slot_values": {},
+        "expected_gate": "allow_if_all_global_checks_pass"
+      },
+      "hard_negative": {
+        "evidence": {
+          "map.horizontal_position_matches": true,
+          "map.floor_differs": false,
+          "world.route_to_required_floor_known": true
+        },
+        "changed_fact": "map.floor_differs",
+        "scenario": "楼层相同，实际为不同任务阶段",
+        "expected_gate": "reject",
+        "forbidden_delivery": "不得指挥找楼梯换层",
+        "suggested_fallback_route": "phase_quest_unlock"
+      },
+      "test_kind": "paired_state_hand_authored",
+      "no_performance_claim": true
+    },
+    {
+      "id": "JN015",
+      "utterance": "这条读条轮到我断吗",
+      "candidate_id": "J0082",
+      "candidate_intent": "cast_interrupt_assigned",
+      "positive_case": {
+        "evidence": {
+          "encounter.cast_interruptible": true,
+          "party.assignment_current_interrupt_is_player": true,
+          "player.interrupt_ready": true,
+          "target.matches_assigned_caster": true
+        },
+        "slot_values": {
+          "assigned_target": "[测试用已核实内容槽；验收不包含真实剧情]"
+        },
+        "expected_gate": "allow_if_all_global_checks_pass"
+      },
+      "hard_negative": {
+        "evidence": {
+          "encounter.cast_interruptible": false,
+          "party.assignment_current_interrupt_is_player": true,
+          "player.interrupt_ready": true,
+          "target.matches_assigned_caster": true
+        },
+        "changed_fact": "encounter.cast_interruptible",
+        "scenario": "本次读条明确不可打断",
+        "expected_gate": "reject",
+        "forbidden_delivery": "不得交打断",
+        "suggested_fallback_route": "cast_not_interruptible"
+      },
+      "test_kind": "paired_state_hand_authored",
+      "no_performance_claim": true
+    },
+    {
+      "id": "JN016",
+      "utterance": "这条效果要求离开队友吗",
+      "candidate_id": "J0085",
+      "candidate_intent": "debuff_spread",
+      "positive_case": {
+        "evidence": {
+          "debuff.explicit_spread_or_nearby_harm": true,
+          "encounter.required_spacing_known": true,
+          "player.has_debuff": true
+        },
+        "slot_values": {},
+        "expected_gate": "allow_if_all_global_checks_pass"
+      },
+      "hard_negative": {
+        "evidence": {
+          "debuff.explicit_spread_or_nearby_harm": false,
+          "encounter.required_spacing_known": true,
+          "player.has_debuff": true
+        },
+        "changed_fact": "debuff.explicit_spread_or_nearby_harm",
+        "scenario": "当前机制明确要求靠近队友分摊",
+        "expected_gate": "reject",
+        "forbidden_delivery": "不得让玩家分散",
+        "suggested_fallback_route": "mechanic_stack"
+      },
+      "test_kind": "paired_state_hand_authored",
+      "no_performance_claim": true
+    },
+    {
+      "id": "JN017",
+      "utterance": "我有同名物品为什么交不了",
+      "candidate_id": "J0102",
+      "candidate_intent": "item_same_name_wrong_variant",
+      "positive_case": {
+        "evidence": {
+          "item.name_matches_requirement": true,
+          "item.identifier_does_not_match_requirement": true
+        },
+        "slot_values": {},
+        "expected_gate": "allow_if_all_global_checks_pass"
+      },
+      "hard_negative": {
+        "evidence": {
+          "item.name_matches_requirement": true,
+          "item.identifier_does_not_match_requirement": false
+        },
+        "changed_fact": "item.identifier_does_not_match_requirement",
+        "scenario": "物品标识相同，只有存放位置不符合要求",
+        "expected_gate": "reject",
+        "forbidden_delivery": "不得断言拿错版本",
+        "suggested_fallback_route": "quest_item_bank_not_bag"
+      },
+      "test_kind": "paired_state_hand_authored",
+      "no_performance_claim": true
+    },
+    {
+      "id": "JN018",
+      "utterance": "打过了为什么挑战没记",
+      "candidate_id": "J0112",
+      "candidate_intent": "legacy_wrong_difficulty",
+      "positive_case": {
+        "evidence": {
+          "legacy.required_mode_known": true,
+          "encounter.completed_mode_differs": true
+        },
+        "slot_values": {},
+        "expected_gate": "allow_if_all_global_checks_pass"
+      },
+      "hard_negative": {
+        "evidence": {
+          "legacy.required_mode_known": true,
+          "encounter.completed_mode_differs": false
+        },
+        "changed_fact": "encounter.completed_mode_differs",
+        "scenario": "模式相同，账号记录仍在同步",
+        "expected_gate": "reject",
+        "forbidden_delivery": "不得要求重打另一模式",
+        "suggested_fallback_route": "legacy_counter_pending_sync"
+      },
+      "test_kind": "paired_state_hand_authored",
+      "no_performance_claim": true
+    },
+    {
+      "id": "JN019",
+      "utterance": "接着刚才那段讲",
+      "candidate_id": "J0132",
+      "candidate_intent": "continue_exact_cursor",
+      "positive_case": {
+        "evidence": {
+          "story.explicit_delivery_cursor_available": true,
+          "story.next_verified_segment_ready": true,
+          "user.requests_continue": true
+        },
+        "slot_values": {
+          "next_story_segment": "[测试用已核实内容槽；验收不包含真实剧情]"
+        },
+        "expected_gate": "allow_if_all_global_checks_pass"
+      },
+      "hard_negative": {
+        "evidence": {
+          "story.explicit_delivery_cursor_available": false,
+          "story.next_verified_segment_ready": true,
+          "user.requests_continue": true
+        },
+        "changed_fact": "story.explicit_delivery_cursor_available",
+        "scenario": "没有传入上一段或送达游标，无法知道讲到哪里",
+        "expected_gate": "reject",
+        "forbidden_delivery": "不得假装从正确断点续讲",
+        "suggested_fallback_route": "request_last_sentence_or_topic"
+      },
+      "test_kind": "paired_state_hand_authored",
+      "no_performance_claim": true
+    },
+    {
+      "id": "JN020",
+      "utterance": "后来呢",
+      "candidate_id": "J0136",
+      "candidate_intent": "ending_requested",
+      "positive_case": {
+        "evidence": {
+          "story.verified_ending_ready": true,
+          "user.explicit_major_spoiler_consent": true
+        },
+        "slot_values": {
+          "verified_ending": "[测试用已核实内容槽；验收不包含真实剧情]"
+        },
+        "expected_gate": "allow_if_all_global_checks_pass"
+      },
+      "hard_negative": {
+        "evidence": {
+          "story.verified_ending_ready": true,
+          "user.explicit_major_spoiler_consent": false
+        },
+        "changed_fact": "user.explicit_major_spoiler_consent",
+        "scenario": "当前仍限定只讲开头，这句追问未明确同意揭示结局",
+        "expected_gate": "reject",
+        "forbidden_delivery": "不得输出重剧透槽位",
+        "suggested_fallback_route": "respect_current_spoiler_limit"
+      },
+      "test_kind": "paired_state_hand_authored",
+      "no_performance_claim": true
+    }
+  ],
+  "validation": {
+    "card_count": 160,
+    "question_examples": 640,
+    "answer_candidates": 320,
+    "categories": {
+      "任务目标细分": 10,
+      "任务分支与结算": 10,
+      "护送与同行细节": 10,
+      "任务物品具体交互": 10,
+      "机关与谜题操作": 10,
+      "载具与临时控制": 10,
+      "声望与准入条件": 10,
+      "位置与任务阶段": 10,
+      "副本机制观测": 10,
+      "队伍机制配合": 10,
+      "任务异常定位": 10,
+      "传承与成就进度": 10,
+      "剧情视角与证据": 10,
+      "剧情讲述节奏": 10,
+      "世界对象与环境线索": 10,
+      "多任务与时间安排": 10
+    },
+    "can_auto_trigger_true": 0,
+    "all_have_guards": true,
+    "duplicate_intents_vs_gameplay_root": 0,
+    "duplicate_primary_questions_vs_gameplay_root": 0,
+    "hard_negative_pairs": 20,
+    "positive_guard_fixtures_allowed": 20,
+    "negative_guard_fixtures_rejected": 20,
+    "validation_scope": "本地结构/条件表达式检查；未调用模型、未测召回、未连接游戏，也未证明逻辑证据映射正确。"
+  }
+}

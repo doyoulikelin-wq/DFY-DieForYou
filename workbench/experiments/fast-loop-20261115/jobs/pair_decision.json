@@ -1,0 +1,54 @@
+{
+  "id": "pair_decision",
+  "role": "decision",
+  "effort": "low",
+  "requested_model": "gpt-6.1-sol",
+  "round": "R1",
+  "kind": "pair_decision",
+  "input_messages": [
+    {
+      "id": "R1-STATE",
+      "from": "coordinator_message",
+      "body": {
+        "snapshot": {
+          "observation_id": "FAST-R1-OBS",
+          "player": {
+            "race": "兽人",
+            "class": "萨满",
+            "level": 1,
+            "zone": "试炼谷",
+            "hp": 100,
+            "max_hp": 100,
+            "mana": 100,
+            "max_mana": 100,
+            "in_combat": false
+          },
+          "target": null,
+          "quest_offer": null,
+          "quest_log": [],
+          "known_spell": null,
+          "unknown": [
+            "nearby_npcs",
+            "spellbook",
+            "bags",
+            "map",
+            "keybindings",
+            "server_rules"
+          ]
+        },
+        "state_version": 1,
+        "memory_version": 0,
+        "explicit_preference": null
+      }
+    },
+    {
+      "id": "R1-USER",
+      "from": "simulated_user",
+      "body": "我刚出生，完全不知道要干嘛，能不能带着我玩？"
+    }
+  ],
+  "expected_state_version": 1,
+  "token_usage": null,
+  "input_sha256": "325f62a4dc28429da354afee95fcaa71df5ba889ca5797012959e0b073e08fd2",
+  "dispatch_unix_ms": 1794684170896.812
+}

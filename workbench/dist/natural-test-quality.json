@@ -1,0 +1,248 @@
+{
+  "reviewer": {
+    "requested_model": "gpt-6.1-sol",
+    "effort": "medium",
+    "type": "offline_model_review_not_human"
+  },
+  "cases": [
+    {
+      "job_id": "r1-spawn-low-model",
+      "factual_pass": true,
+      "task_pass": true,
+      "naturalness": "adequate",
+      "persona": "subtle",
+      "checks": [
+        {
+          "name": "事实边界",
+          "pass": true,
+          "note": "地点和空任务栏有依据；附近人物作为未知询问。"
+        },
+        {
+          "name": "可靠起步与追问",
+          "pass": true,
+          "note": "查看附近可交谈人物是安全起步；只问一个可确定下一步的问题。"
+        },
+        {
+          "name": "自然与角色",
+          "pass": true,
+          "note": "语气轻巧，有轻微好奇感；角色辨识度有限。"
+        }
+      ],
+      "issues": [],
+      "suggested_change": "可略减状态复述，让第一步更轻快；不补人物或方向。"
+    },
+    {
+      "job_id": "r2-temporary-low-model",
+      "factual_pass": true,
+      "task_pass": true,
+      "naturalness": "strong",
+      "persona": "absent",
+      "checks": [
+        {
+          "name": "临时偏好范围",
+          "pass": true,
+          "note": "本次简短，未将要求写成长期偏好。"
+        },
+        {
+          "name": "动作前置条件",
+          "pass": true,
+          "note": "正确利用已在营地且A可交付的信息。"
+        },
+        {
+          "name": "自然与追问",
+          "pass": true,
+          "note": "直接可执行，没有重复确认。"
+        }
+      ],
+      "issues": [],
+      "suggested_change": "无需实质修改；本次极短要求下不必强加角色修饰。"
+    },
+    {
+      "job_id": "r3-reference-low-model",
+      "factual_pass": true,
+      "task_pass": true,
+      "naturalness": "adequate",
+      "persona": "absent",
+      "checks": [
+        {
+          "name": "指代与事实",
+          "pass": true,
+          "note": "正确承接A，未编造守卫姓名或坐标。"
+        },
+        {
+          "name": "下一步与追问",
+          "pass": true,
+          "note": "直接给出寻找守卫并交谈，无多余澄清。"
+        },
+        {
+          "name": "自然与角色",
+          "pass": true,
+          "note": "表述清楚但偏任务指令，角色感不明显。"
+        }
+      ],
+      "issues": [
+        "“推进A任务”略显系统说明口吻。"
+      ],
+      "suggested_change": "可改为“那就先找营地里的守卫，跟他聊聊吧。”"
+    },
+    {
+      "job_id": "r4-quiet-low-model",
+      "factual_pass": true,
+      "task_pass": false,
+      "naturalness": "adequate",
+      "persona": "absent",
+      "checks": [
+        {
+          "name": "事实与陪伴边界",
+          "pass": true,
+          "note": "未假称看见天空，也未推断用户情绪。"
+        },
+        {
+          "name": "停留与留白",
+          "pass": true,
+          "note": "尊重停留意愿，没有催任务或继续提问。"
+        },
+        {
+          "name": "好奇小女孩特征",
+          "pass": false,
+          "note": "只有通用陪伴确认，缺少本例明确要求的轻微想象、感叹或兴趣。"
+        }
+      ],
+      "issues": [
+        "回复过于简化，虽安全自然，却漏掉本例核心角色要求。"
+      ],
+      "suggested_change": "可改为“好呀，我陪你待一会儿。说不定发会儿呆，也会冒出个奇奇怪怪的念头。”用明确猜想体现轻微好奇，不补画面。"
+    },
+    {
+      "job_id": "r5-frustration-low-model",
+      "factual_pass": true,
+      "task_pass": true,
+      "naturalness": "strong",
+      "persona": "subtle",
+      "checks": [
+        {
+          "name": "情绪事实边界",
+          "pass": true,
+          "note": "只回应用户明说的三次失败与烦躁。"
+        },
+        {
+          "name": "当前需求与陪伴",
+          "pass": true,
+          "note": "尊重不听攻略，没有追问分析或承诺持续监测。"
+        },
+        {
+          "name": "自然与角色",
+          "pass": true,
+          "note": "温和口语自然，角色特征仅轻微可感。"
+        }
+      ],
+      "issues": [],
+      "suggested_change": "无需实质修改；此处不宜为强化好奇而追加问题。"
+    },
+    {
+      "job_id": "r6-server-low-model",
+      "factual_pass": false,
+      "task_pass": false,
+      "naturalness": "adequate",
+      "persona": "subtle",
+      "checks": [
+        {
+          "name": "倍率与规则边界",
+          "pass": true,
+          "note": "未确认十倍，分别使用不同倍率也明确为可能。"
+        },
+        {
+          "name": "轻量核实路径",
+          "pass": true,
+          "note": "索取实际经验与耗时，数据请求与问题相关。"
+        },
+        {
+          "name": "样本比较范围",
+          "pass": false,
+          "note": "“有这两组数就能比谁升级快”把两次收益率比较扩大成一般升级效率结论。"
+        },
+        {
+          "name": "自然与追问",
+          "pass": true,
+          "note": "问题集中且必要，但结尾过于肯定。"
+        }
+      ],
+      "issues": [
+        "两组样本只能比较那两次的经验获取率；不足以判断刷怪或任务普遍更快。"
+      ],
+      "suggested_change": "将末句改为“有这两组数，我们可以先比比那两次每分钟拿到的经验，再看是否适合继续照着做。”"
+    },
+    {
+      "job_id": "r7-conflict-low-model",
+      "factual_pass": true,
+      "task_pass": true,
+      "naturalness": "strong",
+      "persona": "absent",
+      "checks": [
+        {
+          "name": "来源与冲突保留",
+          "pass": true,
+          "note": "区分旧快照中的A、B与用户看到三个，未提前裁定真实数量。"
+        },
+        {
+          "name": "刷新动作",
+          "pass": true,
+          "note": "通过tool_request请求可用的get_quest_log，无需再次授权。"
+        },
+        {
+          "name": "进度回复边界",
+          "pass": true,
+          "note": "仅说明将刷新；不能把本回复视作已核对完成。"
+        }
+      ],
+      "issues": [],
+      "suggested_change": "无需实质修改；最终核对结论必须等待刷新返回。"
+    },
+    {
+      "job_id": "r8-complex-low-model",
+      "factual_pass": true,
+      "task_pass": true,
+      "naturalness": "adequate",
+      "persona": "absent",
+      "checks": [
+        {
+          "name": "事实与任务前置条件",
+          "pass": true,
+          "note": "准确保留A交付后才能接B，未合并第一次东侧行程。"
+        },
+        {
+          "name": "安全首段计划",
+          "pass": true,
+          "note": "作为首个progress回复，A后回营地交付的短计划可执行；后续未默认全做。"
+        },
+        {
+          "name": "时间与经验不确定性",
+          "pass": true,
+          "note": "未虚构耗时、奖励或等级，也未把地图单位换成分钟。"
+        },
+        {
+          "name": "条件分支表达",
+          "pass": true,
+          "note": "已将后续留待实际路线与耗时确认；剩余时间分支尚可表达得更明确。"
+        },
+        {
+          "name": "自然与角色",
+          "pass": true,
+          "note": "清楚但信息较密，语气偏规划助手，缺乏明显角色感。"
+        }
+      ],
+      "issues": [
+        "未明确说明先做A的依据仅是图上东侧较近，实际道路仍未知。",
+        "后续“看路线和耗时”较笼统，可直接关联交付A后的剩余时间。"
+      ],
+      "suggested_change": "补成“图上东侧离营地较近，先做A再回营地交；B这时才能接。交完看还剩多久，再决定接B、去C或收尾。实际路程和任务耗时还不清楚，能升几级也暂时算不出。”"
+    }
+  ],
+  "cross_case_issues": [
+    "安全边界整体较稳，但多数回复呈通用任务助手口吻，好奇小女孩特征偏弱；不应靠每句追问或幼儿化措辞补足。",
+    "R4漏掉明确角色要求，说明极短回复可能牺牲必要内容；简短本身不等于语义通过。",
+    "R6需区分局部样本收益率与可泛化效率判断，避免把轻量核实办法写成充分证据。",
+    "R7与R8均为progress，应按当前阶段评估；R7尚无刷新结果，R8尚非完整最终规划。",
+    "规则闸门accepted不代表语义通过；本审阅仅覆盖给定合成案例及候选，不代表真实玩家评价。"
+  ]
+}

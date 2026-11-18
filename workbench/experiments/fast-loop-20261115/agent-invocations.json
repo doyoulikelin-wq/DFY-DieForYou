@@ -1,0 +1,65 @@
+[
+  {
+    "job_id": "pair_decision",
+    "agent_task": "/root/fast_pair_decision",
+    "model_requested": "gpt-6.1-sol",
+    "reasoning_effort": "low",
+    "fork_turns": "none",
+    "channel": "collaboration.spawn_agent",
+    "provider_resolved_model": null
+  },
+  {
+    "job_id": "pair_review",
+    "agent_task": "/root/fast_pair_review",
+    "model_requested": "gpt-6.1-sol",
+    "reasoning_effort": "low",
+    "fork_turns": "none",
+    "channel": "collaboration.spawn_agent",
+    "provider_resolved_model": null
+  },
+  {
+    "job_id": "pair_execution",
+    "agent_task": "/root/fast_pair_execution",
+    "model_requested": "gpt-6.1-sol",
+    "reasoning_effort": "low",
+    "fork_turns": "none",
+    "channel": "collaboration.spawn_agent",
+    "provider_resolved_model": null
+  },
+  {
+    "job_id": "async_reflection",
+    "agent_task": "/root/fast_async_reflection",
+    "model_requested": "gpt-6.1-sol",
+    "reasoning_effort": "high",
+    "fork_turns": "none",
+    "channel": "collaboration.spawn_agent",
+    "provider_resolved_model": null
+  },
+  {
+    "job_id": "async_memory",
+    "agent_task": "/root/fast_async_memory",
+    "model_requested": "gpt-6.1-sol",
+    "reasoning_effort": "medium",
+    "fork_turns": "none",
+    "channel": "collaboration.spawn_agent",
+    "provider_resolved_model": null
+  },
+  {
+    "job_id": "stale_decision",
+    "agent_task": "/root/fast_stale_decision",
+    "model_requested": "gpt-6.1-sol",
+    "reasoning_effort": "low",
+    "fork_turns": "none",
+    "channel": "collaboration.spawn_agent",
+    "provider_resolved_model": null
+  },
+  {
+    "job_id": "memory_race",
+    "agent_task": "/root/fast_memory_race",
+    "model_requested": "gpt-6.1-sol",
+    "reasoning_effort": "medium",
+    "fork_turns": "none",
+    "channel": "collaboration.spawn_agent",
+    "provider_resolved_model": null
+  }
+]

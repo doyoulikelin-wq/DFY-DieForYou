@@ -1,0 +1,42 @@
+{
+  "id": "memory_race",
+  "role": "memory",
+  "effort": "medium",
+  "requested_model": "gpt-6.1-sol",
+  "kind": "memory_concurrency_probe",
+  "round": "R2",
+  "input_messages": [
+    {
+      "id": "OLD-PREFERENCE",
+      "from": "simulated_user",
+      "body": {
+        "source_quote": "先教我一步",
+        "base_memory_version": 0,
+        "scope": "current_turn"
+      }
+    }
+  ],
+  "token_usage": null,
+  "dispatch_unix_ms": 1794684363392.6406,
+  "output": {
+    "base_memory_version": 0,
+    "preference": {
+      "text": "当前轮次先教我一步",
+      "source_quote": "先教我一步",
+      "value": {
+        "max_steps": 1
+      },
+      "scope": "current_turn"
+    }
+  },
+  "completed_unix_ms": 1794684378180,
+  "collected_unix_ms": 1794684379014.621,
+  "duration_ms": 14787.359375,
+  "status": "completed",
+  "issues": [],
+  "commit_result": {
+    "accepted": false,
+    "reason": "memory_version_mismatch",
+    "memory_version": 1
+  }
+}

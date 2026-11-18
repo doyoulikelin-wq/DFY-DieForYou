@@ -1,0 +1,581 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="魔兽陪伴精灵的低延迟多 Agent 链路设计。点击流程模块查看职责、权限、模型预算、信息链路、日志格式与验收条件。">
+  <meta name="theme-color" content="#f5f7fa">
+  <title>陪伴精灵 · 更快的陪伴链路</title>
+  <style>
+    :root{--ink:#233349;--muted:#65758b;--faint:#8c98aa;--line:#e1e7ef;--paper:#fff;--bg:#f5f7fa;--green:#167f73;--green-soft:#edf7f3;--purple:#7355ad;--purple-soft:#f5f1fb;--blue:#4e729e;--orange:#a57535;--route:#258c7c;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;color:var(--ink);background:var(--bg);font-synthesis:none;line-height:1.5}
+    *{box-sizing:border-box}body{margin:0}button,select{font:inherit;color:inherit}button,a,select,summary{-webkit-tap-highlight-color:transparent}button{cursor:pointer}a{color:var(--green);text-decoration:none}a:hover{text-decoration:underline}button:focus-visible,a:focus-visible,select:focus-visible,summary:focus-visible,[tabindex]:focus-visible{outline:3px solid #57ad9e;outline-offset:4px}h1,h2,h3,p{margin:0}button{border:0}svg{display:block}button svg,a svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}.skip-link{position:fixed;top:-100px;left:20px;z-index:60;background:#fff;padding:12px 18px;border:2px solid var(--green);border-radius:8px}.skip-link:focus{top:12px}
+    .app-header{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:19px 30px;border-bottom:1px solid var(--line);background:#fff}.brand{display:flex;align-items:center;gap:12px}.brand-mark{display:grid;grid-template-columns:repeat(3,5px);gap:4px;place-content:center;width:36px;height:36px;background:#edf6f3;border-radius:11px;transform:rotate(-9deg)}.brand-mark i{width:5px;height:5px;background:#69ad9c;border-radius:2px}.brand-mark i:nth-child(3n){background:#8eabc2}.brand-mark i:nth-child(5){background:#9b84bd}.brand-name{font-size:16px;font-weight:700;letter-spacing:.04em}.brand-sub{font-size:10px;color:var(--faint);letter-spacing:.12em;margin-top:2px}.header-links{display:flex;align-items:center;gap:20px;font-size:12px}.header-links a{display:flex;align-items:center;gap:7px;color:#66758a}.header-links .current{padding:6px 10px;border:1px solid #e6eaf0;border-radius:7px;color:var(--faint);font-size:10px;white-space:nowrap}
+    .layout{max-width:1560px;margin:auto;display:grid;grid-template-columns:minmax(0,1fr) 392px;align-items:start}.main{min-width:0;padding:30px 30px 28px}.intro{max-width:960px;margin:0 auto 20px}.eyebrow{font-size:10px;letter-spacing:.15em;color:var(--green);font-weight:700}.intro h1{font-size:27px;letter-spacing:.015em;line-height:1.4;margin:6px 0 8px;font-weight:690}.intro .lead{font-size:12px;line-height:1.9;color:var(--muted);max-width:640px}.design-status{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;margin-top:14px;font-size:10px;color:#8b795c}.status-dot{width:6px;height:6px;background:#bfa77e;border-radius:50%;display:inline-block;margin-right:6px}.version{color:var(--faint);padding-right:12px;border-right:1px solid #dce2eb}.target-strip{display:flex;flex-wrap:wrap;gap:7px 14px;margin-top:14px;font-size:10px;color:#7a889b}.target-strip b{font-weight:600;color:#596d83}.target-strip .target-key{color:var(--green)}
+    .canvas{max-width:960px;margin:auto;border:1px solid var(--line);border-radius:17px;background:#fff;overflow:hidden;box-shadow:0 5px 23px #23334904}.canvas-toolbar{display:flex;align-items:center;justify-content:space-between;gap:15px;padding:16px 21px;border-bottom:1px solid #edf0f5;background:#fff}.canvas-toolbar h2{font-size:12px;font-weight:650}.canvas-toolbar p{color:var(--faint);font-size:10px;margin-top:3px}.scenario-control{display:flex;gap:8px;align-items:center;font-size:10px;color:#79869a}.scenario-control select{min-width:134px;max-width:190px;border:1px solid #e0e7ed;background:#fbfcfd;padding:8px 28px 8px 10px;border-radius:7px;font-size:11px;cursor:pointer}
+    .flow{position:relative;padding:23px 25px 21px;background-image:radial-gradient(#dfe6ed .7px,transparent .7px);background-size:19px 19px}.flow-node{position:relative;display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:13px 15px;background:#fff;border:1px solid #dce4eb;border-radius:11px;box-shadow:0 3px 10px #23334903;transition:border-color .15s,box-shadow .15s,opacity .15s;z-index:1;min-width:0}.flow-node:hover{border-color:#95bfb6;box-shadow:0 4px 15px #2333490c}.flow-node.selected{border-color:var(--green);box-shadow:0 0 0 3px #268d7d15}.flow-node.on-route{border-color:#6fae9f;background:#fbfefd}.flow-node.off-route{opacity:.46}.flow-node.off-route:hover,.flow-node.off-route:focus-visible{opacity:1}.flow-node.selected.off-route{opacity:1}.node-icon{width:30px;height:30px;background:#f1f5f9;color:#7990aa;display:grid;place-content:center;border-radius:9px;flex:none;font-size:13px;font-weight:550}.node-icon svg{width:17px;height:17px}.node-text{min-width:0;flex:1}.node-title{display:block;font-size:13px;font-weight:650;line-height:1.5}.node-sub{display:block;font-size:10px;color:#7f8b9e;line-height:1.65;margin-top:3px}.node-corner{font-size:9px;color:#8c99aa;white-space:nowrap;align-self:flex-start;margin-top:3px}.center-step{width:65%;max-width:390px;margin:auto}.center-step.narrow{width:56%;max-width:340px}.stem{height:19px;width:1px;background:#c8d3dd;margin:auto;position:relative}.stem:after{content:"";position:absolute;bottom:0;left:-2.5px;width:6px;height:6px;border-right:1px solid #b7c7d1;border-bottom:1px solid #b7c7d1;transform:rotate(45deg)}.stem.active{background:#6aa897}.stem.active:after{border-color:#6aa897}.code-icon{background:#eef6f5;color:#428f82}.route-icon{background:#eef4fb;color:#6489b4}.agent-icon{background:var(--purple-soft);color:#997bc3}.branches{position:relative;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));padding:19px 0 24px}.branches:before,.branches:after{content:"";position:absolute;height:1px;background:#c6d1dc;left:16.666%;right:16.666%}.branches:before{top:0}.branches:after{bottom:0}.branch{position:relative;min-width:0;padding:0 7px;display:flex}.branch:before,.branch:after{content:"";position:absolute;width:1px;background:#c6d1dc;left:50%}.branch:before{top:-19px;height:19px}.branch:after{bottom:-24px;height:24px}.branch.chosen:before,.branch.chosen:after{background:#5a9c8b;width:2px}.branch .flow-node{min-height:144px;display:flex;flex-direction:column;align-items:flex-start;gap:10px;padding:14px}.branch .node-text{width:100%}.branch-head{display:flex;justify-content:space-between;align-items:center;width:100%;gap:6px}.branch-label{font-size:9px;color:#8a97a8}.branch .node-title{font-size:14px}.branch .node-sub{font-size:10px}.node-meta{display:flex;flex-wrap:wrap;gap:5px;align-items:center;color:#8794a7;font-size:9px;line-height:1.6}.tag{display:inline-flex;padding:2px 6px;border-radius:4px;background:#f3f6f9;color:#718297;white-space:nowrap}.tag.green{background:var(--green-soft);color:#4d8c7c}.tag.purple{background:var(--purple-soft);color:#977ab6}.fork-mobile,.merge-mobile{display:none}.send-node .node-sub{color:#758c85}.delivery-note{font-size:9px;color:#8e9bab;text-align:center;margin:8px 0 0}.background-stem{height:23px;background:repeating-linear-gradient(to bottom,#b7cabe 0,#b7cabe 4px,transparent 4px,transparent 8px)}.background-group{position:relative;padding:12px 15px 12px;border:1px dashed #d5e3da;background:#f6faf8c9;border-radius:12px}.background-heading{display:flex;justify-content:space-between;gap:10px;align-items:center;font-size:9px;color:#79988a;margin-bottom:12px}.background-title{font-weight:650;letter-spacing:.04em}.background-pair{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:12px}.background-pair .flow-node{padding:11px 12px;background:#fff;min-height:66px;box-shadow:none}.background-pair .node-title{font-size:12px}.background-pair .node-sub{font-size:9px}.background-pair .node-icon{width:26px;height:26px}.background-note{font-size:9px;color:#8b9b91;margin-top:10px;text-align:center}.graph-footnote{display:flex;align-items:flex-start;gap:7px;margin-top:17px;font-size:10px;color:#8391a2;line-height:1.8}.graph-footnote svg{width:14px;height:14px;fill:none;stroke:#8c9aa9;stroke-width:1.5;flex:none;margin-top:3px}.scenario-preview{border-top:1px solid #edf0f4;background:#fbfcfe;padding:15px 21px;font-size:11px;line-height:1.85}.scenario-preview .hint{color:#8a96a7}.scenario-preview .preview-head{display:flex;align-items:center;gap:8px;margin-bottom:7px;font-size:10px;color:#7d8c9e}.scenario-preview .example-badge{color:#9a8059;background:#f7f1e7;padding:2px 6px;border-radius:4px;font-size:9px}.scenario-preview .hypothesis{color:#7c8a9c;font-size:10px}.scenario-preview blockquote{margin:9px 0 7px;padding:0 0 0 12px;border-left:2px solid #b6d6cb;font-size:13px;color:#3b6158;line-height:1.8}.scenario-preview .path-note{font-size:10px;color:#84909f}.footer-hint{font-size:10px;line-height:1.8;display:flex;justify-content:space-between;gap:14px;margin:12px auto 0;max-width:960px;color:#929eae}.footer-hint a{color:#7c8c9f}
+    .specs{max-width:960px;margin:23px auto 0;border-top:1px solid #dfe6ee;color:#758399}.specs>summary{cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:12px;list-style:none;padding:15px 1px;font-size:11px}.specs>summary::-webkit-details-marker{display:none}.specs>summary:after{content:"+";color:#8c9bab;font-size:18px}.specs[open]>summary:after{content:"−"}.specs-content{border:1px solid #e2e8ef;background:#fff;border-radius:12px;padding:22px;font-size:11px;line-height:1.9}.specs-content h3{font-size:13px;margin:19px 0 8px;color:#465a71}.specs-content h3:first-child{margin-top:0}.specs-content p+p{margin-top:9px}.specs-content ul,.specs-content ol{padding-left:19px;margin:8px 0}.specs-content li{margin:5px 0}.specs-content .source-links{display:grid;gap:6px}.specs-content .source-links a{overflow-wrap:anywhere}.specs-content table{width:100%;border-collapse:collapse;margin-top:9px;font-size:10px}.specs-content th,.specs-content td{padding:9px 8px;text-align:left;vertical-align:top;border-bottom:1px solid #edf0f5}.specs-content th{background:#f6f8fb;color:#5f7189;font-weight:600}.specs-content code{font-size:10px;overflow-wrap:anywhere}.evidence-note{padding:11px 13px;background:#faf7f1;border-radius:8px;color:#96805d;margin:10px 0}
+    .detail-panel{position:sticky;top:0;height:100dvh;background:#fff;border-left:1px solid var(--line);overflow:auto;scrollbar-width:thin;scrollbar-color:#dce4eb #fff;z-index:20}.detail-header{padding:29px 24px 20px;background:linear-gradient(145deg,#f3f8f6 0,#fff 80%);border-bottom:1px solid #edf0f4}.module-label{font-size:9px;letter-spacing:.13em;color:var(--green);font-weight:650;margin-bottom:10px}.detail-title-row{display:flex;justify-content:space-between;align-items:center;gap:12px}.detail-title-row h2{font-size:22px;font-weight:650;line-height:1.45;letter-spacing:.01em}.detail-header p{font-size:11px;color:#7c8b9e;line-height:1.95;margin-top:11px}.detail-type{display:inline-flex;font-size:9px;color:#669481;border:1px solid #dcebe2;background:#f6fbf8;padding:4px 7px;border-radius:5px;margin-top:12px}.close-panel{display:none;flex:none;padding:8px;border-radius:7px;background:#eef3f6;color:#6a7b8e}.tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;padding:14px 17px 13px;border-bottom:1px solid #edf0f4;position:sticky;top:0;background:#fff;z-index:2}.tab{font-size:10px;line-height:1.6;border-radius:6px;background:#fff;color:#8793a4;padding:8px 2px;white-space:nowrap}.tab:hover{background:#f6f8fa;color:#536b80}.tab[aria-selected="true"]{color:var(--green);background:#eff7f3;font-weight:650}.detail-body{padding:23px 24px 34px;font-size:11px;line-height:1.9;color:#738197;outline-offset:-5px!important}.detail-body h3{color:#425770;font-size:12px;line-height:1.8;margin:0 0 9px;font-weight:650}.detail-body h3:not(:first-child){margin-top:23px}.detail-body p+p{margin-top:9px}.detail-body ul,.detail-body ol{padding-left:16px;margin:8px 0 0}.detail-body li{margin:7px 0;padding-left:1px}.detail-body strong{font-weight:600;color:#536b80}.info-box{border:1px solid #e4eaf0;background:#f8fafc;border-radius:9px;padding:12px 13px;margin:14px 0;font-size:10px;line-height:1.9;color:#748499}.info-box.green{border-color:#dceae3;background:#f3f9f5;color:#6c8b7b}.info-box.amber{background:#fbf8f2;border-color:#eee6d8;color:#9a825f}.info-box b{font-weight:600}.key-value{display:grid;grid-template-columns:78px minmax(0,1fr);gap:8px 12px;font-size:10px;margin:10px 0}.key-value dt{color:#95a0af}.key-value dd{margin:0;color:#5e7188;overflow-wrap:anywhere}.budget-table{width:100%;border-collapse:collapse;font-size:10px;line-height:1.8;margin:12px 0}.budget-table th,.budget-table td{text-align:left;vertical-align:top;padding:9px 6px;border-bottom:1px solid #eaf0f4}.budget-table th{font-weight:500;color:#91a0ae;background:#f8fafc}.budget-table th:first-child,.budget-table td:first-child{padding-left:0}.budget-table th:last-child,.budget-table td:last-child{padding-right:0}.budget-table td{color:#657c94}.budget-table .large{font-size:18px;color:#4e6b80;font-variant-numeric:tabular-nums;font-weight:550}.budget-note{font-size:10px;color:#929cac;line-height:1.9}.link-block{border-left:2px solid #dce8e5;padding-left:11px;margin:11px 0 17px}.link-block b{display:block;color:#5e758d;font-size:11px;font-weight:550}.link-block p{font-size:10px;line-height:1.85;margin-top:4px}.code-block{background:#f6f8fb;border:1px solid #e6ebf1;border-radius:9px;padding:12px;color:#677f96;font:9px/1.9 ui-monospace,SFMono-Regular,Consolas,monospace;white-space:pre-wrap;overflow-wrap:anywhere;overflow:auto;margin:10px 0}.inline-code{font:10px ui-monospace,SFMono-Regular,Consolas,monospace;padding:2px 4px;background:#f1f5f8;border-radius:3px;overflow-wrap:anywhere}.empty-state{display:flex;align-items:center;gap:8px;font-size:10px;color:#9aa4b1;margin:10px 0 13px}.empty-state:before{content:"";width:5px;height:5px;background:#c2cbd6;border-radius:50%}.error-item{border:1px solid #eae4db;border-radius:8px;margin:10px 0;background:#fffdf9}.error-item summary{cursor:pointer;padding:10px 11px;font-size:10px;color:#9b865f;line-height:1.8}.error-item .error-content{padding:0 12px 12px;font-size:10px;color:#8e8b83}.error-code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:9px;color:#b09a75;display:block;margin-bottom:5px}.acceptance-list{list-style:none;padding:0!important}.acceptance-list li{position:relative;padding-left:19px!important;margin:12px 0}.acceptance-list li:before{content:"";position:absolute;left:1px;top:6px;width:8px;height:8px;border:1px solid #b0c7bd;border-radius:2px}.detail-footer{margin-top:24px;padding-top:12px;border-top:1px solid #ecf0f5;color:#a0a9b5;font-size:9px}.mobile-backdrop{display:none}.mobile-detail-hint{display:none}
+    @media(min-width:1600px){.main{padding:35px 38px}.layout{grid-template-columns:minmax(0,1fr) 414px}}
+    @media(max-width:1180px){.layout{grid-template-columns:minmax(0,1fr) 354px}.main{padding:26px 21px}.flow{padding:22px 16px}.center-step{width:72%}.center-step.narrow{width:67%}.branch{padding:0 5px}.branch .flow-node{padding:12px 10px}.branch .node-title{font-size:13px}.detail-header{padding:27px 21px 19px}.detail-body{padding:22px 21px 30px}.header-links{gap:14px}}
+    @media(max-width:1020px){.layout{display:block;max-width:1040px}.main{padding:27px 28px}.intro,.canvas,.specs,.footer-hint{max-width:850px}.flow{padding:24px 25px}.detail-panel{position:fixed;right:0;top:0;bottom:0;width:410px;max-width:100%;height:100dvh;transform:translateX(102%);transition:transform .18s ease;box-shadow:-10px 0 50px #23334915}.detail-panel:not(.open){visibility:hidden}.detail-panel.open{transform:translateX(0);visibility:visible}.close-panel{display:grid;place-content:center}.mobile-backdrop.open{display:block;position:fixed;inset:0;background:#20364b33;backdrop-filter:blur(2px);z-index:19}.mobile-detail-hint{display:inline}.branch .flow-node{padding:14px}.branch .node-title{font-size:14px}.center-step{width:65%}.center-step.narrow{width:56%}}
+    @media(max-width:600px){.app-header{padding:15px 16px;gap:10px}.brand{gap:9px}.brand-mark{width:31px;height:31px}.brand-name{font-size:14px}.brand-sub{font-size:8px}.header-links{gap:11px;font-size:10px}.header-links .current{display:none}.header-links a svg{width:14px}.header-links .old-link{display:none}.main{padding:22px 14px 23px}.intro{margin-bottom:16px;padding:0 2px}.intro h1{font-size:25px;margin-top:7px}.intro .lead{font-size:11px}.design-status{font-size:9px;gap:4px 8px;margin-top:12px}.version{padding-right:8px}.target-strip{font-size:9px;gap:5px 11px;margin-top:11px}.canvas-toolbar{padding:13px 14px;gap:9px}.canvas-toolbar h2{font-size:11px}.canvas-toolbar p{font-size:9px}.scenario-control label{display:none}.scenario-control select{font-size:10px;min-width:122px;max-width:140px;padding:8px 21px 8px 8px}.flow{padding:20px 15px 17px}.center-step,.center-step.narrow{width:calc(100% - 28px);max-width:none}.flow-node{padding:12px;gap:10px;min-height:69px}.node-title{font-size:12px}.node-sub{font-size:9px}.node-corner{font-size:8px}.node-icon{width:28px;height:28px}.branches{grid-template-columns:1fr;gap:13px;padding:20px 30px}.branches:before{left:10px;right:50%;top:0}.branches:after{left:50%;right:10px;bottom:0}.fork-mobile,.merge-mobile{display:block;position:absolute;width:1px;background:#c6d1dc}.fork-mobile{left:10px;top:0;bottom:86px}.merge-mobile{right:10px;top:86px;bottom:0}.branch{padding:0;min-height:132px}.branch:before,.branch:after{top:50%;bottom:auto;height:1px;width:20px}.branch:before{left:-20px}.branch:after{left:auto;right:-20px}.branch.chosen:before,.branch.chosen:after{width:20px;height:2px}.branch .flow-node{min-height:132px;padding:13px 14px;gap:8px}.branch .node-title{font-size:14px}.branch .node-sub{font-size:10px}.branch-head .node-icon{width:27px;height:27px}.branch-label{font-size:9px}.node-meta{font-size:9px}.background-group{padding:12px}.background-heading{display:block;font-size:9px}.background-heading span+span{display:block;font-size:8px;margin-top:3px}.background-pair{gap:8px}.background-pair .flow-node{flex-direction:column;align-items:flex-start;gap:6px;padding:10px;min-height:116px}.background-pair .node-title{font-size:11px}.background-pair .node-sub{font-size:9px}.background-pair .node-icon{width:24px;height:24px}.background-note{font-size:8px;text-align:left;line-height:1.7}.delivery-note{font-size:8px}.graph-footnote{font-size:9px;margin-top:14px}.scenario-preview{padding:13px 15px;font-size:10px}.scenario-preview blockquote{font-size:12px}.footer-hint{font-size:9px;padding:0 2px}.footer-hint span{max-width:75%}.specs{margin-top:18px}.specs>summary{font-size:10px}.specs-content{padding:16px;font-size:10px}.specs-content th,.specs-content td{padding:7px 5px;font-size:9px}.detail-panel{width:100%;max-width:440px}.detail-header{padding:23px 23px 19px}.detail-title-row h2{font-size:22px}.detail-body{padding:22px 23px 32px}.tabs{padding-left:18px;padding-right:18px}}
+    @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+    @media print{.app-header,.detail-panel,.scenario-control,.mobile-backdrop,.footer-hint{display:none!important}.layout{display:block}.main{padding:0}.canvas{break-inside:avoid}.specs-content{border:0}.flow-node{box-shadow:none}.intro h1{font-size:23px}}
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#flow-title">跳到链路流程图</a>
+  <div id="page-shell">
+    <header class="app-header">
+      <div class="brand"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span><div><div class="brand-name">陪伴精灵</div><div class="brand-sub">COMPANION · AGENT STUDIO</div></div></div>
+      <nav class="header-links" aria-label="页面导航"><a href="index.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 6l-6 6 6 6M8 12h13"/></svg>原流程图</a><a class="old-link" href="natural-test.html">本轮链路实测</a><a class="old-link" href="fast-experiment.html">旧试验记录</a><span class="current">链路设计 / 02</span></nav>
+    </header>
+    <div class="layout" id="layout">
+      <main class="main">
+        <section class="intro" aria-labelledby="page-title">
+          <div class="eyebrow">WARCRAFT COMPANION / LATENCY DESIGN</div>
+          <h1 id="page-title">快一点，也像在陪你。</h1>
+          <p class="lead">简单场景立即接住，复杂问题再组队思考。让等待发生在必要的地方，让语气、时机与偏好始终属于同一个精灵。</p>
+          <div class="design-status"><span class="version">设计稿 · 2026-11-17</span><span><i class="status-dot" aria-hidden="true"></i>预算是建议值，未做本轮 API 实测</span></div>
+          <div class="target-strip" aria-label="待测设计目标"><span><b class="target-key">Skill</b> 首有效建议 P95 ≤300 ms</span><span><b>单次模型</b> P95 目标 ≤3 s · 待测</span><span>复杂最终答案另报</span></div>
+        </section>
+
+        <section class="canvas" aria-labelledby="flow-title">
+          <div class="canvas-toolbar"><div><h2 id="flow-title" tabindex="-1">一张图，看清谁在什么时候做什么</h2><p>点击模块查看详情<span class="mobile-detail-hint"> · 弹层内可切换 6 个页签</span></p></div><div class="scenario-control"><label for="scenario">假设场景</label><select id="scenario" aria-label="选择假设场景，查看拟议路径"><option value="all">查看全部路径</option><option value="spawn">出生</option><option value="quest">任务窗口</option><option value="mana">无蓝战斗</option><option value="quiet">少说一点</option><option value="plan">复杂规划</option></select></div></div>
+          <div class="flow" aria-describedby="graph-description">
+            <p id="graph-description" class="sr-only">消息进入后，协调器立即更新状态与偏好，本地路由选择已验证 Skill、单次快速回答或复杂任务之一，再合并到代码发送检查与统一输出。后台反思与记忆整理按需并行，不阻塞当前回答。手机上的三条分支是三选一，不是串行步骤。</p>
+            <div class="center-step narrow"><button type="button" class="flow-node" data-node="source" aria-controls="detail-panel" aria-pressed="false"><span class="node-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v12H9l-5 4zM8 8h8M8 12h5"/></svg></span><span class="node-text"><span class="node-title">用户文字 / 游戏事件</span><span class="node-sub">一条原话，或一份带版本的事件</span></span><span class="node-corner">01</span></button></div>
+            <div class="stem" data-edge="source state" aria-hidden="true"></div>
+            <div class="center-step"><button type="button" class="flow-node" data-node="state" aria-controls="detail-panel" aria-pressed="false"><span class="node-icon code-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 8l-4 4 4 4M17 8l4 4-4 4M14 4l-4 16"/></svg></span><span class="node-text"><span class="node-title">状态与偏好立即更新</span><span class="node-sub">协调器私有 · 新指令立即生效</span></span><span class="node-corner">代码 · 0 token</span></button></div>
+            <div class="stem" data-edge="state route" aria-hidden="true"></div>
+            <div class="center-step narrow"><button type="button" class="flow-node" data-node="route" aria-controls="detail-panel" aria-pressed="false"><span class="node-icon route-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v7M5 14v6M19 14v6M12 10l-7 4M12 10l7 4M12 10v10"/></svg></span><span class="node-text"><span class="node-title">本地路由</span><span class="node-sub">先判时机、证据和复杂度，再选一条路</span></span><span class="node-corner">三选一</span></button></div>
+            <div class="stem" data-edge="route" aria-hidden="true"></div>
+            <div class="branches" aria-label="三条可选路径">
+              <span class="fork-mobile" aria-hidden="true"></span><span class="merge-mobile" aria-hidden="true"></span>
+              <div class="branch" data-branch="skill"><button type="button" class="flow-node" data-node="skill" aria-controls="detail-panel" aria-pressed="false"><span class="branch-head"><span class="node-icon code-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 3L5 14h6l-1 7 9-12h-6z"/></svg></span><span class="branch-label">命中已验证场景</span></span><span class="node-text"><span class="node-title">已验证 Skill</span><span class="node-sub">FAQ / 模板 / 确定规则<br>条件满足，直接给建议</span></span><span class="node-meta"><span class="tag green">0 模型调用</span><span>有版本、有有效期</span></span></button></div>
+              <div class="branch" data-branch="fast"><button type="button" class="flow-node" data-node="fast" aria-controls="detail-panel" aria-pressed="false"><span class="branch-head"><span class="node-icon agent-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4zM8 9h8M8 12h5"/></svg></span><span class="branch-label">普通问题 / 陪伴</span></span><span class="node-text"><span class="node-title">单次快速回答</span><span class="node-sub">需要时先查证据<br>一次生成角色语气与内容</span></span><span class="node-meta"><span class="tag purple">gpt-6.1-sol</span><span>low</span></span></button></div>
+              <div class="branch" data-branch="complex"><button type="button" class="flow-node" data-node="complex" aria-controls="detail-panel" aria-pressed="false"><span class="branch-head"><span class="node-icon agent-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 3h6v5H9zM3 16h6v5H3zM15 16h6v5h-6zM12 8v4M6 16v-4h12v4"/></svg></span><span class="branch-label">多步 / 冲突 / 规划</span></span><span class="node-text"><span class="node-title">复杂任务</span><span class="node-sub">按需组 DAG，独立查询并发<br>依赖推理保持先后顺序</span></span><span class="node-meta"><span class="tag purple">medium / high</span><span>可靠内容可先说</span></span></button></div>
+            </div>
+            <div class="stem" data-edge="send" aria-hidden="true"></div>
+            <div class="center-step"><button type="button" class="flow-node send-node" data-node="send" aria-controls="detail-panel" aria-pressed="false"><span class="node-icon code-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 4v5c0 5-8 9-8 9s-8-4-8-9V7zM8 12l3 3 5-6"/></svg></span><span class="node-text"><span class="node-title">发送检查与统一输出</span><span class="node-sub">代码持有唯一发言权 · 过期结果丢弃</span></span><span class="node-corner">代码 · 0 token</span></button></div>
+            <p class="delivery-note">模板可直达；模型文本通过检查后直接发送，无额外润色 Agent</p>
+            <div class="stem background-stem" aria-hidden="true"></div>
+            <div class="background-group" aria-label="后台私有 Agent">
+              <div class="background-heading"><span class="background-title">后台 · 按需启动，不挡住下一轮</span><span>两个私有 Agent · 只交换显式消息</span></div>
+              <div class="background-pair"><button type="button" class="flow-node" data-node="reflection" aria-controls="detail-panel" aria-pressed="false"><span class="node-icon agent-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10a8 8 0 1 1 1 7M4 4v6h6M12 8v5l3 2"/></svg></span><span class="node-text"><span class="node-title">反思 Agent</span><span class="node-sub">从明确反馈提出改进草案</span></span></button><button type="button" class="flow-node" data-node="memory" aria-controls="detail-panel" aria-pressed="false"><span class="node-icon agent-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5c0-2 16-2 16 0v14c0 2-16 2-16 0zM4 5c0 2 16 2 16 0M4 12c0 2 16 2 16 0"/></svg></span><span class="node-text"><span class="node-title">记忆整理 Agent</span><span class="node-sub">保存有来源、可撤销的草案</span></span></button></div>
+              <p class="background-note">各自保有私有上下文；提案交协调器校验，写入后供下一轮取快照。</p>
+            </div>
+            <div class="graph-footnote"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7h.01"/></svg><p>温度来自稳定角色、准确上下文与合适时机。主动探问只在平静时按需发生，初始上限为每 8 分钟最多一次；用户问话始终可以直接进入链路。</p></div>
+          </div>
+          <div class="scenario-preview" id="scenario-preview" aria-live="polite" aria-atomic="true"><p class="hint">选一个场景，查看假设输入、拟议话语与所走路径。这里不会调用模型或模拟性能计时。</p></div>
+        </section>
+        <div class="footer-hint"><span>细实线：前台先后关系 · 虚线：后台消息投递</span><a href="fast-experiment.html">查看旧试验记录 ↗</a></div>
+
+        <details class="specs" id="engineering-specs">
+          <summary><span>工程规格 / 实测依据 / 来源</span><span style="margin-left:auto;color:#97a2b0;font-size:9px">展开查看</span></summary>
+          <div class="specs-content">
+            <h3>工程边界</h3>
+            <p>运行证据只来自魔兽内部接口、用户文字、从两者明确保存的记录与已验证 Skill。本页“检索 / 知识库”不默认引入网页、视觉或麦克风。模型通用知识不视为当前无限服事实；页底官方链接仅为工程设计参考。</p>
+            <p>协调器是状态、偏好与发言权的唯一写入者。各 Agent 接收不可变副本，保有自己的私有上下文，只通过显式消息交换证据和候选结果。禁止共享可变记忆，禁止跨 Agent 续接 <code>previous_response_id</code>。</p>
+            <p>消息必带 <code>turn_id</code>、<code>reply_epoch</code>、<code>state_dependency_versions</code>、<code>preference_version</code>、<code>evidence_refs</code>、<code>freshness</code>、<code>deadline</code>。新指令、场景变化和取消操作提高发言代次；发送前按结果声明的依赖校验版本，过期即丢弃。与答案无关的状态变化不应一律取消。</p>
+            <p>规则只能检查结构、版本、时机与已声明的证据关联，不能证明自由文本事实正确。证据未知或存在语义冲突时，选择澄清、查证或按需语义审查；不得把“规则审核通过”呈现为事实已核实。</p>
+            <h3>验收目标 · 全部待测</h3>
+            <table><thead><tr><th scope="col">指标</th><th scope="col">设计目标</th><th scope="col">计时边界</th></tr></thead><tbody><tr><td>客户端接收反馈</td><td>P95 ≤150 ms</td><td>用户点击发送 → 客户端确认已接收；仅本地 UI</td></tr><tr><td>Skill 首有效建议</td><td>P95 ≤300 ms</td><td>用户发送 / 游戏事件 → 第一条可用建议可见</td></tr><tr><td>单次模型首有效建议</td><td>P50 ≤1.5 s / P95 ≤3 s</td><td>包含路由、必要检索、网络与模型；本轮待测</td></tr><tr><td>复杂任务最终答案</td><td>按任务单独报告</td><td>包含整条 DAG；不保证 3 s 内完成</td></tr><tr><td>打断后的本地停止</td><td>P95 ≤150 ms</td><td>客户端捕获取消 → 本地停止展示 / 播放</td></tr></tbody></table>
+            <p style="margin-top:10px">“收到”“我正在看”与空转动效只算接收反馈；首 token 时间也不自动等于首有效建议时间。需要分别记录端到端耗时、检索、模型首 token、首有效建议、完整答案、取消与成本。</p>
+            <h3>已有记录的适用范围</h3>
+            <div class="evidence-note">本轮未进行 API 实测。下面是 2026-11-15 的历史记录，不能当作新链路的性能证明。</div>
+            <ul><li>R1：12.824 s；paired：64.882 s，其中包含 26.202 s 的协调间隙。</li><li>规则闸门记录：5.105 ms / 0.683 ms，仅为本机闸门执行耗时，不能代表客户端响应。</li><li>共 7 个独立任务；token 数据为 <code>null</code>。这不是生产 API 的 A/B 测试，也未连接真实游戏。</li></ul>
+            <details id="full-spec-details" style="margin-top:20px;border-top:1px solid #e5ebf1;padding-top:13px"><summary style="cursor:pointer;color:#526e83;font-size:12px;font-weight:600">完整工程规格与验收路线</summary><div id="full-spec" style="margin-top:15px"><style>
+.engineering-spec { max-width: 100%; line-height: 1.9; font-size: 15px; color: #29332f; }
+.engineering-spec h2 { font-size: 24px; margin: 8px 0 18px; letter-spacing: -.02em; }
+.engineering-spec h3 { font-size: 18px; margin: 34px 0 12px; color: #142c25; }
+.engineering-spec p { margin: 12px 0; }
+.engineering-spec table { display: block; max-width: 100%; overflow-x: auto; border-collapse: collapse; margin: 18px 0; font-size: 13px; }
+.engineering-spec th,.engineering-spec td { text-align: left; vertical-align: top; padding: 11px 12px; border: 1px solid #dce2dd; min-width: 118px; }
+.engineering-spec th { background: #eff4f0; font-weight: 650; }
+.engineering-spec pre { white-space: pre-wrap; overflow-wrap: anywhere; padding: 18px; border: 1px solid #dce2dd; border-radius: 9px; background: #f3f5f2; font-size: 12px; line-height: 1.65; }
+.engineering-spec a { color: #246150; text-underline-offset: 3px; }
+.engineering-spec li { margin: 10px 0; }
+@media (max-width: 600px) { .engineering-spec { font-size: 14px; } .engineering-spec h2 { font-size: 21px; } }
+</style><article class="engineering-spec">
+<h2>陪伴精灵：快速交付与自然互动设计</h2>
+<p><strong>版本：2026-11-17。性质：待实现与验证的技术设计。</strong>本页演示不调用模型、不连接游戏。延迟和 Token 范围均为起始目标或软预算，历史实测单独列出。所有业务模型先统一使用 gpt-6.1-sol 的不同思考强度，便于比较架构；不默认引入其他小模型。</p>
+<p><strong>运行时信息边界：</strong>本版只接收魔兽内部接口、用户文字，以及从这两类来源明确保存的历史记录与已验证技能。文中的检索是在这些材料内取证，不默认加入网页、视觉、麦克风或其他数据源。模型已有通用知识可帮助提出核实方向，但不能当成当前无限服的实时事实。本文引用的官方文档用于工程设计，不是精灵在游戏中的额外感知。</p>
+
+<h3>一、从参考流程到可运行设计</h3>
+<p>保留“简单问题快处理、需要信息先查询、复杂问题多思考、学习放后台”的主线。增加四个必要约束：本地路由不先等待模型；当前状态和明确偏好同步生效；只在依赖满足后交付相关结论；每条发言在发送时重新检查是否仍适用。</p>
+<p>产品的第一目标是<strong>用户尽早得到当前可用的一步</strong>。界面有反应、开始出现文字、出现有效建议、完整任务完成是四个不同指标。“好问题”“让我看看”只能算接收或进度，不能算有效交付。完整建议来不及时，有依据的局部回答、关键澄清或真实进度分别计量，不能互相冒充。</p>
+<p>“多 Agent”首先是职责和权限的分工，不等于每轮必须启动多个进程、传完整历史、串行调用全部模型。正常链路以 0 次或 1 次模型调用为优先；确有依赖时允许增加，并记录原因和实际请求次数。</p>
+
+<h3>二、已经有的证据与尚未证明的部分</h3>
+<table><thead><tr><th>2026-11-15 记录</th><th>正确解释</th><th>对本设计的影响</th></tr></thead><tbody>
+<tr><td>首轮快速模型路径 12.824 秒</td><td>从独立 Agent 调度至本机发送闸门返回，含调度、工具与采集开销。</td><td>需要常驻服务与直接 API 的分段计时，不能把 12.824 秒全归因于模型。</td></tr>
+<tr><td>同候选串行分支 64.882 秒</td><td>含 26.202 秒跨调用／采集间隔；两分支最终文字相同，不是生产 API A/B。</td><td>普通回复取消固定的“决策→模型审核→模型润色执行”串行链。</td></tr>
+<tr><td>规则路径 5.105 毫秒与 0.683 毫秒</td><td>仅本机队列至闸门返回，不含网络、客户端展示、语音与玩家确认。</td><td>证明简单逻辑值得独立实现，但不能宣称产品已经做到毫秒级回答。</td></tr>
+<tr><td>7 个独立任务，14 项边界检查</td><td>模型请求配置为 Sol；实际底层 API 次数、解析后的模型名称和 Token 未完整采集。场景为合成输入。</td><td>下一轮必须采集真实 usage、模型标识、队列、客户端时间。示例日志不能替代真实记录。</td></tr>
+<tr><td>旧任务与旧记忆补丁被拦截</td><td>验证了状态版本和提交前版本冲突；记忆新偏好到达时旧结果已生成，不能称为推理中被打断。</td><td>保留提交检查，进一步验证真实流式打断、断线、并发和客户端过期包。</td></tr>
+</tbody></table>
+<p>原始证据：<a href="fast-experiment.html">快速交付实测回放</a>。这些有限样本不能提供生产 p50／p95，也不能证明自由聊天自然度或真实游戏效果。</p>
+
+<h3>三、四类请求，按需要选择路径</h3>
+<table><thead><tr><th>路径</th><th>适用条件</th><th>执行顺序</th><th>模型调用</th></tr></thead><tbody>
+<tr><td>A · 已验证技能</td><td>明确意图、已验证动作、所需状态齐全、条件仍成立。</td><td>条件检查→选合适的短表达→发送检查→展示。</td><td>0；本地代码。</td></tr>
+<tr><td>B · 单次快速回答</td><td>普通交流、说明、已有证据能够回答的小问题。</td><td>最小消息包→Sol low 同时判断内容和生成角色表达→按语义段检查→展示。</td><td>通常 1；不再追加通用润色。</td></tr>
+<tr><td>C · 需要新证据</td><td>当前接口字段缺失、知识版本需核对、任务内容尚未读取。</td><td>并行读取独立资料→只保留相关结果→Sol low／medium 回答。</td><td>检索由规则可确定时通常 1；若需模型决定并调用工具，续接会增加推理轮次，必须如实计数。</td></tr>
+<tr><td>D · 复杂任务</td><td>跨目标权衡、未知任务结构、多个相互依赖步骤、前一路径无法可靠完成。</td><td>复用已有流程或按需规划→并行取证→依赖就绪后 medium／high 推理→必要语义审核→交付。</td><td>按图执行；首版给每轮 3 次前台请求软上限，超过后明确降级、分段或等待用户的新信息。</td></tr>
+</tbody></table>
+<p>本地路由先检查“停止／静音／纠正”、明确游戏事件和可证明的技能条件。无法确定的自然语言交给本次快速回答处理，不额外创建一个“分类模型→回答模型”的固定链。复杂度不能只看句子长短，也不能把模型自报的置信度当可靠性证明；路由阈值需要用有标注的任务集校准。</p>
+<p>用户问话优先于普通游戏提示；新的关键状态变化可以打断过时的建议。战斗中的主动提示只发送条件严格满足的短提醒；同类提醒合并。用户明确要求停止主动说话时，主动队列全部服从设置，不擅自把某类提醒重新打开。</p>
+
+<h3>四、职责、权限和模型预算</h3>
+<p>以下是输入与<strong>可见输出</strong>的起始预算。输入预算包含完整固定前缀与动态内容；命中缓存的前缀仍属于 input_tokens，cached_tokens 是其中一部分，不能按零输入处理。推理 Token 单独观察，但已经计入 API 的 output_tokens，不能重复相加。表中可见输出范围不是 API 总输出，也不是 max_output_tokens 的直接取值；该参数同时限制推理与可见输出，过低会造成回答不完整。全部数值是软预算，未实测。</p>
+<table><thead><tr><th>角色／模块</th><th>职责与边界</th><th>配置</th><th>建议输入／可见输出</th><th>是否阻塞首句</th></tr></thead><tbody>
+<tr><td>协调器与路由</td><td>持有自己的短期状态，更新偏好，选择已有流程，发不可变消息包；不把自身状态变成各角色可随意查询的共享记忆。</td><td>常驻代码</td><td>0 模型 Token</td><td>只做必要的本地工作。</td></tr>
+<tr><td>快速决策／表达</td><td>已有信息下给最小有用回答、必要澄清或请求升级；不能伪造接口结果和执行成功。</td><td>Sol low</td><td>稳定内容约 1.2–2.4k，动态 150–600；输出 40–140 tokens。足够短的提示词不为缓存强行补长。</td><td>普通请求的唯一主模型调用。</td></tr>
+<tr><td>规划 Agent</td><td>生成有依赖、权限、截止时间和结束条件的任务图；不能删除发送检查、扩张工具权限或无限自我调用。</td><td>Sol medium；必要时 high</td><td>2–5k／300–900</td><td>只有新复杂任务需要；常见流程由代码复用。</td></tr>
+<tr><td>深度决策 Agent</td><td>整合显式证据，比较方案，输出依据、未知项、可交付结论。</td><td>Sol medium／high</td><td>2–6k／200–800</td><td>仅阻塞依赖其结果的结论。</td></tr>
+<tr><td>审核</td><td>确定性规则检查来源、权限、依赖版本、失效条件。自由文本的语义支持不能只靠规则判定；高影响或新型建议按需加语义审核。</td><td>规则；按需 Sol low／medium</td><td>规则 0；模型约 1–2.5k／80–200</td><td>必须的检查在发送前；不相关审核不阻塞。</td></tr>
+<tr><td>执行／统一交付</td><td>唯一的发送出口；拥有发言锁、去重、截断、客户端消息状态；本阶段仅给建议，不操作游戏。</td><td>代码</td><td>0</td><td>检查当前语义段后发送，不等完整后台报告。</td></tr>
+<tr><td>反馈反思</td><td>从失败、纠正和实际结果产生改进候选；不能直接改人格、提示词、技能或长期偏好。</td><td>Sol high</td><td>3–8k／300–800</td><td>后台，失败事件或空闲批次触发。</td></tr>
+<tr><td>记忆整理</td><td>管理自己的记录，区分明确偏好与推测，合并／过期／撤销；按要求发送摘要，不给其他角色开放共享检索权限。</td><td>明确指令代码处理；整理 Sol low／medium</td><td>0.8–2.5k／100–300</td><td>长期整理异步；用户当前明确约束立即生效。</td></tr>
+</tbody></table>
+<p>角色可以有独立会话与存储，但运行在常驻服务内，不需要每条消息重新启动工具进程。前台资源与后台队列分开：首版每用户最多 2 个活跃前台模型请求，后台最多 1 个低优先级任务；全局并发受实际账户配额约束。上述上限是待压测的初始值。</p>
+
+<h3>五、规划 Agent 怎样规划其余 Agent</h3>
+<p>保存四个已验证流程模板：技能直达、单次回应、查证后回应、复杂多步。规划器在后台提出模板调整；运行时由代码判断适用条件。新复杂目标才临时规划。规划结果至少包含节点角色、输入来源、依赖、可用工具、超时、最大调用数、失败出口和成功条件。</p>
+<pre>{
+  "plan_id": "example-plan-18",
+  "reply_epoch": 18,
+  "expires_when": ["goal_changed", "combat_started"],
+  "nodes": [
+    {"id":"quest", "kind":"read_quest", "needs":[]},
+    {"id":"capabilities", "kind":"read_capabilities", "needs":[]},
+    {"id":"reason", "role":"decision", "effort":"medium",
+     "needs":["quest", "capabilities"]},
+    {"id":"deliver", "kind":"delivery_gate", "needs":["reason"]}
+  ],
+  "max_model_requests": 3,
+  "max_foreground_concurrency": 2,
+  "fallback": "ask_one_missing_question"
+}</pre>
+<p>示例中两项读取并行，推理等待二者，交付等待相关检查。规划本身若发生，算入请求预算。编排器先验证无环、角色与工具白名单、所有必要依赖和预算；不合法的图使用已有流程或询问缺失信息。</p>
+<p>同一请求可以并行准备第一条可靠建议和复杂方案，但只在第一条建议不依赖未知结论时启用。快速分支和深度分支各自收到显式信息包。若深度结论必须继承第一句的承诺，证据读取可以并行，最终深度生成则等待第一句提交，并收到“已交付事实／承诺”消息。已经在执行的独立调用不会自动获得后来的发言。</p>
+<p>若两条生成确实同时开始，深度结果先作为候选；提交前与已发送内容核对。结构化动作可用规则去重，任意自由文本的语义冲突需要校验；必要时发新的显式消息进行续接、重新生成或语义审核，增加的请求计入预算。预算不足时延后或放弃补充，不假定另一个 Agent 已经知道新信息。代码拥有唯一发言权，后台 Agent 不能直接推送给玩家。</p>
+<p>深度结论晚到时先判断：目标仍在、内容有新增价值、状态仍适用、用户没有换话题。条件不成立则丢弃或仅留内部记录。后台算完不等于用户需要再听一遍。</p>
+
+<h3>六、信息隔离、状态新鲜度与中断</h3>
+<p>各 Agent 无共享可修改对象、共享聊天历史、通用记忆库或跨角色会话续接。协调器拥有自己的事件账本，给角色发送最小必要副本。相同事实可以分别被发给两个角色，这属于明确传信。日志用于审计，不能成为角色偷偷读取其他角色历史的入口。</p>
+<pre>{
+  "turn_id": "example-turn-42",
+  "reply_epoch": 18,
+  "to": "fast_response",
+  "user_text": "先别讲那么多，就说下一步",
+  "state_dependency_versions": {"quest": 8, "combat": 12},
+  "preference_version": 5,
+  "constraints": {"one_step": true, "scope": "session"},
+  "evidence": [{"id":"game.quest.dialog.8", "source":"game_api",
+                "observed_at":"example_timestamp", "can_accept":true}],
+  "unknowns": ["custom_server_reward_changes"],
+  "already_delivered": [],
+  "expires_on": ["dialog_closed", "combat_started", "request_superseded"]
+}</pre>
+<p>消息中的未知项应明确保留；没有字段不代表值为零或不存在。保留最近 2–4 轮中相关的原文、尚未回答的问题和已做承诺；涉及更早事件时通过显式检索消息补充，不能只给压缩摘要而丢失“这个／刚才那个”的指代。使用差量消息时，接收者必须已确认相同基线版本；新会话应收到完整的最小快照，不能假定它“记得上一轮”。任务文本和检索材料标为外部数据，不能修改角色权限或系统规则。</p>
+<p><strong>同步处理：</strong>当前用户原文、指代对象、明确纠正、当前交互偏好、最新相关游戏状态、已经发送的内容、取消标记。<strong>异步处理：</strong>长期摘要、经历归档、风格偏好归纳、失败反思、技能改进。用户说“这次只说一步”只影响本轮；“以后每次只说一步”才提出长期偏好。“别啰嗦”先约束当前会话，不擅自推断为永久人格设定。</p>
+<p>结果带读到的依赖版本。检查具体依赖，例如任务对话、目标、战斗状态、技能可用性，而不是任何生命值变化都让全部任务失效。字段有效期按风险配置并根据真实接口刷新率验证：战斗字段可从 100–300ms 的新鲜度目标开始评估，任务界面按事件失效，版本知识按服务器能力与版本区分。接口达不到目标时，不发布需要更高新鲜度的实时指令。</p>
+<p>用户改目标／停止、相关状态改变时，增加对应回复版本，停止尚未发送的段落，尝试取消 API；取消失败的迟到结果仍不得出声。客户端也检查版本，避免网络缓冲把旧消息送达。已经显示或播放的内容无法撤回为“没说过”，必要时给明确更正。语音扩展阶段必须另外清空 TTS 与播放缓冲。</p>
+<p>记忆补丁采用提交前版本比较；冲突则重算或丢弃，绝不覆盖更新的明确指令。游戏 API 与用户陈述冲突时分别保存来源与时间，重新核对，不能悄悄把其中一方改成确定事实。</p>
+
+<h3>七、快速表达怎样保留自然感</h3>
+<p>固定的是好奇、坦诚、尊重玩家自主选择；变化的是句子长度、主动程度、语气和当前关注点。好奇不要求每句提问，活泼不要求玩家受挫时继续兴奋。没有视觉或声音输入时，不声称看见画面、听到语气或知道真实情绪。</p>
+<table><thead><tr><th>当前场景</th><th>表达策略</th><th>不应该发生</th></tr></thead><tbody>
+<tr><td>用户问下一步</td><td>先给一项可执行建议。缺关键字段时只问一个能改变建议的问题。</td><td>重复询问接口已经返回的数据。</td></tr>
+<tr><td>进入战斗</td><td>已验证条件下短句提醒，无闲聊、无解释长段。</td><td>继续播报刚才的任务规划。</td></tr>
+<tr><td>明确受挫或纠正</td><td>承认具体问题，更新当前信息，修正下一步。</td><td>固定“你真棒”、无依据情绪诊断、长篇自责。</td></tr>
+<tr><td>平静探索</td><td>允许一句与已知事件有关的感想或有价值的问题。</td><td>每条末尾拼“呀／嘿嘿／好吗”。</td></tr>
+<tr><td>用户要求简短</td><td>下一句立即缩短，默认停止追加解释和主动追问。</td><td>等后台记忆写完才改变。</td></tr>
+<tr><td>已经回答，暂无新信息</td><td>安静，等待新事件或用户。</td><td>为活跃度强行继续发言。</td></tr>
+</tbody></table>
+<p>把“当前沟通目的＋证据＋篇幅＋允许提问与否＋最近说过的开场”放进同一次生成。不要额外追加润色 Agent。已验证技能可以保存少量审核过的表达版本，按场景和最近重复选择；不随机添加事实、不机械轮换句尾、不为了拟人增加等待。</p>
+<p>最终交付者是代码出口；语气由当前负责生成的角色在同一请求内完成。只有确实需要合并多个不同结论时，才考虑一次额外整合，并把开销记入链路。</p>
+
+<h3>八、边说边想：按可交付内容分段</h3>
+<p>第一层是客户端立即显示“已收到”状态或精灵朝向变化，目标是让用户知道输入生效。第二层是首个可靠的有效内容。第三层是新的证据允许时的补充。客户端反馈不能冒充模型已经理解或已经完成查询。</p>
+<p>输出按完整语义段提交：不要把“现在可以……”先播出，然后才发现后半句是“……但你仍在战斗，先等等”。自由文本保留一个短句的检查缓冲；严格的技能模板可快速直出。速度与审核需要一起测，不能为了 TTFT 数字越过必要检查。</p>
+<p>语义段协议是应用层设计，不是声称 API 原生提供这些业务字段：</p>
+<pre>{
+  "turn_id":"example-turn-42", "reply_epoch":18, "segment_id":1,
+  "kind":"answer", "text":"先接下这个任务。",
+  "evidence_refs":["game.quest.dialog.8"],
+  "valid_while":["can_accept", "not_in_combat"],
+  "supersedes":null
+}</pre>
+<p>可选实现是逐条短记录流、或短句缓冲后附证据绑定；必须验证格式和支持关系。结构字段只证明“引用了哪个来源”，不能自动证明自然语言被该来源蕴含。复杂或高影响建议需要语义校验，无法核实则澄清或收窄。不要让完整长 JSON 的解析阻塞所有前台文字。</p>
+<p>“我查一下”仅在真实读取已发起且预计需要等待时出现，每轮最多一次；已经拿到结果时直接回答。“好问题”一类自然接话可以偶尔出现，但要符合当前交流，不能成为每轮必播的口头禅，也不计为有效建议。不确定结果没有可靠局部结论时，使用关键澄清或真实状态显示，不编一个建议来冲速度指标。补充默认最多一次；状态变化或用户请求详解可以开启新段。</p>
+
+<h3>九、缓存、Skill 和推测准备</h3>
+<table><thead><tr><th>机制</th><th>存什么</th><th>失效与边界</th></tr></thead><tbody>
+<tr><td>KV／Prompt 缓存</td><td>相同提示前缀的模型计算状态。</td><td>由服务商管理；命中不免除新的推理和生成。相同模型与相关配置、稳定前缀；角色上下文保持独立。</td></tr>
+<tr><td>知识缓存</td><td>带服务器／版本／来源／有效期的解释材料。</td><td>版本或能力变化即重新核对；不把其他服攻略当当前事实。</td></tr>
+<tr><td>已验证 Skill</td><td>触发条件、所需字段、动作意图、短表达范围、失效条件、已覆盖测试。</td><td>缺字段、状态不符、未知收益或有代价选择时退出直达路径。</td></tr>
+<tr><td>答复缓存</td><td>少数稳定 FAQ 或短技能表达。</td><td>检索相似只产生候选；还要核对意图、状态、版本、偏好、最近重复。不能直接重放带旧血量、旧 NPC 或旧目标的整段话。</td></tr>
+</tbody></table>
+<p>以“接受任务”为例：只在用户有接任务意图、当前对话确实可接受、没有奖励选择／花费／未知副作用、游戏接口能证实前提时直接建议。未知无限服行为不套用普通服假设。本设计只给建议，不替玩家点击。</p>
+<p>Sol 的缓存采用稳定角色规则／工具定义在前、当前状态和用户消息在后；用真实 cached_tokens 判断效果。满足最低前缀要求时可在角色加载阶段预热，不把预热放到用户刚提问之后。不要为了追求命中率堆叠全部技能和完整历史。分别测试更短输入、缓存复用、预热的首有效回复与成本。</p>
+<p>网络层先复用 API 客户端和连接，使用 HTTP 流式作为容易测量的基线。多步工具流程再比较 WebSocket；它与 KV 缓存是不同优化。标准、Fast／Ultrafast 按实际可用性做同题比较，不能拿不同任务的响应速度当服务档位收益。</p>
+<p>基于可观察的近期事件，可以在后台预取下一步可能需要的只读信息，例如任务内容。准备结果带依赖版本，真正使用时再核验。不预执行游戏操作；不每秒重规划；预取命中率、浪费和是否挤占前台资源都要记录。</p>
+
+<h3>十、主动试探和后台学习</h3>
+<p>主动互动同时要求：出现新信息、与当前目标相关、时机合适、用户没有禁止、没有正在等待回答的问题。起始策略：平静状态主动试探最多每 8 分钟一次，并限制 30 分钟内最多 2 次；这是上限，不是定时任务。一次未回应不追问，明确拒绝后本场停止试探。“别主动说话”持续生效到用户改变。用户主动提问不受主动冷却影响。</p>
+<p>探索的对象是帮助方式，例如先讲一步还是解释原因；不能只为增加停留时长诱导连续聊天。使用显式选择、纠正、真实任务进展和打扰反馈评价效果。“没有回复”不能直接推断为讨厌；失败后情绪也不能当作模型指令有问题的唯一证据。</p>
+<p>后台反思由新型失败、用户纠正、工具异常或空闲批次触发；日志立即写入，重反思可以排队。记忆按来源与范围合并。反思产生的提示词、路由与技能更新先进入候选版本，经过固定回归集和保留集检查，再以小流量试用并保留回滚。不要让每一轮自我评价立刻修改线上人格。</p>
+<p>SkillTraining 一类技能文本优化可以作为后续离线改进候选，但本版提速不依赖训练成功，也不将它描述为已经实现模型权重在线强化学习。优化目标先满足正确性与打扰边界，再比较首有效内容时间、自然度和成本。</p>
+
+<h3>十一、WoW 场景示例：均为设计演示</h3>
+<table><thead><tr><th>可用输入</th><th>拟议回复／行为</th><th>关键原因</th></tr></thead><tbody>
+<tr><td>兽人萨满 1 级；任务列表为空；没有附近 NPC 数据；用户“我不知道该做什么”。</td><td>“我们先找个任务。看看附近有没有能交谈的人，点开后我帮你看。”</td><td>给一步，不编造 NPC 名称、位置、黄色标记；让用户提供接口缺失的信息。</td></tr>
+<tr><td>用户想接任务；接口明确对话可接受；技能全部条件通过。</td><td>“先接下这个任务。”</td><td>零模型路径可处理；不额外加一句好问题或固定夸奖。</td></tr>
+<tr><td>明确反馈“别啰嗦，每次一步”；当前偏好同步更新。</td><td>“好，每次一步。”；后续回复立刻遵守。</td><td>当前会话立即生效；是否永久保存依原话范围判断。</td></tr>
+<tr><td>接口证明正在战斗、法力为 0、所用技能需要法力；用户问为什么放不出技能。</td><td>“蓝用完了，先别反复按这个技能。”</td><td>只解释已确认原因；不把这条提醒当成解决整场战斗。</td></tr>
+<tr><td>旧任务建议尚未发送，当前已进入战斗。</td><td>丢弃旧建议，按新请求和新状态决定是否提醒。</td><td>不会突然插入“去找人交任务”。</td></tr>
+<tr><td>玩家要求复杂升级路线，但该无限服经验倍率、任务奖励未知。</td><td>“先把你正在做的任务处理完；后面的路线还缺这个服的经验倍率。”仅在当前任务可继续且用户目标允许时使用，否则直接问倍率。</td><td>可靠部分与未知部分分开；不声称已经算出最优路线。</td></tr>
+<tr><td>平静时用户主动问地名；接口明确当前位置是试炼谷。</td><td>“这里叫试炼谷。刚出生就要试炼，名字还挺认真。”</td><td>好奇来自当前已知事实；无需每句问用户问题。</td></tr>
+</tbody></table>
+<p>如果用户纠正任务数量，先登记冲突并刷新可用接口；若接口不支持刷新，就明确缺失。禁止虚构“我刚看见了”“我帮你操作好了”或用户未表达的情绪。</p>
+
+<h3>十二、计时、日志与失败定义</h3>
+<p>客户端以同一个单调时钟记录：点击发送、接收反馈、首个可见文本、首个有效建议、最后一段展示、用户打断与本地停止。服务端分别记录排队、路由、取证、API 请求、首文本事件、语义段检查与发送；用 trace 关联，不直接相减两台机器未经同步的时钟。</p>
+<table><thead><tr><th>指标</th><th>定义与起始目标</th></tr></thead><tbody>
+<tr><td>接收反馈</td><td>用户发送→客户端确认接收；p95 ≤150ms。只表示 UI 反馈，不表示模型理解。</td></tr>
+<tr><td>技能首有效建议</td><td>用户输入／事件→玩家看到适用建议；p95 ≤300ms，包含真实接口与客户端。</td></tr>
+<tr><td>单次模型首有效建议</td><td>初始挑战目标 p50 ≤1.5s、p95 ≤3s；需要直连实测，未保证能达到。</td></tr>
+<tr><td>复杂任务</td><td>可靠首个局部交付单列；完整答案按任务分组报告，不能以固定 3 秒要求代替正确性。</td></tr>
+<tr><td>打断</td><td>用户停止→本地不再展示／播放旧内容；p95 ≤150ms 为初始目标。服务端取消与节省 Token 另计。</td></tr>
+<tr><td>完整 loop</td><td>前台交付完成、后台正常任务完成分别报告；取消／过期／延后任务保留状态，不能混入前台等待。</td></tr>
+</tbody></table>
+<p>每次真实 API 请求记录 requested_model、returned_model、effort、service_tier、prompt_version、skill_version、input_tokens、cached_tokens、cache_write_tokens、output_tokens、reasoning_tokens、latency、cancel_status。cached_tokens 与 cache_write_tokens 属于输入计量的分类，reasoning_tokens 属于 output_tokens 的组成，计算总量时不要再次相加。未知计量使用 null，不能填 0；模型角色调用数与实际 API 请求数分开。预热、重试、取消和预取的费用同样计入。</p>
+<p>业务日志记录 turn_id、route、route_reason、消息发送者／接收者、依赖版本、证据引用、语义段、是否展示、丢弃原因和用户反馈。保存业务摘要和可审计依据，不收集或展示模型私有思维链。</p>
+<p>建议错误码：STALE_DEPENDENCY（证据变了）、PREFERENCE_CONFLICT（偏好更新）、MISSING_EVIDENCE（信息不足）、UNSUPPORTED_CLAIM（结论缺支持）、DUPLICATE_SPEECH（重复出声）、ROUTE_MISS（路径错误）、MODEL_TIMEOUT（超时）、INCOMPLETE_OUTPUT（预算截断）、STALE_MEMORY_PATCH（旧补丁）、UNWANTED_PROBE（不合时宜的试探）。真实发生记录和故障注入演示分开。</p>
+<p>自然度不能只用词语多样性衡量。盲评多轮对话的贴合场景、性格连贯、简洁、帮助程度与打扰感；统计重复开场、无必要追问、用户纠正／打断／静音，以及明确偏好是否在下一句生效。闲聊、引导、战斗和复杂规划分别评价。</p>
+
+<h3>十三、验证与上线顺序</h3>
+<ol>
+<li><strong>先建立直连基线。</strong>恢复旧三轮场景，新增自由聊天、未知服务器规则、纠正和中断用例；常驻服务直连 Sol low，加入客户端时间和 usage。先用小样本排除埋点错误，再对每类积累至少约 100 次代表性请求，明确小样本 p95 的不稳定性。</li>
+<li><strong>隔离优化贡献。</strong>同模型、同强度、同输入与输出要求，交错比较串行旧链／单次调用、冷／热缓存、启动预热、HTTP／WebSocket、标准／可用加速档位。记录缓存是否真正命中，不用时间顺序猜测。</li>
+<li><strong>验证自然表达。</strong>对同一事实与任务对比固定模板和单次自然生成；连续 20 轮以上观察重复和偏好执行。与只追求语气变化的版本对比，盲评并收集玩家打扰反馈。</li>
+<li><strong>验证图调度与竞争。</strong>新用户消息、状态骤变、结果乱序、断线重连、429、工具超时、记忆冲突、模型截断、缓存过期、发送时状态改变。测试集里任何过时动作建议、跨 Agent 私有上下文泄漏或忽略明确停止都阻止该版本通过。</li>
+<li><strong>小流量学习。</strong>完成前面验收后再增加后台 Skill 优化与主动试探。每次只改少数变量，有版本、有保留集、有回滚；用真实用户结果判断，不只依靠模型自评。</li>
+</ol>
+<p>测试样本通过不等于线上零故障。速度门槛、自然度与事实正确性一起报告；超时、取消、无有效回答的请求必须保留数量和失败率，不能只从成功请求里挑最快样本。若同模型配置达不到延迟目标，下一步才比较更快模型或更多可验证的本地技能，不把首句换成空话来达标。</p>
+
+<h3>十四、依据与实现边界</h3>
+<p>设计判断、初始预算、冷却、并发和验收门槛均为本方案建议。当前只交付可评审设计和示例，不宣称引擎已实现或再次完成模型测试。游戏知识、字段能力与更新频率必须以实际目标服务器接口为准。</p>
+<ul>
+<li><a href="https://developers.openai.com/api/docs/models/gpt-6.1-sol" target="_blank" rel="noreferrer">OpenAI：GPT-6.1 Sol</a>——模型名、思考强度与流式支持。</li>
+<li><a href="https://developers.openai.com/api/docs/guides/latency-optimization" target="_blank" rel="noreferrer">OpenAI：延迟优化</a>——首文本与端到端计量、减少调用和输入、推理预算。</li>
+<li><a href="https://developers.openai.com/api/docs/guides/prompt-caching" target="_blank" rel="noreferrer">OpenAI：Prompt Caching</a>——前缀复用、缓存预热和 usage。</li>
+<li><a href="https://developers.openai.com/api/docs/guides/streaming-responses" target="_blank" rel="noreferrer">OpenAI：流式响应</a>——增量交付机制。</li>
+<li><a href="https://developers.openai.com/api/docs/guides/websocket-mode" target="_blank" rel="noreferrer">OpenAI：WebSocket 模式</a>——持久连接与多步请求。</li>
+</ul>
+</article>
+</div></details>
+            <h3>官方参考来源</h3>
+            <p>以下文档用于模型配置、延迟拆解、固定前缀缓存和流式输出的工程核对；本页预算与目标由本设计提出，不是官方性能承诺。</p>
+            <div class="source-links" style="margin-top:10px"><a href="https://developers.openai.com/api/docs/models/gpt-6.1-sol" target="_blank" rel="noopener noreferrer">gpt-6.1-sol · 模型文档 ↗</a><a href="https://developers.openai.com/api/docs/guides/latency-optimization" target="_blank" rel="noopener noreferrer">Latency optimization · 延迟优化 ↗</a><a href="https://developers.openai.com/api/docs/guides/prompt-caching" target="_blank" rel="noopener noreferrer">Prompt caching · 提示词缓存 ↗</a><a href="https://developers.openai.com/api/docs/guides/streaming-responses" target="_blank" rel="noopener noreferrer">Streaming responses · 流式输出 ↗</a></div>
+          </div>
+        </details>
+      </main>
+      <aside class="detail-panel" id="detail-panel" aria-labelledby="detail-title">
+        <div class="detail-header"><div class="module-label" id="module-label">MODULE 03 / LOCAL ROUTER</div><div class="detail-title-row"><h2 id="detail-title">本地路由</h2><button type="button" class="close-panel" id="close-panel" aria-label="关闭模块详情"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M6 18L18 6"/></svg></button></div><p id="detail-summary">先判断当前应该回应什么，再决定是否值得调用模型。</p><span class="detail-type" id="detail-type">代码 · 0 token · 三选一</span></div>
+        <div class="tabs" role="tablist" aria-label="模块详情页签"><button type="button" class="tab" role="tab" id="tab-duties" data-tab="duties" aria-controls="detail-body" aria-selected="true" tabindex="0">职责与权能</button><button type="button" class="tab" role="tab" id="tab-budget" data-tab="budget" aria-controls="detail-body" aria-selected="false" tabindex="-1">模型与预算</button><button type="button" class="tab" role="tab" id="tab-io" data-tab="io" aria-controls="detail-body" aria-selected="false" tabindex="-1">输入输出</button><button type="button" class="tab" role="tab" id="tab-order" data-tab="order" aria-controls="detail-body" aria-selected="false" tabindex="-1">先后并发</button><button type="button" class="tab" role="tab" id="tab-logs" data-tab="logs" aria-controls="detail-body" aria-selected="false" tabindex="-1">日志与错误</button><button type="button" class="tab" role="tab" id="tab-accept" data-tab="accept" aria-controls="detail-body" aria-selected="false" tabindex="-1">验收</button></div>
+        <div class="detail-body" id="detail-body" role="tabpanel" aria-labelledby="tab-duties" tabindex="0"></div>
+      </aside>
+    </div>
+  </div>
+  <div class="mobile-backdrop" id="mobile-backdrop" aria-hidden="true"></div>
+  <div class="sr-only" id="selection-status" role="status" aria-live="polite"></div>
+  <script>
+  (function(){
+    'use strict';
+    const $ = s => document.querySelector(s);
+    const $$ = s => Array.from(document.querySelectorAll(s));
+    const esc = value => String(value == null ? '' : value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    const modules = {
+      source: {
+        number:'01', name:'用户文字 / 游戏事件', en:'INPUT ADAPTER', type:'输入适配器 · 代码 · 0 token',
+        summary:'保留原话与事件来源，让第一步就知道消息属于谁、发生在什么时候。',
+        duties:['接收用户文字、战斗 / 任务窗口等游戏事件与用户打断。保留用户原话，不先经过模型改写。','将事件标准化，附来源、角色会话、时间戳与事件版本；对高频重复事件去重、合并。','输入到达后立即显示客户端接收反馈，再投递协调器。接收反馈不能冒充有效建议。'],
+        powers:['可以合并重复的状态上报；明确用户指令与打断事件优先投递。','可附加内部接口尚不完整的读取结果，保留证据等级与缺失字段。'],
+        limits:['运行证据仅限魔兽内部接口、用户文字、从两者明确保存的记录和已验证 Skill；不默认接入网页、视觉或麦克风。','模型通用知识不是当前无限服事实；不猜测缺失的职业、地图或任务信息，也不执行游戏动作。','不因事件节流丢弃用户问话或明确偏好变更。'],
+        code:true,
+        budgetNote:'代码适配与本地 UI 不使用模型 token；游戏内部接口、客户端呈现与网络耗时需要另计。',
+        inputs:[['用户 / 游戏接入层','用户原话、可观测事件、来源标识、事件版本与客户端接收时间。']],
+        outputs:[['协调器','标准化输入与原文引用；保留输入时的会话、角色和来源信息。'],['客户端 UI','“已接收”状态，或本地取消事件；不宣称已经理解内容。']],
+        before:['客户端接收输入。','为事件赋标识并保留原文。','立即交协调器更新状态与偏好；紧急打断优先。'],
+        parallel:'接收反馈与事件整理可并行。偏好更新完成前，不允许旧候选继续获得发言权。',
+        errors:[['DUPLICATE_EVENT','高频状态被重复投递。','按事件标识合并，保留最新版本；不合并不同用户指令。'],['UNTRUSTED_EVENT','游戏接口字段来源或适用版本不充分。','标记证据等级为待核实，禁止升级成已确认游戏事实。']],
+        accept:['客户端接收反馈 P95 ≤150 ms；这是本地 UI 目标，待测。','原话、来源和版本能够回溯；重复状态不会触发重复发言。','用户问话、明确禁主动与打断不被状态事件队列阻塞。']
+      },
+      state: {
+        number:'02', name:'状态与偏好立即更新', en:'PRIVATE COORDINATOR', type:'协调器私有 · 代码 · 0 token',
+        summary:'由一个代码协调器先处理新指令，再给各 Agent 发本轮所需的不可变快照。',
+        duties:['同步更新当前角色 / 战斗 / 任务状态与明确偏好，维护各状态域的版本。','“别主动说了”等明确指令立即禁用主动发言，同时失效依赖旧偏好的在途候选。','为本轮建立 turn_id、reply_epoch 与截止时间，并持有唯一发言锁。'],
+        powers:['唯一有权写入权威状态与偏好、提高发言代次、取消旧任务。','向指定 Agent 发出最小必要副本，收取结果与版本化提案。'],
+        limits:['Agent 不可直接读写协调器私有状态，也不共享可变记忆。','明确偏好即时生效；后台反思不得把它降级、推翻或延迟。','“每次只说一步”等没有“以后”或长期范围的要求，先作用于当前会话，不隐式永久保存。','禁止跨 Agent 续接 previous_response_id；每个 Agent 的上下文链独立。'],
+        code:true,
+        budgetNote:'快照裁剪与权限检查由代码完成。只发送本轮依赖字段，避免把整段聊天与所有记忆复制到每次请求。',
+        inputs:[['输入适配器','用户原话、游戏状态增量与取消信号。'],['后台私有 Agent','带依据、版本与适用范围的记忆 / 策略更新草案。']],
+        outputs:[['本地路由 / 被选中的 Agent','不可变状态副本、有效偏好、角色短设定、允许操作与截止时间。'],['发送检查','当前 reply_epoch、相关状态版本、偏好版本、允许的渠道与发言锁。']],
+        before:['先应用用户原话中的明确偏好和新状态。','递增相应版本；需要时撤销旧任务和候选。','从已生效状态生成最小快照，再进入本地路由。'],
+        parallel:'不同状态域可独立维护版本；对外快照与最终写入必须保持一致。后台草案可以并行产生，提交必须由协调器串行校验。',
+        errors:[['STALE_PREFERENCE','在途回答使用了用户已修改的偏好。','按 preference_version 拒收旧候选；新禁令立即进入发送闸门。'],['WRITE_CONFLICT','后台提案基于旧状态。','拒绝覆盖，保留较新原话；提案回到待重算或过期状态。']],
+        accept:['明确禁主动指令在下一次主动发送检查前已生效；旧主动候选被撤销。','每个 Agent 只能看到发给自己的副本；没有共享可写上下文。','依赖版本可单独校验；不相关状态变化不会无差别废弃答案。']
+      },
+      route: {
+        number:'03', name:'本地路由', en:'LOCAL ROUTER', type:'代码 · 0 token · 三选一',
+        summary:'先判断当前应该回应什么，再决定是否值得调用模型。没有把握时进入查证或澄清。',
+        duties:['按明确意图、游戏上下文、证据完整度与已验证 Skill 的条件，选择一条前台路径。','优先命中可复核的 FAQ、模板和规则；普通回答交给一次快速角色生成；多步依赖才升级复杂 DAG。','判断发言时机、去重与主动探问额度；用户问话不受主动冷却影响。'],
+        powers:['可以直接选择 Skill，也可以决定需要检索或复杂规划。','平静、允许主动、存在值得问的问题且未超额度时，才允许一次主动探问。'],
+        limits:['每 8 分钟最多一次主动探问是初始上限，不是定时必说；战斗与明确禁主动时不探问。','不能仅凭关键词证明问题可安全缓存命中；版本、前置条件和来源都必须匹配。','未知意图不得硬套模板。必要时让快速角色问一个最小澄清问题。'],
+        code:true,
+        budgetNote:'本地路由无模型 token。路由规则应保持可解释；不再插入一个只负责分类的模型调用作为固定前置。',
+        inputs:[['协调器','本轮快照、有效偏好、事件类别、可用 Skill 索引与证据状态。']],
+        outputs:[['Skill / 快速角色 / 复杂任务','选中的路径、选择依据、证据需求、deadline 与允许的发言类型。'],['协调器','静默 / 合并 / 延后状态及原因；不把静默解释成用户讨厌某话题。']],
+        before:['先区分用户主动问话与系统主动发言。','检查时机、偏好、去重、证据与 Skill 条件。','选择唯一前台路径；复杂度足够时才创建 DAG。'],
+        parallel:'路由本身是短代码路径。只有被选中的路径运行；避免同时叫三个前台 Agent 竞争发言。',
+        errors:[['ROUTE_FALSE_HIT','场景看似相同，但任务或游戏版本不同。','Skill 不命中；转证据检索或澄清，并记录失配条件。'],['PROACTIVE_COOLDOWN','主动探问超出额度或时机不合适。','保持安静；用户随后提问仍可正常回答。']],
+        accept:['已验证且满足条件的 Skill 路径不产生模型调用。','“少说一点”与“别主动说”有不同偏好语义；明确禁主动立即生效。','主动探问只在平静时按需发生，最多每 8 分钟一次；用户问话不受冷却影响。']
+      },
+      skill: {
+        number:'04A', name:'已验证 Skill', en:'VERIFIED SKILL', type:'本地规则 / 模板 / FAQ · 0 模型调用',
+        summary:'把已经确认、经常发生的场景做成有条件、有来源、会过期的快速响应。',
+        duties:['匹配明确前置条件、角色与游戏版本、证据来源和有效期，满足后直接选择已审核文本。','保留少量风格一致的表达变体，根据近期已说内容去重，不靠每次生成保持陪伴感。','事实字段只填入可信状态；模板不足时退出命中，不勉强拼接。'],
+        powers:['可以直接产出候选话语，经代码发送检查后到达客户端。','可以仅更新状态并保持安静；对战斗事件优先使用短句。'],
+        limits:['零模型不等于零网络或零渲染耗时。缓存规则仍需要失效与版本策略。','缓存命中不等于语义可靠。适用场景和事实前置条件也必须匹配；动态游戏事实与未核准攻略不进入无条件 FAQ。','不执行施法、移动、交易等游戏动作。'],
+        code:true,
+        budgetNote:'规则代码和模板本身为 0 token。建库、人工审核或离线生成成本应另记，不能隐藏在运行时成本之外。',
+        inputs:[['本地路由','命中条件、快照、证据引用、有效偏好、近期已说文本索引。'],['Skill 注册表','审核过的模板、适用版本、前置条件、来源、TTL 与禁用开关。']],
+        outputs:[['发送检查','选定模板、可信填充字段、已声明事实、证据引用与本轮依赖版本。']],
+        before:['匹配版本、前置条件与新鲜度。','选择符合当前语气和近期去重要求的已验证模板。','直接进入发送检查，不附加角色润色调用。'],
+        parallel:'模板选择与非关键记录可并行；最终发送必须等待依赖版本与发言锁检查。',
+        errors:[['SKILL_EXPIRED','模板或来源的版本 / 有效期已失效。','停止命中，转快速查证或保持安静；不要发送旧攻略。'],['MISSING_SLOT','填充字段缺失或不可信。','不猜测缺失内容；使用安全的通用模板或转最小澄清。']],
+        accept:['首有效建议端到端 P95 ≤300 ms，包含客户端呈现；目标待测。','每条游戏事实能回到版本与来源；过期和缺字段时不会强行命中。','不同语气变体保持同一事实含义；近期重复提醒被抑制。']
+      },
+      fast: {
+        number:'04B', name:'单次快速回答', en:'FAST CHARACTER AGENT', type:'私有前台 Agent · gpt-6.1-sol · low',
+        summary:'一次请求同时完成理解、内容与角色语气；需要游戏事实时，先提供可信证据。',
+        duties:['使用稳定角色前缀、当前问题、精简状态和相关偏好，直接生成面向用户的自然回答。','攻略、位置、版本变化等事实依赖证据；先由代码查魔兽内部接口或由接口 / 用户文字保存的本地记录，再让模型回答。','短回答优先回应用户真实需求。没听懂时提出一个有用的澄清问题，不堆叠礼貌套话。'],
+        powers:['可以基于已给证据产出候选话语、声明依赖和不确定点。','如果问题在理解后显著变复杂，可申请一次有理由的升级；必须重置剩余截止预算。'],
+        limits:['没有直接发言权或记忆写权限；候选由协调器持锁发送。','检索范围不含网页、视觉、麦克风；模型通用知识不能充当当前无限服的事实证据。','不读取其他 Agent 的私有上下文，不把不确定事实包装成确定建议。','稳定语气在这次生成完成；禁止再加一个固定润色 Agent。'],
+        model:'gpt-6.1-sol', effort:'low',
+        rows:[['稳定角色 / 指令前缀','1.2–2.4k','—'],['本轮动态输入','150–600','—'],['用户可见回答','—','40–140']],
+        budgetNote:'以上是每次调用的软预算，k 约为 1,000 token。稳定前缀与动态输入分开组织以便评估缓存效果；命中率和延迟必须实测。',
+        inputs:[['协调器 / 本地路由','原话、角色短设定、有效偏好、最小状态快照与本轮 envelope。保留最近 2–4 轮相关原文和未完成问题，避免摘要丢失指代。'],['只读检索 / 已验证索引','仅来自内部接口、用户文字、明确保存的两者记录或已验证 Skill；保留来源、时间与适用版本。']],
+        outputs:[['发送检查','完整候选或可独立成立的语义片段、事实声明、evidence_refs、依赖版本与未知项。']],
+        before:['必要时先取得事实证据。','一次模型调用生成内容和角色语气。','以可独立成立的短句为流式检查单位；无法提前校验时先缓冲。'],
+        parallel:'互不依赖的只读证据可并发获取。回答依赖的证据未完成时，不提前输出相关结论。',
+        errors:[['EVIDENCE_UNKNOWN','检索缺证据，或者游戏版本没有核准。','问最小澄清问题或明确未知；必要时升级语义审查，不靠规则证明正确。'],['DEADLINE_EXCEEDED','请求超过本轮截止时间。','取消旧请求并停止接收其片段；按当前状态给出诚实的可用反馈。']],
+        accept:['首有效建议 P50 ≤1.5 s、P95 ≤3 s；这是待测目标，包含必要检索与网络。','前台普通问答默认一次生成，无额外分类或润色调用。','游戏事实能回到证据；未知信息表现为澄清或限定，不以语气掩盖不确定性。','记录首 token 与首有效建议两个时间；“我在看”不算有效建议。']
+      },
+      complex: {
+        number:'04C', name:'复杂任务', en:'ON-DEMAND TASK DAG', type:'按需组队 · 私有上下文 · medium / high',
+        summary:'只在任务有多个独立信息源或推理依赖时拆分。查询可以同时做，依赖不能抢跑。',
+        duties:['规划器先判断真正需要的子任务，输出有限、可取消、带 deadline 的有向无环图（DAG）。','独立证据查询并发；依赖这些结果的推理按拓扑顺序执行，不能为了并行而猜测输入。','指定一个 DAG 节点负责最终用户文本，保持同一角色和已知偏好。其他节点提交结构化证据和结论。'],
+        powers:['可以按需创建查询、比较、推理等私有工作节点，给每个节点最小任务副本。','如果已有可以独立成立、经过查证的内容，可以先提交第一条有效建议，后续再补齐。'],
+        limits:['不强制每轮把所有 Agent 跑一遍，不把相互依赖的推理伪装成并发。','最终文本直接进入发送检查；不会再为同一文本增加固定润色环节。','已运行的深推理 Agent 不会自动知道后来发送的首句；必须显式传递，不能只靠发言锁或版本号避免自由文本矛盾。','子任务超时、取消、reply_epoch 或相关状态版本过期，结果不得发给用户。','复杂最终答案单独计时，不承诺 3 秒完成。'],
+        model:'gpt-6.1-sol', effort:'规划默认 medium；高歧义 / 冲突任务按需 high',
+        rows:[['规划节点','2–5k','300–900'],['深推理节点','2–6k','200–800'],['只读查询适配器','0（代码）','0（代码）']],
+        budgetNote:'规划请求本身也计入模型请求数、token、成本和关键路径。DAG 的总用量是实际调用之和；并发降低等待，不保证降低成本。最终用户话语由一个既有节点负责，长度按问题另设软预算。',
+        inputs:[['协调器 / 路由','目标、约束、已知证据、偏好、允许工具、截止时间与依赖版本。'],['子任务结果消息','仅使用内部接口、用户文字、明确保存的两者记录或已验证 Skill；结果副本保留未知项、完成状态、时间与版本。']],
+        outputs:[['发送检查','有证据支撑的早期有效建议，以及后续最终候选；都带同一轮 envelope。'],['协调器','任务状态、子任务耗时与成本、取消 / 超时 / 降级原因。']],
+        before:['规划：只生成必要子任务和依赖边；规划调用本身计入预算。','并发层：查询不同的独立来源。','若后续推理必须继承首句承诺，先提交可靠首句，再把已提交文本显式交给深度生成。','依赖层：证据与必要的已说文本齐备后比较、推理；按需要再进入下一层。','指定节点：形成面向用户的候选，提交前与已说内容核对。'],
+        parallel:'例如“当前可接任务”与“地图连接关系”可独立查询；“最短路线”必须等待二者。如果两次文本生成并行，两份结果都先作为候选，提交前核对已说内容；必要的额外续接或语义审查必须计入调用与延迟预算。后台反思不得修改当前 DAG 的快照。',
+        errors:[['DEPENDENCY_FAILED','关键证据查询失败，后继推理缺输入。','阻断相关后继；允许无依赖结果独立返回，明确缺口。'],['STALE_RESULT','等待期间角色状态或用户要求改变。','比较声明的依赖版本与 reply_epoch；旧结果只记录，不发送。'],['DAG_BUDGET_EXCEEDED','计划过深，超出剩余截止时间或成本。','收缩任务、说明可完成范围；不自动无限重规划。']],
+        accept:['任务图没有环；依赖节点只在所需输入齐备时启动。','独立查询的并发能在 trace 中确认，关键路径耗时单独报告。','提前首句必须包含可靠且可独立使用的内容；“好问题”等占位话术不算有效交付。','后续答案继承已说承诺，或在提交前经显式一致性核对；额外续接 / 语义审查如实记账。','复杂最终答案单独报告 P50 / P95 和成功率；不以快速路线目标代替。']
+      },
+      send: {
+        number:'05', name:'发送检查与统一输出', en:'SINGLE VOICE GATE', type:'代码 · 唯一发言锁 · 0 token',
+        summary:'只允许当前仍有效、符合时机和偏好的候选获得发言权。角色语气已经在上游完成。',
+        duties:['原子检查 reply_epoch、deadline、有效偏好与候选声明的状态依赖；获取唯一发言锁。','检查候选结构、来源关联、重复内容、主动冷却与渠道可用性；对游戏事实保留证据要求。','候选提交前与已说内容核对；自由文本语义冲突需要按需审查或上游续接，额外调用单独记账。','发送当前有效文本并记录实际送达回执。流式输出按语义片段复核；打断后本地立即停止。'],
+        powers:['可以发送、拒收、取消、缓冲或要求上游补证；代码决定同一时刻谁可发言。','缓存模板可直接通过；模型候选通过后直接输出。'],
+        limits:['规则审核不能证明自由文本事实正确。未知证据要澄清、查证或按需语义审查。','无权把没送达的内容记为用户已经听见，也不能把沉默视为偏好反馈。','不额外生成角色润色文本；有语义问题时退回具体问题，不隐蔽修补事实。'],
+        code:true,
+        budgetNote:'结构、版本、时机与发言锁检查为 0 token。按需语义审查若发生，需要单独记录模型调用、原因、耗时与成本。',
+        inputs:[['前台选中路径','候选文本或片段、事实 / 证据关联、依赖版本与新鲜度。'],['协调器','当前发言代次、有效偏好、相关状态版本、取消信号与权限。']],
+        outputs:[['客户端','唯一当前有效的文本 / 语音片段，或停止信号。'],['后台 / 记录层','实际送达回执、拒收原因、延迟分段、成本数据及明确反馈。']],
+        before:['检查 epoch、依赖版本、deadline 与有效偏好。','执行结构 / 时机 / 去重 / 证据关联检查；存在未知时转澄清或语义审查。','以原子发言锁提交片段，记录真实送达结果。','异步投递记录；按需触发后台，前台无需等待其完成。'],
+        parallel:'非关键日志入队与后台触发可并行；发言权、取消状态和片段提交必须使用一致的本地仲裁顺序。',
+        errors:[['STALE_EPOCH','旧轮次候选到达发送端。','直接拒收；即使模型仍在输出也不继续呈现。'],['VOICE_LOCK_CONFLICT','两个候选同时申请发言。','唯一锁只接受当前有效候选，记录被拒项，不叠音。'],['DELIVERY_FAILED','网络或输出渠道失败。','标记未送达，避免学习未发生的互动；允许明确可追踪的重试。']],
+        accept:['打断本地停止展示 / 播放 P95 ≤150 ms，目标待测；服务端停止另外记录。','旧 epoch、过期依赖与超时结果零发送；相同渠道不会出现两个同时发言者。','日志区分候选生成、发送尝试、实际送达与用户反馈。','通过规则检查不等于事实验证；缺证据和语义冲突有明确去向。']
+      },
+      reflection: {
+        number:'06A', name:'反思 Agent', en:'PRIVATE REFLECTION AGENT', type:'后台私有 Agent · 无发言权 · 按需触发',
+        summary:'在明确反馈、冲突或阶段结束后理解发生了什么，输出可验证的改进提案。',
+        duties:['读取发给自己的原话、实际送达记录与相关历史副本，区分内容、语气、时机和功能反馈。','保留替代解释与置信程度；没有回应只表示未知，不自动推断为讨厌。','提出下轮可验证的策略建议，附证据、适用范围与过期条件。'],
+        powers:['可以提出候选偏好、策略草案和待确认问题，并发显式消息给协调器或记忆整理 Agent。','明确证据不足时可以选择不学习。'],
+        limits:['无发言权、不直接写入权威记忆，不阻塞当前回答。','禁止读取其他 Agent 私有状态；对记忆整理只发送有版本的草案副本。','后台提案不能覆盖用户最新明确指令；主动试探仍受协调器时机与额度约束。'],
+        model:'gpt-6.1-sol', effort:'medium；复杂反馈冲突按需 high',
+        rows:[['反思调用','3–8k','300–800']],
+        budgetNote:'只在值得学习的反馈或阶段节点启动。普通轮次可以仅记事实，不需要每句话都跑反思。',
+        inputs:[['送达记录 / 协调器','真实送达内容、用户明确反馈、相关事件副本与各自版本。'],['记忆整理 Agent（显式消息）','与本次反馈相关的历史证据副本与冲突提示。']],
+        outputs:[['协调器 / 记忆整理 Agent','带原话引用、置信程度、适用范围、版本与撤回条件的更新草案。']],
+        before:['等待本次相关内容的送达回执和实际反馈。','区分事实、明确偏好与暂定假设。','提出草案；由协调器校验、合并或拒收。'],
+        parallel:'可与记忆模块的事实归档、下一轮前台回答并行。需要反思结论的记忆提案必须等待该结论显式到达。',
+        errors:[['OVER_INTERPRETATION','把沉默或一次行为推断成长期偏好。','保留未知，撤回无证据归因；只保存确实发生的事实。'],['FEEDBACK_VERSION_CONFLICT','反思期间用户已经给出更新指令。','保留新指令；旧草案标为过期或重新计算，不覆盖。']],
+        accept:['无明确学习价值的轮次不强制调用；前台无等待该 Agent 的依赖。','每个提案能追溯到原话或实际行为，并区分事实和解释。','不存在“沉默等于讨厌”的默认学习规则；草案可以被拒绝和撤回。']
+      },
+      memory: {
+        number:'06B', name:'记忆整理 Agent', en:'PRIVATE MEMORY AGENT', type:'后台私有 Agent · 草案整理 · 单点提交',
+        summary:'把已发生的事实、明确偏好与尚未确认的解释分开整理，为下一轮准备可靠副本。',
+        duties:['整理送达事实和用户原话，去重、合并、标注来源、适用范围与有效期。','保留事实 / 明确偏好 / 暂定假设三类记录，发现冲突时优先保留更新的明确指令。','向协调器提交带基础版本的变更提案，生成可审计、可撤销的更新。'],
+        powers:['可以提出新增、合并、过期或待确认记忆的草案。','可以给被授权 Agent 发相关证据副本；每份副本保留来源和版本。'],
+        limits:['不能直接写入权威记忆或发言；最终提交由协调器版本检查并串行完成。','不把假设升级成确认事实，不把未送达候选记成实际互动。','不使用其他 Agent 的 previous_response_id，也不共享私有对话存储。'],
+        model:'gpt-6.1-sol', effort:'low；提交与冲突校验由代码完成',
+        rows:[['记忆整理调用','0.8–2.5k','100–300']],
+        budgetNote:'检索现有记录和简单去重可用代码。只有需要语言归纳的整理才使用模型，并保持短结构化输出。',
+        inputs:[['协调器 / 送达记录','实际事件、用户原话、有效偏好、已提交记忆副本与基础版本。'],['反思 Agent（显式消息）','带依据与不确定性的反思草案；不存在共享工作记忆。']],
+        outputs:[['协调器','版本化变更草案，包含来源、冲突、TTL、撤回信息与提交前置条件。'],['被授权 Agent','下一轮相关记忆副本；只发最小必要内容。']],
+        before:['独立归档已发生的事实。','需要解释的更新等待反思消息，并保留不确定性。','提交草案，由协调器校验版本后单点写入。','下轮读取已提交版本，形成新的不可变副本。'],
+        parallel:'事实整理可与反思并行；依赖反思的合并必须等待其输出；权威记忆写入必须串行。',
+        errors:[['MEMORY_VERSION_CONFLICT','提案的基础版本已经落后。','拒绝盲覆盖；重新合并或保持待处理，保留原始依据。'],['FACT_HYPOTHESIS_MIX','整理时把不确定推测写成事实。','退回草案，保留分类与置信信息；必要时等待用户确认。']],
+        accept:['每条记录有来源、类别、时间和版本；假设不会自动升级为事实。','后台旧草案不能覆盖新明确偏好；冲突与撤回路径可追溯。','下一轮只读取已提交版本；未提交的私有草案不会悄悄改变前台回答。']
+      }
+    };
+    const envelope = {
+      turn_id:'<turn-id>',reply_epoch:'<monotonic-epoch>',
+      state_dependency_versions:{combat:'<version>',quest:'<version>'},
+      preference_version:'<version>',evidence_refs:['<source-id>'],
+      freshness:{observed_at:'<timestamp>',ttl_ms:'<policy-value>'},
+      deadline:'<timestamp>'
+    };
+    const scenes = {
+      spawn:{name:'出生',branch:'fast',input:'假设：兽人萨满 1 级，任务列表为空；附近 NPC 数据不可用。用户说“我不知道该做什么”。',line:'我们先找个任务。看看附近有没有能交谈的人，点开后我帮你看。',note:'一次 low 生成可用的一步；不猜 NPC 名称或位置，不以欢迎语代替引导。接口缺失的信息由用户补充。'},
+      quest:{name:'任务窗口',branch:'skill',input:'假设：用户明确想接任务；接口确认当前对话可接受，没有奖励选择、花费或其他未知条件；不在战斗中。',line:'先接下这个任务。',note:'已验证 Skill 的条件全部通过，零模型返回短建议；仅提供建议，不自动点击。'},
+      mana:{name:'无蓝战斗',branch:'skill',input:'假设：正在战斗，用户问“技能怎么放不出来”；接口确认法力为零，该技能需要法力，提示尚未重复。',line:'蓝用完了，先别反复按这个耗蓝技能。',note:'确定事实触发短模板；战斗中不主动探问，也不展开攻略长段落。这条提醒不代表解决了整场战斗。'},
+      quiet:{name:'少说一点',branch:'skill',input:'假设原话：“少说一点，先别主动提醒了。”这是明确的主动发言禁令，而非推测。',line:'好，我安静陪着。你叫我，我再说。',note:'先立即禁用主动并取消旧主动候选，再确认收到。用户后续问话不受 8 分钟冷却影响。'},
+      plan:{name:'复杂规划',branch:'complex',input:'假设：用户只有半小时，希望少跑远路；接口确认两项目标在同一区域，存在前置关系，第三项要跨区；各任务耗时未知。',line:'先做同一区域的两件事，按前置顺序来；跨区那条暂时放后面。',note:'独立读取并发，依赖推理有先后。这是减少跑动的顺序，不承诺半小时内全部完成；可靠局部交付与完整答案分别计时。'}
+    };
+    const tabNames = {duties:'职责与权能',budget:'模型与预算',io:'输入输出',order:'先后并发',logs:'日志与错误',accept:'验收'};
+    let selected = 'route', activeTab = 'duties', activeScene = 'all', lastFocus = null;
+    const panel = $('#detail-panel');
+    const layout = $('#layout');
+    const pageShell = $('#page-shell');
+    const backdrop = $('#mobile-backdrop');
+    const mobileQuery = window.matchMedia('(max-width:1020px)');
+    const list = (items, ordered=false, className='') => '<'+(ordered?'ol':'ul')+(className?' class="'+className+'"':'')+'>'+items.map(item=>'<li>'+esc(item)+'</li>').join('')+'</'+(ordered?'ol':'ul')+'>';
+    const links = items => items.map(item=>'<div class="link-block"><b>'+esc(item[0])+'</b><p>'+esc(item[1])+'</p></div>').join('');
+
+    function renderBody(){
+      const m=modules[selected];
+      let html='';
+      if(activeTab==='duties'){
+        html='<h3>负责什么</h3>'+list(m.duties)+'<h3>被允许做什么</h3>'+list(m.powers)+'<div class="info-box amber"><b>权能边界</b>'+list(m.limits)+'</div>';
+      }else if(activeTab==='budget'){
+        if(m.code){
+          html='<h3>代码路径，不调用模型</h3><dl class="key-value"><dt>基座模型</dt><dd>不适用</dd><dt>推理强度</dt><dd>不适用</dd><dt>模型 token</dt><dd>0</dd><dt>记录方式</dt><dd>本地耗时与端到端耗时分别记录</dd></dl><div class="info-box green">'+esc(m.budgetNote)+'</div>';
+        }else{
+          html='<h3>建议基座与推理强度</h3><dl class="key-value"><dt>基座模型</dt><dd>'+esc(m.model)+'</dd><dt>推理强度</dt><dd>'+esc(m.effort)+'</dd><dt>验证状态</dt><dd>建议配置；未做本轮 API 实测</dd></dl><h3>每次调用的软预算</h3><table class="budget-table"><thead><tr><th scope="col">用途</th><th scope="col">输入 token</th><th scope="col">可见输出 token</th></tr></thead><tbody>'+m.rows.map(r=>'<tr>'+r.map(c=>'<td>'+esc(c)+'</td>').join('')+'</tr>').join('')+'</tbody></table><p class="budget-note">'+esc(m.budgetNote)+'</p><div class="info-box amber"><b>可见输出预算 ≠ API 总输出上限</b><p>推理 token 需要留出空间并单列观察。<span class="inline-code">max_output_tokens</span> 不得直接等同可见输出目标；按实际模型行为验证。</p></div><p class="budget-note">用量记账：cached_tokens 已包含在 input_tokens 中；reasoning_tokens 已包含在 output_tokens 中，不重复相加。可见输出另列为产品预算。</p><p class="budget-note">这些区间是设计建议，不是实测消耗或官方保证。生产记录需包含缓存细分、推理细分与失败重试。</p>';
+        }
+      }else if(activeTab==='io'){
+        html='<h3>输入来自</h3>'+links(m.inputs)+'<h3>输出给谁</h3>'+links(m.outputs)+'<h3>每条任务消息的基础信息包</h3><pre class="code-block">'+esc(JSON.stringify(envelope,null,2))+'</pre><div class="info-box">字段值只是协议占位示例。只传不可变副本；<b>不共享记忆，不跨 Agent 续接 previous_response_id。</b>发送前只检查候选声明的相关状态依赖，并重新核对偏好、代次、新鲜度和 deadline。</div>';
+      }else if(activeTab==='order'){
+        html='<h3>先后顺序</h3>'+list(m.before,true)+'<h3>并发边界</h3><div class="info-box green">'+esc(m.parallel)+'</div><h3>统一的取消语义</h3><p>用户打断、新要求或相关游戏状态变化后，协调器重新判断候选是否有效。旧任务可以被取消；已返回但过期的结果也必须拒收。</p><p>客户端先停止展示或播放，再异步请求服务端取消。服务端是否已经停止单独记录，不用服务端响应阻塞本地打断。</p>';
+      }else if(activeTab==='logs'){
+        const sample={record_type:'example_schema_only',module:selected,turn_id:'<turn-id>',reply_epoch:'<epoch>',route:'<selected-route>',stage:'<stage-name>',status:'pending_integration',duration_ms:null,input_tokens:null,cached_tokens:null,output_tokens:null,visible_output_tokens:null,reasoning_tokens:null,evidence_refs:['<source-id>'],delivered:null,error_code:null};
+        html='<h3>运行日志 <span style="color:#9ba7b4;font-weight:400">/ 示例格式</span></h3><div class="empty-state">待接入 · 本页没有真实运行 trace</div><pre class="code-block">'+esc(JSON.stringify(sample,null,2))+'</pre><p class="budget-note">null 表示未采集，不是零耗时或零消耗。真实接入后保留阶段时间、父子调用关系、关键路径、来源与实际送达状态。</p><h3>错误历史 <span style="color:#9ba7b4;font-weight:400">/ 待接入</span></h3><p class="budget-note">以下是预设故障类型和处理设计，不是已经发生的错误记录。</p>'+m.errors.map(e=>'<details class="error-item"><summary>'+esc(e[1])+'</summary><div class="error-content"><span class="error-code">'+esc(e[0])+'</span><b>拟议处理：</b>'+esc(e[2])+'<p style="margin-top:7px;color:#a5a39d">发生时间：待接入 · 次数：未采集 · 处理状态：未发生记录</p></div></details>').join('');
+      }else if(activeTab==='accept'){
+        html='<h3>验收条件</h3><div class="info-box amber">全部为拟议验收标准，当前状态：<b>待接入、待实测</b>。此处没有自动打勾或虚构通过率。</div>'+list(m.accept,false,'acceptance-list')+'<h3>怎样验证</h3><p>对相同输入、状态快照与网络条件重复采样，按路线分别统计 P50 / P95、任务成功率、事实正确性、语气与打断表现。保留失败和超时样本。</p><p>快速路径与复杂路径分别报告。首有效建议须实际帮助用户决定下一步；客户端接收反馈、首 token 与完整答案独立记录。</p>';
+      }
+      $('#detail-body').innerHTML=html+'<div class="detail-footer">设计稿 · 2026-11-17 · 模块 '+esc(m.number)+' / '+esc(tabNames[activeTab])+'</div>';
+      $('#detail-body').setAttribute('aria-labelledby','tab-'+activeTab);
+    }
+
+    function setTab(key,moveFocus=false){
+      if(!Object.prototype.hasOwnProperty.call(tabNames,key))return;
+      activeTab=key;
+      $$('.tab').forEach(tab=>{const on=tab.dataset.tab===key;tab.setAttribute('aria-selected',String(on));tab.tabIndex=on?0:-1;});
+      renderBody();
+      if(moveFocus)$('#tab-'+key).focus();
+    }
+
+    function selectModule(id,open=true){
+      if(!Object.prototype.hasOwnProperty.call(modules,id))return;
+      selected=id;
+      const m=modules[id];
+      $$('.flow-node').forEach(node=>{const on=node.dataset.node===id;node.classList.toggle('selected',on);node.setAttribute('aria-pressed',String(on));});
+      $('#module-label').textContent='MODULE '+m.number+' / '+m.en;
+      $('#detail-title').textContent=m.name;
+      $('#detail-summary').textContent=m.summary;
+      $('#detail-type').textContent=m.type;
+      renderBody();
+      panel.scrollTop=0;
+      $('#selection-status').textContent='已选择'+m.name+'，当前页签：'+tabNames[activeTab];
+      if(open&&mobileQuery.matches)openPanel();
+    }
+
+    function openPanel(){
+      lastFocus=document.activeElement;
+      document.body.appendChild(panel);
+      panel.classList.add('open');
+      panel.setAttribute('role','dialog');
+      panel.setAttribute('aria-modal','true');
+      backdrop.classList.add('open');
+      pageShell.inert=true;
+      document.body.style.overflow='hidden';
+      $('#close-panel').focus({preventScroll:true});
+    }
+
+    function closePanel(restoreFocus=true){
+      const wasOpen=panel.classList.contains('open');
+      panel.classList.remove('open');
+      panel.removeAttribute('role');
+      panel.removeAttribute('aria-modal');
+      backdrop.classList.remove('open');
+      pageShell.inert=false;
+      document.body.style.overflow='';
+      layout.appendChild(panel);
+      if(wasOpen&&restoreFocus&&lastFocus&&document.contains(lastFocus))lastFocus.focus({preventScroll:true});
+    }
+
+    function setScenario(key){
+      const scene=scenes[key];
+      activeScene=scene?key:'all';
+      const onPath=new Set(scene?['source','state','route',scene.branch,'send']:[]);
+      $$('.flow-node').forEach(node=>{node.classList.toggle('on-route',!!scene&&onPath.has(node.dataset.node));node.classList.toggle('off-route',!!scene&&!onPath.has(node.dataset.node));});
+      $$('.branch').forEach(node=>node.classList.toggle('chosen',!!scene&&node.dataset.branch===scene.branch));
+      $$('[data-edge]').forEach(edge=>edge.classList.toggle('active',!!scene&&edge.dataset.edge.split(' ').every(id=>onPath.has(id))));
+      if(!scene){$('#scenario-preview').innerHTML='<p class="hint">选一个场景，查看假设输入、拟议话语与所走路径。这里不会调用模型或模拟性能计时。</p>';return;}
+      $('#scenario-preview').innerHTML='<div class="preview-head"><span class="example-badge">假设场景 · 非实际运行</span><b>'+esc(scene.name)+'</b></div><p class="hypothesis">'+esc(scene.input)+'</p><blockquote>'+esc(scene.line)+'</blockquote><p class="path-note"><b>拟议路径：</b>'+esc(scene.note)+'</p>';
+    }
+
+    $$('.flow-node').forEach(node=>node.addEventListener('click',()=>selectModule(node.dataset.node)));
+    $$('.tab').forEach(tab=>tab.addEventListener('click',()=>setTab(tab.dataset.tab)));
+    $('.tabs').addEventListener('keydown',event=>{
+      const keys=Object.keys(tabNames),index=keys.indexOf(activeTab);
+      let next;
+      if(event.key==='ArrowRight')next=keys[(index+1)%keys.length];
+      else if(event.key==='ArrowLeft')next=keys[(index+keys.length-1)%keys.length];
+      else if(event.key==='Home')next=keys[0];
+      else if(event.key==='End')next=keys[keys.length-1];
+      if(next){event.preventDefault();setTab(next,true);}
+    });
+    $('#scenario').addEventListener('change',event=>setScenario(event.target.value));
+    $('#close-panel').addEventListener('click',()=>closePanel());
+    backdrop.addEventListener('click',()=>closePanel());
+    document.addEventListener('keydown',event=>{
+      if(!panel.classList.contains('open'))return;
+      if(event.key==='Escape'){event.preventDefault();closePanel();return;}
+      if(event.key==='Tab'){
+        const focusable=Array.from(panel.querySelectorAll('button:not([tabindex="-1"]),a[href],summary,[tabindex="0"]')).filter(el=>!el.hidden&&el.getClientRects().length>0);
+        const first=focusable[0],last=focusable[focusable.length-1];
+        if(event.shiftKey&&document.activeElement===first){event.preventDefault();last.focus();}
+        else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first.focus();}
+      }
+    });
+    const onBreakpointChange=()=>{if(!mobileQuery.matches)closePanel(false);};
+    if(mobileQuery.addEventListener)mobileQuery.addEventListener('change',onBreakpointChange);else mobileQuery.addListener(onBreakpointChange);
+    selectModule('route',false);
+    setScenario('all');
+  }());
+  </script>
+</body>
+</html>

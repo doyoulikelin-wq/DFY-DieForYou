@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "validated_at_utc": "2026-11-17T11:42:54.042977+00:00",
+  "runtime": "runtime_v3.py",
+  "runtime_sha256": "6c912eb7260ff9f9b9f345db3b101028518bd4f859e098086dbadcc20b7ad978",
+  "test_file": "runtime_v3_test.py",
+  "test_file_sha256": "e115b500d7114c9496fca5ee00c32a3bd7ca641faa61787798ad930bc4cc06df",
+  "command": "python -m unittest discover -s experiments/natural-loop-20261117 -p 'runtime_v3_test.py' -v",
+  "execution": "Python standard-library unittest, only the eight v3 preference regression tests.",
+  "tests_run": 8,
+  "failures": 0,
+  "errors": 0,
+  "successful": true,
+  "tests": [
+    {
+      "test": "runtime_v3_test.PreferenceScopeV3Tests.test_batch_prevalidation_is_atomic_after_a_valid_first_update",
+      "status": "passed"
+    },
+    {
+      "test": "runtime_v3_test.PreferenceScopeV3Tests.test_explicit_current_turn_short_overlay_expires_to_history",
+      "status": "passed"
+    },
+    {
+      "test": "runtime_v3_test.PreferenceScopeV3Tests.test_forged_source_rejected_without_changing_epoch_or_state",
+      "status": "passed"
+    },
+    {
+      "test": "runtime_v3_test.PreferenceScopeV3Tests.test_new_current_update_is_captured_before_gate",
+      "status": "passed"
+    },
+    {
+      "test": "runtime_v3_test.PreferenceScopeV3Tests.test_old_snapshots_cannot_rollback_explicit_session_preferences",
+      "status": "passed"
+    },
+    {
+      "test": "runtime_v3_test.PreferenceScopeV3Tests.test_original_fixture_snapshot_stays_session_across_turns",
+      "status": "passed"
+    },
+    {
+      "test": "runtime_v3_test.PreferenceScopeV3Tests.test_real_history_is_allowed_but_empty_and_proactive_sources_are_not",
+      "status": "passed"
+    },
+    {
+      "test": "runtime_v3_test.PreferenceScopeV3Tests.test_session_updates_apply_before_current_turn_regardless_of_list_order",
+      "status": "passed"
+    }
+  ],
+  "unittest_output": "test_batch_prevalidation_is_atomic_after_a_valid_first_update (runtime_v3_test.PreferenceScopeV3Tests.test_batch_prevalidation_is_atomic_after_a_valid_first_update) ... ok\ntest_explicit_current_turn_short_overlay_expires_to_history (runtime_v3_test.PreferenceScopeV3Tests.test_explicit_current_turn_short_overlay_expires_to_history) ... ok\ntest_forged_source_rejected_without_changing_epoch_or_state (runtime_v3_test.PreferenceScopeV3Tests.test_forged_source_rejected_without_changing_epoch_or_state) ... ok\ntest_new_current_update_is_captured_before_gate (runtime_v3_test.PreferenceScopeV3Tests.test_new_current_update_is_captured_before_gate) ... ok\ntest_old_snapshots_cannot_rollback_explicit_session_preferences (runtime_v3_test.PreferenceScopeV3Tests.test_old_snapshots_cannot_rollback_explicit_session_preferences) ... ok\ntest_original_fixture_snapshot_stays_session_across_turns (runtime_v3_test.PreferenceScopeV3Tests.test_original_fixture_snapshot_stays_session_across_turns) ... ok\ntest_real_history_is_allowed_but_empty_and_proactive_sources_are_not (runtime_v3_test.PreferenceScopeV3Tests.test_real_history_is_allowed_but_empty_and_proactive_sources_are_not) ... ok\ntest_session_updates_apply_before_current_turn_regardless_of_list_order (runtime_v3_test.PreferenceScopeV3Tests.test_session_updates_apply_before_current_turn_regardless_of_list_order) ... ok\n\n----------------------------------------------------------------------\nRan 8 tests in 0.004s\n\nOK\n",
+  "behavior_contract": {
+    "historical_snapshot": "The first explicitly provided preferences dictionary, including an empty dictionary, initializes missing session keys once. None does not initialize. It does not replace existing explicit session values or same-turn overlays.",
+    "historical_provenance": "Historical snapshot origins have source_quote=\"\" and source_kind=\"historical_snapshot\". The current user message is never substituted for unavailable historical speech.",
+    "later_snapshots": "Ignored for preference mutation; they cannot roll back explicit updates.",
+    "new_updates": "preference_updates is a list of {value, scope, source_quote}; the whole list is validated before epoch, state, preference, or provenance mutation.",
+    "accepted_sources": "Exact nonempty current non-proactive user_text, an already observed real user quote, or trusted coordinator-provided user conversation history in recent_messages.",
+    "update_order": "Expire the old turn overlay, initialize the historical snapshot if needed, apply session updates, apply current_turn updates, then capture the packet.",
+    "bounded_scope": "An explicit source with a current-only marker remains current_turn even if the incoming update requests session scope.",
+    "truth_boundary": "Source membership is a provenance check, not semantic verification that arbitrary value fields follow from that quote."
+  },
+  "preserved_evidence": {
+    "runtime_v2.py": {
+      "before_sha256": "ccf9f8fe44878ed305a844dff88e1098326f4cca2a67e14c11cbc8532312396c",
+      "after_sha256": "ccf9f8fe44878ed305a844dff88e1098326f4cca2a67e14c11cbc8532312396c",
+      "unchanged": true
+    },
+    "preference_regression.json": {
+      "before_sha256": "04445cfa01eef26c41ab102e9ab1ffc7d9a60fc0c0a9945347474fbfbc781aab",
+      "after_sha256": "04445cfa01eef26c41ab102e9ab1ffc7d9a60fc0c0a9945347474fbfbc781aab",
+      "unchanged": true
+    }
+  },
+  "run_03_modified_by_this_fix": false,
+  "v2_runtime_modified": false,
+  "deployment_performed": false,
+  "other_modules_tested": false,
+  "notes": [
+    "The original v2 failure reproduction is retained as preference_regression.json.",
+    "No historical user quotation was invented.",
+    "These are deterministic local regression tests, not model quality or performance measurements.",
+    "run-03 and its original results remain associated with v2; this validation is a separate v3 result."
+  ]
+}

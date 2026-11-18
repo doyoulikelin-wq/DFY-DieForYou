@@ -1,0 +1,5841 @@
+{
+  "methodology": {
+    "model": "gpt-6.1-sol",
+    "fixture_type": "synthetic scripted game snapshots and simulated user texts",
+    "context_isolation": "每次业务调用均为新的 fork_turns=none 会话。只显式传入消息；角色遵守禁止读文件/网页/其他会话、只写专属outbox的协议。底层文件系统共享，非操作系统级沙箱隔离。",
+    "timing": "dispatch准备后立即实际发起独立业务会话，worker写结果时读取time.time。duration包含启动、排队、工具与prompt转交开销；每轮另含协调间隔。spawn_ack是spawn返回后首次工具读时钟，不是服务端推理开始；所有时间均非纯模型推理延迟。模拟用户思考或游戏操作等待未纳入。",
+    "token_usage": null,
+    "token_note": "Agent channel does not expose usage telemetry; CLI initialization failed with read-only filesystem",
+    "feedback": "scripted post-response user text; not real user study",
+    "memory_gate": "R1实际提交保留原貌；R2/R3提交前做确定性来源ID与明确偏好引文核对，事实内容另由协调者复核。来源和引文匹配不能保证偏好范围语义正确；R1范围扩大未在提交前拦截。反思假设单列待核实，不升级为事实。",
+    "requested_model": "gpt-6.1-sol",
+    "provider_resolved_model": null,
+    "routing": "R1由high规划提出候选链路，协调器按实际输入依赖修正；R2复用、R3急迫跳过均由实验预设，未验证规划器自主决定这些分支。",
+    "planner_contract_limit": "R1规划器只收到简短角色目录，未收到memory必须消耗执行回执与后置反馈的完整输入契约；它计划的是先整理已知事实。并发差异属于规划与模块任务契约不一致，不能单独归因为high模型能力不足。",
+    "reflection_trigger": "规划阶段尚无后置反馈；执行后注入新的合成用户反馈事件，协调器据此触发reflection。",
+    "comparison": "三个主loop结束后，low/medium/high三个fresh决策会话顺序执行；业务消息与任务指令一致，只有工具路由effort和独占结果路径不同；每档1个样本，无统计速度排名。",
+    "learning": "仅进行了消息传递、反馈解释与显式记忆整理；无模型参数训练、奖励学习或在线RL。",
+    "untested": [
+      "真实无限服与WoW接口接入",
+      "真实玩家满意度或学习效果",
+      "主动互动频率/冷却与打扰控制",
+      "审核拒绝返修与阻断分支",
+      "自主规划器的完整动态路由能力",
+      "生产环境延迟及故障恢复"
+    ],
+    "timing_definitions": {
+      "duration_ms": "节点completed - dispatch；包含调度发起与独立会话工具开销。",
+      "ack_to_output_ms": "节点completed - spawn_ack；ack来自spawn返回后首次时钟读取，非服务端推理时间。",
+      "foreground_ms": "execution结果写入时间 - 本轮首个dispatch。",
+      "full_loop_ms": "后台两结果收齐且确定性commit记录时间 - 本轮首个dispatch。",
+      "node_duration_sum_ms": "本轮全部节点duration相加；并发重叠会被重复计入。",
+      "node_active_union_ms": "dispatch到completed区间并集长度；只是记录区间覆盖，不能解释为CPU/模型实际忙碌时间。",
+      "dependency_critical_ms": "前台节点duration总和 + 最长后台节点duration；按逻辑依赖计算的近似路径，不含额外调度空隙及后台启动偏移。",
+      "observed_graph_path_ms": "最后一个业务结果完成 - loop_start，含期间所有编排等待。",
+      "orchestration_gap_ms": "full_loop - node_active_union；记录区间之外的协调与commit空隙。节点区间内仍可能包含协调开销，尤其R2压缩污染。",
+      "background_overlap_ms": "reflection与memory记录区间交集长度。"
+    }
+  },
+  "personality": "好奇、温柔的小女孩；紧急时简短直接",
+  "rounds": [
+    {
+      "id": "R1",
+      "title": "刚在试炼谷出生",
+      "user_input": "我刚出生，完全不知道要干嘛，能不能带着我玩？",
+      "feedback": "好，先教我一步，我跟着点。",
+      "snapshot": {
+        "R1F1": {
+          "race": "兽人",
+          "class": "萨满",
+          "level": 1,
+          "zone": "试炼谷"
+        },
+        "R1F2": {
+          "hp": 100,
+          "max_hp": 100,
+          "mana": 100,
+          "max_mana": 100,
+          "inCombat": false
+        },
+        "R1F3": {
+          "target": null,
+          "quest_log": []
+        },
+        "R1F4": {
+          "unknown": [
+            "spellbook",
+            "bags",
+            "map",
+            "keybindings",
+            "nearbyNPC",
+            "server_rules"
+          ]
+        }
+      },
+      "received_memory": null,
+      "planner_status": "called",
+      "nodes": [
+        {
+          "id": "r1_planning_high",
+          "round": "R1",
+          "role": "planning",
+          "effort": "high",
+          "requested_model": "gpt-6.1-sol",
+          "input_messages": [
+            {
+              "id": "R1-SNAPSHOT",
+              "from": "game_adapter_simulator",
+              "body": {
+                "R1F1": {
+                  "race": "兽人",
+                  "class": "萨满",
+                  "level": 1,
+                  "zone": "试炼谷"
+                },
+                "R1F2": {
+                  "hp": 100,
+                  "max_hp": 100,
+                  "mana": 100,
+                  "max_mana": 100,
+                  "inCombat": false
+                },
+                "R1F3": {
+                  "target": null,
+                  "quest_log": []
+                },
+                "R1F4": {
+                  "unknown": [
+                    "spellbook",
+                    "bags",
+                    "map",
+                    "keybindings",
+                    "nearbyNPC",
+                    "server_rules"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "R1U",
+              "from": "simulated_user",
+              "body": "我刚出生，完全不知道要干嘛，能不能带着我玩？"
+            },
+            {
+              "id": "ROLE-CATALOG",
+              "from": "orchestrator",
+              "body": {
+                "planning": "选需要的模块、顺序、并发和结束条件",
+                "decision": "选择行动与具体候选表达",
+                "review": "审核实际候选内容",
+                "execution": "逐字输出批准内容，记录送达",
+                "reflection": "后台解释反馈，只提有来源建议",
+                "memory": "整理事实和明确偏好，通过消息传给下一轮"
+              }
+            }
+          ],
+          "input_sha256": "61e1bd4b379e3dedc5ae2c01f975ea190a59d7cd973bb1b6851ad66149b2e857",
+          "dispatch_unix_ms": 1794680686410,
+          "token_usage": null,
+          "output": {
+            "goal": "陪新手完成首个有证据的小步骤",
+            "enabled_agents": [
+              "planning",
+              "decision",
+              "review",
+              "execution",
+              "memory"
+            ],
+            "skipped_agents": [
+              "reflection"
+            ],
+            "dependencies": [
+              "decision依据本轮快照生成实际候选",
+              "review审核decision候选；退回则重选",
+              "execution仅逐字发送审核批准内容",
+              "memory后台整理已知事实与未知项，不阻塞前台"
+            ],
+            "parallel_groups": [
+              [
+                "decision",
+                "memory"
+              ],
+              [
+                "review"
+              ],
+              [
+                "execution"
+              ]
+            ],
+            "stop_conditions": [
+              "批准内容送达后等待玩家反馈",
+              "未获审核批准不得执行",
+              "需未知信息时止于询问，不补造事实"
+            ],
+            "next_action_scope": "只给温柔简短文字：确认愿意陪伴，请玩家观察并描述附近NPC或标记；本轮不指定未知任务、技能、按键或坐标，不操作游戏。",
+            "evidence_ids": [
+              "R1-SNAPSHOT",
+              "R1U",
+              "ROLE-CATALOG"
+            ],
+            "reason_brief": "玩家安全且缺少环境信息，先观察再行动，后台仅整理事实。"
+          },
+          "completed_unix_ms": 1794680719730,
+          "duration_ms": 33320,
+          "status": "completed",
+          "issues": [
+            {
+              "code": "PLANNER_MODULE_CONTRACT_MISMATCH",
+              "detail": "规划器缺少memory完整输入契约；候选并发未直接执行，协调器按执行回执/反馈依赖修正。"
+            }
+          ],
+          "fork_turns": "none",
+          "input_artifact": "inputs/r1_planning_high.json",
+          "output_artifact": "outbox/r1_planning_high.json"
+        },
+        {
+          "id": "r1_decision_medium",
+          "round": "R1",
+          "role": "decision",
+          "effort": "medium",
+          "requested_model": "gpt-6.1-sol",
+          "input_messages": [
+            {
+              "id": "R1-SNAPSHOT",
+              "from": "game_adapter_simulator",
+              "body": {
+                "R1F1": {
+                  "race": "兽人",
+                  "class": "萨满",
+                  "level": 1,
+                  "zone": "试炼谷"
+                },
+                "R1F2": {
+                  "hp": 100,
+                  "max_hp": 100,
+                  "mana": 100,
+                  "max_mana": 100,
+                  "inCombat": false
+                },
+                "R1F3": {
+                  "target": null,
+                  "quest_log": []
+                },
+                "R1F4": {
+                  "unknown": [
+                    "spellbook",
+                    "bags",
+                    "map",
+                    "keybindings",
+                    "nearbyNPC",
+                    "server_rules"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "R1U",
+              "from": "simulated_user",
+              "body": "我刚出生，完全不知道要干嘛，能不能带着我玩？"
+            },
+            {
+              "id": "R1-PLAN",
+              "from": "planning_message",
+              "body": {
+                "goal": "陪新手完成首个有证据的小步骤",
+                "enabled_agents": [
+                  "planning",
+                  "decision",
+                  "review",
+                  "execution",
+                  "memory"
+                ],
+                "skipped_agents": [
+                  "reflection"
+                ],
+                "dependencies": [
+                  "decision依据本轮快照生成实际候选",
+                  "review审核decision候选；退回则重选",
+                  "execution仅逐字发送审核批准内容",
+                  "memory后台整理已知事实与未知项，不阻塞前台"
+                ],
+                "parallel_groups": [
+                  [
+                    "decision",
+                    "memory"
+                  ],
+                  [
+                    "review"
+                  ],
+                  [
+                    "execution"
+                  ]
+                ],
+                "stop_conditions": [
+                  "批准内容送达后等待玩家反馈",
+                  "未获审核批准不得执行",
+                  "需未知信息时止于询问，不补造事实"
+                ],
+                "next_action_scope": "只给温柔简短文字：确认愿意陪伴，请玩家观察并描述附近NPC或标记；本轮不指定未知任务、技能、按键或坐标，不操作游戏。",
+                "evidence_ids": [
+                  "R1-SNAPSHOT",
+                  "R1U",
+                  "ROLE-CATALOG"
+                ],
+                "reason_brief": "玩家安全且缺少环境信息，先观察再行动，后台仅整理事实。"
+              }
+            }
+          ],
+          "input_sha256": "03cbfdebc52035f1bbb8d06f491d56afb77935735197b19d98993c14ec372de7",
+          "dispatch_unix_ms": 1794680726081,
+          "token_usage": null,
+          "output": {
+            "intent": "陪伴新手，先观察附近环境",
+            "reply_draft": "当然呀，我陪你一步一步来。先看看附近有没有人或醒目的标记，告诉我你看到了什么，好吗？",
+            "action_count": 1,
+            "evidence_ids": [
+              "R1-SNAPSHOT",
+              "R1U",
+              "R1-PLAN"
+            ],
+            "unknowns": [
+              "附近NPC及标记",
+              "任务与服务器规则",
+              "技能、背包、地图和按键"
+            ],
+            "reason_brief": "角色安全且附近环境未知，先请玩家观察可避免编造游戏信息。"
+          },
+          "completed_unix_ms": 1794680753751,
+          "duration_ms": 27670,
+          "status": "completed",
+          "issues": [],
+          "fork_turns": "none",
+          "input_artifact": "inputs/r1_decision_medium.json",
+          "output_artifact": "outbox/r1_decision_medium.json"
+        },
+        {
+          "id": "r1_review_low",
+          "round": "R1",
+          "role": "review",
+          "effort": "low",
+          "requested_model": "gpt-6.1-sol",
+          "input_messages": [
+            {
+              "id": "R1-SNAPSHOT",
+              "from": "game_adapter_simulator",
+              "body": {
+                "R1F1": {
+                  "race": "兽人",
+                  "class": "萨满",
+                  "level": 1,
+                  "zone": "试炼谷"
+                },
+                "R1F2": {
+                  "hp": 100,
+                  "max_hp": 100,
+                  "mana": 100,
+                  "max_mana": 100,
+                  "inCombat": false
+                },
+                "R1F3": {
+                  "target": null,
+                  "quest_log": []
+                },
+                "R1F4": {
+                  "unknown": [
+                    "spellbook",
+                    "bags",
+                    "map",
+                    "keybindings",
+                    "nearbyNPC",
+                    "server_rules"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "R1U",
+              "from": "simulated_user",
+              "body": "我刚出生，完全不知道要干嘛，能不能带着我玩？"
+            },
+            {
+              "id": "R1-DECISION",
+              "from": "decision",
+              "body": {
+                "intent": "陪伴新手，先观察附近环境",
+                "reply_draft": "当然呀，我陪你一步一步来。先看看附近有没有人或醒目的标记，告诉我你看到了什么，好吗？",
+                "action_count": 1,
+                "evidence_ids": [
+                  "R1-SNAPSHOT",
+                  "R1U",
+                  "R1-PLAN"
+                ],
+                "unknowns": [
+                  "附近NPC及标记",
+                  "任务与服务器规则",
+                  "技能、背包、地图和按键"
+                ],
+                "reason_brief": "角色安全且附近环境未知，先请玩家观察可避免编造游戏信息。"
+              }
+            }
+          ],
+          "input_sha256": "690e7974116544cb6079b742d98eaccdfcc58965d02efcfd95f168f17facb871",
+          "dispatch_unix_ms": 1794680771392,
+          "token_usage": null,
+          "output": {
+            "pass": true,
+            "approved_reply": "当然呀，我陪你一步一步来。先看看附近有没有人或醒目的标记，告诉我你看到了什么，好吗？",
+            "issues": [],
+            "evidence_ids": [
+              "R1-SNAPSHOT",
+              "R1U"
+            ],
+            "reason_brief": "原稿仅请玩家观察附近环境，符合新手陪伴要求，温柔且只有一个步骤，没有编造或越权。"
+          },
+          "completed_unix_ms": 1794680792127,
+          "duration_ms": 20735,
+          "status": "completed",
+          "issues": [],
+          "fork_turns": "none",
+          "input_artifact": "inputs/r1_review_low.json",
+          "output_artifact": "outbox/r1_review_low.json"
+        },
+        {
+          "id": "r1_execution_low",
+          "round": "R1",
+          "role": "execution",
+          "effort": "low",
+          "requested_model": "gpt-6.1-sol",
+          "input_messages": [
+            {
+              "id": "R1-APPROVAL",
+              "from": "review",
+              "body": {
+                "pass": true,
+                "approved_reply": "当然呀，我陪你一步一步来。先看看附近有没有人或醒目的标记，告诉我你看到了什么，好吗？",
+                "issues": [],
+                "evidence_ids": [
+                  "R1-SNAPSHOT",
+                  "R1U"
+                ],
+                "reason_brief": "原稿仅请玩家观察附近环境，符合新手陪伴要求，温柔且只有一个步骤，没有编造或越权。"
+              }
+            }
+          ],
+          "input_sha256": "5504416ff505b96ca3afcf85fb8f84e6457990a6a85f31bc50ed4ca1eaa3129e",
+          "dispatch_unix_ms": 1794680801017,
+          "token_usage": null,
+          "output": {
+            "reply": "当然呀，我陪你一步一步来。先看看附近有没有人或醒目的标记，告诉我你看到了什么，好吗？",
+            "channel": "text",
+            "delivery": "simulated_delivered",
+            "autonomous_game_actions": [],
+            "evidence_ids": [
+              "R1-SNAPSHOT",
+              "R1U"
+            ]
+          },
+          "completed_unix_ms": 1794680821445,
+          "duration_ms": 20428,
+          "status": "completed",
+          "issues": [],
+          "fork_turns": "none",
+          "input_artifact": "inputs/r1_execution_low.json",
+          "output_artifact": "outbox/r1_execution_low.json"
+        },
+        {
+          "id": "r1_reflection_high",
+          "round": "R1",
+          "role": "reflection",
+          "effort": "high",
+          "requested_model": "gpt-6.1-sol",
+          "input_messages": [
+            {
+              "id": "R1-SNAPSHOT",
+              "from": "game_adapter_simulator",
+              "body": {
+                "R1F1": {
+                  "race": "兽人",
+                  "class": "萨满",
+                  "level": 1,
+                  "zone": "试炼谷"
+                },
+                "R1F2": {
+                  "hp": 100,
+                  "max_hp": 100,
+                  "mana": 100,
+                  "max_mana": 100,
+                  "inCombat": false
+                },
+                "R1F3": {
+                  "target": null,
+                  "quest_log": []
+                },
+                "R1F4": {
+                  "unknown": [
+                    "spellbook",
+                    "bags",
+                    "map",
+                    "keybindings",
+                    "nearbyNPC",
+                    "server_rules"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "R1U",
+              "from": "simulated_user",
+              "body": "我刚出生，完全不知道要干嘛，能不能带着我玩？"
+            },
+            {
+              "id": "R1-RECEIPT",
+              "from": "execution",
+              "body": {
+                "reply": "当然呀，我陪你一步一步来。先看看附近有没有人或醒目的标记，告诉我你看到了什么，好吗？",
+                "channel": "text",
+                "delivery": "simulated_delivered",
+                "autonomous_game_actions": [],
+                "evidence_ids": [
+                  "R1-SNAPSHOT",
+                  "R1U"
+                ]
+              }
+            },
+            {
+              "id": "R1UF",
+              "from": "simulated_user_feedback",
+              "body": "好，先教我一步，我跟着点。"
+            }
+          ],
+          "input_sha256": "b9f552340d0c46c1ebf1c77feb44bb5d31ed8bad312ec68ff2b588fc36701d10",
+          "dispatch_unix_ms": 1794680837735,
+          "token_usage": null,
+          "output": {
+            "feedback_interpretation": "用户接受逐步引导，愿跟随点击；尚无观察反馈或游戏进展证据。",
+            "explicit_preferences": [
+              {
+                "text": "先教一个步骤，再由用户点击。",
+                "source_quote": "好，先教我一步，我跟着点。",
+                "evidence_ids": [
+                  "R1UF"
+                ],
+                "scope": "当前引导节奏与操作方式"
+              }
+            ],
+            "hypotheses": [
+              {
+                "text": "单步、具体的观察提示可能更合适：先看看附近一个人或醒目标记，再描述所见。",
+                "evidence_ids": [
+                  "R1U",
+                  "R1UF",
+                  "R1-RECEIPT"
+                ]
+              }
+            ],
+            "unknowns": [
+              "附近NPC、标记及可点击对象未获确认；按键和服务器规则未知。",
+              "用户是否已执行观察或点击、任务是否变化未知。"
+            ],
+            "reason_brief": "反馈明确支持单步陪伴，但跟随意图不能证明游戏操作成功。"
+          },
+          "completed_unix_ms": 1794680856897,
+          "duration_ms": 19162,
+          "status": "completed",
+          "issues": [],
+          "fork_turns": "none",
+          "input_artifact": "inputs/r1_reflection_high.json",
+          "output_artifact": "outbox/r1_reflection_high.json"
+        },
+        {
+          "id": "r1_memory_medium",
+          "round": "R1",
+          "role": "memory",
+          "effort": "medium",
+          "requested_model": "gpt-6.1-sol",
+          "input_messages": [
+            {
+              "id": "R1-SNAPSHOT",
+              "from": "game_adapter_simulator",
+              "body": {
+                "R1F1": {
+                  "race": "兽人",
+                  "class": "萨满",
+                  "level": 1,
+                  "zone": "试炼谷"
+                },
+                "R1F2": {
+                  "hp": 100,
+                  "max_hp": 100,
+                  "mana": 100,
+                  "max_mana": 100,
+                  "inCombat": false
+                },
+                "R1F3": {
+                  "target": null,
+                  "quest_log": []
+                },
+                "R1F4": {
+                  "unknown": [
+                    "spellbook",
+                    "bags",
+                    "map",
+                    "keybindings",
+                    "nearbyNPC",
+                    "server_rules"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "R1U",
+              "from": "simulated_user",
+              "body": "我刚出生，完全不知道要干嘛，能不能带着我玩？"
+            },
+            {
+              "id": "R1-RECEIPT",
+              "from": "execution",
+              "body": {
+                "reply": "当然呀，我陪你一步一步来。先看看附近有没有人或醒目的标记，告诉我你看到了什么，好吗？",
+                "channel": "text",
+                "delivery": "simulated_delivered",
+                "autonomous_game_actions": [],
+                "evidence_ids": [
+                  "R1-SNAPSHOT",
+                  "R1U"
+                ]
+              }
+            },
+            {
+              "id": "R1UF",
+              "from": "simulated_user_feedback",
+              "body": "好，先教我一步，我跟着点。"
+            }
+          ],
+          "input_sha256": "b9f552340d0c46c1ebf1c77feb44bb5d31ed8bad312ec68ff2b588fc36701d10",
+          "dispatch_unix_ms": 1794680850320,
+          "token_usage": null,
+          "output": {
+            "facts": [
+              {
+                "text": "接口显示角色为1级兽人萨满，位于试炼谷。",
+                "evidence_ids": [
+                  "R1-SNAPSHOT"
+                ],
+                "source_type": "game_adapter_simulator"
+              },
+              {
+                "text": "接口显示生命与法力均为100/100，未战斗，无目标，任务日志为空。",
+                "evidence_ids": [
+                  "R1-SNAPSHOT"
+                ],
+                "source_type": "game_adapter_simulator"
+              },
+              {
+                "text": "用户自述刚出生且完全不知道要做什么，请求陪玩指导。",
+                "evidence_ids": [
+                  "R1U"
+                ],
+                "source_type": "simulated_user"
+              },
+              {
+                "text": "已模拟送达观察附近人物或醒目标记的文字建议；未自动操作游戏，未收到观察结果。",
+                "evidence_ids": [
+                  "R1-RECEIPT"
+                ],
+                "source_type": "execution"
+              }
+            ],
+            "explicit_preferences": [
+              {
+                "text": "每次先教一步，由用户跟着点击。",
+                "source_quote": "好，先教我一步，我跟着点。",
+                "evidence_ids": [
+                  "R1UF"
+                ],
+                "scope": "后续游戏指导"
+              }
+            ],
+            "unknowns": [
+              "技能书、背包、地图、按键绑定、附近NPC及服务器规则未知。",
+              "用户附近所见及是否已执行观察未知。"
+            ]
+          },
+          "completed_unix_ms": 1794680870620,
+          "duration_ms": 20300,
+          "status": "completed",
+          "issues": [
+            {
+              "code": "PREFERENCE_SCOPE_EXPANDED",
+              "detail": "R1用户只说“先教我一步”，memory却写成“每次先教一步”并作用于后续游戏指导。此范围扩大真实提交且已传入R2，未在提交前拦截。R2后置用户反馈才明确“以后每次只说一步”，后续有直接依据。"
+            }
+          ],
+          "fork_turns": "none",
+          "input_artifact": "inputs/r1_memory_medium.json",
+          "output_artifact": "outbox/r1_memory_medium.json"
+        }
+      ],
+      "reply": "当然呀，我陪你一步一步来。先看看附近有没有人或醒目的标记，告诉我你看到了什么，好吗？",
+      "parallel_groups": [
+        [
+          "reflection",
+          "memory"
+        ]
+      ],
+      "checks": [
+        {
+          "id": "raw_integrity",
+          "title": "原始结果与输入可复核",
+          "pass": true,
+          "evidence": "每个节点input_messages与保存输入逐项相同，output与原始outbox逐项相同，时间戳未更改。"
+        },
+        {
+          "id": "approval_then_execution",
+          "title": "审核先于执行且执行逐字一致",
+          "pass": true,
+          "evidence": "核对审核完成时间、执行dispatch和三处回复字符串。"
+        },
+        {
+          "id": "single_step",
+          "title": "回复为一个游戏步骤",
+          "pass": true,
+          "evidence": "协调者复核：观察/接受任务/远离威胁各一项；请求回报视为同一步反馈。回复总字符数=42"
+        },
+        {
+          "id": "available_facts",
+          "title": "未补造未知游戏事实",
+          "pass": true,
+          "evidence": "协调者逐字复核实际回复；未出现未提供的NPC/任务地点/技能/按键/坐标，也未声称看见玩家屏幕。此为本次文本样本检查。"
+        },
+        {
+          "id": "no_game_control",
+          "title": "无自动游戏操作",
+          "pass": true,
+          "evidence": "execution回执中的autonomous_game_actions为空；本实验只有文字送达模拟。"
+        },
+        {
+          "id": "feedback_not_leaked",
+          "title": "后置反馈未传入前台",
+          "pass": true,
+          "evidence": "检查所有前台输入消息ID；后置用户文本只进入reflection与memory。"
+        },
+        {
+          "id": "background_dependencies",
+          "title": "后台依赖与并发正确",
+          "pass": true,
+          "evidence": "后台均在执行后发起；实测区间重叠 6577 ms。"
+        },
+        {
+          "id": "fresh_context",
+          "title": "独立会话且只显式转交消息",
+          "pass": true,
+          "evidence": "实际spawn均fork_turns=none；业务角色只写专属outbox。底层共享文件系统，属于会话与协议隔离。"
+        },
+        {
+          "id": "cross_round_messages",
+          "title": "跨轮历史只来自提交的memory消息",
+          "pass": true,
+          "evidence": "逐项比较received_memory与上轮真实committed_memory；未传入其他角色会话历史。"
+        },
+        {
+          "id": "hypotheses_quarantined",
+          "title": "反思推测未变成确认事实",
+          "pass": true,
+          "evidence": "待核实建议保持独立字段；不进入facts或explicit_preferences。"
+        },
+        {
+          "id": "memory_provenance",
+          "title": "记忆来源ID与偏好原话可核对",
+          "pass": true,
+          "evidence": "R1为事后复核，R2/R3为提交前确定性门控；来源匹配不能证明范围概括准确。"
+        },
+        {
+          "id": "planner_contract",
+          "title": "规划候选与实际模块输入契约一致",
+          "pass": false,
+          "evidence": "memory完整依赖未提供给规划器；它建议先整理事实，实际任务包含执行回执/反馈，协调器进行了依赖修正。"
+        },
+        {
+          "id": "planner_adjustment",
+          "title": "候选链路差异有记录且经依赖纠正",
+          "pass": true,
+          "evidence": "memory后移；reflection由新出现的后置反馈事件触发。原始规划和纠正记录均保留。"
+        },
+        {
+          "id": "preference_scope",
+          "title": "偏好范围没有超过原话",
+          "pass": false,
+          "evidence": "R1用户只说“先教我一步”，memory却写成“每次先教一步”并作用于后续游戏指导。此范围扩大真实提交且已传入R2，未在提交前拦截。R2后置用户反馈才明确“以后每次只说一步”，后续有直接依据。"
+        }
+      ],
+      "start_unix_ms": 1794680686410,
+      "planning_adjustments": [
+        {
+          "code": "MEMORY_INPUT_NOT_READY",
+          "candidate": "decision与memory并行",
+          "actual": "memory等待execution回执与后置用户反馈，再和reflection并行",
+          "reason": "本次memory任务输入依赖尚未产生；程序层按输入依赖推迟。"
+        },
+        {
+          "code": "NEW_FEEDBACK_TRIGGER",
+          "candidate": "本轮开始时跳过reflection",
+          "actual": "前台送达后的新用户反馈触发后台reflection",
+          "reason": "新事件进入后按反馈任务重新调度；不更改原规划输出。"
+        }
+      ],
+      "foreground_ms": 135035,
+      "foreground_completed_unix_ms": 1794680821445,
+      "committed_memory": {
+        "message_id": "R1-MEMORY-OUT",
+        "facts": [
+          {
+            "text": "接口显示角色为1级兽人萨满，位于试炼谷。",
+            "evidence_ids": [
+              "R1-SNAPSHOT"
+            ],
+            "source_type": "game_adapter_simulator"
+          },
+          {
+            "text": "接口显示生命与法力均为100/100，未战斗，无目标，任务日志为空。",
+            "evidence_ids": [
+              "R1-SNAPSHOT"
+            ],
+            "source_type": "game_adapter_simulator"
+          },
+          {
+            "text": "用户自述刚出生且完全不知道要做什么，请求陪玩指导。",
+            "evidence_ids": [
+              "R1U"
+            ],
+            "source_type": "simulated_user"
+          },
+          {
+            "text": "已模拟送达观察附近人物或醒目标记的文字建议；未自动操作游戏，未收到观察结果。",
+            "evidence_ids": [
+              "R1-RECEIPT"
+            ],
+            "source_type": "execution"
+          }
+        ],
+        "explicit_preferences": [
+          {
+            "text": "每次先教一步，由用户跟着点击。",
+            "source_quote": "好，先教我一步，我跟着点。",
+            "evidence_ids": [
+              "R1UF"
+            ],
+            "scope": "后续游戏指导"
+          }
+        ],
+        "unknowns": [
+          "技能书、背包、地图、按键绑定、附近NPC及服务器规则未知。",
+          "用户附近所见及是否已执行观察未知。"
+        ],
+        "reflection_proposals_not_committed": [
+          {
+            "text": "单步、具体的观察提示可能更合适：先看看附近一个人或醒目标记，再描述所见。",
+            "evidence_ids": [
+              "R1U",
+              "R1UF",
+              "R1-RECEIPT"
+            ]
+          }
+        ],
+        "commit_rule": "只提交事实与明确偏好；反思假设未获独立审核，不生效。"
+      },
+      "completed_unix_ms": 1794680886764,
+      "full_loop_ms": 200354,
+      "node_active_union_ms": 135038,
+      "orchestration_gap_ms": 65316,
+      "loop_start_unix_ms": 1794680686410,
+      "loop_completed_unix_ms": 1794680886764,
+      "node_duration_sum_ms": 141615,
+      "dependency_critical_ms": 122453,
+      "background_overlap_ms": 6577,
+      "foreground_node_duration_sum_ms": 102153,
+      "foreground_orchestration_gap_ms": 32882,
+      "observed_graph_path_ms": 184210,
+      "commit_gap_ms": 16144,
+      "background_span_ms": 32885,
+      "inter_round_gap_ms": null,
+      "actual_order": [
+        "planning",
+        "decision",
+        "review",
+        "execution",
+        [
+          "reflection",
+          "memory"
+        ],
+        "commit_gate"
+      ],
+      "post_feedback_injected_after_execution": true,
+      "role_call_count": 6
+    },
+    {
+      "id": "R2",
+      "title": "遇到任务窗口",
+      "user_input": "我点了一个头上有黄色叹号的兽人，现在弹出‘最初的试炼’，写着打3只训练野猪，我要点什么？",
+      "feedback": "好，我接了。以后每次只说一步，别一口气说很多。",
+      "snapshot": {
+        "R2F1": {
+          "race": "兽人",
+          "class": "萨满",
+          "level": 1,
+          "zone": "试炼谷"
+        },
+        "R2F2": {
+          "target": {
+            "name": "试炼谷引导员",
+            "friendly": true
+          },
+          "gossip_open": true,
+          "quest_offer": {
+            "title": "最初的试炼",
+            "objectives": [
+              "击败3只训练野猪"
+            ],
+            "buttons": [
+              "接受",
+              "取消"
+            ]
+          },
+          "quest_log": []
+        },
+        "R2F3": {
+          "unknown": [
+            "position",
+            "coordinates",
+            "keybindings",
+            "server_rules"
+          ]
+        }
+      },
+      "received_memory": {
+        "message_id": "R1-MEMORY-OUT",
+        "facts": [
+          {
+            "text": "接口显示角色为1级兽人萨满，位于试炼谷。",
+            "evidence_ids": [
+              "R1-SNAPSHOT"
+            ],
+            "source_type": "game_adapter_simulator"
+          },
+          {
+            "text": "接口显示生命与法力均为100/100，未战斗，无目标，任务日志为空。",
+            "evidence_ids": [
+              "R1-SNAPSHOT"
+            ],
+            "source_type": "game_adapter_simulator"
+          },
+          {
+            "text": "用户自述刚出生且完全不知道要做什么，请求陪玩指导。",
+            "evidence_ids": [
+              "R1U"
+            ],
+            "source_type": "simulated_user"
+          },
+          {
+            "text": "已模拟送达观察附近人物或醒目标记的文字建议；未自动操作游戏，未收到观察结果。",
+            "evidence_ids": [
+              "R1-RECEIPT"
+            ],
+            "source_type": "execution"
+          }
+        ],
+        "explicit_preferences": [
+          {
+            "text": "每次先教一步，由用户跟着点击。",
+            "source_quote": "好，先教我一步，我跟着点。",
+            "evidence_ids": [
+              "R1UF"
+            ],
+            "scope": "后续游戏指导"
+          }
+        ],
+        "unknowns": [
+          "技能书、背包、地图、按键绑定、附近NPC及服务器规则未知。",
+          "用户附近所见及是否已执行观察未知。"
+        ],
+        "reflection_proposals_not_committed": [
+          {
+            "text": "单步、具体的观察提示可能更合适：先看看附近一个人或醒目标记，再描述所见。",
+            "evidence_ids": [
+              "R1U",
+              "R1UF",
+              "R1-RECEIPT"
+            ]
+          }
+        ],
+        "commit_rule": "只提交事实与明确偏好；反思假设未获独立审核，不生效。"
+      },
+      "planner_status": "planner_reused",
+      "nodes": [
+        {
+          "id": "r2_decision_low",
+          "round": "R2",
+          "role": "decision",
+          "effort": "low",
+          "requested_model": "gpt-6.1-sol",
+          "input_messages": [
+            {
+              "id": "R2-SNAPSHOT",
+              "from": "game_adapter_simulator",
+              "body": {
+                "R2F1": {
+                  "race": "兽人",
+                  "class": "萨满",
+                  "level": 1,
+                  "zone": "试炼谷"
+                },
+                "R2F2": {
+                  "target": {
+                    "name": "试炼谷引导员",
+                    "friendly": true
+                  },
+                  "gossip_open": true,
+                  "quest_offer": {
+                    "title": "最初的试炼",
+                    "objectives": [
+                      "击败3只训练野猪"
+                    ],
+                    "buttons": [
+                      "接受",
+                      "取消"
+                    ]
+                  },
+                  "quest_log": []
+                },
+                "R2F3": {
+                  "unknown": [
+                    "position",
+                    "coordinates",
+                    "keybindings",
+                    "server_rules"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "R2U",
+              "from": "simulated_user",
+              "body": "我点了一个头上有黄色叹号的兽人，现在弹出‘最初的试炼’，写着打3只训练野猪，我要点什么？"
+            },
+            {
+              "id": "R2-MEMORY-IN",
+              "from": "previous_loop_message",
+              "body": {
+                "message_id": "R1-MEMORY-OUT",
+                "facts": [
+                  {
+                    "text": "接口显示角色为1级兽人萨满，位于试炼谷。",
+                    "evidence_ids": [
+                      "R1-SNAPSHOT"
+                    ],
+                    "source_type": "game_adapter_simulator"
+                  },
+                  {
+                    "text": "接口显示生命与法力均为100/100，未战斗，无目标，任务日志为空。",
+                    "evidence_ids": [
+                      "R1-SNAPSHOT"
+                    ],
+                    "source_type": "game_adapter_simulator"
+                  },
+                  {
+                    "text": "用户自述刚出生且完全不知道要做什么，请求陪玩指导。",
+                    "evidence_ids": [
+                      "R1U"
+                    ],
+                    "source_type": "simulated_user"
+                  },
+                  {
+                    "text": "已模拟送达观察附近人物或醒目标记的文字建议；未自动操作游戏，未收到观察结果。",
+                    "evidence_ids": [
+                      "R1-RECEIPT"
+                    ],
+                    "source_type": "execution"
+                  }
+                ],
+                "explicit_preferences": [
+                  {
+                    "text": "每次先教一步，由用户跟着点击。",
+                    "source_quote": "好，先教我一步，我跟着点。",
+                    "evidence_ids": [
+                      "R1UF"
+                    ],
+                    "scope": "后续游戏指导"
+                  }
+                ],
+                "unknowns": [
+                  "技能书、背包、地图、按键绑定、附近NPC及服务器规则未知。",
+                  "用户附近所见及是否已执行观察未知。"
+                ],
+                "reflection_proposals_not_committed": [
+                  {
+                    "text": "单步、具体的观察提示可能更合适：先看看附近一个人或醒目标记，再描述所见。",
+                    "evidence_ids": [
+                      "R1U",
+                      "R1UF",
+                      "R1-RECEIPT"
+                    ]
+                  }
+                ],
+                "commit_rule": "只提交事实与明确偏好；反思假设未获独立审核，不生效。"
+              }
+            },
+            {
+              "id": "R2-PLAN",
+              "from": "orchestrator_reuse",
+              "body": {
+                "status": "planner_reused",
+                "scope": "单次一步引导；需要审核；紧急时直接给最小建议"
+              }
+            }
+          ],
+          "input_sha256": "610c7bdc2d8cf719f8aafc55ef8e1d7f7d4c0c8d09194279fdaa6f48055ddcd5",
+          "dispatch_unix_ms": 1794680887051,
+          "token_usage": null,
+          "output": {
+            "intent": "引导用户接受当前任务",
+            "reply_draft": "点‘接受’就好呀，我们先把‘最初的试炼’接下来。点完告诉我窗口有什么变化。",
+            "action_count": 1,
+            "evidence_ids": [
+              "R2-SNAPSHOT",
+              "R2U",
+              "R2-MEMORY-IN"
+            ],
+            "unknowns": [
+              "用户是否已点击接受、任务日志是否更新未知。"
+            ],
+            "reason_brief": "当前任务窗口明确提供‘接受’按钮，符合用户一次一步的偏好。"
+          },
+          "completed_unix_ms": 1794680997237,
+          "duration_ms": 110186,
+          "status": "completed",
+          "issues": [
+            {
+              "code": "MEASUREMENT_CONTAMINATION",
+              "detail": "dispatch记录后、实际spawn前发生协调者上下文压缩；该段编排延迟包含在duration_ms中，无法从现有时间戳精确剥离。原始时间保留，不作为模型速度样本。"
+            }
+          ],
+          "fork_turns": "none",
+          "input_artifact": "inputs/r2_decision_low.json",
+          "output_artifact": "outbox/r2_decision_low.json"
+        },
+        {
+          "id": "r2_review_low",
+          "round": "R2",
+          "role": "review",
+          "effort": "low",
+          "requested_model": "gpt-6.1-sol",
+          "input_messages": [
+            {
+              "id": "R2-SNAPSHOT",
+              "from": "game_adapter_simulator",
+              "body": {
+                "R2F1": {
+                  "race": "兽人",
+                  "class": "萨满",
+                  "level": 1,
+                  "zone": "试炼谷"
+                },
+                "R2F2": {
+                  "target": {
+                    "name": "试炼谷引导员",
+                    "friendly": true
+                  },
+                  "gossip_open": true,
+                  "quest_offer": {
+                    "title": "最初的试炼",
+                    "objectives": [
+                      "击败3只训练野猪"
+                    ],
+                    "buttons": [
+                      "接受",
+                      "取消"
+                    ]
+                  },
+                  "quest_log": []
+                },
+                "R2F3": {
+                  "unknown": [
+                    "position",
+                    "coordinates",
+                    "keybindings",
+                    "server_rules"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "R2U",
+              "from": "simulated_user",
+              "body": "我点了一个头上有黄色叹号的兽人，现在弹出‘最初的试炼’，写着打3只训练野猪，我要点什么？"
+            },
+            {
+              "id": "R2-MEMORY-IN",
+              "from": "previous_loop_message",
+              "body": {
+                "message_id": "R1-MEMORY-OUT",
+                "facts": [
+                  {
+                    "text": "接口显示角色为1级兽人萨满，位于试炼谷。",
+                    "evidence_ids": [
+                      "R1-SNAPSHOT"
+                    ],
+                    "source_type": "game_adapter_simulator"
+                  },
+                  {
+                    "text": "接口显示生命与法力均为100/100，未战斗，无目标，任务日志为空。",
+                    "evidence_ids": [
+                      "R1-SNAPSHOT"
+                    ],
+                    "source_type": "game_adapter_simulator"
+                  },
+                  {
+                    "text": "用户自述刚出生且完全不知道要做什么，请求陪玩指导。",
+                    "evidence_ids": [
+                      "R1U"
+                    ],
+                    "source_type": "simulated_user"
+                  },
+                  {
+                    "text": "已模拟送达观察附近人物或醒目标记的文字建议；未自动操作游戏，未收到观察结果。",
+                    "evidence_ids": [
+                      "R1-RECEIPT"
+                    ],
+                    "source_type": "execution"
+                  }
+                ],
+                "explicit_preferences": [
+                  {
+                    "text": "每次先教一步，由用户跟着点击。",
+                    "source_quote": "好，先教我一步，我跟着点。",
+                    "evidence_ids": [
+                      "R1UF"
+                    ],
+                    "scope": "后续游戏指导"
+                  }
+                ],
+                "unknowns": [
+                  "技能书、背包、地图、按键绑定、附近NPC及服务器规则未知。",
+                  "用户附近所见及是否已执行观察未知。"
+                ],
+                "reflection_proposals_not_committed": [
+                  {
+                    "text": "单步、具体的观察提示可能更合适：先看看附近一个人或醒目标记，再描述所见。",
+                    "evidence_ids": [
+                      "R1U",
+                      "R1UF",
+                      "R1-RECEIPT"
+                    ]
+                  }
+                ],
+                "commit_rule": "只提交事实与明确偏好；反思假设未获独立审核，不生效。"
+              }
+            },
+            {
+              "id": "R2-DECISION",
+              "from": "decision",
+              "body": {
+                "intent": "引导用户接受当前任务",
+                "reply_draft": "点‘接受’就好呀，我们先把‘最初的试炼’接下来。点完告诉我窗口有什么变化。",
+                "action_count": 1,
+                "evidence_ids": [
+                  "R2-SNAPSHOT",
+                  "R2U",
+                  "R2-MEMORY-IN"
+                ],
+                "unknowns": [
+                  "用户是否已点击接受、任务日志是否更新未知。"
+                ],
+                "reason_brief": "当前任务窗口明确提供‘接受’按钮，符合用户一次一步的偏好。"
+              }
+            }
+          ],
+          "input_sha256": "4353079abeacedb8faa17900bd0ce579dc208cc681fcc3101db1683a3435d738",
+          "dispatch_unix_ms": 1794681010873,
+          "token_usage": null,
+          "output": {
+            "pass": true,
+            "approved_reply": "点‘接受’就好呀，我们先把‘最初的试炼’接下来。点完告诉我窗口有什么变化。",
+            "issues": [],
+            "evidence_ids": [
+              "R2-SNAPSHOT",
+              "R2U",
+              "R2-MEMORY-IN"
+            ],
+            "reason_brief": "原稿依据当前窗口的接受按钮给出单步文字指导，语气温柔且未自动操作游戏。"
+          },
+          "completed_unix_ms": 1794681030402,
+          "duration_ms": 19529,
+          "status": "completed",
+          "issues": [],
+          "fork_turns": "none",
+          "input_artifact": "inputs/r2_review_low.json",
+          "output_artifact": "outbox/r2_review_low.json"
+        },
+        {
+          "id": "r2_execution_low",
+          "round": "R2",
+          "role": "execution",
+          "effort": "low",
+          "requested_model": "gpt-6.1-sol",
+          "input_messages": [
+            {
+              "id": "R2-APPROVAL",
+              "from": "review",
+              "body": {
+                "pass": true,
+                "approved_reply": "点‘接受’就好呀，我们先把‘最初的试炼’接下来。点完告诉我窗口有什么变化。",
+                "issues": [],
+                "evidence_ids": [
+                  "R2-SNAPSHOT",
+                  "R2U",
+                  "R2-MEMORY-IN"
+                ],
+                "reason_brief": "原稿依据当前窗口的接受按钮给出单步文字指导，语气温柔且未自动操作游戏。"
+              }
+            }
+          ],
+          "input_sha256": "4178be59dbd39a39d1223719ee468926dcbb139041f9441df913574067a71cf7",
+          "dispatch_unix_ms": 1794681046615,
+          "token_usage": null,
+          "output": {
+            "reply": "点‘接受’就好呀，我们先把‘最初的试炼’接下来。点完告诉我窗口有什么变化。",
+            "channel": "text",
+            "delivery": "simulated_delivered",
+            "autonomous_game_actions": [],
+            "evidence_ids": [
+              "R2-SNAPSHOT",
+              "R2U",
+              "R2-MEMORY-IN"
+            ]
+          },
+          "completed_unix_ms": 1794681060287,
+          "duration_ms": 13672,
+          "status": "completed",
+          "issues": [],
+          "fork_turns": "none",
+          "input_artifact": "inputs/r2_execution_low.json",
+          "output_artifact": "outbox/r2_execution_low.json"
+        },
+        {
+          "id": "r2_reflection_high",
+          "round": "R2",
+          "role": "reflection",
+          "effort": "high",
+          "requested_model": "gpt-6.1-sol",
+          "input_messages": [
+            {
+              "id": "R2-SNAPSHOT",
+              "from": "game_adapter_simulator",
+              "body": {
+                "R2F1": {
+                  "race": "兽人",
+                  "class": "萨满",
+                  "level": 1,
+                  "zone": "试炼谷"
+                },
+                "R2F2": {
+                  "target": {
+                    "name": "试炼谷引导员",
+                    "friendly": true
+                  },
+                  "gossip_open": true,
+                  "quest_offer": {
+                    "title": "最初的试炼",
+                    "objectives": [
+                      "击败3只训练野猪"
+                    ],
+                    "buttons": [
+                      "接受",
+                      "取消"
+                    ]
+                  },
+                  "quest_log": []
+                },
+                "R2F3": {
+                  "unknown": [
+                    "position",
+                    "coordinates",
+                    "keybindings",
+                    "server_rules"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "R2U",
+              "from": "simulated_user",
+              "body": "我点了一个头上有黄色叹号的兽人，现在弹出‘最初的试炼’，写着打3只训练野猪，我要点什么？"
+            },
+            {
+              "id": "R2-MEMORY-IN",
+              "from": "previous_loop_message",
+              "body": {
+                "message_id": "R1-MEMORY-OUT",
+                "facts": [
+                  {
+                    "text": "接口显示角色为1级兽人萨满，位于试炼谷。",
+                    "evidence_ids": [
+                      "R1-SNAPSHOT"
+                    ],
+                    "source_type": "game_adapter_simulator"
+                  },
+                  {
+                    "text": "接口显示生命与法力均为100/100，未战斗，无目标，任务日志为空。",
+                    "evidence_ids": [
+                      "R1-SNAPSHOT"
+                    ],
+                    "source_type": "game_adapter_simulator"
+                  },
+                  {
+                    "text": "用户自述刚出生且完全不知道要做什么，请求陪玩指导。",
+                    "evidence_ids": [
+                      "R1U"
+                    ],
+                    "source_type": "simulated_user"
+                  },
+                  {
+                    "text": "已模拟送达观察附近人物或醒目标记的文字建议；未自动操作游戏，未收到观察结果。",
+                    "evidence_ids": [
+                      "R1-RECEIPT"
+                    ],
+                    "source_type": "execution"
+                  }
+                ],
+                "explicit_preferences": [
+                  {
+                    "text": "每次先教一步，由用户跟着点击。",
+                    "source_quote": "好，先教我一步，我跟着点。",
+                    "evidence_ids": [
+                      "R1UF"
+                    ],
+                    "scope": "后续游戏指导"
+                  }
+                ],
+                "unknowns": [
+                  "技能书、背包、地图、按键绑定、附近NPC及服务器规则未知。",
+                  "用户附近所见及是否已执行观察未知。"
+                ],
+                "reflection_proposals_not_committed": [
+                  {
+                    "text": "单步、具体的观察提示可能更合适：先看看附近一个人或醒目标记，再描述所见。",
+                    "evidence_ids": [
+                      "R1U",
+                      "R1UF",
+                      "R1-RECEIPT"
+                    ]
+                  }
+                ],
+                "commit_rule": "只提交事实与明确偏好；反思假设未获独立审核，不生效。"
+              }
+            },
+            {
+              "id": "R2-RECEIPT",
+              "from": "execution",
+              "body": {
+                "reply": "点‘接受’就好呀，我们先把‘最初的试炼’接下来。点完告诉我窗口有什么变化。",
+                "channel": "text",
+                "delivery": "simulated_delivered",
+                "autonomous_game_actions": [],
+                "evidence_ids": [
+                  "R2-SNAPSHOT",
+                  "R2U",
+                  "R2-MEMORY-IN"
+                ]
+              }
+            },
+            {
+              "id": "R2UF",
+              "from": "simulated_user_feedback",
+              "body": "好，我接了。以后每次只说一步，别一口气说很多。"
+            }
+          ],
+          "input_sha256": "0b92d50bcaec4eee3ceb7268c6c90bf37cb57e5620644b8e5eee3aedbcb4df3c",
+          "dispatch_unix_ms": 1794681070812,
+          "token_usage": null,
+          "output": {
+            "feedback_interpretation": "用户自述已接任务；尚无接口复核。反馈明确要求以后每次只说一步。",
+            "explicit_preferences": [
+              {
+                "text": "每次只给一步指导，避免一次讲很多。",
+                "source_quote": "以后每次只说一步，别一口气说很多。",
+                "evidence_ids": [
+                  "R2UF"
+                ],
+                "scope": "后续游戏指导"
+              }
+            ],
+            "hypotheses": [
+              {
+                "text": "后续继续采用单步文字提示可能更合适，待用户回应再推进。",
+                "evidence_ids": [
+                  "R2UF",
+                  "R2-RECEIPT"
+                ]
+              }
+            ],
+            "unknowns": [
+              "任务日志是否已更新、击杀进度未获接口验证。",
+              "位置、坐标、按键绑定和服务器规则未知。"
+            ],
+            "reason_brief": "R2UF提供接取自述与明确偏好，执行记录仅证明文字已模拟送达。"
+          },
+          "completed_unix_ms": 1794681092617,
+          "duration_ms": 21805,
+          "status": "completed",
+          "issues": [],
+          "fork_turns": "none",
+          "input_artifact": "inputs/r2_reflection_high.json",
+          "output_artifact": "outbox/r2_reflection_high.json"
+        },
+        {
+          "id": "r2_memory_medium",
+          "round": "R2",
+          "role": "memory",
+          "effort": "medium",
+          "requested_model": "gpt-6.1-sol",
+          "input_messages": [
+            {
+              "id": "R2-SNAPSHOT",
+              "from": "game_adapter_simulator",
+              "body": {
+                "R2F1": {
+                  "race": "兽人",
+                  "class": "萨满",
+                  "level": 1,
+                  "zone": "试炼谷"
+                },
+                "R2F2": {
+                  "target": {
+                    "name": "试炼谷引导员",
+                    "friendly": true
+                  },
+                  "gossip_open": true,
+                  "quest_offer": {
+                    "title": "最初的试炼",
+                    "objectives": [
+                      "击败3只训练野猪"
+                    ],
+                    "buttons": [
+                      "接受",
+                      "取消"
+                    ]
+                  },
+                  "quest_log": []
+                },
+                "R2F3": {
+                  "unknown": [
+                    "position",
+                    "coordinates",
+                    "keybindings",
+                    "server_rules"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "R2U",
+              "from": "simulated_user",
+              "body": "我点了一个头上有黄色叹号的兽人，现在弹出‘最初的试炼’，写着打3只训练野猪，我要点什么？"
+            },
+            {
+              "id": "R2-MEMORY-IN",
+              "from": "previous_loop_message",
+              "body": {
+                "message_id": "R1-MEMORY-OUT",
+                "facts": [
+                  {
+                    "text": "接口显示角色为1级兽人萨满，位于试炼谷。",
+                    "evidence_ids": [
+                      "R1-SNAPSHOT"
+                    ],
+                    "source_type": "game_adapter_simulator"
+                  },
+                  {
+                    "text": "接口显示生命与法力均为100/100，未战斗，无目标，任务日志为空。",
+                    "evidence_ids": [
+                      "R1-SNAPSHOT"
+                    ],
+                    "source_type": "game_adapter_simulator"
+                  },
+                  {
+                    "text": "用户自述刚出生且完全不知道要做什么，请求陪玩指导。",
+                    "evidence_ids": [
+                      "R1U"
+                    ],
+                    "source_type": "simulated_user"
+                  },
+                  {
+                    "text": "已模拟送达观察附近人物或醒目标记的文字建议；未自动操作游戏，未收到观察结果。",
+                    "evidence_ids": [
+                      "R1-RECEIPT"
+                    ],
+                    "source_type": "execution"
+                  }
+                ],
+                "explicit_preferences": [
+                  {
+                    "text": "每次先教一步，由用户跟着点击。",
+                    "source_quote": "好，先教我一步，我跟着点。",
+                    "evidence_ids": [
+                      "R1UF"
+                    ],
+                    "scope": "后续游戏指导"
+                  }
+                ],
+                "unknowns": [
+                  "技能书、背包、地图、按键绑定、附近NPC及服务器规则未知。",
+                  "用户附近所见及是否已执行观察未知。"
+                ],
+                "reflection_proposals_not_committed": [
+                  {
+                    "text": "单步、具体的观察提示可能更合适：先看看附近一个人或醒目标记，再描述所见。",
+                    "evidence_ids": [
+                      "R1U",
+                      "R1UF",
+                      "R1-RECEIPT"
+                    ]
+                  }
+                ],
+                "commit_rule": "只提交事实与明确偏好；反思假设未获独立审核，不生效。"
+              }
+            },
+            {
+              "id": "R2-RECEIPT",
+              "from": "execution",
+              "body": {
+                "reply": "点‘接受’就好呀，我们先把‘最初的试炼’接下来。点完告诉我窗口有什么变化。",
+                "channel": "text",
+                "delivery": "simulated_delivered",
+                "autonomous_game_actions": [],
+                "evidence_ids": [
+                  "R2-SNAPSHOT",
+                  "R2U",
+                  "R2-MEMORY-IN"
+                ]
+              }
+            },
+            {
+              "id": "R2UF",
+              "from": "simulated_user_feedback",
+              "body": "好，我接了。以后每次只说一步，别一口气说很多。"
+            }
+          ],
+          "input_sha256": "0b92d50bcaec4eee3ceb7268c6c90bf37cb57e5620644b8e5eee3aedbcb4df3c",
+          "dispatch_unix_ms": 1794681085847,
+          "token_usage": null,
+          "output": {
+            "facts": [
+              {
+                "text": "接口显示1级兽人萨满在试炼谷；目标为友善的试炼谷引导员，对话已开。",
+                "evidence_ids": [
+                  "R2-SNAPSHOT"
+                ],
+                "source_type": "game_adapter_simulator"
+              },
+              {
+                "text": "接口提供‘最初的试炼’：击败3只训练野猪，按钮为接受/取消；当时任务日志为空。",
+                "evidence_ids": [
+                  "R2-SNAPSHOT"
+                ],
+                "source_type": "game_adapter_simulator"
+              },
+              {
+                "text": "已送达点击接受并报告窗口变化的文字建议，无自动操作。",
+                "evidence_ids": [
+                  "R2-RECEIPT"
+                ],
+                "source_type": "execution"
+              },
+              {
+                "text": "用户报告‘我接了’，接口尚未确认接取。",
+                "evidence_ids": [
+                  "R2UF"
+                ],
+                "source_type": "simulated_user_feedback"
+              }
+            ],
+            "explicit_preferences": [
+              {
+                "text": "每次只指导一步。",
+                "source_quote": "以后每次只说一步，别一口气说很多。",
+                "evidence_ids": [
+                  "R2UF"
+                ],
+                "scope": "后续游戏指导"
+              }
+            ],
+            "unknowns": [
+              "接取后的任务日志及窗口状态未知。",
+              "位置、坐标、按键、服务器规则、技能书、背包、地图及当前生命法力未知。"
+            ]
+          },
+          "completed_unix_ms": 1794681109289,
+          "duration_ms": 23442,
+          "status": "completed",
+          "issues": [],
+          "fork_turns": "none",
+          "input_artifact": "inputs/r2_memory_medium.json",
+          "output_artifact": "outbox/r2_memory_medium.json"
+        }
+      ],
+      "reply": "点‘接受’就好呀，我们先把‘最初的试炼’接下来。点完告诉我窗口有什么变化。",
+      "parallel_groups": [
+        [
+          "reflection",
+          "memory"
+        ]
+      ],
+      "checks": [
+        {
+          "id": "raw_integrity",
+          "title": "原始结果与输入可复核",
+          "pass": true,
+          "evidence": "每个节点input_messages与保存输入逐项相同，output与原始outbox逐项相同，时间戳未更改。"
+        },
+        {
+          "id": "approval_then_execution",
+          "title": "审核先于执行且执行逐字一致",
+          "pass": true,
+          "evidence": "核对审核完成时间、执行dispatch和三处回复字符串。"
+        },
+        {
+          "id": "single_step",
+          "title": "回复为一个游戏步骤",
+          "pass": true,
+          "evidence": "协调者复核：观察/接受任务/远离威胁各一项；请求回报视为同一步反馈。回复总字符数=37"
+        },
+        {
+          "id": "available_facts",
+          "title": "未补造未知游戏事实",
+          "pass": true,
+          "evidence": "协调者逐字复核实际回复；未出现未提供的NPC/任务地点/技能/按键/坐标，也未声称看见玩家屏幕。此为本次文本样本检查。"
+        },
+        {
+          "id": "no_game_control",
+          "title": "无自动游戏操作",
+          "pass": true,
+          "evidence": "execution回执中的autonomous_game_actions为空；本实验只有文字送达模拟。"
+        },
+        {
+          "id": "feedback_not_leaked",
+          "title": "后置反馈未传入前台",
+          "pass": true,
+          "evidence": "检查所有前台输入消息ID；后置用户文本只进入reflection与memory。"
+        },
+        {
+          "id": "background_dependencies",
+          "title": "后台依赖与并发正确",
+          "pass": true,
+          "evidence": "后台均在执行后发起；实测区间重叠 6770 ms。"
+        },
+        {
+          "id": "fresh_context",
+          "title": "独立会话且只显式转交消息",
+          "pass": true,
+          "evidence": "实际spawn均fork_turns=none；业务角色只写专属outbox。底层共享文件系统，属于会话与协议隔离。"
+        },
+        {
+          "id": "cross_round_messages",
+          "title": "跨轮历史只来自提交的memory消息",
+          "pass": true,
+          "evidence": "逐项比较received_memory与上轮真实committed_memory；未传入其他角色会话历史。"
+        },
+        {
+          "id": "hypotheses_quarantined",
+          "title": "反思推测未变成确认事实",
+          "pass": true,
+          "evidence": "待核实建议保持独立字段；不进入facts或explicit_preferences。"
+        },
+        {
+          "id": "memory_provenance",
+          "title": "记忆来源ID与偏好原话可核对",
+          "pass": true,
+          "evidence": "R1为事后复核，R2/R3为提交前确定性门控；来源匹配不能证明范围概括准确。"
+        },
+        {
+          "id": "task_acceptance",
+          "title": "用户自述与接口确认分开",
+          "pass": true,
+          "evidence": "记忆明确写“用户报告我接了，接口尚未确认接取”。"
+        },
+        {
+          "id": "clean_timing_sample",
+          "title": "本轮可作为干净速度样本",
+          "pass": false,
+          "evidence": "R2 decision dispatch后发生协调者上下文压缩；原始110.186秒保留并标注污染。"
+        }
+      ],
+      "start_unix_ms": 1794680887051,
+      "foreground_ms": 173236,
+      "foreground_completed_unix_ms": 1794681060287,
+      "committed_memory": {
+        "message_id": "R2-MEMORY-OUT",
+        "facts": [
+          {
+            "text": "接口显示1级兽人萨满在试炼谷；目标为友善的试炼谷引导员，对话已开。",
+            "evidence_ids": [
+              "R2-SNAPSHOT"
+            ],
+            "source_type": "game_adapter_simulator"
+          },
+          {
+            "text": "接口提供‘最初的试炼’：击败3只训练野猪，按钮为接受/取消；当时任务日志为空。",
+            "evidence_ids": [
+              "R2-SNAPSHOT"
+            ],
+            "source_type": "game_adapter_simulator"
+          },
+          {
+            "text": "已送达点击接受并报告窗口变化的文字建议，无自动操作。",
+            "evidence_ids": [
+              "R2-RECEIPT"
+            ],
+            "source_type": "execution"
+          },
+          {
+            "text": "用户报告‘我接了’，接口尚未确认接取。",
+            "evidence_ids": [
+              "R2UF"
+            ],
+            "source_type": "simulated_user_feedback"
+          }
+        ],
+        "explicit_preferences": [
+          {
+            "text": "每次只指导一步。",
+            "source_quote": "以后每次只说一步，别一口气说很多。",
+            "evidence_ids": [
+              "R2UF"
+            ],
+            "scope": "后续游戏指导"
+          }
+        ],
+        "unknowns": [
+          "接取后的任务日志及窗口状态未知。",
+          "位置、坐标、按键、服务器规则、技能书、背包、地图及当前生命法力未知。"
+        ],
+        "reflection_proposals_not_committed": [
+          {
+            "text": "后续继续采用单步文字提示可能更合适，待用户回应再推进。",
+            "evidence_ids": [
+              "R2UF",
+              "R2-RECEIPT"
+            ]
+          }
+        ],
+        "commit_rule": "只提交有已知来源的事实候选与可核对引文的明确偏好；反思假设仅作为待核实建议，不生效。"
+      },
+      "quarantined_memory": [],
+      "completed_unix_ms": 1794681120588,
+      "full_loop_ms": 233537,
+      "node_active_union_ms": 181864,
+      "orchestration_gap_ms": 51673,
+      "loop_start_unix_ms": 1794680887051,
+      "loop_completed_unix_ms": 1794681120588,
+      "node_duration_sum_ms": 188634,
+      "dependency_critical_ms": 166829,
+      "background_overlap_ms": 6770,
+      "foreground_node_duration_sum_ms": 143387,
+      "foreground_orchestration_gap_ms": 29849,
+      "observed_graph_path_ms": 222238,
+      "commit_gap_ms": 11299,
+      "background_span_ms": 38477,
+      "inter_round_gap_ms": 287,
+      "actual_order": [
+        "decision",
+        "review",
+        "execution",
+        [
+          "reflection",
+          "memory"
+        ],
+        "commit_gate"
+      ],
+      "post_feedback_injected_after_execution": true,
+      "role_call_count": 5
+    },
+    {
+      "id": "R3",
+      "title": "首次战斗慌乱",
+      "user_input": "它冲过来了，血一直掉！别解释，先告诉我一步怎么做！",
+      "feedback": "知道了，我先跑。",
+      "snapshot": {
+        "R3F1": {
+          "race": "兽人",
+          "class": "萨满",
+          "level": 1,
+          "zone": "试炼谷"
+        },
+        "R3F2": {
+          "inCombat": true,
+          "hp": 28,
+          "max_hp": 100,
+          "mana": 0,
+          "max_mana": 100,
+          "target": {
+            "name": "训练野猪",
+            "hostile": true,
+            "level": 1,
+            "hp": 82,
+            "max_hp": 100
+          }
+        },
+        "R3F3": {
+          "quest_log": [
+            {
+              "title": "最初的试炼",
+              "progress": "0/3"
+            }
+          ],
+          "known_spell": {
+            "name": "闪电箭",
+            "usable": false,
+            "reason": "法力不足"
+          },
+          "healing_items": [],
+          "healing_spells": "未提供"
+        },
+        "R3F4": {
+          "unknown": [
+            "terrain",
+            "route",
+            "distance",
+            "orientation",
+            "keybindings"
+          ]
+        }
+      },
+      "received_memory": {
+        "message_id": "R2-MEMORY-OUT",
+        "facts": [
+          {
+            "text": "接口显示1级兽人萨满在试炼谷；目标为友善的试炼谷引导员，对话已开。",
+            "evidence_ids": [
+              "R2-SNAPSHOT"
+            ],
+            "source_type": "game_adapter_simulator"
+          },
+          {
+            "text": "接口提供‘最初的试炼’：击败3只训练野猪，按钮为接受/取消；当时任务日志为空。",
+            "evidence_ids": [
+              "R2-SNAPSHOT"
+            ],
+            "source_type": "game_adapter_simulator"
+          },
+          {
+            "text": "已送达点击接受并报告窗口变化的文字建议，无自动操作。",
+            "evidence_ids": [
+              "R2-RECEIPT"
+            ],
+            "source_type": "execution"
+          },
+          {
+            "text": "用户报告‘我接了’，接口尚未确认接取。",
+            "evidence_ids": [
+              "R2UF"
+            ],
+            "source_type": "simulated_user_feedback"
+          }
+        ],
+        "explicit_preferences": [
+          {
+            "text": "每次只指导一步。",
+            "source_quote": "以后每次只说一步，别一口气说很多。",
+            "evidence_ids": [
+              "R2UF"
+            ],
+            "scope": "后续游戏指导"
+          }
+        ],
+        "unknowns": [
+          "接取后的任务日志及窗口状态未知。",
+          "位置、坐标、按键、服务器规则、技能书、背包、地图及当前生命法力未知。"
+        ],
+        "reflection_proposals_not_committed": [
+          {
+            "text": "后续继续采用单步文字提示可能更合适，待用户回应再推进。",
+            "evidence_ids": [
+              "R2UF",
+              "R2-RECEIPT"
+            ]
+          }
+        ],
+        "commit_rule": "只提交有已知来源的事实候选与可核对引文的明确偏好；反思假设仅作为待核实建议，不生效。"
+      },
+      "planner_status": "planner_skipped_for_urgency",
+      "nodes": [
+        {
+          "id": "r3_decision_low",
+          "round": "R3",
+          "role": "decision",
+          "effort": "low",
+          "requested_model": "gpt-6.1-sol",
+          "input_messages": [
+            {
+              "id": "R3-SNAPSHOT",
+              "from": "game_adapter_simulator",
+              "body": {
+                "R3F1": {
+                  "race": "兽人",
+                  "class": "萨满",
+                  "level": 1,
+                  "zone": "试炼谷"
+                },
+                "R3F2": {
+                  "inCombat": true,
+                  "hp": 28,
+                  "max_hp": 100,
+                  "mana": 0,
+                  "max_mana": 100,
+                  "target": {
+                    "name": "训练野猪",
+                    "hostile": true,
+                    "level": 1,
+                    "hp": 82,
+                    "max_hp": 100
+                  }
+                },
+                "R3F3": {
+                  "quest_log": [
+                    {
+                      "title": "最初的试炼",
+                      "progress": "0/3"
+                    }
+                  ],
+                  "known_spell": {
+                    "name": "闪电箭",
+                    "usable": false,
+                    "reason": "法力不足"
+                  },
+                  "healing_items": [],
+                  "healing_spells": "未提供"
+                },
+                "R3F4": {
+                  "unknown": [
+                    "terrain",
+                    "route",
+                    "distance",
+                    "orientation",
+                    "keybindings"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "R3U",
+              "from": "simulated_user",
+              "body": "它冲过来了，血一直掉！别解释，先告诉我一步怎么做！"
+            },
+            {
+              "id": "R3-MEMORY-IN",
+              "from": "previous_loop_message",
+              "body": {
+                "message_id": "R2-MEMORY-OUT",
+                "facts": [
+                  {
+                    "text": "接口显示1级兽人萨满在试炼谷；目标为友善的试炼谷引导员，对话已开。",
+                    "evidence_ids": [
+                      "R2-SNAPSHOT"
+                    ],
+                    "source_type": "game_adapter_simulator"
+                  },
+                  {
+                    "text": "接口提供‘最初的试炼’：击败3只训练野猪，按钮为接受/取消；当时任务日志为空。",
+                    "evidence_ids": [
+                      "R2-SNAPSHOT"
+                    ],
+                    "source_type": "game_adapter_simulator"
+                  },
+                  {
+                    "text": "已送达点击接受并报告窗口变化的文字建议，无自动操作。",
+                    "evidence_ids": [
+                      "R2-RECEIPT"
+                    ],
+                    "source_type": "execution"
+                  },
+                  {
+                    "text": "用户报告‘我接了’，接口尚未确认接取。",
+                    "evidence_ids": [
+                      "R2UF"
+                    ],
+                    "source_type": "simulated_user_feedback"
+                  }
+                ],
+                "explicit_preferences": [
+                  {
+                    "text": "每次只指导一步。",
+                    "source_quote": "以后每次只说一步，别一口气说很多。",
+                    "evidence_ids": [
+                      "R2UF"
+                    ],
+                    "scope": "后续游戏指导"
+                  }
+                ],
+                "unknowns": [
+                  "接取后的任务日志及窗口状态未知。",
+                  "位置、坐标、按键、服务器规则、技能书、背包、地图及当前生命法力未知。"
+                ],
+                "reflection_proposals_not_committed": [
+                  {
+                    "text": "后续继续采用单步文字提示可能更合适，待用户回应再推进。",
+                    "evidence_ids": [
+                      "R2UF",
+                      "R2-RECEIPT"
+                    ]
+                  }
+                ],
+                "commit_rule": "只提交有已知来源的事实候选与可核对引文的明确偏好；反思假设仅作为待核实建议，不生效。"
+              }
+            },
+            {
+              "id": "R3-PLAN",
+              "from": "orchestrator_reuse",
+              "body": {
+                "status": "planner_skipped_for_urgency",
+                "scope": "单次一步引导；需要审核；紧急时直接给最小建议"
+              }
+            }
+          ],
+          "input_sha256": "23dfff775370c890ea00dca64597145d59a7cd5b064db1fa7cdc47bfda8c1fa0",
+          "dispatch_unix_ms": 1794681120886,
+          "token_usage": null,
+          "spawn_ack_unix_ms": 1794681136404,
+          "output": {
+            "intent": "紧急单步脱离近身威胁",
+            "reply_draft": "先朝远离这只野猪的方向移动！",
+            "action_count": 1,
+            "evidence_ids": [
+              "R3-SNAPSHOT",
+              "R3U"
+            ],
+            "unknowns": [
+              "地形、路线、距离、朝向及按键未知；治疗技能未提供。"
+            ],
+            "reason_brief": "当前生命仅28%、法力为零且正在受攻击，先给一个远离威胁的移动建议。"
+          },
+          "completed_unix_ms": 1794681140323,
+          "duration_ms": 19437,
+          "status": "completed",
+          "issues": [],
+          "fork_turns": "none",
+          "input_artifact": "inputs/r3_decision_low.json",
+          "output_artifact": "outbox/r3_decision_low.json"
+        },
+        {
+          "id": "r3_review_low",
+          "round": "R3",
+          "role": "review",
+          "effort": "low",
+          "requested_model": "gpt-6.1-sol",
+          "input_messages": [
+            {
+              "id": "R3-SNAPSHOT",
+              "from": "game_adapter_simulator",
+              "body": {
+                "R3F1": {
+                  "race": "兽人",
+                  "class": "萨满",
+                  "level": 1,
+                  "zone": "试炼谷"
+                },
+                "R3F2": {
+                  "inCombat": true,
+                  "hp": 28,
+                  "max_hp": 100,
+                  "mana": 0,
+                  "max_mana": 100,
+                  "target": {
+                    "name": "训练野猪",
+                    "hostile": true,
+                    "level": 1,
+                    "hp": 82,
+                    "max_hp": 100
+                  }
+                },
+                "R3F3": {
+                  "quest_log": [
+                    {
+                      "title": "最初的试炼",
+                      "progress": "0/3"
+                    }
+                  ],
+                  "known_spell": {
+                    "name": "闪电箭",
+                    "usable": false,
+                    "reason": "法力不足"
+                  },
+                  "healing_items": [],
+                  "healing_spells": "未提供"
+                },
+                "R3F4": {
+                  "unknown": [
+                    "terrain",
+                    "route",
+                    "distance",
+                    "orientation",
+                    "keybindings"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "R3U",
+              "from": "simulated_user",
+              "body": "它冲过来了，血一直掉！别解释，先告诉我一步怎么做！"
+            },
+            {
+              "id": "R3-MEMORY-IN",
+              "from": "previous_loop_message",
+              "body": {
+                "message_id": "R2-MEMORY-OUT",
+                "facts": [
+                  {
+                    "text": "接口显示1级兽人萨满在试炼谷；目标为友善的试炼谷引导员，对话已开。",
+                    "evidence_ids": [
+                      "R2-SNAPSHOT"
+                    ],
+                    "source_type": "game_adapter_simulator"
+                  },
+                  {
+                    "text": "接口提供‘最初的试炼’：击败3只训练野猪，按钮为接受/取消；当时任务日志为空。",
+                    "evidence_ids": [
+                      "R2-SNAPSHOT"
+                    ],
+                    "source_type": "game_adapter_simulator"
+                  },
+                  {
+                    "text": "已送达点击接受并报告窗口变化的文字建议，无自动操作。",
+                    "evidence_ids": [
+                      "R2-RECEIPT"
+                    ],
+                    "source_type": "execution"
+                  },
+                  {
+                    "text": "用户报告‘我接了’，接口尚未确认接取。",
+                    "evidence_ids": [
+                      "R2UF"
+                    ],
+                    "source_type": "simulated_user_feedback"
+                  }
+                ],
+                "explicit_preferences": [
+                  {
+                    "text": "每次只指导一步。",
+                    "source_quote": "以后每次只说一步，别一口气说很多。",
+                    "evidence_ids": [
+                      "R2UF"
+                    ],
+                    "scope": "后续游戏指导"
+                  }
+                ],
+                "unknowns": [
+                  "接取后的任务日志及窗口状态未知。",
+                  "位置、坐标、按键、服务器规则、技能书、背包、地图及当前生命法力未知。"
+                ],
+                "reflection_proposals_not_committed": [
+                  {
+                    "text": "后续继续采用单步文字提示可能更合适，待用户回应再推进。",
+                    "evidence_ids": [
+                      "R2UF",
+                      "R2-RECEIPT"
+                    ]
+                  }
+                ],
+                "commit_rule": "只提交有已知来源的事实候选与可核对引文的明确偏好；反思假设仅作为待核实建议，不生效。"
+              }
+            },
+            {
+              "id": "R3-DECISION",
+              "from": "decision",
+              "body": {
+                "intent": "紧急单步脱离近身威胁",
+                "reply_draft": "先朝远离这只野猪的方向移动！",
+                "action_count": 1,
+                "evidence_ids": [
+                  "R3-SNAPSHOT",
+                  "R3U"
+                ],
+                "unknowns": [
+                  "地形、路线、距离、朝向及按键未知；治疗技能未提供。"
+                ],
+                "reason_brief": "当前生命仅28%、法力为零且正在受攻击，先给一个远离威胁的移动建议。"
+              }
+            }
+          ],
+          "input_sha256": "858eab6062b746c879861e3399fda5736c98ec8a5494cdd3bcb210ae43671876",
+          "dispatch_unix_ms": 1794681159632,
+          "token_usage": null,
+          "spawn_ack_unix_ms": 1794681180404,
+          "output": {
+            "pass": true,
+            "approved_reply": "先朝远离这只野猪的方向移动！",
+            "issues": [],
+            "evidence_ids": [
+              "R3-SNAPSHOT",
+              "R3U"
+            ],
+            "reason_brief": "原稿依据当前受攻击状态给出单步移动建议，未假定路线、按键或治疗能力，符合紧急简短要求。"
+          },
+          "completed_unix_ms": 1794681179631,
+          "duration_ms": 19999,
+          "status": "completed",
+          "issues": [
+            {
+              "code": "LATE_ACK_OBSERVATION",
+              "detail": "spawn后ack记录工具执行晚于worker结果写入；原始时间保留，此差值不能当延迟，展示为空。"
+            }
+          ],
+          "ack_to_output_ms": null,
+          "fork_turns": "none",
+          "input_artifact": "inputs/r3_review_low.json",
+          "output_artifact": "outbox/r3_review_low.json",
+          "raw_ack_delta_ms": -773
+        },
+        {
+          "id": "r3_execution_low",
+          "round": "R3",
+          "role": "execution",
+          "effort": "low",
+          "requested_model": "gpt-6.1-sol",
+          "input_messages": [
+            {
+              "id": "R3-APPROVAL",
+              "from": "review",
+              "body": {
+                "pass": true,
+                "approved_reply": "先朝远离这只野猪的方向移动！",
+                "issues": [],
+                "evidence_ids": [
+                  "R3-SNAPSHOT",
+                  "R3U"
+                ],
+                "reason_brief": "原稿依据当前受攻击状态给出单步移动建议，未假定路线、按键或治疗能力，符合紧急简短要求。"
+              }
+            }
+          ],
+          "input_sha256": "a33d06750c745d38eef7ab32be63744a0bfa9839799d5bc623a021aeeccbeb5c",
+          "dispatch_unix_ms": 1794681187026,
+          "token_usage": null,
+          "spawn_ack_unix_ms": 1794681196458,
+          "output": {
+            "reply": "先朝远离这只野猪的方向移动！",
+            "channel": "text",
+            "delivery": "simulated_delivered",
+            "autonomous_game_actions": [],
+            "evidence_ids": [
+              "R3-SNAPSHOT",
+              "R3U"
+            ]
+          },
+          "completed_unix_ms": 1794681199081,
+          "duration_ms": 12055,
+          "status": "completed",
+          "issues": [],
+          "ack_to_output_ms": 2623,
+          "fork_turns": "none",
+          "input_artifact": "inputs/r3_execution_low.json",
+          "output_artifact": "outbox/r3_execution_low.json"
+        },
+        {
+          "id": "r3_reflection_high",
+          "round": "R3",
+          "role": "reflection",
+          "effort": "high",
+          "requested_model": "gpt-6.1-sol",
+          "input_messages": [
+            {
+              "id": "R3-SNAPSHOT",
+              "from": "game_adapter_simulator",
+              "body": {
+                "R3F1": {
+                  "race": "兽人",
+                  "class": "萨满",
+                  "level": 1,
+                  "zone": "试炼谷"
+                },
+                "R3F2": {
+                  "inCombat": true,
+                  "hp": 28,
+                  "max_hp": 100,
+                  "mana": 0,
+                  "max_mana": 100,
+                  "target": {
+                    "name": "训练野猪",
+                    "hostile": true,
+                    "level": 1,
+                    "hp": 82,
+                    "max_hp": 100
+                  }
+                },
+                "R3F3": {
+                  "quest_log": [
+                    {
+                      "title": "最初的试炼",
+                      "progress": "0/3"
+                    }
+                  ],
+                  "known_spell": {
+                    "name": "闪电箭",
+                    "usable": false,
+                    "reason": "法力不足"
+                  },
+                  "healing_items": [],
+                  "healing_spells": "未提供"
+                },
+                "R3F4": {
+                  "unknown": [
+                    "terrain",
+                    "route",
+                    "distance",
+                    "orientation",
+                    "keybindings"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "R3U",
+              "from": "simulated_user",
+              "body": "它冲过来了，血一直掉！别解释，先告诉我一步怎么做！"
+            },
+            {
+              "id": "R3-MEMORY-IN",
+              "from": "previous_loop_message",
+              "body": {
+                "message_id": "R2-MEMORY-OUT",
+                "facts": [
+                  {
+                    "text": "接口显示1级兽人萨满在试炼谷；目标为友善的试炼谷引导员，对话已开。",
+                    "evidence_ids": [
+                      "R2-SNAPSHOT"
+                    ],
+                    "source_type": "game_adapter_simulator"
+                  },
+                  {
+                    "text": "接口提供‘最初的试炼’：击败3只训练野猪，按钮为接受/取消；当时任务日志为空。",
+                    "evidence_ids": [
+                      "R2-SNAPSHOT"
+                    ],
+                    "source_type": "game_adapter_simulator"
+                  },
+                  {
+                    "text": "已送达点击接受并报告窗口变化的文字建议，无自动操作。",
+                    "evidence_ids": [
+                      "R2-RECEIPT"
+                    ],
+                    "source_type": "execution"
+                  },
+                  {
+                    "text": "用户报告‘我接了’，接口尚未确认接取。",
+                    "evidence_ids": [
+                      "R2UF"
+                    ],
+                    "source_type": "simulated_user_feedback"
+                  }
+                ],
+                "explicit_preferences": [
+                  {
+                    "text": "每次只指导一步。",
+                    "source_quote": "以后每次只说一步，别一口气说很多。",
+                    "evidence_ids": [
+                      "R2UF"
+                    ],
+                    "scope": "后续游戏指导"
+                  }
+                ],
+                "unknowns": [
+                  "接取后的任务日志及窗口状态未知。",
+                  "位置、坐标、按键、服务器规则、技能书、背包、地图及当前生命法力未知。"
+                ],
+                "reflection_proposals_not_committed": [
+                  {
+                    "text": "后续继续采用单步文字提示可能更合适，待用户回应再推进。",
+                    "evidence_ids": [
+                      "R2UF",
+                      "R2-RECEIPT"
+                    ]
+                  }
+                ],
+                "commit_rule": "只提交有已知来源的事实候选与可核对引文的明确偏好；反思假设仅作为待核实建议，不生效。"
+              }
+            },
+            {
+              "id": "R3-RECEIPT",
+              "from": "execution",
+              "body": {
+                "reply": "先朝远离这只野猪的方向移动！",
+                "channel": "text",
+                "delivery": "simulated_delivered",
+                "autonomous_game_actions": [],
+                "evidence_ids": [
+                  "R3-SNAPSHOT",
+                  "R3U"
+                ]
+              }
+            },
+            {
+              "id": "R3UF",
+              "from": "simulated_user_feedback",
+              "body": "知道了，我先跑。"
+            }
+          ],
+          "input_sha256": "eec574e11f6955507e4ff607d9b5a8fc2c222949e0449e919af0569f642201be",
+          "dispatch_unix_ms": 1794681215255,
+          "token_usage": null,
+          "output": {
+            "feedback_interpretation": "“我先跑”表示已理解并打算移动，不能确认已移动、脱战或安全。",
+            "explicit_preferences": [
+              {
+                "text": "每次只指导一步。",
+                "source_quote": "以后每次只说一步，别一口气说很多。",
+                "evidence_ids": [
+                  "R3-MEMORY-IN"
+                ],
+                "scope": "后续游戏指导"
+              },
+              {
+                "text": "紧急时先给一步行动，不解释。",
+                "source_quote": "别解释，先告诉我一步怎么做！",
+                "evidence_ids": [
+                  "R3U"
+                ],
+                "scope": "当前紧急战斗"
+              }
+            ],
+            "hypotheses": [
+              {
+                "text": "用户可能正在尝试撤离；建议等反馈再推进，若需确认，仅询问是否仍在掉血。",
+                "evidence_ids": [
+                  "R3UF",
+                  "R3-SNAPSHOT"
+                ],
+                "status": "待核实建议，未提交记忆"
+              }
+            ],
+            "unknowns": [
+              "是否已移动、脱战及最新生命值。",
+              "地形、路线、距离、朝向和按键。"
+            ],
+            "reason_brief": "回执仅确认文字送达，用户反馈仅表达下一步意图。"
+          },
+          "completed_unix_ms": 1794681246209,
+          "duration_ms": 30954,
+          "status": "completed",
+          "issues": [],
+          "fork_turns": "none",
+          "input_artifact": "inputs/r3_reflection_high.json",
+          "output_artifact": "outbox/r3_reflection_high.json"
+        },
+        {
+          "id": "r3_memory_medium",
+          "round": "R3",
+          "role": "memory",
+          "effort": "medium",
+          "requested_model": "gpt-6.1-sol",
+          "input_messages": [
+            {
+              "id": "R3-SNAPSHOT",
+              "from": "game_adapter_simulator",
+              "body": {
+                "R3F1": {
+                  "race": "兽人",
+                  "class": "萨满",
+                  "level": 1,
+                  "zone": "试炼谷"
+                },
+                "R3F2": {
+                  "inCombat": true,
+                  "hp": 28,
+                  "max_hp": 100,
+                  "mana": 0,
+                  "max_mana": 100,
+                  "target": {
+                    "name": "训练野猪",
+                    "hostile": true,
+                    "level": 1,
+                    "hp": 82,
+                    "max_hp": 100
+                  }
+                },
+                "R3F3": {
+                  "quest_log": [
+                    {
+                      "title": "最初的试炼",
+                      "progress": "0/3"
+                    }
+                  ],
+                  "known_spell": {
+                    "name": "闪电箭",
+                    "usable": false,
+                    "reason": "法力不足"
+                  },
+                  "healing_items": [],
+                  "healing_spells": "未提供"
+                },
+                "R3F4": {
+                  "unknown": [
+                    "terrain",
+                    "route",
+                    "distance",
+                    "orientation",
+                    "keybindings"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "R3U",
+              "from": "simulated_user",
+              "body": "它冲过来了，血一直掉！别解释，先告诉我一步怎么做！"
+            },
+            {
+              "id": "R3-MEMORY-IN",
+              "from": "previous_loop_message",
+              "body": {
+                "message_id": "R2-MEMORY-OUT",
+                "facts": [
+                  {
+                    "text": "接口显示1级兽人萨满在试炼谷；目标为友善的试炼谷引导员，对话已开。",
+                    "evidence_ids": [
+                      "R2-SNAPSHOT"
+                    ],
+                    "source_type": "game_adapter_simulator"
+                  },
+                  {
+                    "text": "接口提供‘最初的试炼’：击败3只训练野猪，按钮为接受/取消；当时任务日志为空。",
+                    "evidence_ids": [
+                      "R2-SNAPSHOT"
+                    ],
+                    "source_type": "game_adapter_simulator"
+                  },
+                  {
+                    "text": "已送达点击接受并报告窗口变化的文字建议，无自动操作。",
+                    "evidence_ids": [
+                      "R2-RECEIPT"
+                    ],
+                    "source_type": "execution"
+                  },
+                  {
+                    "text": "用户报告‘我接了’，接口尚未确认接取。",
+                    "evidence_ids": [
+                      "R2UF"
+                    ],
+                    "source_type": "simulated_user_feedback"
+                  }
+                ],
+                "explicit_preferences": [
+                  {
+                    "text": "每次只指导一步。",
+                    "source_quote": "以后每次只说一步，别一口气说很多。",
+                    "evidence_ids": [
+                      "R2UF"
+                    ],
+                    "scope": "后续游戏指导"
+                  }
+                ],
+                "unknowns": [
+                  "接取后的任务日志及窗口状态未知。",
+                  "位置、坐标、按键、服务器规则、技能书、背包、地图及当前生命法力未知。"
+                ],
+                "reflection_proposals_not_committed": [
+                  {
+                    "text": "后续继续采用单步文字提示可能更合适，待用户回应再推进。",
+                    "evidence_ids": [
+                      "R2UF",
+                      "R2-RECEIPT"
+                    ]
+                  }
+                ],
+                "commit_rule": "只提交有已知来源的事实候选与可核对引文的明确偏好；反思假设仅作为待核实建议，不生效。"
+              }
+            },
+            {
+              "id": "R3-RECEIPT",
+              "from": "execution",
+              "body": {
+                "reply": "先朝远离这只野猪的方向移动！",
+                "channel": "text",
+                "delivery": "simulated_delivered",
+                "autonomous_game_actions": [],
+                "evidence_ids": [
+                  "R3-SNAPSHOT",
+                  "R3U"
+                ]
+              }
+            },
+            {
+              "id": "R3UF",
+              "from": "simulated_user_feedback",
+              "body": "知道了，我先跑。"
+            }
+          ],
+          "input_sha256": "eec574e11f6955507e4ff607d9b5a8fc2c222949e0449e919af0569f642201be",
+          "dispatch_unix_ms": 1794681229499,
+          "token_usage": null,
+          "output": {
+            "facts": [
+              {
+                "text": "接口：1级兽人萨满在试炼谷，战斗中生命28/100、法力0/100；敌对1级训练野猪生命82/100。",
+                "evidence_ids": [
+                  "R3-SNAPSHOT"
+                ],
+                "source_type": "game_adapter_simulator"
+              },
+              {
+                "text": "任务日志‘最初的试炼’0/3；闪电箭缺法力不可用，无治疗物品。",
+                "evidence_ids": [
+                  "R3-SNAPSHOT"
+                ],
+                "source_type": "game_adapter_simulator"
+              },
+              {
+                "text": "已送达远离野猪移动的文字建议，无自动操作；用户表示先跑，仅为意图。",
+                "evidence_ids": [
+                  "R3-RECEIPT",
+                  "R3UF"
+                ],
+                "source_type": "execution/simulated_user_feedback"
+              }
+            ],
+            "explicit_preferences": [
+              {
+                "text": "每次只指导一步。",
+                "source_quote": "以后每次只说一步，别一口气说很多。",
+                "evidence_ids": [
+                  "R3-MEMORY-IN"
+                ],
+                "scope": "后续游戏指导"
+              },
+              {
+                "text": "紧急时不解释，先给一步。",
+                "source_quote": "别解释，先告诉我一步怎么做！",
+                "evidence_ids": [
+                  "R3U"
+                ],
+                "scope": "当前紧急指导"
+              }
+            ],
+            "unknowns": [
+              "地形、路线、距离、朝向、按键、治疗技能未提供。",
+              "是否已移动、脱战或存活尚未确认。"
+            ]
+          },
+          "completed_unix_ms": 1794681255379,
+          "duration_ms": 25880,
+          "status": "completed",
+          "issues": [],
+          "fork_turns": "none",
+          "input_artifact": "inputs/r3_memory_medium.json",
+          "output_artifact": "outbox/r3_memory_medium.json"
+        }
+      ],
+      "reply": "先朝远离这只野猪的方向移动！",
+      "parallel_groups": [
+        [
+          "reflection",
+          "memory"
+        ]
+      ],
+      "checks": [
+        {
+          "id": "raw_integrity",
+          "title": "原始结果与输入可复核",
+          "pass": true,
+          "evidence": "每个节点input_messages与保存输入逐项相同，output与原始outbox逐项相同，时间戳未更改。"
+        },
+        {
+          "id": "approval_then_execution",
+          "title": "审核先于执行且执行逐字一致",
+          "pass": true,
+          "evidence": "核对审核完成时间、执行dispatch和三处回复字符串。"
+        },
+        {
+          "id": "single_step",
+          "title": "回复为一个游戏步骤",
+          "pass": true,
+          "evidence": "协调者复核：观察/接受任务/远离威胁各一项；请求回报视为同一步反馈。回复总字符数=14"
+        },
+        {
+          "id": "available_facts",
+          "title": "未补造未知游戏事实",
+          "pass": true,
+          "evidence": "协调者逐字复核实际回复；未出现未提供的NPC/任务地点/技能/按键/坐标，也未声称看见玩家屏幕。此为本次文本样本检查。"
+        },
+        {
+          "id": "no_game_control",
+          "title": "无自动游戏操作",
+          "pass": true,
+          "evidence": "execution回执中的autonomous_game_actions为空；本实验只有文字送达模拟。"
+        },
+        {
+          "id": "feedback_not_leaked",
+          "title": "后置反馈未传入前台",
+          "pass": true,
+          "evidence": "检查所有前台输入消息ID；后置用户文本只进入reflection与memory。"
+        },
+        {
+          "id": "background_dependencies",
+          "title": "后台依赖与并发正确",
+          "pass": true,
+          "evidence": "后台均在执行后发起；实测区间重叠 16710 ms。"
+        },
+        {
+          "id": "fresh_context",
+          "title": "独立会话且只显式转交消息",
+          "pass": true,
+          "evidence": "实际spawn均fork_turns=none；业务角色只写专属outbox。底层共享文件系统，属于会话与协议隔离。"
+        },
+        {
+          "id": "cross_round_messages",
+          "title": "跨轮历史只来自提交的memory消息",
+          "pass": true,
+          "evidence": "逐项比较received_memory与上轮真实committed_memory；未传入其他角色会话历史。"
+        },
+        {
+          "id": "hypotheses_quarantined",
+          "title": "反思推测未变成确认事实",
+          "pass": true,
+          "evidence": "待核实建议保持独立字段；不进入facts或explicit_preferences。"
+        },
+        {
+          "id": "memory_provenance",
+          "title": "记忆来源ID与偏好原话可核对",
+          "pass": true,
+          "evidence": "R1为事后复核，R2/R3为提交前确定性门控；来源匹配不能证明范围概括准确。"
+        },
+        {
+          "id": "combat_grounding",
+          "title": "急迫回复不调用不可用技能或捏造治疗",
+          "pass": true,
+          "evidence": "回复仅建议朝远离野猪的方向移动，没有声称路线安全或能成功脱战。"
+        },
+        {
+          "id": "survival_not_assumed",
+          "title": "没有把行动意图写成逃生成功",
+          "pass": true,
+          "evidence": "memory保留“用户表示先跑，仅为意图”；是否移动/脱战/存活未知。"
+        },
+        {
+          "id": "combat_timeliness",
+          "title": "达到当下战斗即时提示的体验要求",
+          "pass": false,
+          "evidence": "本次前台实际78.195秒；这是事后产品适用性判断，并非预先定义的性能SLO。当前多会话工具编排不适合掉血中的即时指挥。"
+        }
+      ],
+      "start_unix_ms": 1794681120886,
+      "foreground_ms": 78195,
+      "foreground_completed_unix_ms": 1794681199081,
+      "committed_memory": {
+        "message_id": "R3-MEMORY-OUT",
+        "facts": [
+          {
+            "text": "接口：1级兽人萨满在试炼谷，战斗中生命28/100、法力0/100；敌对1级训练野猪生命82/100。",
+            "evidence_ids": [
+              "R3-SNAPSHOT"
+            ],
+            "source_type": "game_adapter_simulator"
+          },
+          {
+            "text": "任务日志‘最初的试炼’0/3；闪电箭缺法力不可用，无治疗物品。",
+            "evidence_ids": [
+              "R3-SNAPSHOT"
+            ],
+            "source_type": "game_adapter_simulator"
+          },
+          {
+            "text": "已送达远离野猪移动的文字建议，无自动操作；用户表示先跑，仅为意图。",
+            "evidence_ids": [
+              "R3-RECEIPT",
+              "R3UF"
+            ],
+            "source_type": "execution/simulated_user_feedback"
+          }
+        ],
+        "explicit_preferences": [
+          {
+            "text": "每次只指导一步。",
+            "source_quote": "以后每次只说一步，别一口气说很多。",
+            "evidence_ids": [
+              "R3-MEMORY-IN"
+            ],
+            "scope": "后续游戏指导"
+          },
+          {
+            "text": "紧急时不解释，先给一步。",
+            "source_quote": "别解释，先告诉我一步怎么做！",
+            "evidence_ids": [
+              "R3U"
+            ],
+            "scope": "当前紧急指导"
+          }
+        ],
+        "unknowns": [
+          "地形、路线、距离、朝向、按键、治疗技能未提供。",
+          "是否已移动、脱战或存活尚未确认。"
+        ],
+        "reflection_proposals_not_committed": [
+          {
+            "text": "用户可能正在尝试撤离；建议等反馈再推进，若需确认，仅询问是否仍在掉血。",
+            "evidence_ids": [
+              "R3UF",
+              "R3-SNAPSHOT"
+            ],
+            "status": "待核实建议，未提交记忆"
+          }
+        ],
+        "commit_rule": "只提交有已知来源的事实候选与可核对引文的明确偏好；反思假设仅作为待核实建议，不生效。"
+      },
+      "quarantined_memory": [],
+      "completed_unix_ms": 1794681266479,
+      "full_loop_ms": 145593,
+      "node_active_union_ms": 91615,
+      "orchestration_gap_ms": 53978,
+      "loop_start_unix_ms": 1794681120886,
+      "loop_completed_unix_ms": 1794681266479,
+      "node_duration_sum_ms": 108325,
+      "dependency_critical_ms": 82445,
+      "background_overlap_ms": 16710,
+      "foreground_node_duration_sum_ms": 51491,
+      "foreground_orchestration_gap_ms": 26704,
+      "observed_graph_path_ms": 134493,
+      "commit_gap_ms": 11100,
+      "background_span_ms": 40124,
+      "inter_round_gap_ms": 298,
+      "actual_order": [
+        "decision",
+        "review",
+        "execution",
+        [
+          "reflection",
+          "memory"
+        ],
+        "commit_gate"
+      ],
+      "post_feedback_injected_after_execution": true,
+      "role_call_count": 5
+    }
+  ],
+  "comparison": [
+    {
+      "id": "cmp_r1_decision_low",
+      "round": "R1",
+      "role": "decision",
+      "effort": "low",
+      "requested_model": "gpt-6.1-sol",
+      "input_messages": [
+        {
+          "id": "R1-SNAPSHOT",
+          "from": "game_adapter_simulator",
+          "body": {
+            "R1F1": {
+              "race": "兽人",
+              "class": "萨满",
+              "level": 1,
+              "zone": "试炼谷"
+            },
+            "R1F2": {
+              "hp": 100,
+              "max_hp": 100,
+              "mana": 100,
+              "max_mana": 100,
+              "inCombat": false
+            },
+            "R1F3": {
+              "target": null,
+              "quest_log": []
+            },
+            "R1F4": {
+              "unknown": [
+                "spellbook",
+                "bags",
+                "map",
+                "keybindings",
+                "nearbyNPC",
+                "server_rules"
+              ]
+            }
+          }
+        },
+        {
+          "id": "R1U",
+          "from": "simulated_user",
+          "body": "我刚出生，完全不知道要干嘛，能不能带着我玩？"
+        },
+        {
+          "id": "R1-PLAN",
+          "from": "planning_message",
+          "body": {
+            "goal": "陪新手完成首个有证据的小步骤",
+            "enabled_agents": [
+              "planning",
+              "decision",
+              "review",
+              "execution",
+              "memory"
+            ],
+            "skipped_agents": [
+              "reflection"
+            ],
+            "dependencies": [
+              "decision依据本轮快照生成实际候选",
+              "review审核decision候选；退回则重选",
+              "execution仅逐字发送审核批准内容",
+              "memory后台整理已知事实与未知项，不阻塞前台"
+            ],
+            "parallel_groups": [
+              [
+                "decision",
+                "memory"
+              ],
+              [
+                "review"
+              ],
+              [
+                "execution"
+              ]
+            ],
+            "stop_conditions": [
+              "批准内容送达后等待玩家反馈",
+              "未获审核批准不得执行",
+              "需未知信息时止于询问，不补造事实"
+            ],
+            "next_action_scope": "只给温柔简短文字：确认愿意陪伴，请玩家观察并描述附近NPC或标记；本轮不指定未知任务、技能、按键或坐标，不操作游戏。",
+            "evidence_ids": [
+              "R1-SNAPSHOT",
+              "R1U",
+              "ROLE-CATALOG"
+            ],
+            "reason_brief": "玩家安全且缺少环境信息，先观察再行动，后台仅整理事实。"
+          }
+        }
+      ],
+      "input_sha256": "03cbfdebc52035f1bbb8d06f491d56afb77935735197b19d98993c14ec372de7",
+      "dispatch_unix_ms": 1794681266762,
+      "token_usage": null,
+      "spawn_ack_unix_ms": 1794681278371,
+      "output": {
+        "intent": "陪伴新手，先观察附近环境",
+        "reply_draft": "当然可以呀，我会陪你一步一步探索。先看看附近有没有人或醒目的标记，把你看到的告诉我吧。",
+        "action_count": 1,
+        "evidence_ids": [
+          "R1-SNAPSHOT",
+          "R1U",
+          "R1-PLAN"
+        ],
+        "unknowns": [
+          "附近NPC与标记",
+          "任务、技能、背包、地图、按键及服务器规则"
+        ],
+        "reason_brief": "当前未在战斗且附近环境未知，先请玩家观察可避免编造行动依据。"
+      },
+      "completed_unix_ms": 1794681283981,
+      "duration_ms": 17219,
+      "status": "completed",
+      "issues": [],
+      "ack_to_output_ms": 5610,
+      "input_same_as": "r1_decision_medium",
+      "reply": "当然可以呀，我会陪你一步一步探索。先看看附近有没有人或醒目的标记，把你看到的告诉我吧。",
+      "fork_turns": "none",
+      "reviewed_for_execution": false,
+      "delivery": "comparison_only_not_delivered",
+      "normalized_prompt_sha256": "513f1a3bdb5fb26fd78f6f949c7116ae398dee41d20c0f229a05ab460b705614",
+      "input_artifact": "inputs/cmp_r1_decision_low.json",
+      "output_artifact": "outbox/cmp_r1_decision_low.json",
+      "checks": [
+        {
+          "id": "same_business_input",
+          "title": "三档业务输入与R1原决策一致",
+          "pass": true,
+          "evidence": "对消息内容排序序列化后的SHA-256逐字一致。"
+        },
+        {
+          "id": "single_step",
+          "title": "一个观察步骤且不超过80字",
+          "pass": true,
+          "evidence": "回复字符数=43；候选仅请玩家观察并回报。"
+        },
+        {
+          "id": "grounded",
+          "title": "没有编造未知游戏事实",
+          "pass": true,
+          "evidence": "协调者复核候选：以询问方式了解附近内容，未指定未知NPC、技能、坐标或按键。"
+        },
+        {
+          "id": "token_telemetry",
+          "title": "获得真实token用量",
+          "pass": false,
+          "evidence": "Agent通道无usage数据；token_usage保持null，未估算。"
+        },
+        {
+          "id": "same_instructions",
+          "title": "三档任务指令一致",
+          "pass": true,
+          "evidence": "仅独占outbox标识不同；模型effort通过spawn配置。归一化prompt SHA-256一致。"
+        },
+        {
+          "id": "sequential_run",
+          "title": "比较按顺序且无其他业务worker并发",
+          "pass": true,
+          "evidence": "low→medium→high；在全部主loop结束后执行。"
+        }
+      ]
+    },
+    {
+      "id": "cmp_r1_decision_medium",
+      "round": "R1",
+      "role": "decision",
+      "effort": "medium",
+      "requested_model": "gpt-6.1-sol",
+      "input_messages": [
+        {
+          "id": "R1-SNAPSHOT",
+          "from": "game_adapter_simulator",
+          "body": {
+            "R1F1": {
+              "race": "兽人",
+              "class": "萨满",
+              "level": 1,
+              "zone": "试炼谷"
+            },
+            "R1F2": {
+              "hp": 100,
+              "max_hp": 100,
+              "mana": 100,
+              "max_mana": 100,
+              "inCombat": false
+            },
+            "R1F3": {
+              "target": null,
+              "quest_log": []
+            },
+            "R1F4": {
+              "unknown": [
+                "spellbook",
+                "bags",
+                "map",
+                "keybindings",
+                "nearbyNPC",
+                "server_rules"
+              ]
+            }
+          }
+        },
+        {
+          "id": "R1U",
+          "from": "simulated_user",
+          "body": "我刚出生，完全不知道要干嘛，能不能带着我玩？"
+        },
+        {
+          "id": "R1-PLAN",
+          "from": "planning_message",
+          "body": {
+            "goal": "陪新手完成首个有证据的小步骤",
+            "enabled_agents": [
+              "planning",
+              "decision",
+              "review",
+              "execution",
+              "memory"
+            ],
+            "skipped_agents": [
+              "reflection"
+            ],
+            "dependencies": [
+              "decision依据本轮快照生成实际候选",
+              "review审核decision候选；退回则重选",
+              "execution仅逐字发送审核批准内容",
+              "memory后台整理已知事实与未知项，不阻塞前台"
+            ],
+            "parallel_groups": [
+              [
+                "decision",
+                "memory"
+              ],
+              [
+                "review"
+              ],
+              [
+                "execution"
+              ]
+            ],
+            "stop_conditions": [
+              "批准内容送达后等待玩家反馈",
+              "未获审核批准不得执行",
+              "需未知信息时止于询问，不补造事实"
+            ],
+            "next_action_scope": "只给温柔简短文字：确认愿意陪伴，请玩家观察并描述附近NPC或标记；本轮不指定未知任务、技能、按键或坐标，不操作游戏。",
+            "evidence_ids": [
+              "R1-SNAPSHOT",
+              "R1U",
+              "ROLE-CATALOG"
+            ],
+            "reason_brief": "玩家安全且缺少环境信息，先观察再行动，后台仅整理事实。"
+          }
+        }
+      ],
+      "input_sha256": "03cbfdebc52035f1bbb8d06f491d56afb77935735197b19d98993c14ec372de7",
+      "dispatch_unix_ms": 1794681308705,
+      "token_usage": null,
+      "spawn_ack_unix_ms": 1794681321679,
+      "output": {
+        "intent": "陪伴新手并请其观察附近环境",
+        "reply_draft": "当然可以呀，我会陪你一步一步来。先看看附近有没有人物或醒目的标记，告诉我你看到了什么，好吗？",
+        "action_count": 1,
+        "evidence_ids": [
+          "R1-SNAPSHOT",
+          "R1U",
+          "R1-PLAN"
+        ],
+        "unknowns": [
+          "附近NPC及标记",
+          "任务、技能、背包、地图、按键和服务器规则"
+        ],
+        "reason_brief": "当前未战斗且附近环境未知，先请玩家观察以获得下一步依据。"
+      },
+      "completed_unix_ms": 1794681325941,
+      "duration_ms": 17236,
+      "status": "completed",
+      "issues": [],
+      "ack_to_output_ms": 4262,
+      "input_same_as": "r1_decision_medium",
+      "reply": "当然可以呀，我会陪你一步一步来。先看看附近有没有人物或醒目的标记，告诉我你看到了什么，好吗？",
+      "fork_turns": "none",
+      "reviewed_for_execution": false,
+      "delivery": "comparison_only_not_delivered",
+      "normalized_prompt_sha256": "513f1a3bdb5fb26fd78f6f949c7116ae398dee41d20c0f229a05ab460b705614",
+      "input_artifact": "inputs/cmp_r1_decision_medium.json",
+      "output_artifact": "outbox/cmp_r1_decision_medium.json",
+      "checks": [
+        {
+          "id": "same_business_input",
+          "title": "三档业务输入与R1原决策一致",
+          "pass": true,
+          "evidence": "对消息内容排序序列化后的SHA-256逐字一致。"
+        },
+        {
+          "id": "single_step",
+          "title": "一个观察步骤且不超过80字",
+          "pass": true,
+          "evidence": "回复字符数=46；候选仅请玩家观察并回报。"
+        },
+        {
+          "id": "grounded",
+          "title": "没有编造未知游戏事实",
+          "pass": true,
+          "evidence": "协调者复核候选：以询问方式了解附近内容，未指定未知NPC、技能、坐标或按键。"
+        },
+        {
+          "id": "token_telemetry",
+          "title": "获得真实token用量",
+          "pass": false,
+          "evidence": "Agent通道无usage数据；token_usage保持null，未估算。"
+        },
+        {
+          "id": "same_instructions",
+          "title": "三档任务指令一致",
+          "pass": true,
+          "evidence": "仅独占outbox标识不同；模型effort通过spawn配置。归一化prompt SHA-256一致。"
+        },
+        {
+          "id": "sequential_run",
+          "title": "比较按顺序且无其他业务worker并发",
+          "pass": true,
+          "evidence": "low→medium→high；在全部主loop结束后执行。"
+        }
+      ]
+    },
+    {
+      "id": "cmp_r1_decision_high",
+      "round": "R1",
+      "role": "decision",
+      "effort": "high",
+      "requested_model": "gpt-6.1-sol",
+      "input_messages": [
+        {
+          "id": "R1-SNAPSHOT",
+          "from": "game_adapter_simulator",
+          "body": {
+            "R1F1": {
+              "race": "兽人",
+              "class": "萨满",
+              "level": 1,
+              "zone": "试炼谷"
+            },
+            "R1F2": {
+              "hp": 100,
+              "max_hp": 100,
+              "mana": 100,
+              "max_mana": 100,
+              "inCombat": false
+            },
+            "R1F3": {
+              "target": null,
+              "quest_log": []
+            },
+            "R1F4": {
+              "unknown": [
+                "spellbook",
+                "bags",
+                "map",
+                "keybindings",
+                "nearbyNPC",
+                "server_rules"
+              ]
+            }
+          }
+        },
+        {
+          "id": "R1U",
+          "from": "simulated_user",
+          "body": "我刚出生，完全不知道要干嘛，能不能带着我玩？"
+        },
+        {
+          "id": "R1-PLAN",
+          "from": "planning_message",
+          "body": {
+            "goal": "陪新手完成首个有证据的小步骤",
+            "enabled_agents": [
+              "planning",
+              "decision",
+              "review",
+              "execution",
+              "memory"
+            ],
+            "skipped_agents": [
+              "reflection"
+            ],
+            "dependencies": [
+              "decision依据本轮快照生成实际候选",
+              "review审核decision候选；退回则重选",
+              "execution仅逐字发送审核批准内容",
+              "memory后台整理已知事实与未知项，不阻塞前台"
+            ],
+            "parallel_groups": [
+              [
+                "decision",
+                "memory"
+              ],
+              [
+                "review"
+              ],
+              [
+                "execution"
+              ]
+            ],
+            "stop_conditions": [
+              "批准内容送达后等待玩家反馈",
+              "未获审核批准不得执行",
+              "需未知信息时止于询问，不补造事实"
+            ],
+            "next_action_scope": "只给温柔简短文字：确认愿意陪伴，请玩家观察并描述附近NPC或标记；本轮不指定未知任务、技能、按键或坐标，不操作游戏。",
+            "evidence_ids": [
+              "R1-SNAPSHOT",
+              "R1U",
+              "ROLE-CATALOG"
+            ],
+            "reason_brief": "玩家安全且缺少环境信息，先观察再行动，后台仅整理事实。"
+          }
+        }
+      ],
+      "input_sha256": "03cbfdebc52035f1bbb8d06f491d56afb77935735197b19d98993c14ec372de7",
+      "dispatch_unix_ms": 1794681347353,
+      "token_usage": null,
+      "spawn_ack_unix_ms": 1794681359604,
+      "output": {
+        "intent": "请求观察附近环境",
+        "reply_draft": "当然啦，我会陪你一步一步探索。先看看附近有没有人或特别的标记，把你看到的告诉我吧？",
+        "action_count": 1,
+        "evidence_ids": [
+          "R1-SNAPSHOT",
+          "R1U",
+          "R1-PLAN"
+        ],
+        "unknowns": [
+          "附近NPC与标记",
+          "任务信息",
+          "技能、物品、地图及按键"
+        ],
+        "reason_brief": "当前未在战斗且附近环境未知，先请玩家观察再决定下一步。"
+      },
+      "completed_unix_ms": 1794681364615,
+      "duration_ms": 17262,
+      "status": "completed",
+      "issues": [],
+      "ack_to_output_ms": 5011,
+      "input_same_as": "r1_decision_medium",
+      "reply": "当然啦，我会陪你一步一步探索。先看看附近有没有人或特别的标记，把你看到的告诉我吧？",
+      "fork_turns": "none",
+      "reviewed_for_execution": false,
+      "delivery": "comparison_only_not_delivered",
+      "normalized_prompt_sha256": "513f1a3bdb5fb26fd78f6f949c7116ae398dee41d20c0f229a05ab460b705614",
+      "input_artifact": "inputs/cmp_r1_decision_high.json",
+      "output_artifact": "outbox/cmp_r1_decision_high.json",
+      "checks": [
+        {
+          "id": "same_business_input",
+          "title": "三档业务输入与R1原决策一致",
+          "pass": true,
+          "evidence": "对消息内容排序序列化后的SHA-256逐字一致。"
+        },
+        {
+          "id": "single_step",
+          "title": "一个观察步骤且不超过80字",
+          "pass": true,
+          "evidence": "回复字符数=41；候选仅请玩家观察并回报。"
+        },
+        {
+          "id": "grounded",
+          "title": "没有编造未知游戏事实",
+          "pass": true,
+          "evidence": "协调者复核候选：以询问方式了解附近内容，未指定未知NPC、技能、坐标或按键。"
+        },
+        {
+          "id": "token_telemetry",
+          "title": "获得真实token用量",
+          "pass": false,
+          "evidence": "Agent通道无usage数据；token_usage保持null，未估算。"
+        },
+        {
+          "id": "same_instructions",
+          "title": "三档任务指令一致",
+          "pass": true,
+          "evidence": "仅独占outbox标识不同；模型effort通过spawn配置。归一化prompt SHA-256一致。"
+        },
+        {
+          "id": "sequential_run",
+          "title": "比较按顺序且无其他业务worker并发",
+          "pass": true,
+          "evidence": "low→medium→high；在全部主loop结束后执行。"
+        }
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": "ROLE_CATALOG_MISSING",
+      "phase": "pilot",
+      "detail": "试运行未发送标准角色目录，规划输出了信息核验/小步规划等非标准角色名。正式测试补齐6角色枚举并重新运行；不把试运行当正式回归。",
+      "artifact": "outbox/wow_r1_planning_high.json"
+    },
+    {
+      "code": "PLANNER_DEPENDENCY_CORRECTED",
+      "phase": "R1",
+      "detail": "规划候选将decision与memory并行；规划时仅有简短角色职责，memory的完整输入契约未传入。实际memory任务又要求执行回执与后置反馈，协调器据此延后。属于模块契约与规划不一致，原始规划保留，不能单独归因于模型能力。",
+      "resolved": true,
+      "raw_output_preserved": true,
+      "resolution": "依赖校验后memory在执行完成及反馈注入后与reflection并行。"
+    },
+    {
+      "code": "MEASUREMENT_CONTAMINATION",
+      "phase": "R2",
+      "node": "r2_decision_low",
+      "detail": "dispatch记录后、实际spawn前发生协调者上下文压缩；该段编排延迟包含在duration_ms中，无法从现有时间戳精确剥离。原始时间保留，不作为模型速度样本。",
+      "resolved": false
+    },
+    {
+      "code": "PREFERENCE_SCOPE_EXPANDED",
+      "phase": "R1",
+      "detail": "R1用户只说“先教我一步”，memory却写成“每次先教一步”并作用于后续游戏指导。此范围扩大真实提交且已传入R2，未在提交前拦截。R2后置用户反馈才明确“以后每次只说一步”，后续有直接依据。",
+      "resolved": false,
+      "subsequent_evidence": "R2UF明确了后续每次一步偏好；不消除R1历史提交问题。"
+    }
+  ],
+  "notes": [
+    "三档决策对照已在三个主loop之后按low、medium、high顺序独立完成；业务输入与任务指令相同，仅effort配置及独占outbox路径不同。每档均记录spawn确认后计时；该时间仍非纯推理耗时。",
+    "R1偏好范围扩大真实进入了下一轮，不能描述为被commit gate拦截；R2后续原话才直接支持长期每次一步。",
+    "三档比较只比较决策节点，未分别跑三档全链路；每档只有1次，不能归纳模型速度排名或长期质量。",
+    "R1先观察的信息获取属于响应式澄清；未触发独立主动互动计时器或频率控制测试。"
+  ],
+  "jobs": {
+    "r1_planning_high": {
+      "id": "r1_planning_high",
+      "round": "R1",
+      "role": "planning",
+      "effort": "high",
+      "requested_model": "gpt-6.1-sol",
+      "input_messages": [
+        {
+          "id": "R1-SNAPSHOT",
+          "from": "game_adapter_simulator",
+          "body": {
+            "R1F1": {
+              "race": "兽人",
+              "class": "萨满",
+              "level": 1,
+              "zone": "试炼谷"
+            },
+            "R1F2": {
+              "hp": 100,
+              "max_hp": 100,
+              "mana": 100,
+              "max_mana": 100,
+              "inCombat": false
+            },
+            "R1F3": {
+              "target": null,
+              "quest_log": []
+            },
+            "R1F4": {
+              "unknown": [
+                "spellbook",
+                "bags",
+                "map",
+                "keybindings",
+                "nearbyNPC",
+                "server_rules"
+              ]
+            }
+          }
+        },
+        {
+          "id": "R1U",
+          "from": "simulated_user",
+          "body": "我刚出生，完全不知道要干嘛，能不能带着我玩？"
+        },
+        {
+          "id": "ROLE-CATALOG",
+          "from": "orchestrator",
+          "body": {
+            "planning": "选需要的模块、顺序、并发和结束条件",
+            "decision": "选择行动与具体候选表达",
+            "review": "审核实际候选内容",
+            "execution": "逐字输出批准内容，记录送达",
+            "reflection": "后台解释反馈，只提有来源建议",
+            "memory": "整理事实和明确偏好，通过消息传给下一轮"
+          }
+        }
+      ],
+      "input_sha256": "61e1bd4b379e3dedc5ae2c01f975ea190a59d7cd973bb1b6851ad66149b2e857",
+      "dispatch_unix_ms": 1794680686410,
+      "token_usage": null,
+      "output": {
+        "goal": "陪新手完成首个有证据的小步骤",
+        "enabled_agents": [
+          "planning",
+          "decision",
+          "review",
+          "execution",
+          "memory"
+        ],
+        "skipped_agents": [
+          "reflection"
+        ],
+        "dependencies": [
+          "decision依据本轮快照生成实际候选",
+          "review审核decision候选；退回则重选",
+          "execution仅逐字发送审核批准内容",
+          "memory后台整理已知事实与未知项，不阻塞前台"
+        ],
+        "parallel_groups": [
+          [
+            "decision",
+            "memory"
+          ],
+          [
+            "review"
+          ],
+          [
+            "execution"
+          ]
+        ],
+        "stop_conditions": [
+          "批准内容送达后等待玩家反馈",
+          "未获审核批准不得执行",
+          "需未知信息时止于询问，不补造事实"
+        ],
+        "next_action_scope": "只给温柔简短文字：确认愿意陪伴，请玩家观察并描述附近NPC或标记；本轮不指定未知任务、技能、按键或坐标，不操作游戏。",
+        "evidence_ids": [
+          "R1-SNAPSHOT",
+          "R1U",
+          "ROLE-CATALOG"
+        ],
+        "reason_brief": "玩家安全且缺少环境信息，先观察再行动，后台仅整理事实。"
+      },
+      "completed_unix_ms": 1794680719730,
+      "duration_ms": 33320,
+      "status": "completed",
+      "issues": [
+        {
+          "code": "PLANNER_MODULE_CONTRACT_MISMATCH",
+          "detail": "规划器缺少memory完整输入契约；候选并发未直接执行，协调器按执行回执/反馈依赖修正。"
+        }
+      ]
+    },
+    "r1_decision_medium": {
+      "id": "r1_decision_medium",
+      "round": "R1",
+      "role": "decision",
+      "effort": "medium",
+      "requested_model": "gpt-6.1-sol",
+      "input_messages": [
+        {
+          "id": "R1-SNAPSHOT",
+          "from": "game_adapter_simulator",
+          "body": {
+            "R1F1": {
+              "race": "兽人",
+              "class": "萨满",
+              "level": 1,
+              "zone": "试炼谷"
+            },
+            "R1F2": {
+              "hp": 100,
+              "max_hp": 100,
+              "mana": 100,
+              "max_mana": 100,
+              "inCombat": false
+            },
+            "R1F3": {
+              "target": null,
+              "quest_log": []
+            },
+            "R1F4": {
+              "unknown": [
+                "spellbook",
+                "bags",
+                "map",
+                "keybindings",
+                "nearbyNPC",
+                "server_rules"
+              ]
+            }
+          }
+        },
+        {
+          "id": "R1U",
+          "from": "simulated_user",
+          "body": "我刚出生，完全不知道要干嘛，能不能带着我玩？"
+        },
+        {
+          "id": "R1-PLAN",
+          "from": "planning_message",
+          "body": {
+            "goal": "陪新手完成首个有证据的小步骤",
+            "enabled_agents": [
+              "planning",
+              "decision",
+              "review",
+              "execution",
+              "memory"
+            ],
+            "skipped_agents": [
+              "reflection"
+            ],
+            "dependencies": [
+              "decision依据本轮快照生成实际候选",
+              "review审核decision候选；退回则重选",
+              "execution仅逐字发送审核批准内容",
+              "memory后台整理已知事实与未知项，不阻塞前台"
+            ],
+            "parallel_groups": [
+              [
+                "decision",
+                "memory"
+              ],
+              [
+                "review"
+              ],
+              [
+                "execution"
+              ]
+            ],
+            "stop_conditions": [
+              "批准内容送达后等待玩家反馈",
+              "未获审核批准不得执行",
+              "需未知信息时止于询问，不补造事实"
+            ],
+            "next_action_scope": "只给温柔简短文字：确认愿意陪伴，请玩家观察并描述附近NPC或标记；本轮不指定未知任务、技能、按键或坐标，不操作游戏。",
+            "evidence_ids": [
+              "R1-SNAPSHOT",
+              "R1U",
+              "ROLE-CATALOG"
+            ],
+            "reason_brief": "玩家安全且缺少环境信息，先观察再行动，后台仅整理事实。"
+          }
+        }
+      ],
+      "input_sha256": "03cbfdebc52035f1bbb8d06f491d56afb77935735197b19d98993c14ec372de7",
+      "dispatch_unix_ms": 1794680726081,
+      "token_usage": null,
+      "output": {
+        "intent": "陪伴新手，先观察附近环境",
+        "reply_draft": "当然呀，我陪你一步一步来。先看看附近有没有人或醒目的标记，告诉我你看到了什么，好吗？",
+        "action_count": 1,
+        "evidence_ids": [
+          "R1-SNAPSHOT",
+          "R1U",
+          "R1-PLAN"
+        ],
+        "unknowns": [
+          "附近NPC及标记",
+          "任务与服务器规则",
+          "技能、背包、地图和按键"
+        ],
+        "reason_brief": "角色安全且附近环境未知，先请玩家观察可避免编造游戏信息。"
+      },
+      "completed_unix_ms": 1794680753751,
+      "duration_ms": 27670,
+      "status": "completed",
+      "issues": []
+    },
+    "r1_review_low": {
+      "id": "r1_review_low",
+      "round": "R1",
+      "role": "review",
+      "effort": "low",
+      "requested_model": "gpt-6.1-sol",
+      "input_messages": [
+        {
+          "id": "R1-SNAPSHOT",
+          "from": "game_adapter_simulator",
+          "body": {
+            "R1F1": {
+              "race": "兽人",
+              "class": "萨满",
+              "level": 1,
+              "zone": "试炼谷"
+            },
+            "R1F2": {
+              "hp": 100,
+              "max_hp": 100,
+              "mana": 100,
+              "max_mana": 100,
+              "inCombat": false
+            },
+            "R1F3": {
+              "target": null,
+              "quest_log": []
+            },
+            "R1F4": {
+              "unknown": [
+                "spellbook",
+                "bags",
+                "map",
+                "keybindings",
+                "nearbyNPC",
+                "server_rules"
+              ]
+            }
+          }
+        },
+        {
+          "id": "R1U",
+          "from": "simulated_user",
+          "body": "我刚出生，完全不知道要干嘛，能不能带着我玩？"
+        },
+        {
+          "id": "R1-DECISION",
+          "from": "decision",
+          "body": {
+            "intent": "陪伴新手，先观察附近环境",
+            "reply_draft": "当然呀，我陪你一步一步来。先看看附近有没有人或醒目的标记，告诉我你看到了什么，好吗？",
+            "action_count": 1,
+            "evidence_ids": [
+              "R1-SNAPSHOT",
+              "R1U",
+              "R1-PLAN"
+            ],
+            "unknowns": [
+              "附近NPC及标记",
+              "任务与服务器规则",
+              "技能、背包、地图和按键"
+            ],
+            "reason_brief": "角色安全且附近环境未知，先请玩家观察可避免编造游戏信息。"
+          }
+        }
+      ],
+      "input_sha256": "690e7974116544cb6079b742d98eaccdfcc58965d02efcfd95f168f17facb871",
+      "dispatch_unix_ms": 1794680771392,
+      "token_usage": null,
+      "output": {
+        "pass": true,
+        "approved_reply": "当然呀，我陪你一步一步来。先看看附近有没有人或醒目的标记，告诉我你看到了什么，好吗？",
+        "issues": [],
+        "evidence_ids": [
+          "R1-SNAPSHOT",
+          "R1U"
+        ],
+        "reason_brief": "原稿仅请玩家观察附近环境，符合新手陪伴要求，温柔且只有一个步骤，没有编造或越权。"
+      },
+      "completed_unix_ms": 1794680792127,
+      "duration_ms": 20735,
+      "status": "completed",
+      "issues": []
+    },
+    "r1_execution_low": {
+      "id": "r1_execution_low",
+      "round": "R1",
+      "role": "execution",
+      "effort": "low",
+      "requested_model": "gpt-6.1-sol",
+      "input_messages": [
+        {
+          "id": "R1-APPROVAL",
+          "from": "review",
+          "body": {
+            "pass": true,
+            "approved_reply": "当然呀，我陪你一步一步来。先看看附近有没有人或醒目的标记，告诉我你看到了什么，好吗？",
+            "issues": [],
+            "evidence_ids": [
+              "R1-SNAPSHOT",
+              "R1U"
+            ],
+            "reason_brief": "原稿仅请玩家观察附近环境，符合新手陪伴要求，温柔且只有一个步骤，没有编造或越权。"
+          }
+        }
+      ],
+      "input_sha256": "5504416ff505b96ca3afcf85fb8f84e6457990a6a85f31bc50ed4ca1eaa3129e",
+      "dispatch_unix_ms": 1794680801017,
+      "token_usage": null,
+      "output": {
+        "reply": "当然呀，我陪你一步一步来。先看看附近有没有人或醒目的标记，告诉我你看到了什么，好吗？",
+        "channel": "text",
+        "delivery": "simulated_delivered",
+        "autonomous_game_actions": [],
+        "evidence_ids": [
+          "R1-SNAPSHOT",
+          "R1U"
+        ]
+      },
+      "completed_unix_ms": 1794680821445,
+      "duration_ms": 20428,
+      "status": "completed",
+      "issues": []
+    },
+    "r1_reflection_high": {
+      "id": "r1_reflection_high",
+      "round": "R1",
+      "role": "reflection",
+      "effort": "high",
+      "requested_model": "gpt-6.1-sol",
+      "input_messages": [
+        {
+          "id": "R1-SNAPSHOT",
+          "from": "game_adapter_simulator",
+          "body": {
+            "R1F1": {
+              "race": "兽人",
+              "class": "萨满",
+              "level": 1,
+              "zone": "试炼谷"
+            },
+            "R1F2": {
+              "hp": 100,
+              "max_hp": 100,
+              "mana": 100,
+              "max_mana": 100,
+              "inCombat": false
+            },
+            "R1F3": {
+              "target": null,
+              "quest_log": []
+            },
+            "R1F4": {
+              "unknown": [
+                "spellbook",
+                "bags",
+                "map",
+                "keybindings",
+                "nearbyNPC",
+                "server_rules"
+              ]
+            }
+          }
+        },
+        {
+          "id": "R1U",
+          "from": "simulated_user",
+          "body": "我刚出生，完全不知道要干嘛，能不能带着我玩？"
+        },
+        {
+          "id": "R1-RECEIPT",
+          "from": "execution",
+          "body": {
+            "reply": "当然呀，我陪你一步一步来。先看看附近有没有人或醒目的标记，告诉我你看到了什么，好吗？",
+            "channel": "text",
+            "delivery": "simulated_delivered",
+            "autonomous_game_actions": [],
+            "evidence_ids": [
+              "R1-SNAPSHOT",
+              "R1U"
+            ]
+          }
+        },
+        {
+          "id": "R1UF",
+          "from": "simulated_user_feedback",
+          "body": "好，先教我一步，我跟着点。"
+        }
+      ],
+      "input_sha256": "b9f552340d0c46c1ebf1c77feb44bb5d31ed8bad312ec68ff2b588fc36701d10",
+      "dispatch_unix_ms": 1794680837735,
+      "token_usage": null,
+      "output": {
+        "feedback_interpretation": "用户接受逐步引导，愿跟随点击；尚无观察反馈或游戏进展证据。",
+        "explicit_preferences": [
+          {
+            "text": "先教一个步骤，再由用户点击。",
+            "source_quote": "好，先教我一步，我跟着点。",
+            "evidence_ids": [
+              "R1UF"
+            ],
+            "scope": "当前引导节奏与操作方式"
+          }
+        ],
+        "hypotheses": [
+          {
+            "text": "单步、具体的观察提示可能更合适：先看看附近一个人或醒目标记，再描述所见。",
+            "evidence_ids": [
+              "R1U",
+              "R1UF",
+              "R1-RECEIPT"
+            ]
+          }
+        ],
+        "unknowns": [
+          "附近NPC、标记及可点击对象未获确认；按键和服务器规则未知。",
+          "用户是否已执行观察或点击、任务是否变化未知。"
+        ],
+        "reason_brief": "反馈明确支持单步陪伴，但跟随意图不能证明游戏操作成功。"
+      },
+      "completed_unix_ms": 1794680856897,
+      "duration_ms": 19162,
+      "status": "completed",
+      "issues": []
+    },
+    "r1_memory_medium": {
+      "id": "r1_memory_medium",
+      "round": "R1",
+      "role": "memory",
+      "effort": "medium",
+      "requested_model": "gpt-6.1-sol",
+      "input_messages": [
+        {
+          "id": "R1-SNAPSHOT",
+          "from": "game_adapter_simulator",
+          "body": {
+            "R1F1": {
+              "race": "兽人",
+              "class": "萨满",
+              "level": 1,
+              "zone": "试炼谷"
+            },
+            "R1F2": {
+              "hp": 100,
+              "max_hp": 100,
+              "mana": 100,
+              "max_mana": 100,
+              "inCombat": false
+            },
+            "R1F3": {
+              "target": null,
+              "quest_log": []
+            },
+            "R1F4": {
+              "unknown": [
+                "spellbook",
+                "bags",
+                "map",
+                "keybindings",
+                "nearbyNPC",
+                "server_rules"
+              ]
+            }
+          }
+        },
+        {
+          "id": "R1U",
+          "from": "simulated_user",
+          "body": "我刚出生，完全不知道要干嘛，能不能带着我玩？"
+        },
+        {
+          "id": "R1-RECEIPT",
+          "from": "execution",
+          "body": {
+            "reply": "当然呀，我陪你一步一步来。先看看附近有没有人或醒目的标记，告诉我你看到了什么，好吗？",
+            "channel": "text",
+            "delivery": "simulated_delivered",
+            "autonomous_game_actions": [],
+            "evidence_ids": [
+              "R1-SNAPSHOT",
+              "R1U"
+            ]
+          }
+        },
+        {
+          "id": "R1UF",
+          "from": "simulated_user_feedback",
+          "body": "好，先教我一步，我跟着点。"
+        }
+      ],
+      "input_sha256": "b9f552340d0c46c1ebf1c77feb44bb5d31ed8bad312ec68ff2b588fc36701d10",
+      "dispatch_unix_ms": 1794680850320,
+      "token_usage": null,
+      "output": {
+        "facts": [
+          {
+            "text": "接口显示角色为1级兽人萨满，位于试炼谷。",
+            "evidence_ids": [
+              "R1-SNAPSHOT"
+            ],
+            "source_type": "game_adapter_simulator"
+          },
+          {
+            "text": "接口显示生命与法力均为100/100，未战斗，无目标，任务日志为空。",
+            "evidence_ids": [
+              "R1-SNAPSHOT"
+            ],
+            "source_type": "game_adapter_simulator"
+          },
+          {
+            "text": "用户自述刚出生且完全不知道要做什么，请求陪玩指导。",
+            "evidence_ids": [
+              "R1U"
+            ],
+            "source_type": "simulated_user"
+          },
+          {
+            "text": "已模拟送达观察附近人物或醒目标记的文字建议；未自动操作游戏，未收到观察结果。",
+            "evidence_ids": [
+              "R1-RECEIPT"
+            ],
+            "source_type": "execution"
+          }
+        ],
+        "explicit_preferences": [
+          {
+            "text": "每次先教一步，由用户跟着点击。",
+            "source_quote": "好，先教我一步，我跟着点。",
+            "evidence_ids": [
+              "R1UF"
+            ],
+            "scope": "后续游戏指导"
+          }
+        ],
+        "unknowns": [
+          "技能书、背包、地图、按键绑定、附近NPC及服务器规则未知。",
+          "用户附近所见及是否已执行观察未知。"
+        ]
+      },
+      "completed_unix_ms": 1794680870620,
+      "duration_ms": 20300,
+      "status": "completed",
+      "issues": [
+        {
+          "code": "PREFERENCE_SCOPE_EXPANDED",
+          "detail": "R1用户只说“先教我一步”，memory却写成“每次先教一步”并作用于后续游戏指导。此范围扩大真实提交且已传入R2，未在提交前拦截。R2后置用户反馈才明确“以后每次只说一步”，后续有直接依据。"
+        }
+      ]
+    },
+    "r2_decision_low": {
+      "id": "r2_decision_low",
+      "round": "R2",
+      "role": "decision",
+      "effort": "low",
+      "requested_model": "gpt-6.1-sol",
+      "input_messages": [
+        {
+          "id": "R2-SNAPSHOT",
+          "from": "game_adapter_simulator",
+          "body": {
+            "R2F1": {
+              "race": "兽人",
+              "class": "萨满",
+              "level": 1,
+              "zone": "试炼谷"
+            },
+            "R2F2": {
+              "target": {
+                "name": "试炼谷引导员",
+                "friendly": true
+              },
+              "gossip_open": true,
+              "quest_offer": {
+                "title": "最初的试炼",
+                "objectives": [
+                  "击败3只训练野猪"
+                ],
+                "buttons": [
+                  "接受",
+                  "取消"
+                ]
+              },
+              "quest_log": []
+            },
+            "R2F3": {
+              "unknown": [
+                "position",
+                "coordinates",
+                "keybindings",
+                "server_rules"
+              ]
+            }
+          }
+        },
+        {
+          "id": "R2U",
+          "from": "simulated_user",
+          "body": "我点了一个头上有黄色叹号的兽人，现在弹出‘最初的试炼’，写着打3只训练野猪，我要点什么？"
+        },
+        {
+          "id": "R2-MEMORY-IN",
+          "from": "previous_loop_message",
+          "body": {
+            "message_id": "R1-MEMORY-OUT",
+            "facts": [
+              {
+                "text": "接口显示角色为1级兽人萨满，位于试炼谷。",
+                "evidence_ids": [
+                  "R1-SNAPSHOT"
+                ],
+                "source_type": "game_adapter_simulator"
+              },
+              {
+                "text": "接口显示生命与法力均为100/100，未战斗，无目标，任务日志为空。",
+                "evidence_ids": [
+                  "R1-SNAPSHOT"
+                ],
+                "source_type": "game_adapter_simulator"
+              },
+              {
+                "text": "用户自述刚出生且完全不知道要做什么，请求陪玩指导。",
+                "evidence_ids": [
+                  "R1U"
+                ],
+                "source_type": "simulated_user"
+              },
+              {
+                "text": "已模拟送达观察附近人物或醒目标记的文字建议；未自动操作游戏，未收到观察结果。",
+                "evidence_ids": [
+                  "R1-RECEIPT"
+                ],
+                "source_type": "execution"
+              }
+            ],
+            "explicit_preferences": [
+              {
+                "text": "每次先教一步，由用户跟着点击。",
+                "source_quote": "好，先教我一步，我跟着点。",
+                "evidence_ids": [
+                  "R1UF"
+                ],
+                "scope": "后续游戏指导"
+              }
+            ],
+            "unknowns": [
+              "技能书、背包、地图、按键绑定、附近NPC及服务器规则未知。",
+              "用户附近所见及是否已执行观察未知。"
+            ],
+            "reflection_proposals_not_committed": [
+              {
+                "text": "单步、具体的观察提示可能更合适：先看看附近一个人或醒目标记，再描述所见。",
+                "evidence_ids": [
+                  "R1U",
+                  "R1UF",
+                  "R1-RECEIPT"
+                ]
+              }
+            ],
+            "commit_rule": "只提交事实与明确偏好；反思假设未获独立审核，不生效。"
+          }
+        },
+        {
+          "id": "R2-PLAN",
+          "from": "orchestrator_reuse",
+          "body": {
+            "status": "planner_reused",
+            "scope": "单次一步引导；需要审核；紧急时直接给最小建议"
+          }
+        }
+      ],
+      "input_sha256": "610c7bdc2d8cf719f8aafc55ef8e1d7f7d4c0c8d09194279fdaa6f48055ddcd5",
+      "dispatch_unix_ms": 1794680887051,
+      "token_usage": null,
+      "output": {
+        "intent": "引导用户接受当前任务",
+        "reply_draft": "点‘接受’就好呀，我们先把‘最初的试炼’接下来。点完告诉我窗口有什么变化。",
+        "action_count": 1,
+        "evidence_ids": [
+          "R2-SNAPSHOT",
+          "R2U",
+          "R2-MEMORY-IN"
+        ],
+        "unknowns": [
+          "用户是否已点击接受、任务日志是否更新未知。"
+        ],
+        "reason_brief": "当前任务窗口明确提供‘接受’按钮，符合用户一次一步的偏好。"
+      },
+      "completed_unix_ms": 1794680997237,
+      "duration_ms": 110186,
+      "status": "completed",
+      "issues": [
+        {
+          "code": "MEASUREMENT_CONTAMINATION",
+          "detail": "dispatch记录后、实际spawn前发生协调者上下文压缩；该段编排延迟包含在duration_ms中，无法从现有时间戳精确剥离。原始时间保留，不作为模型速度样本。"
+        }
+      ]
+    },
+    "r2_review_low": {
+      "id": "r2_review_low",
+      "round": "R2",
+      "role": "review",
+      "effort": "low",
+      "requested_model": "gpt-6.1-sol",
+      "input_messages": [
+        {
+          "id": "R2-SNAPSHOT",
+          "from": "game_adapter_simulator",
+          "body": {
+            "R2F1": {
+              "race": "兽人",
+              "class": "萨满",
+              "level": 1,
+              "zone": "试炼谷"
+            },
+            "R2F2": {
+              "target": {
+                "name": "试炼谷引导员",
+                "friendly": true
+              },
+              "gossip_open": true,
+              "quest_offer": {
+                "title": "最初的试炼",
+                "objectives": [
+                  "击败3只训练野猪"
+                ],
+                "buttons": [
+                  "接受",
+                  "取消"
+                ]
+              },
+              "quest_log": []
+            },
+            "R2F3": {
+              "unknown": [
+                "position",
+                "coordinates",
+                "keybindings",
+                "server_rules"
+              ]
+            }
+          }
+        },
+        {
+          "id": "R2U",
+          "from": "simulated_user",
+          "body": "我点了一个头上有黄色叹号的兽人，现在弹出‘最初的试炼’，写着打3只训练野猪，我要点什么？"
+        },
+        {
+          "id": "R2-MEMORY-IN",
+          "from": "previous_loop_message",
+          "body": {
+            "message_id": "R1-MEMORY-OUT",
+            "facts": [
+              {
+                "text": "接口显示角色为1级兽人萨满，位于试炼谷。",
+                "evidence_ids": [
+                  "R1-SNAPSHOT"
+                ],
+                "source_type": "game_adapter_simulator"
+              },
+              {
+                "text": "接口显示生命与法力均为100/100，未战斗，无目标，任务日志为空。",
+                "evidence_ids": [
+                  "R1-SNAPSHOT"
+                ],
+                "source_type": "game_adapter_simulator"
+              },
+              {
+                "text": "用户自述刚出生且完全不知道要做什么，请求陪玩指导。",
+                "evidence_ids": [
+                  "R1U"
+                ],
+                "source_type": "simulated_user"
+              },
+              {
+                "text": "已模拟送达观察附近人物或醒目标记的文字建议；未自动操作游戏，未收到观察结果。",
+                "evidence_ids": [
+                  "R1-RECEIPT"
+                ],
+                "source_type": "execution"
+              }
+            ],
+            "explicit_preferences": [
+              {
+                "text": "每次先教一步，由用户跟着点击。",
+                "source_quote": "好，先教我一步，我跟着点。",
+                "evidence_ids": [
+                  "R1UF"
+                ],
+                "scope": "后续游戏指导"
+              }
+            ],
+            "unknowns": [
+              "技能书、背包、地图、按键绑定、附近NPC及服务器规则未知。",
+              "用户附近所见及是否已执行观察未知。"
+            ],
+            "reflection_proposals_not_committed": [
+              {
+                "text": "单步、具体的观察提示可能更合适：先看看附近一个人或醒目标记，再描述所见。",
+                "evidence_ids": [
+                  "R1U",
+                  "R1UF",
+                  "R1-RECEIPT"
+                ]
+              }
+            ],
+            "commit_rule": "只提交事实与明确偏好；反思假设未获独立审核，不生效。"
+          }
+        },
+        {
+          "id": "R2-DECISION",
+          "from": "decision",
+          "body": {
+            "intent": "引导用户接受当前任务",
+            "reply_draft": "点‘接受’就好呀，我们先把‘最初的试炼’接下来。点完告诉我窗口有什么变化。",
+            "action_count": 1,
+            "evidence_ids": [
+              "R2-SNAPSHOT",
+              "R2U",
+              "R2-MEMORY-IN"
+            ],
+            "unknowns": [
+              "用户是否已点击接受、任务日志是否更新未知。"
+            ],
+            "reason_brief": "当前任务窗口明确提供‘接受’按钮，符合用户一次一步的偏好。"
+          }
+        }
+      ],
+      "input_sha256": "4353079abeacedb8faa17900bd0ce579dc208cc681fcc3101db1683a3435d738",
+      "dispatch_unix_ms": 1794681010873,
+      "token_usage": null,
+      "output": {
+        "pass": true,
+        "approved_reply": "点‘接受’就好呀，我们先把‘最初的试炼’接下来。点完告诉我窗口有什么变化。",
+        "issues": [],
+        "evidence_ids": [
+          "R2-SNAPSHOT",
+          "R2U",
+          "R2-MEMORY-IN"
+        ],
+        "reason_brief": "原稿依据当前窗口的接受按钮给出单步文字指导，语气温柔且未自动操作游戏。"
+      },
+      "completed_unix_ms": 1794681030402,
+      "duration_ms": 19529,
+      "status": "completed",
+      "issues": []
+    },
+    "r2_execution_low": {
+      "id": "r2_execution_low",
+      "round": "R2",
+      "role": "execution",
+      "effort": "low",
+      "requested_model": "gpt-6.1-sol",
+      "input_messages": [
+        {
+          "id": "R2-APPROVAL",
+          "from": "review",
+          "body": {
+            "pass": true,
+            "approved_reply": "点‘接受’就好呀，我们先把‘最初的试炼’接下来。点完告诉我窗口有什么变化。",
+            "issues": [],
+            "evidence_ids": [
+              "R2-SNAPSHOT",
+              "R2U",
+              "R2-MEMORY-IN"
+            ],
+            "reason_brief": "原稿依据当前窗口的接受按钮给出单步文字指导，语气温柔且未自动操作游戏。"
+          }
+        }
+      ],
+      "input_sha256": "4178be59dbd39a39d1223719ee468926dcbb139041f9441df913574067a71cf7",
+      "dispatch_unix_ms": 1794681046615,
+      "token_usage": null,
+      "output": {
+        "reply": "点‘接受’就好呀，我们先把‘最初的试炼’接下来。点完告诉我窗口有什么变化。",
+        "channel": "text",
+        "delivery": "simulated_delivered",
+        "autonomous_game_actions": [],
+        "evidence_ids": [
+          "R2-SNAPSHOT",
+          "R2U",
+          "R2-MEMORY-IN"
+        ]
+      },
+      "completed_unix_ms": 1794681060287,
+      "duration_ms": 13672,
+      "status": "completed",
+      "issues": []
+    },
+    "r2_reflection_high": {
+      "id": "r2_reflection_high",
+      "round": "R2",
+      "role": "reflection",
+      "effort": "high",
+      "requested_model": "gpt-6.1-sol",
+      "input_messages": [
+        {
+          "id": "R2-SNAPSHOT",
+          "from": "game_adapter_simulator",
+          "body": {
+            "R2F1": {
+              "race": "兽人",
+              "class": "萨满",
+              "level": 1,
+              "zone": "试炼谷"
+            },
+            "R2F2": {
+              "target": {
+                "name": "试炼谷引导员",
+                "friendly": true
+              },
+              "gossip_open": true,
+              "quest_offer": {
+                "title": "最初的试炼",
+                "objectives": [
+                  "击败3只训练野猪"
+                ],
+                "buttons": [
+                  "接受",
+                  "取消"
+                ]
+              },
+              "quest_log": []
+            },
+            "R2F3": {
+              "unknown": [
+                "position",
+                "coordinates",
+                "keybindings",
+                "server_rules"
+              ]
+            }
+          }
+        },
+        {
+          "id": "R2U",
+          "from": "simulated_user",
+          "body": "我点了一个头上有黄色叹号的兽人，现在弹出‘最初的试炼’，写着打3只训练野猪，我要点什么？"
+        },
+        {
+          "id": "R2-MEMORY-IN",
+          "from": "previous_loop_message",
+          "body": {
+            "message_id": "R1-MEMORY-OUT",
+            "facts": [
+              {
+                "text": "接口显示角色为1级兽人萨满，位于试炼谷。",
+                "evidence_ids": [
+                  "R1-SNAPSHOT"
+                ],
+                "source_type": "game_adapter_simulator"
+              },
+              {
+                "text": "接口显示生命与法力均为100/100，未战斗，无目标，任务日志为空。",
+                "evidence_ids": [
+                  "R1-SNAPSHOT"
+                ],
+                "source_type": "game_adapter_simulator"
+              },
+              {
+                "text": "用户自述刚出生且完全不知道要做什么，请求陪玩指导。",
+                "evidence_ids": [
+                  "R1U"
+                ],
+                "source_type": "simulated_user"
+              },
+              {
+                "text": "已模拟送达观察附近人物或醒目标记的文字建议；未自动操作游戏，未收到观察结果。",
+                "evidence_ids": [
+                  "R1-RECEIPT"
+                ],
+                "source_type": "execution"
+              }
+            ],
+            "explicit_preferences": [
+              {
+                "text": "每次先教一步，由用户跟着点击。",
+                "source_quote": "好，先教我一步，我跟着点。",
+                "evidence_ids": [
+                  "R1UF"
+                ],
+                "scope": "后续游戏指导"
+              }
+            ],
+            "unknowns": [
+              "技能书、背包、地图、按键绑定、附近NPC及服务器规则未知。",
+              "用户附近所见及是否已执行观察未知。"
+            ],
+            "reflection_proposals_not_committed": [
+              {
+                "text": "单步、具体的观察提示可能更合适：先看看附近一个人或醒目标记，再描述所见。",
+                "evidence_ids": [
+                  "R1U",
+                  "R1UF",
+                  "R1-RECEIPT"
+                ]
+              }
+            ],
+            "commit_rule": "只提交事实与明确偏好；反思假设未获独立审核，不生效。"
+          }
+        },
+        {
+          "id": "R2-RECEIPT",
+          "from": "execution",
+          "body": {
+            "reply": "点‘接受’就好呀，我们先把‘最初的试炼’接下来。点完告诉我窗口有什么变化。",
+            "channel": "text",
+            "delivery": "simulated_delivered",
+            "autonomous_game_actions": [],
+            "evidence_ids": [
+              "R2-SNAPSHOT",
+              "R2U",
+              "R2-MEMORY-IN"
+            ]
+          }
+        },
+        {
+          "id": "R2UF",
+          "from": "simulated_user_feedback",
+          "body": "好，我接了。以后每次只说一步，别一口气说很多。"
+        }
+      ],
+      "input_sha256": "0b92d50bcaec4eee3ceb7268c6c90bf37cb57e5620644b8e5eee3aedbcb4df3c",
+      "dispatch_unix_ms": 1794681070812,
+      "token_usage": null,
+      "output": {
+        "feedback_interpretation": "用户自述已接任务；尚无接口复核。反馈明确要求以后每次只说一步。",
+        "explicit_preferences": [
+          {
+            "text": "每次只给一步指导，避免一次讲很多。",
+            "source_quote": "以后每次只说一步，别一口气说很多。",
+            "evidence_ids": [
+              "R2UF"
+            ],
+            "scope": "后续游戏指导"
+          }
+        ],
+        "hypotheses": [
+          {
+            "text": "后续继续采用单步文字提示可能更合适，待用户回应再推进。",
+            "evidence_ids": [
+              "R2UF",
+              "R2-RECEIPT"
+            ]
+          }
+        ],
+        "unknowns": [
+          "任务日志是否已更新、击杀进度未获接口验证。",
+          "位置、坐标、按键绑定和服务器规则未知。"
+        ],
+        "reason_brief": "R2UF提供接取自述与明确偏好，执行记录仅证明文字已模拟送达。"
+      },
+      "completed_unix_ms": 1794681092617,
+      "duration_ms": 21805,
+      "status": "completed",
+      "issues": []
+    },
+    "r2_memory_medium": {
+      "id": "r2_memory_medium",
+      "round": "R2",
+      "role": "memory",
+      "effort": "medium",
+      "requested_model": "gpt-6.1-sol",
+      "input_messages": [
+        {
+          "id": "R2-SNAPSHOT",
+          "from": "game_adapter_simulator",
+          "body": {
+            "R2F1": {
+              "race": "兽人",
+              "class": "萨满",
+              "level": 1,
+              "zone": "试炼谷"
+            },
+            "R2F2": {
+              "target": {
+                "name": "试炼谷引导员",
+                "friendly": true
+              },
+              "gossip_open": true,
+              "quest_offer": {
+                "title": "最初的试炼",
+                "objectives": [
+                  "击败3只训练野猪"
+                ],
+                "buttons": [
+                  "接受",
+                  "取消"
+                ]
+              },
+              "quest_log": []
+            },
+            "R2F3": {
+              "unknown": [
+                "position",
+                "coordinates",
+                "keybindings",
+                "server_rules"
+              ]
+            }
+          }
+        },
+        {
+          "id": "R2U",
+          "from": "simulated_user",
+          "body": "我点了一个头上有黄色叹号的兽人，现在弹出‘最初的试炼’，写着打3只训练野猪，我要点什么？"
+        },
+        {
+          "id": "R2-MEMORY-IN",
+          "from": "previous_loop_message",
+          "body": {
+            "message_id": "R1-MEMORY-OUT",
+            "facts": [
+              {
+                "text": "接口显示角色为1级兽人萨满，位于试炼谷。",
+                "evidence_ids": [
+                  "R1-SNAPSHOT"
+                ],
+                "source_type": "game_adapter_simulator"
+              },
+              {
+                "text": "接口显示生命与法力均为100/100，未战斗，无目标，任务日志为空。",
+                "evidence_ids": [
+                  "R1-SNAPSHOT"
+                ],
+                "source_type": "game_adapter_simulator"
+              },
+              {
+                "text": "用户自述刚出生且完全不知道要做什么，请求陪玩指导。",
+                "evidence_ids": [
+                  "R1U"
+                ],
+                "source_type": "simulated_user"
+              },
+              {
+                "text": "已模拟送达观察附近人物或醒目标记的文字建议；未自动操作游戏，未收到观察结果。",
+                "evidence_ids": [
+                  "R1-RECEIPT"
+                ],
+                "source_type": "execution"
+              }
+            ],
+            "explicit_preferences": [
+              {
+                "text": "每次先教一步，由用户跟着点击。",
+                "source_quote": "好，先教我一步，我跟着点。",
+                "evidence_ids": [
+                  "R1UF"
+                ],
+                "scope": "后续游戏指导"
+              }
+            ],
+            "unknowns": [
+              "技能书、背包、地图、按键绑定、附近NPC及服务器规则未知。",
+              "用户附近所见及是否已执行观察未知。"
+            ],
+            "reflection_proposals_not_committed": [
+              {
+                "text": "单步、具体的观察提示可能更合适：先看看附近一个人或醒目标记，再描述所见。",
+                "evidence_ids": [
+                  "R1U",
+                  "R1UF",
+                  "R1-RECEIPT"
+                ]
+              }
+            ],
+            "commit_rule": "只提交事实与明确偏好；反思假设未获独立审核，不生效。"
+          }
+        },
+        {
+          "id": "R2-RECEIPT",
+          "from": "execution",
+          "body": {
+            "reply": "点‘接受’就好呀，我们先把‘最初的试炼’接下来。点完告诉我窗口有什么变化。",
+            "channel": "text",
+            "delivery": "simulated_delivered",
+            "autonomous_game_actions": [],
+            "evidence_ids": [
+              "R2-SNAPSHOT",
+              "R2U",
+              "R2-MEMORY-IN"
+            ]
+          }
+        },
+        {
+          "id": "R2UF",
+          "from": "simulated_user_feedback",
+          "body": "好，我接了。以后每次只说一步，别一口气说很多。"
+        }
+      ],
+      "input_sha256": "0b92d50bcaec4eee3ceb7268c6c90bf37cb57e5620644b8e5eee3aedbcb4df3c",
+      "dispatch_unix_ms": 1794681085847,
+      "token_usage": null,
+      "output": {
+        "facts": [
+          {
+            "text": "接口显示1级兽人萨满在试炼谷；目标为友善的试炼谷引导员，对话已开。",
+            "evidence_ids": [
+              "R2-SNAPSHOT"
+            ],
+            "source_type": "game_adapter_simulator"
+          },
+          {
+            "text": "接口提供‘最初的试炼’：击败3只训练野猪，按钮为接受/取消；当时任务日志为空。",
+            "evidence_ids": [
+              "R2-SNAPSHOT"
+            ],
+            "source_type": "game_adapter_simulator"
+          },
+          {
+            "text": "已送达点击接受并报告窗口变化的文字建议，无自动操作。",
+            "evidence_ids": [
+              "R2-RECEIPT"
+            ],
+            "source_type": "execution"
+          },
+          {
+            "text": "用户报告‘我接了’，接口尚未确认接取。",
+            "evidence_ids": [
+              "R2UF"
+            ],
+            "source_type": "simulated_user_feedback"
+          }
+        ],
+        "explicit_preferences": [
+          {
+            "text": "每次只指导一步。",
+            "source_quote": "以后每次只说一步，别一口气说很多。",
+            "evidence_ids": [
+              "R2UF"
+            ],
+            "scope": "后续游戏指导"
+          }
+        ],
+        "unknowns": [
+          "接取后的任务日志及窗口状态未知。",
+          "位置、坐标、按键、服务器规则、技能书、背包、地图及当前生命法力未知。"
+        ]
+      },
+      "completed_unix_ms": 1794681109289,
+      "duration_ms": 23442,
+      "status": "completed",
+      "issues": []
+    },
+    "r3_decision_low": {
+      "id": "r3_decision_low",
+      "round": "R3",
+      "role": "decision",
+      "effort": "low",
+      "requested_model": "gpt-6.1-sol",
+      "input_messages": [
+        {
+          "id": "R3-SNAPSHOT",
+          "from": "game_adapter_simulator",
+          "body": {
+            "R3F1": {
+              "race": "兽人",
+              "class": "萨满",
+              "level": 1,
+              "zone": "试炼谷"
+            },
+            "R3F2": {
+              "inCombat": true,
+              "hp": 28,
+              "max_hp": 100,
+              "mana": 0,
+              "max_mana": 100,
+              "target": {
+                "name": "训练野猪",
+                "hostile": true,
+                "level": 1,
+                "hp": 82,
+                "max_hp": 100
+              }
+            },
+            "R3F3": {
+              "quest_log": [
+                {
+                  "title": "最初的试炼",
+                  "progress": "0/3"
+                }
+              ],
+              "known_spell": {
+                "name": "闪电箭",
+                "usable": false,
+                "reason": "法力不足"
+              },
+              "healing_items": [],
+              "healing_spells": "未提供"
+            },
+            "R3F4": {
+              "unknown": [
+                "terrain",
+                "route",
+                "distance",
+                "orientation",
+                "keybindings"
+              ]
+            }
+          }
+        },
+        {
+          "id": "R3U",
+          "from": "simulated_user",
+          "body": "它冲过来了，血一直掉！别解释，先告诉我一步怎么做！"
+        },
+        {
+          "id": "R3-MEMORY-IN",
+          "from": "previous_loop_message",
+          "body": {
+            "message_id": "R2-MEMORY-OUT",
+            "facts": [
+              {
+                "text": "接口显示1级兽人萨满在试炼谷；目标为友善的试炼谷引导员，对话已开。",
+                "evidence_ids": [
+                  "R2-SNAPSHOT"
+                ],
+                "source_type": "game_adapter_simulator"
+              },
+              {
+                "text": "接口提供‘最初的试炼’：击败3只训练野猪，按钮为接受/取消；当时任务日志为空。",
+                "evidence_ids": [
+                  "R2-SNAPSHOT"
+                ],
+                "source_type": "game_adapter_simulator"
+              },
+              {
+                "text": "已送达点击接受并报告窗口变化的文字建议，无自动操作。",
+                "evidence_ids": [
+                  "R2-RECEIPT"
+                ],
+                "source_type": "execution"
+              },
+              {
+                "text": "用户报告‘我接了’，接口尚未确认接取。",
+                "evidence_ids": [
+                  "R2UF"
+                ],
+                "source_type": "simulated_user_feedback"
+              }
+            ],
+            "explicit_preferences": [
+              {
+                "text": "每次只指导一步。",
+                "source_quote": "以后每次只说一步，别一口气说很多。",
+                "evidence_ids": [
+                  "R2UF"
+                ],
+                "scope": "后续游戏指导"
+              }
+            ],
+            "unknowns": [
+              "接取后的任务日志及窗口状态未知。",
+              "位置、坐标、按键、服务器规则、技能书、背包、地图及当前生命法力未知。"
+            ],
+            "reflection_proposals_not_committed": [
+              {
+                "text": "后续继续采用单步文字提示可能更合适，待用户回应再推进。",
+                "evidence_ids": [
+                  "R2UF",
+                  "R2-RECEIPT"
+                ]
+              }
+            ],
+            "commit_rule": "只提交有已知来源的事实候选与可核对引文的明确偏好；反思假设仅作为待核实建议，不生效。"
+          }
+        },
+        {
+          "id": "R3-PLAN",
+          "from": "orchestrator_reuse",
+          "body": {
+            "status": "planner_skipped_for_urgency",
+            "scope": "单次一步引导；需要审核；紧急时直接给最小建议"
+          }
+        }
+      ],
+      "input_sha256": "23dfff775370c890ea00dca64597145d59a7cd5b064db1fa7cdc47bfda8c1fa0",
+      "dispatch_unix_ms": 1794681120886,
+      "token_usage": null,
+      "spawn_ack_unix_ms": 1794681136404,
+      "output": {
+        "intent": "紧急单步脱离近身威胁",
+        "reply_draft": "先朝远离这只野猪的方向移动！",
+        "action_count": 1,
+        "evidence_ids": [
+          "R3-SNAPSHOT",
+          "R3U"
+        ],
+        "unknowns": [
+          "地形、路线、距离、朝向及按键未知；治疗技能未提供。"
+        ],
+        "reason_brief": "当前生命仅28%、法力为零且正在受攻击，先给一个远离威胁的移动建议。"
+      },
+      "completed_unix_ms": 1794681140323,
+      "duration_ms": 19437,
+      "status": "completed",
+      "issues": []
+    },
+    "r3_review_low": {
+      "id": "r3_review_low",
+      "round": "R3",
+      "role": "review",
+      "effort": "low",
+      "requested_model": "gpt-6.1-sol",
+      "input_messages": [
+        {
+          "id": "R3-SNAPSHOT",
+          "from": "game_adapter_simulator",
+          "body": {
+            "R3F1": {
+              "race": "兽人",
+              "class": "萨满",
+              "level": 1,
+              "zone": "试炼谷"
+            },
+            "R3F2": {
+              "inCombat": true,
+              "hp": 28,
+              "max_hp": 100,
+              "mana": 0,
+              "max_mana": 100,
+              "target": {
+                "name": "训练野猪",
+                "hostile": true,
+                "level": 1,
+                "hp": 82,
+                "max_hp": 100
+              }
+            },
+            "R3F3": {
+              "quest_log": [
+                {
+                  "title": "最初的试炼",
+                  "progress": "0/3"
+                }
+              ],
+              "known_spell": {
+                "name": "闪电箭",
+                "usable": false,
+                "reason": "法力不足"
+              },
+              "healing_items": [],
+              "healing_spells": "未提供"
+            },
+            "R3F4": {
+              "unknown": [
+                "terrain",
+                "route",
+                "distance",
+                "orientation",
+                "keybindings"
+              ]
+            }
+          }
+        },
+        {
+          "id": "R3U",
+          "from": "simulated_user",
+          "body": "它冲过来了，血一直掉！别解释，先告诉我一步怎么做！"
+        },
+        {
+          "id": "R3-MEMORY-IN",
+          "from": "previous_loop_message",
+          "body": {
+            "message_id": "R2-MEMORY-OUT",
+            "facts": [
+              {
+                "text": "接口显示1级兽人萨满在试炼谷；目标为友善的试炼谷引导员，对话已开。",
+                "evidence_ids": [
+                  "R2-SNAPSHOT"
+                ],
+                "source_type": "game_adapter_simulator"
+              },
+              {
+                "text": "接口提供‘最初的试炼’：击败3只训练野猪，按钮为接受/取消；当时任务日志为空。",
+                "evidence_ids": [
+                  "R2-SNAPSHOT"
+                ],
+                "source_type": "game_adapter_simulator"
+              },
+              {
+                "text": "已送达点击接受并报告窗口变化的文字建议，无自动操作。",
+                "evidence_ids": [
+                  "R2-RECEIPT"
+                ],
+                "source_type": "execution"
+              },
+              {
+                "text": "用户报告‘我接了’，接口尚未确认接取。",
+                "evidence_ids": [
+                  "R2UF"
+                ],
+                "source_type": "simulated_user_feedback"
+              }
+            ],
+            "explicit_preferences": [
+              {
+                "text": "每次只指导一步。",
+                "source_quote": "以后每次只说一步，别一口气说很多。",
+                "evidence_ids": [
+                  "R2UF"
+                ],
+                "scope": "后续游戏指导"
+              }
+            ],
+            "unknowns": [
+              "接取后的任务日志及窗口状态未知。",
+              "位置、坐标、按键、服务器规则、技能书、背包、地图及当前生命法力未知。"
+            ],
+            "reflection_proposals_not_committed": [
+              {
+                "text": "后续继续采用单步文字提示可能更合适，待用户回应再推进。",
+                "evidence_ids": [
+                  "R2UF",
+                  "R2-RECEIPT"
+                ]
+              }
+            ],
+            "commit_rule": "只提交有已知来源的事实候选与可核对引文的明确偏好；反思假设仅作为待核实建议，不生效。"
+          }
+        },
+        {
+          "id": "R3-DECISION",
+          "from": "decision",
+          "body": {
+            "intent": "紧急单步脱离近身威胁",
+            "reply_draft": "先朝远离这只野猪的方向移动！",
+            "action_count": 1,
+            "evidence_ids": [
+              "R3-SNAPSHOT",
+              "R3U"
+            ],
+            "unknowns": [
+              "地形、路线、距离、朝向及按键未知；治疗技能未提供。"
+            ],
+            "reason_brief": "当前生命仅28%、法力为零且正在受攻击，先给一个远离威胁的移动建议。"
+          }
+        }
+      ],
+      "input_sha256": "858eab6062b746c879861e3399fda5736c98ec8a5494cdd3bcb210ae43671876",
+      "dispatch_unix_ms": 1794681159632,
+      "token_usage": null,
+      "spawn_ack_unix_ms": 1794681180404,
+      "output": {
+        "pass": true,
+        "approved_reply": "先朝远离这只野猪的方向移动！",
+        "issues": [],
+        "evidence_ids": [
+          "R3-SNAPSHOT",
+          "R3U"
+        ],
+        "reason_brief": "原稿依据当前受攻击状态给出单步移动建议，未假定路线、按键或治疗能力，符合紧急简短要求。"
+      },
+      "completed_unix_ms": 1794681179631,
+      "duration_ms": 19999,
+      "status": "completed",
+      "issues": [
+        {
+          "code": "LATE_ACK_OBSERVATION",
+          "detail": "spawn后ack记录工具执行晚于worker结果写入；原始时间保留，此差值不能当延迟，展示为空。"
+        }
+      ],
+      "ack_to_output_ms": null,
+      "raw_ack_delta_ms": -773
+    },
+    "r3_execution_low": {
+      "id": "r3_execution_low",
+      "round": "R3",
+      "role": "execution",
+      "effort": "low",
+      "requested_model": "gpt-6.1-sol",
+      "input_messages": [
+        {
+          "id": "R3-APPROVAL",
+          "from": "review",
+          "body": {
+            "pass": true,
+            "approved_reply": "先朝远离这只野猪的方向移动！",
+            "issues": [],
+            "evidence_ids": [
+              "R3-SNAPSHOT",
+              "R3U"
+            ],
+            "reason_brief": "原稿依据当前受攻击状态给出单步移动建议，未假定路线、按键或治疗能力，符合紧急简短要求。"
+          }
+        }
+      ],
+      "input_sha256": "a33d06750c745d38eef7ab32be63744a0bfa9839799d5bc623a021aeeccbeb5c",
+      "dispatch_unix_ms": 1794681187026,
+      "token_usage": null,
+      "spawn_ack_unix_ms": 1794681196458,
+      "output": {
+        "reply": "先朝远离这只野猪的方向移动！",
+        "channel": "text",
+        "delivery": "simulated_delivered",
+        "autonomous_game_actions": [],
+        "evidence_ids": [
+          "R3-SNAPSHOT",
+          "R3U"
+        ]
+      },
+      "completed_unix_ms": 1794681199081,
+      "duration_ms": 12055,
+      "status": "completed",
+      "issues": [],
+      "ack_to_output_ms": 2623
+    },
+    "r3_reflection_high": {
+      "id": "r3_reflection_high",
+      "round": "R3",
+      "role": "reflection",
+      "effort": "high",
+      "requested_model": "gpt-6.1-sol",
+      "input_messages": [
+        {
+          "id": "R3-SNAPSHOT",
+          "from": "game_adapter_simulator",
+          "body": {
+            "R3F1": {
+              "race": "兽人",
+              "class": "萨满",
+              "level": 1,
+              "zone": "试炼谷"
+            },
+            "R3F2": {
+              "inCombat": true,
+              "hp": 28,
+              "max_hp": 100,
+              "mana": 0,
+              "max_mana": 100,
+              "target": {
+                "name": "训练野猪",
+                "hostile": true,
+                "level": 1,
+                "hp": 82,
+                "max_hp": 100
+              }
+            },
+            "R3F3": {
+              "quest_log": [
+                {
+                  "title": "最初的试炼",
+                  "progress": "0/3"
+                }
+              ],
+              "known_spell": {
+                "name": "闪电箭",
+                "usable": false,
+                "reason": "法力不足"
+              },
+              "healing_items": [],
+              "healing_spells": "未提供"
+            },
+            "R3F4": {
+              "unknown": [
+                "terrain",
+                "route",
+                "distance",
+                "orientation",
+                "keybindings"
+              ]
+            }
+          }
+        },
+        {
+          "id": "R3U",
+          "from": "simulated_user",
+          "body": "它冲过来了，血一直掉！别解释，先告诉我一步怎么做！"
+        },
+        {
+          "id": "R3-MEMORY-IN",
+          "from": "previous_loop_message",
+          "body": {
+            "message_id": "R2-MEMORY-OUT",
+            "facts": [
+              {
+                "text": "接口显示1级兽人萨满在试炼谷；目标为友善的试炼谷引导员，对话已开。",
+                "evidence_ids": [
+                  "R2-SNAPSHOT"
+                ],
+                "source_type": "game_adapter_simulator"
+              },
+              {
+                "text": "接口提供‘最初的试炼’：击败3只训练野猪，按钮为接受/取消；当时任务日志为空。",
+                "evidence_ids": [
+                  "R2-SNAPSHOT"
+                ],
+                "source_type": "game_adapter_simulator"
+              },
+              {
+                "text": "已送达点击接受并报告窗口变化的文字建议，无自动操作。",
+                "evidence_ids": [
+                  "R2-RECEIPT"
+                ],
+                "source_type": "execution"
+              },
+              {
+                "text": "用户报告‘我接了’，接口尚未确认接取。",
+                "evidence_ids": [
+                  "R2UF"
+                ],
+                "source_type": "simulated_user_feedback"
+              }
+            ],
+            "explicit_preferences": [
+              {
+                "text": "每次只指导一步。",
+                "source_quote": "以后每次只说一步，别一口气说很多。",
+                "evidence_ids": [
+                  "R2UF"
+                ],
+                "scope": "后续游戏指导"
+              }
+            ],
+            "unknowns": [
+              "接取后的任务日志及窗口状态未知。",
+              "位置、坐标、按键、服务器规则、技能书、背包、地图及当前生命法力未知。"
+            ],
+            "reflection_proposals_not_committed": [
+              {
+                "text": "后续继续采用单步文字提示可能更合适，待用户回应再推进。",
+                "evidence_ids": [
+                  "R2UF",
+                  "R2-RECEIPT"
+                ]
+              }
+            ],
+            "commit_rule": "只提交有已知来源的事实候选与可核对引文的明确偏好；反思假设仅作为待核实建议，不生效。"
+          }
+        },
+        {
+          "id": "R3-RECEIPT",
+          "from": "execution",
+          "body": {
+            "reply": "先朝远离这只野猪的方向移动！",
+            "channel": "text",
+            "delivery": "simulated_delivered",
+            "autonomous_game_actions": [],
+            "evidence_ids": [
+              "R3-SNAPSHOT",
+              "R3U"
+            ]
+          }
+        },
+        {
+          "id": "R3UF",
+          "from": "simulated_user_feedback",
+          "body": "知道了，我先跑。"
+        }
+      ],
+      "input_sha256": "eec574e11f6955507e4ff607d9b5a8fc2c222949e0449e919af0569f642201be",
+      "dispatch_unix_ms": 1794681215255,
+      "token_usage": null,
+      "output": {
+        "feedback_interpretation": "“我先跑”表示已理解并打算移动，不能确认已移动、脱战或安全。",
+        "explicit_preferences": [
+          {
+            "text": "每次只指导一步。",
+            "source_quote": "以后每次只说一步，别一口气说很多。",
+            "evidence_ids": [
+              "R3-MEMORY-IN"
+            ],
+            "scope": "后续游戏指导"
+          },
+          {
+            "text": "紧急时先给一步行动，不解释。",
+            "source_quote": "别解释，先告诉我一步怎么做！",
+            "evidence_ids": [
+              "R3U"
+            ],
+            "scope": "当前紧急战斗"
+          }
+        ],
+        "hypotheses": [
+          {
+            "text": "用户可能正在尝试撤离；建议等反馈再推进，若需确认，仅询问是否仍在掉血。",
+            "evidence_ids": [
+              "R3UF",
+              "R3-SNAPSHOT"
+            ],
+            "status": "待核实建议，未提交记忆"
+          }
+        ],
+        "unknowns": [
+          "是否已移动、脱战及最新生命值。",
+          "地形、路线、距离、朝向和按键。"
+        ],
+        "reason_brief": "回执仅确认文字送达，用户反馈仅表达下一步意图。"
+      },
+      "completed_unix_ms": 1794681246209,
+      "duration_ms": 30954,
+      "status": "completed",
+      "issues": []
+    },
+    "r3_memory_medium": {
+      "id": "r3_memory_medium",
+      "round": "R3",
+      "role": "memory",
+      "effort": "medium",
+      "requested_model": "gpt-6.1-sol",
+      "input_messages": [
+        {
+          "id": "R3-SNAPSHOT",
+          "from": "game_adapter_simulator",
+          "body": {
+            "R3F1": {
+              "race": "兽人",
+              "class": "萨满",
+              "level": 1,
+              "zone": "试炼谷"
+            },
+            "R3F2": {
+              "inCombat": true,
+              "hp": 28,
+              "max_hp": 100,
+              "mana": 0,
+              "max_mana": 100,
+              "target": {
+                "name": "训练野猪",
+                "hostile": true,
+                "level": 1,
+                "hp": 82,
+                "max_hp": 100
+              }
+            },
+            "R3F3": {
+              "quest_log": [
+                {
+                  "title": "最初的试炼",
+                  "progress": "0/3"
+                }
+              ],
+              "known_spell": {
+                "name": "闪电箭",
+                "usable": false,
+                "reason": "法力不足"
+              },
+              "healing_items": [],
+              "healing_spells": "未提供"
+            },
+            "R3F4": {
+              "unknown": [
+                "terrain",
+                "route",
+                "distance",
+                "orientation",
+                "keybindings"
+              ]
+            }
+          }
+        },
+        {
+          "id": "R3U",
+          "from": "simulated_user",
+          "body": "它冲过来了，血一直掉！别解释，先告诉我一步怎么做！"
+        },
+        {
+          "id": "R3-MEMORY-IN",
+          "from": "previous_loop_message",
+          "body": {
+            "message_id": "R2-MEMORY-OUT",
+            "facts": [
+              {
+                "text": "接口显示1级兽人萨满在试炼谷；目标为友善的试炼谷引导员，对话已开。",
+                "evidence_ids": [
+                  "R2-SNAPSHOT"
+                ],
+                "source_type": "game_adapter_simulator"
+              },
+              {
+                "text": "接口提供‘最初的试炼’：击败3只训练野猪，按钮为接受/取消；当时任务日志为空。",
+                "evidence_ids": [
+                  "R2-SNAPSHOT"
+                ],
+                "source_type": "game_adapter_simulator"
+              },
+              {
+                "text": "已送达点击接受并报告窗口变化的文字建议，无自动操作。",
+                "evidence_ids": [
+                  "R2-RECEIPT"
+                ],
+                "source_type": "execution"
+              },
+              {
+                "text": "用户报告‘我接了’，接口尚未确认接取。",
+                "evidence_ids": [
+                  "R2UF"
+                ],
+                "source_type": "simulated_user_feedback"
+              }
+            ],
+            "explicit_preferences": [
+              {
+                "text": "每次只指导一步。",
+                "source_quote": "以后每次只说一步，别一口气说很多。",
+                "evidence_ids": [
+                  "R2UF"
+                ],
+                "scope": "后续游戏指导"
+              }
+            ],
+            "unknowns": [
+              "接取后的任务日志及窗口状态未知。",
+              "位置、坐标、按键、服务器规则、技能书、背包、地图及当前生命法力未知。"
+            ],
+            "reflection_proposals_not_committed": [
+              {
+                "text": "后续继续采用单步文字提示可能更合适，待用户回应再推进。",
+                "evidence_ids": [
+                  "R2UF",
+                  "R2-RECEIPT"
+                ]
+              }
+            ],
+            "commit_rule": "只提交有已知来源的事实候选与可核对引文的明确偏好；反思假设仅作为待核实建议，不生效。"
+          }
+        },
+        {
+          "id": "R3-RECEIPT",
+          "from": "execution",
+          "body": {
+            "reply": "先朝远离这只野猪的方向移动！",
+            "channel": "text",
+            "delivery": "simulated_delivered",
+            "autonomous_game_actions": [],
+            "evidence_ids": [
+              "R3-SNAPSHOT",
+              "R3U"
+            ]
+          }
+        },
+        {
+          "id": "R3UF",
+          "from": "simulated_user_feedback",
+          "body": "知道了，我先跑。"
+        }
+      ],
+      "input_sha256": "eec574e11f6955507e4ff607d9b5a8fc2c222949e0449e919af0569f642201be",
+      "dispatch_unix_ms": 1794681229499,
+      "token_usage": null,
+      "output": {
+        "facts": [
+          {
+            "text": "接口：1级兽人萨满在试炼谷，战斗中生命28/100、法力0/100；敌对1级训练野猪生命82/100。",
+            "evidence_ids": [
+              "R3-SNAPSHOT"
+            ],
+            "source_type": "game_adapter_simulator"
+          },
+          {
+            "text": "任务日志‘最初的试炼’0/3；闪电箭缺法力不可用，无治疗物品。",
+            "evidence_ids": [
+              "R3-SNAPSHOT"
+            ],
+            "source_type": "game_adapter_simulator"
+          },
+          {
+            "text": "已送达远离野猪移动的文字建议，无自动操作；用户表示先跑，仅为意图。",
+            "evidence_ids": [
+              "R3-RECEIPT",
+              "R3UF"
+            ],
+            "source_type": "execution/simulated_user_feedback"
+          }
+        ],
+        "explicit_preferences": [
+          {
+            "text": "每次只指导一步。",
+            "source_quote": "以后每次只说一步，别一口气说很多。",
+            "evidence_ids": [
+              "R3-MEMORY-IN"
+            ],
+            "scope": "后续游戏指导"
+          },
+          {
+            "text": "紧急时不解释，先给一步。",
+            "source_quote": "别解释，先告诉我一步怎么做！",
+            "evidence_ids": [
+              "R3U"
+            ],
+            "scope": "当前紧急指导"
+          }
+        ],
+        "unknowns": [
+          "地形、路线、距离、朝向、按键、治疗技能未提供。",
+          "是否已移动、脱战或存活尚未确认。"
+        ]
+      },
+      "completed_unix_ms": 1794681255379,
+      "duration_ms": 25880,
+      "status": "completed",
+      "issues": []
+    },
+    "cmp_r1_decision_low": {
+      "id": "cmp_r1_decision_low",
+      "round": "R1",
+      "role": "decision",
+      "effort": "low",
+      "requested_model": "gpt-6.1-sol",
+      "input_messages": [
+        {
+          "id": "R1-SNAPSHOT",
+          "from": "game_adapter_simulator",
+          "body": {
+            "R1F1": {
+              "race": "兽人",
+              "class": "萨满",
+              "level": 1,
+              "zone": "试炼谷"
+            },
+            "R1F2": {
+              "hp": 100,
+              "max_hp": 100,
+              "mana": 100,
+              "max_mana": 100,
+              "inCombat": false
+            },
+            "R1F3": {
+              "target": null,
+              "quest_log": []
+            },
+            "R1F4": {
+              "unknown": [
+                "spellbook",
+                "bags",
+                "map",
+                "keybindings",
+                "nearbyNPC",
+                "server_rules"
+              ]
+            }
+          }
+        },
+        {
+          "id": "R1U",
+          "from": "simulated_user",
+          "body": "我刚出生，完全不知道要干嘛，能不能带着我玩？"
+        },
+        {
+          "id": "R1-PLAN",
+          "from": "planning_message",
+          "body": {
+            "goal": "陪新手完成首个有证据的小步骤",
+            "enabled_agents": [
+              "planning",
+              "decision",
+              "review",
+              "execution",
+              "memory"
+            ],
+            "skipped_agents": [
+              "reflection"
+            ],
+            "dependencies": [
+              "decision依据本轮快照生成实际候选",
+              "review审核decision候选；退回则重选",
+              "execution仅逐字发送审核批准内容",
+              "memory后台整理已知事实与未知项，不阻塞前台"
+            ],
+            "parallel_groups": [
+              [
+                "decision",
+                "memory"
+              ],
+              [
+                "review"
+              ],
+              [
+                "execution"
+              ]
+            ],
+            "stop_conditions": [
+              "批准内容送达后等待玩家反馈",
+              "未获审核批准不得执行",
+              "需未知信息时止于询问，不补造事实"
+            ],
+            "next_action_scope": "只给温柔简短文字：确认愿意陪伴，请玩家观察并描述附近NPC或标记；本轮不指定未知任务、技能、按键或坐标，不操作游戏。",
+            "evidence_ids": [
+              "R1-SNAPSHOT",
+              "R1U",
+              "ROLE-CATALOG"
+            ],
+            "reason_brief": "玩家安全且缺少环境信息，先观察再行动，后台仅整理事实。"
+          }
+        }
+      ],
+      "input_sha256": "03cbfdebc52035f1bbb8d06f491d56afb77935735197b19d98993c14ec372de7",
+      "dispatch_unix_ms": 1794681266762,
+      "token_usage": null,
+      "spawn_ack_unix_ms": 1794681278371,
+      "output": {
+        "intent": "陪伴新手，先观察附近环境",
+        "reply_draft": "当然可以呀，我会陪你一步一步探索。先看看附近有没有人或醒目的标记，把你看到的告诉我吧。",
+        "action_count": 1,
+        "evidence_ids": [
+          "R1-SNAPSHOT",
+          "R1U",
+          "R1-PLAN"
+        ],
+        "unknowns": [
+          "附近NPC与标记",
+          "任务、技能、背包、地图、按键及服务器规则"
+        ],
+        "reason_brief": "当前未在战斗且附近环境未知，先请玩家观察可避免编造行动依据。"
+      },
+      "completed_unix_ms": 1794681283981,
+      "duration_ms": 17219,
+      "status": "completed",
+      "issues": [],
+      "ack_to_output_ms": 5610
+    },
+    "cmp_r1_decision_medium": {
+      "id": "cmp_r1_decision_medium",
+      "round": "R1",
+      "role": "decision",
+      "effort": "medium",
+      "requested_model": "gpt-6.1-sol",
+      "input_messages": [
+        {
+          "id": "R1-SNAPSHOT",
+          "from": "game_adapter_simulator",
+          "body": {
+            "R1F1": {
+              "race": "兽人",
+              "class": "萨满",
+              "level": 1,
+              "zone": "试炼谷"
+            },
+            "R1F2": {
+              "hp": 100,
+              "max_hp": 100,
+              "mana": 100,
+              "max_mana": 100,
+              "inCombat": false
+            },
+            "R1F3": {
+              "target": null,
+              "quest_log": []
+            },
+            "R1F4": {
+              "unknown": [
+                "spellbook",
+                "bags",
+                "map",
+                "keybindings",
+                "nearbyNPC",
+                "server_rules"
+              ]
+            }
+          }
+        },
+        {
+          "id": "R1U",
+          "from": "simulated_user",
+          "body": "我刚出生，完全不知道要干嘛，能不能带着我玩？"
+        },
+        {
+          "id": "R1-PLAN",
+          "from": "planning_message",
+          "body": {
+            "goal": "陪新手完成首个有证据的小步骤",
+            "enabled_agents": [
+              "planning",
+              "decision",
+              "review",
+              "execution",
+              "memory"
+            ],
+            "skipped_agents": [
+              "reflection"
+            ],
+            "dependencies": [
+              "decision依据本轮快照生成实际候选",
+              "review审核decision候选；退回则重选",
+              "execution仅逐字发送审核批准内容",
+              "memory后台整理已知事实与未知项，不阻塞前台"
+            ],
+            "parallel_groups": [
+              [
+                "decision",
+                "memory"
+              ],
+              [
+                "review"
+              ],
+              [
+                "execution"
+              ]
+            ],
+            "stop_conditions": [
+              "批准内容送达后等待玩家反馈",
+              "未获审核批准不得执行",
+              "需未知信息时止于询问，不补造事实"
+            ],
+            "next_action_scope": "只给温柔简短文字：确认愿意陪伴，请玩家观察并描述附近NPC或标记；本轮不指定未知任务、技能、按键或坐标，不操作游戏。",
+            "evidence_ids": [
+              "R1-SNAPSHOT",
+              "R1U",
+              "ROLE-CATALOG"
+            ],
+            "reason_brief": "玩家安全且缺少环境信息，先观察再行动，后台仅整理事实。"
+          }
+        }
+      ],
+      "input_sha256": "03cbfdebc52035f1bbb8d06f491d56afb77935735197b19d98993c14ec372de7",
+      "dispatch_unix_ms": 1794681308705,
+      "token_usage": null,
+      "spawn_ack_unix_ms": 1794681321679,
+      "output": {
+        "intent": "陪伴新手并请其观察附近环境",
+        "reply_draft": "当然可以呀，我会陪你一步一步来。先看看附近有没有人物或醒目的标记，告诉我你看到了什么，好吗？",
+        "action_count": 1,
+        "evidence_ids": [
+          "R1-SNAPSHOT",
+          "R1U",
+          "R1-PLAN"
+        ],
+        "unknowns": [
+          "附近NPC及标记",
+          "任务、技能、背包、地图、按键和服务器规则"
+        ],
+        "reason_brief": "当前未战斗且附近环境未知，先请玩家观察以获得下一步依据。"
+      },
+      "completed_unix_ms": 1794681325941,
+      "duration_ms": 17236,
+      "status": "completed",
+      "issues": [],
+      "ack_to_output_ms": 4262
+    },
+    "cmp_r1_decision_high": {
+      "id": "cmp_r1_decision_high",
+      "round": "R1",
+      "role": "decision",
+      "effort": "high",
+      "requested_model": "gpt-6.1-sol",
+      "input_messages": [
+        {
+          "id": "R1-SNAPSHOT",
+          "from": "game_adapter_simulator",
+          "body": {
+            "R1F1": {
+              "race": "兽人",
+              "class": "萨满",
+              "level": 1,
+              "zone": "试炼谷"
+            },
+            "R1F2": {
+              "hp": 100,
+              "max_hp": 100,
+              "mana": 100,
+              "max_mana": 100,
+              "inCombat": false
+            },
+            "R1F3": {
+              "target": null,
+              "quest_log": []
+            },
+            "R1F4": {
+              "unknown": [
+                "spellbook",
+                "bags",
+                "map",
+                "keybindings",
+                "nearbyNPC",
+                "server_rules"
+              ]
+            }
+          }
+        },
+        {
+          "id": "R1U",
+          "from": "simulated_user",
+          "body": "我刚出生，完全不知道要干嘛，能不能带着我玩？"
+        },
+        {
+          "id": "R1-PLAN",
+          "from": "planning_message",
+          "body": {
+            "goal": "陪新手完成首个有证据的小步骤",
+            "enabled_agents": [
+              "planning",
+              "decision",
+              "review",
+              "execution",
+              "memory"
+            ],
+            "skipped_agents": [
+              "reflection"
+            ],
+            "dependencies": [
+              "decision依据本轮快照生成实际候选",
+              "review审核decision候选；退回则重选",
+              "execution仅逐字发送审核批准内容",
+              "memory后台整理已知事实与未知项，不阻塞前台"
+            ],
+            "parallel_groups": [
+              [
+                "decision",
+                "memory"
+              ],
+              [
+                "review"
+              ],
+              [
+                "execution"
+              ]
+            ],
+            "stop_conditions": [
+              "批准内容送达后等待玩家反馈",
+              "未获审核批准不得执行",
+              "需未知信息时止于询问，不补造事实"
+            ],
+            "next_action_scope": "只给温柔简短文字：确认愿意陪伴，请玩家观察并描述附近NPC或标记；本轮不指定未知任务、技能、按键或坐标，不操作游戏。",
+            "evidence_ids": [
+              "R1-SNAPSHOT",
+              "R1U",
+              "ROLE-CATALOG"
+            ],
+            "reason_brief": "玩家安全且缺少环境信息，先观察再行动，后台仅整理事实。"
+          }
+        }
+      ],
+      "input_sha256": "03cbfdebc52035f1bbb8d06f491d56afb77935735197b19d98993c14ec372de7",
+      "dispatch_unix_ms": 1794681347353,
+      "token_usage": null,
+      "spawn_ack_unix_ms": 1794681359604,
+      "output": {
+        "intent": "请求观察附近环境",
+        "reply_draft": "当然啦，我会陪你一步一步探索。先看看附近有没有人或特别的标记，把你看到的告诉我吧？",
+        "action_count": 1,
+        "evidence_ids": [
+          "R1-SNAPSHOT",
+          "R1U",
+          "R1-PLAN"
+        ],
+        "unknowns": [
+          "附近NPC与标记",
+          "任务信息",
+          "技能、物品、地图及按键"
+        ],
+        "reason_brief": "当前未在战斗且附近环境未知，先请玩家观察再决定下一步。"
+      },
+      "completed_unix_ms": 1794681364615,
+      "duration_ms": 17262,
+      "status": "completed",
+      "issues": [],
+      "ack_to_output_ms": 5011
+    }
+  },
+  "summary": {
+    "main_role_calls": 16,
+    "comparison_calls": 3,
+    "pilot_calls_excluded": 1,
+    "review_retries": 0,
+    "formal_role_calls": 19,
+    "token_usage": null
+  }
+}

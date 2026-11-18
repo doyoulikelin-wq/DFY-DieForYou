@@ -1,0 +1,364 @@
+{
+  "schema_ok": true,
+  "unique_card_ids": true,
+  "fact_references_valid": true,
+  "source_references_valid": true,
+  "exact_duplicate_questions_across_cards": 8,
+  "exact_duplicate_answers_across_cards": 0,
+  "source_work_budget_audit": [
+    {
+      "source_id": "S001",
+      "work_key": "article:24315820",
+      "derived_chinese_characters": 166
+    },
+    {
+      "source_id": "S002",
+      "work_key": "article:24302070",
+      "derived_chinese_characters": 84
+    },
+    {
+      "source_id": "S003",
+      "work_key": "article:24301516",
+      "derived_chinese_characters": 99
+    },
+    {
+      "source_id": "S004",
+      "work_key": "article:24307383",
+      "derived_chinese_characters": 100
+    },
+    {
+      "source_id": "S005",
+      "work_key": "article:24302097",
+      "derived_chinese_characters": 83
+    },
+    {
+      "source_id": "S006",
+      "work_key": "article:24304075",
+      "derived_chinese_characters": 88
+    },
+    {
+      "source_id": "S007",
+      "work_key": "article:24310968",
+      "derived_chinese_characters": 83
+    },
+    {
+      "source_id": "S008",
+      "work_key": "article:24301514",
+      "derived_chinese_characters": 88
+    },
+    {
+      "source_id": "S009",
+      "work_key": "article:24301515",
+      "derived_chinese_characters": 92
+    },
+    {
+      "source_id": "S010",
+      "work_key": "article:24302099",
+      "derived_chinese_characters": 68
+    },
+    {
+      "source_id": "S011",
+      "work_key": "article:24315281",
+      "derived_chinese_characters": 188
+    },
+    {
+      "source_id": "S012",
+      "work_key": "https://us.forums.blizzard.com/en/wow/t/player-level-dungeon-xp-adjustment-november-14/2416343",
+      "derived_chinese_characters": 70
+    },
+    {
+      "source_id": "S013",
+      "work_key": "https://wow.blizzard.cn/news/20261110/43836_1319283.html",
+      "derived_chinese_characters": 59
+    },
+    {
+      "source_id": "S014",
+      "work_key": "article:24303316",
+      "derived_chinese_characters": 77
+    },
+    {
+      "source_id": "S015",
+      "work_key": "article:24316974",
+      "derived_chinese_characters": 58
+    },
+    {
+      "source_id": "S016",
+      "work_key": "article:24315643",
+      "derived_chinese_characters": 124
+    },
+    {
+      "source_id": "S017",
+      "work_key": "article:24302071",
+      "derived_chinese_characters": 149
+    },
+    {
+      "source_id": "S018",
+      "work_key": "article:24315280",
+      "derived_chinese_characters": 119
+    },
+    {
+      "source_id": "S019",
+      "work_key": "article:24301455",
+      "derived_chinese_characters": 154
+    },
+    {
+      "source_id": "S020",
+      "work_key": "article:24303313",
+      "derived_chinese_characters": 106
+    },
+    {
+      "source_id": "S021",
+      "work_key": "article:24304161",
+      "derived_chinese_characters": 61
+    },
+    {
+      "source_id": "S022",
+      "work_key": "article:24303009",
+      "derived_chinese_characters": 213
+    },
+    {
+      "source_id": "S023",
+      "work_key": "article:24303862",
+      "derived_chinese_characters": 52
+    },
+    {
+      "source_id": "S024",
+      "work_key": "https://wow.blizzard.cn/news/20261009/43790_1316154.html",
+      "derived_chinese_characters": 79
+    },
+    {
+      "source_id": "S025",
+      "work_key": "https://us.forums.blizzard.com/en/wow/t/lost-training-purchase-refunds-november-13/2415068",
+      "derived_chinese_characters": 56
+    },
+    {
+      "source_id": "S026",
+      "work_key": "https://us.forums.blizzard.com/en/wow/t/wow-forever-beta-development-notes-%E2%80%93-updated-november-2/2360696",
+      "derived_chinese_characters": 104
+    },
+    {
+      "source_id": "S027",
+      "work_key": "article:24304071",
+      "derived_chinese_characters": 136
+    },
+    {
+      "source_id": "S028",
+      "work_key": "story:cost_of_honor",
+      "derived_chinese_characters": 145
+    },
+    {
+      "source_id": "S029",
+      "work_key": "story:unbowed",
+      "derived_chinese_characters": 141
+    },
+    {
+      "source_id": "S030",
+      "work_key": "https://us.forums.blizzard.com/en/wow/t/forced-world-refresh-auto-fails-escort-quests/2418875",
+      "derived_chinese_characters": 47
+    },
+    {
+      "source_id": "S031",
+      "work_key": "https://us.forums.blizzard.com/en/wow/t/cannot-pick-up-the-manor-ravenholdt-quest/2411678",
+      "derived_chinese_characters": 63
+    },
+    {
+      "source_id": "S032",
+      "work_key": "https://us.forums.blizzard.com/en/wow/t/the-drowned-city/2412200",
+      "derived_chinese_characters": 47
+    },
+    {
+      "source_id": "S033",
+      "work_key": "https://us.forums.blizzard.com/en/wow/t/escort-quests/2356665",
+      "derived_chinese_characters": 57
+    },
+    {
+      "source_id": "S034",
+      "work_key": "https://us.forums.blizzard.com/en/wow/t/how-are-you-suppose-to-level/2408040",
+      "derived_chinese_characters": 25
+    },
+    {
+      "source_id": "S035",
+      "work_key": "https://us.forums.blizzard.com/en/wow/t/i-am-sorry-i-chose-healer-in-forever/2413943",
+      "derived_chinese_characters": 24
+    },
+    {
+      "source_id": "S036",
+      "work_key": "https://us.forums.blizzard.com/en/wow/t/questing-is-miserable-layers-overcrowded-mobs-respawn-too-slow/2405753",
+      "derived_chinese_characters": 32
+    },
+    {
+      "source_id": "S037",
+      "work_key": "https://us.forums.blizzard.com/en/wow/t/shaman-changes/2411494",
+      "derived_chinese_characters": 21
+    },
+    {
+      "source_id": "S038",
+      "work_key": "https://us.forums.blizzard.com/en/wow/t/we-need-to-talk-about-dungeon-xp-in-forever/2359222",
+      "derived_chinese_characters": 28
+    },
+    {
+      "source_id": "S039",
+      "work_key": "https://us.forums.blizzard.com/en/wow/t/enchanting-vellums-please/2390139",
+      "derived_chinese_characters": 26
+    },
+    {
+      "source_id": "S040",
+      "work_key": "https://us.forums.blizzard.com/en/wow/t/wow-forever-adds-dynamic-lighting-but-oce-is-stuck-in-perpetual-midnight-fix-the-daynight-cycle/2365303",
+      "derived_chinese_characters": 30
+    }
+  ],
+  "quality_fixes_applied": [
+    {
+      "card_id": "G0011",
+      "applied": "explicit_review_fix"
+    },
+    {
+      "card_id": "G0015",
+      "applied": "explicit_review_fix"
+    },
+    {
+      "card_id": "G0017",
+      "applied": "explicit_review_fix"
+    },
+    {
+      "card_id": "G0037",
+      "applied": "explicit_review_fix"
+    },
+    {
+      "card_id": "G0046",
+      "applied": "explicit_review_fix"
+    },
+    {
+      "card_id": "G0054",
+      "applied": "explicit_review_fix"
+    },
+    {
+      "card_id": "G0072",
+      "applied": "explicit_review_fix"
+    },
+    {
+      "card_id": "G0073",
+      "applied": "explicit_review_fix"
+    },
+    {
+      "card_id": "G0074",
+      "applied": "explicit_review_fix"
+    },
+    {
+      "card_id": "G0079",
+      "applied": "explicit_review_fix"
+    },
+    {
+      "card_id": "G0087",
+      "applied": "explicit_review_fix"
+    },
+    {
+      "card_id": "G0105",
+      "applied": "explicit_review_fix"
+    },
+    {
+      "card_id": "G0107",
+      "applied": "explicit_review_fix"
+    },
+    {
+      "card_id": "G0122",
+      "applied": "explicit_review_fix"
+    },
+    {
+      "card_id": "G0138",
+      "applied": "explicit_review_fix"
+    },
+    {
+      "card_id": "G0145",
+      "applied": "explicit_review_fix"
+    },
+    {
+      "card_id": "G0171",
+      "applied": "explicit_review_fix"
+    },
+    {
+      "card_id": "G0176",
+      "applied": "explicit_review_fix"
+    },
+    {
+      "card_id": "G0181",
+      "applied": "explicit_review_fix"
+    },
+    {
+      "card_id": "G0192",
+      "applied": "explicit_review_fix"
+    },
+    {
+      "card_id": "P0002",
+      "applied": "explicit_review_fix"
+    },
+    {
+      "card_id": "P0005",
+      "applied": "explicit_review_fix"
+    },
+    {
+      "card_id": "P0012",
+      "applied": "explicit_review_fix"
+    },
+    {
+      "card_id": "P0022",
+      "applied": "explicit_review_fix"
+    },
+    {
+      "card_id": "P0034",
+      "applied": "explicit_review_fix"
+    },
+    {
+      "card_id": "P0120",
+      "applied": "explicit_review_fix"
+    },
+    {
+      "card_id": "P0142",
+      "applied": "explicit_review_fix"
+    },
+    {
+      "card_id": "P0146",
+      "applied": "explicit_review_fix"
+    },
+    {
+      "card_id": "P0147",
+      "applied": "explicit_review_fix"
+    },
+    {
+      "card_id": "P0149",
+      "applied": "explicit_review_fix"
+    },
+    {
+      "card_id": "P0151",
+      "applied": "explicit_review_fix"
+    },
+    {
+      "card_id": "P0162",
+      "applied": "explicit_review_fix"
+    },
+    {
+      "card_id": "P0163",
+      "applied": "explicit_review_fix"
+    },
+    {
+      "card_id": "P0176",
+      "applied": "explicit_review_fix"
+    },
+    {
+      "card_id": "P0192",
+      "applied": "explicit_review_fix"
+    }
+  ],
+  "limitations": [
+    "计数不证明覆盖率",
+    "关键词/二元字索引不等于语义理解",
+    "人类可读的条件尚需映射到真实适配器",
+    "静态审核不证明自由文本完全正确",
+    "没有真实游戏或模型端到端TTFT测量"
+  ],
+  "browser_validation": "static_checks_only_visual_blocked",
+  "ui_test_limitation": [
+    "Headless Chromium launch blocked by socket restriction",
+    "Cloud browser security policy disallows file: URLs; no bypass attempted"
+  ]
+}

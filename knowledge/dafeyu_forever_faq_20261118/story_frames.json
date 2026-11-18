@@ -1,0 +1,956 @@
+[
+  {
+    "id": "ST01",
+    "title": "把书签夹在无限的开头",
+    "claim_ids": [
+      "L01.C1",
+      "L01.C2",
+      "L01.C3"
+    ],
+    "source_ids": [
+      "L01"
+    ],
+    "story_optional": true,
+    "spoiler_level": "premise",
+    "narration_type": "original_four_beat_frame_with_verified_fact_slots",
+    "beats": [
+      {
+        "role": "起",
+        "original_text": "我先把书翻到我们真正站着的这一页。",
+        "claim_ids": [
+          "L01.C1"
+        ]
+      },
+      {
+        "role": "承",
+        "original_text": "一些熟悉的名字会让人忍不住想到后来。",
+        "claim_ids": [
+          "L01.C2"
+        ]
+      },
+      {
+        "role": "转",
+        "original_text": "我也好奇他们会走向哪里，不过我们先沿着这里已有的脚印走。",
+        "claim_ids": [
+          "L01.C3"
+        ]
+      },
+      {
+        "role": "收",
+        "original_text": "你遇见新的文字时带给我，我们就把这一页接着读。",
+        "claim_ids": []
+      }
+    ],
+    "delivery": "按事实槽顺序插入已核实原子事实；没有事实的段落只能表达大肥鱼的感受或开放疑问。可在段落边界停下，用户说停立刻停止。",
+    "minimum_gates": [
+      "用户提出听故事或已明确同意此类主动讲述",
+      "未在紧急战斗或需专注操作时",
+      "剧透等级不超过本轮许可",
+      "材料中的角色观点保留归属"
+    ],
+    "limits": [
+      "不得添加对白、场景细节、动机或结局作为官方事实",
+      "未获取任务正文时，只讲这一梗概，不承诺完整故事"
+    ]
+  },
+  {
+    "id": "ST02",
+    "title": "在熟悉的起点重新认识世界",
+    "claim_ids": [
+      "L02.C1"
+    ],
+    "source_ids": [
+      "L02"
+    ],
+    "story_optional": true,
+    "spoiler_level": "premise",
+    "narration_type": "original_four_beat_frame_with_verified_fact_slots",
+    "beats": [
+      {
+        "role": "起",
+        "original_text": "你认识这个起点，也可以再认识它一次。",
+        "claim_ids": [
+          "L02.C1"
+        ]
+      },
+      {
+        "role": "承",
+        "original_text": "有时一段新故事并不需要一扇特别大的门。",
+        "claim_ids": []
+      },
+      {
+        "role": "转",
+        "original_text": "我会等你把任务里的话带过来，不替你猜那个人会说什么。",
+        "claim_ids": []
+      },
+      {
+        "role": "收",
+        "original_text": "今天先发现一件小事，也算是我们自己的开场。",
+        "claim_ids": []
+      }
+    ],
+    "delivery": "按事实槽顺序插入已核实原子事实；没有事实的段落只能表达大肥鱼的感受或开放疑问。可在段落边界停下，用户说停立刻停止。",
+    "minimum_gates": [
+      "用户提出听故事或已明确同意此类主动讲述",
+      "未在紧急战斗或需专注操作时",
+      "剧透等级不超过本轮许可",
+      "材料中的角色观点保留归属"
+    ],
+    "limits": [
+      "不得添加对白、场景细节、动机或结局作为官方事实",
+      "未获取任务正文时，只讲这一梗概，不承诺完整故事"
+    ]
+  },
+  {
+    "id": "ST03",
+    "title": "胜利之后的海加尔",
+    "claim_ids": [
+      "L06.C1"
+    ],
+    "source_ids": [
+      "L06"
+    ],
+    "story_optional": true,
+    "spoiler_level": "premise",
+    "narration_type": "original_four_beat_frame_with_verified_fact_slots",
+    "beats": [
+      {
+        "role": "起",
+        "original_text": "一场大事结束后，故事通常还没有合上。",
+        "claim_ids": [
+          "L06.C1"
+        ]
+      },
+      {
+        "role": "承",
+        "original_text": "我们可以先看这片土地在经历什么。",
+        "claim_ids": []
+      },
+      {
+        "role": "转",
+        "original_text": "我想到的会是那些继续生活的人，不过他们各自的遭遇，得等真正的任务来讲。",
+        "claim_ids": []
+      },
+      {
+        "role": "收",
+        "original_text": "如果你愿意，下一次遇到当地人的文字，我们再慢慢听。",
+        "claim_ids": []
+      }
+    ],
+    "delivery": "按事实槽顺序插入已核实原子事实；没有事实的段落只能表达大肥鱼的感受或开放疑问。可在段落边界停下，用户说停立刻停止。",
+    "minimum_gates": [
+      "用户提出听故事或已明确同意此类主动讲述",
+      "未在紧急战斗或需专注操作时",
+      "剧透等级不超过本轮许可",
+      "材料中的角色观点保留归属"
+    ],
+    "limits": [
+      "不得添加对白、场景细节、动机或结局作为官方事实",
+      "未获取任务正文时，只讲这一梗概，不承诺完整故事"
+    ]
+  },
+  {
+    "id": "ST04",
+    "title": "河林里的路与人",
+    "claim_ids": [
+      "L06.C3",
+      "L02.C2",
+      "L02.C4"
+    ],
+    "source_ids": [
+      "L06",
+      "L02"
+    ],
+    "story_optional": true,
+    "spoiler_level": "premise",
+    "narration_type": "original_four_beat_frame_with_verified_fact_slots",
+    "beats": [
+      {
+        "role": "起",
+        "original_text": "我想从一条路开始讲，路会把不同的人带到一起。",
+        "claim_ids": [
+          "L06.C3"
+        ]
+      },
+      {
+        "role": "承",
+        "original_text": "知道这些背景后，再看任务里的人名，就会多一点分量。",
+        "claim_ids": [
+          "L02.C2"
+        ]
+      },
+      {
+        "role": "转",
+        "original_text": "同一片土地上，大家想要的未必一样；我不会替某一方抢先写好答案。",
+        "claim_ids": [
+          "L02.C4"
+        ]
+      },
+      {
+        "role": "收",
+        "original_text": "你更在意哪一位，我们下一段就从他的原话开始。",
+        "claim_ids": []
+      }
+    ],
+    "delivery": "按事实槽顺序插入已核实原子事实；没有事实的段落只能表达大肥鱼的感受或开放疑问。可在段落边界停下，用户说停立刻停止。",
+    "minimum_gates": [
+      "用户提出听故事或已明确同意此类主动讲述",
+      "未在紧急战斗或需专注操作时",
+      "剧透等级不超过本轮许可",
+      "材料中的角色观点保留归属"
+    ],
+    "limits": [
+      "不得添加对白、场景细节、动机或结局作为官方事实",
+      "未获取任务正文时，只讲这一梗概，不承诺完整故事"
+    ]
+  },
+  {
+    "id": "ST05",
+    "title": "辛德拉的一根线头",
+    "claim_ids": [
+      "L06.C2",
+      "L02.C5"
+    ],
+    "source_ids": [
+      "L06",
+      "L02"
+    ],
+    "story_optional": true,
+    "spoiler_level": "premise",
+    "narration_type": "original_four_beat_frame_with_verified_fact_slots",
+    "beats": [
+      {
+        "role": "起",
+        "original_text": "有些名字像线头，轻轻一拉，就碰到更早的故事。",
+        "claim_ids": [
+          "L06.C2"
+        ]
+      },
+      {
+        "role": "承",
+        "original_text": "我们现在手里只有这些已知的关联。",
+        "claim_ids": [
+          "L02.C5"
+        ]
+      },
+      {
+        "role": "转",
+        "original_text": "我有点想继续追，可也不想拿猜测冒充发现。",
+        "claim_ids": []
+      },
+      {
+        "role": "收",
+        "original_text": "先把这根线留好，等真正的任务把它接上。",
+        "claim_ids": []
+      }
+    ],
+    "delivery": "按事实槽顺序插入已核实原子事实；没有事实的段落只能表达大肥鱼的感受或开放疑问。可在段落边界停下，用户说停立刻停止。",
+    "minimum_gates": [
+      "用户提出听故事或已明确同意此类主动讲述",
+      "未在紧急战斗或需专注操作时",
+      "剧透等级不超过本轮许可",
+      "材料中的角色观点保留归属"
+    ],
+    "limits": [
+      "不得添加对白、场景细节、动机或结局作为官方事实",
+      "未获取任务正文时，只讲这一梗概，不承诺完整故事"
+    ]
+  },
+  {
+    "id": "ST06",
+    "title": "把天空当作故乡",
+    "claim_ids": [
+      "L07.C1"
+    ],
+    "source_ids": [
+      "L07"
+    ],
+    "story_optional": true,
+    "spoiler_level": "premise",
+    "narration_type": "original_four_beat_frame_with_verified_fact_slots",
+    "beats": [
+      {
+        "role": "起",
+        "original_text": "我很喜欢听一个族群怎样找到自己的家。",
+        "claim_ids": [
+          "L07.C1"
+        ]
+      },
+      {
+        "role": "承",
+        "original_text": "这里先讲我们能够确认的来历。",
+        "claim_ids": []
+      },
+      {
+        "role": "转",
+        "original_text": "如果有一天必须离开熟悉的地方，人会先带走什么呢？这是我自己的好奇。",
+        "claim_ids": []
+      },
+      {
+        "role": "收",
+        "original_text": "不用急着回答，我们可以先听他们的故事。",
+        "claim_ids": []
+      }
+    ],
+    "delivery": "按事实槽顺序插入已核实原子事实；没有事实的段落只能表达大肥鱼的感受或开放疑问。可在段落边界停下，用户说停立刻停止。",
+    "minimum_gates": [
+      "用户提出听故事或已明确同意此类主动讲述",
+      "未在紧急战斗或需专注操作时",
+      "剧透等级不超过本轮许可",
+      "材料中的角色观点保留归属"
+    ],
+    "limits": [
+      "不得添加对白、场景细节、动机或结局作为官方事实",
+      "未获取任务正文时，只讲这一梗概，不承诺完整故事"
+    ]
+  },
+  {
+    "id": "ST07",
+    "title": "家园发生变化的时候",
+    "claim_ids": [
+      "L07.C2"
+    ],
+    "source_ids": [
+      "L07"
+    ],
+    "story_optional": true,
+    "spoiler_level": "premise",
+    "narration_type": "original_four_beat_frame_with_verified_fact_slots",
+    "beats": [
+      {
+        "role": "起",
+        "original_text": "如果每天习惯的东西忽然不再可靠，连回家的路也会变得陌生。",
+        "claim_ids": [
+          "L07.C2"
+        ]
+      },
+      {
+        "role": "承",
+        "original_text": "这只是我理解这段处境的一种方式。",
+        "claim_ids": []
+      },
+      {
+        "role": "转",
+        "original_text": "具体谁做了什么、谁又改变了主意，还得让任务自己告诉我们。",
+        "claim_ids": []
+      },
+      {
+        "role": "收",
+        "original_text": "我先不把结局翻出来，陪你把眼前这一页读完。",
+        "claim_ids": []
+      }
+    ],
+    "delivery": "按事实槽顺序插入已核实原子事实；没有事实的段落只能表达大肥鱼的感受或开放疑问。可在段落边界停下，用户说停立刻停止。",
+    "minimum_gates": [
+      "用户提出听故事或已明确同意此类主动讲述",
+      "未在紧急战斗或需专注操作时",
+      "剧透等级不超过本轮许可",
+      "材料中的角色观点保留归属"
+    ],
+    "limits": [
+      "不得添加对白、场景细节、动机或结局作为官方事实",
+      "未获取任务正文时，只讲这一梗概，不承诺完整故事"
+    ]
+  },
+  {
+    "id": "ST08",
+    "title": "同源而不同路",
+    "claim_ids": [
+      "L07.C3",
+      "L07.C4"
+    ],
+    "source_ids": [
+      "L07"
+    ],
+    "story_optional": true,
+    "spoiler_level": "premise",
+    "narration_type": "original_four_beat_frame_with_verified_fact_slots",
+    "beats": [
+      {
+        "role": "起",
+        "original_text": "有时候，站在同一片土地上的人，也会朝不同方向看。",
+        "claim_ids": [
+          "L07.C3"
+        ]
+      },
+      {
+        "role": "承",
+        "original_text": "知道他们各自想找回什么，选择就不只剩一个标签。",
+        "claim_ids": [
+          "L07.C4"
+        ]
+      },
+      {
+        "role": "转",
+        "original_text": "我想先认真听完双方，再谈自己更能理解谁。",
+        "claim_ids": []
+      },
+      {
+        "role": "收",
+        "original_text": "你也可以暂时没有答案。",
+        "claim_ids": []
+      }
+    ],
+    "delivery": "按事实槽顺序插入已核实原子事实；没有事实的段落只能表达大肥鱼的感受或开放疑问。可在段落边界停下，用户说停立刻停止。",
+    "minimum_gates": [
+      "用户提出听故事或已明确同意此类主动讲述",
+      "未在紧急战斗或需专注操作时",
+      "剧透等级不超过本轮许可",
+      "材料中的角色观点保留归属"
+    ],
+    "limits": [
+      "不得添加对白、场景细节、动机或结局作为官方事实",
+      "未获取任务正文时，只讲这一梗概，不承诺完整故事"
+    ]
+  },
+  {
+    "id": "ST09",
+    "title": "一个职业背后的身份问题",
+    "claim_ids": [
+      "L02.C3",
+      "L08.C1"
+    ],
+    "source_ids": [
+      "L02",
+      "L08"
+    ],
+    "story_optional": true,
+    "spoiler_level": "premise",
+    "narration_type": "original_four_beat_frame_with_verified_fact_slots",
+    "beats": [
+      {
+        "role": "起",
+        "original_text": "职业名字很短，里面装的疑问却可能很长。",
+        "claim_ids": [
+          "L02.C3"
+        ]
+      },
+      {
+        "role": "承",
+        "original_text": "我们可以从一个人的经历走进去。",
+        "claim_ids": [
+          "L08.C1"
+        ]
+      },
+      {
+        "role": "转",
+        "original_text": "我会把人物说的话、已经发生的事、还有我的感受分开。",
+        "claim_ids": []
+      },
+      {
+        "role": "收",
+        "original_text": "想听的话，我们就停下赶路，慢慢讲这一段。",
+        "claim_ids": []
+      }
+    ],
+    "delivery": "按事实槽顺序插入已核实原子事实；没有事实的段落只能表达大肥鱼的感受或开放疑问。可在段落边界停下，用户说停立刻停止。",
+    "minimum_gates": [
+      "用户提出听故事或已明确同意此类主动讲述",
+      "未在紧急战斗或需专注操作时",
+      "剧透等级不超过本轮许可",
+      "材料中的角色观点保留归属"
+    ],
+    "limits": [
+      "不得添加对白、场景细节、动机或结局作为官方事实",
+      "未获取任务正文时，只讲这一梗概，不承诺完整故事"
+    ]
+  },
+  {
+    "id": "ST10",
+    "title": "旧地方留下什么",
+    "claim_ids": [
+      "L05.C1",
+      "L05.C2"
+    ],
+    "source_ids": [
+      "L05"
+    ],
+    "story_optional": true,
+    "spoiler_level": "premise",
+    "narration_type": "original_four_beat_frame_with_verified_fact_slots",
+    "beats": [
+      {
+        "role": "起",
+        "original_text": "我想先认一认这片地方原本承载的东西。",
+        "claim_ids": []
+      },
+      {
+        "role": "承",
+        "original_text": "背景到这里就够了，剩下的转角先留给你。",
+        "claim_ids": [],
+        "runtime_fact_slot": "selected_claim_id"
+      },
+      {
+        "role": "转",
+        "original_text": "我很好奇，也会把好奇先放在不剧透的位置。",
+        "claim_ids": []
+      },
+      {
+        "role": "收",
+        "original_text": "若你只想知道入口，我们现在就把故事收起来。",
+        "claim_ids": []
+      }
+    ],
+    "delivery": "按事实槽顺序插入已核实原子事实；没有事实的段落只能表达大肥鱼的感受或开放疑问。可在段落边界停下，用户说停立刻停止。",
+    "minimum_gates": [
+      "用户提出听故事或已明确同意此类主动讲述",
+      "未在紧急战斗或需专注操作时",
+      "剧透等级不超过本轮许可",
+      "材料中的角色观点保留归属"
+    ],
+    "limits": [
+      "只选当前所问地下城对应的一条事实，不把两个地下城讲成同一地点",
+      "不得生成战斗机制或NPC对白"
+    ],
+    "claim_selection": {
+      "mode": "choose_exactly_one",
+      "key": "user_requested_dungeon",
+      "options": [
+        "L05.C1",
+        "L05.C2"
+      ],
+      "on_ambiguous": "ask_or_skip_story"
+    }
+  },
+  {
+    "id": "ST11",
+    "title": "关于失控与古老设施",
+    "claim_ids": [
+      "L05.C3",
+      "L05.C4",
+      "L05.C9"
+    ],
+    "source_ids": [
+      "L05"
+    ],
+    "story_optional": true,
+    "spoiler_level": "premise",
+    "narration_type": "original_four_beat_frame_with_verified_fact_slots",
+    "beats": [
+      {
+        "role": "起",
+        "original_text": "有的地方，会先把一个谜面递到我们面前。",
+        "claim_ids": []
+      },
+      {
+        "role": "承",
+        "original_text": "我先说眼下确实知道的部分。",
+        "claim_ids": [],
+        "runtime_fact_slot": "selected_claim_id"
+      },
+      {
+        "role": "转",
+        "original_text": "看到古老或失控这些线索，我也会想追问原因，但原因不能靠我猜出来。",
+        "claim_ids": []
+      },
+      {
+        "role": "收",
+        "original_text": "等你带来任务文字，我们再把谜面往下翻。",
+        "claim_ids": []
+      }
+    ],
+    "delivery": "按事实槽顺序插入已核实原子事实；没有事实的段落只能表达大肥鱼的感受或开放疑问。可在段落边界停下，用户说停立刻停止。",
+    "minimum_gates": [
+      "用户提出听故事或已明确同意此类主动讲述",
+      "未在紧急战斗或需专注操作时",
+      "剧透等级不超过本轮许可",
+      "材料中的角色观点保留归属"
+    ],
+    "limits": [
+      "按当前地下城只选择一条事实；三条是互斥候选",
+      "不得把三座地下城拼成共同剧情或共同机制"
+    ],
+    "claim_selection": {
+      "mode": "choose_exactly_one",
+      "key": "user_requested_dungeon",
+      "options": [
+        "L05.C3",
+        "L05.C4",
+        "L05.C9"
+      ],
+      "on_ambiguous": "ask_or_skip_story"
+    }
+  },
+  {
+    "id": "ST12",
+    "title": "沿着一座地方的来历走",
+    "claim_ids": [
+      "L05.C5",
+      "L05.C6",
+      "L05.C7",
+      "L05.C8"
+    ],
+    "source_ids": [
+      "L05"
+    ],
+    "story_optional": true,
+    "spoiler_level": "premise",
+    "narration_type": "original_four_beat_frame_with_verified_fact_slots",
+    "beats": [
+      {
+        "role": "起",
+        "original_text": "我们先听听这里为什么会让冒险者停下脚步。",
+        "claim_ids": []
+      },
+      {
+        "role": "承",
+        "original_text": "背景是认识这地方的第一步。",
+        "claim_ids": [],
+        "runtime_fact_slot": "selected_claim_id"
+      },
+      {
+        "role": "转",
+        "original_text": "我只掌握这段梗概，尚未确认的人物和结局就先留白。",
+        "claim_ids": []
+      },
+      {
+        "role": "收",
+        "original_text": "接下来先走路还是先听故事，都可以。",
+        "claim_ids": []
+      }
+    ],
+    "delivery": "按事实槽顺序插入已核实原子事实；没有事实的段落只能表达大肥鱼的感受或开放疑问。可在段落边界停下，用户说停立刻停止。",
+    "minimum_gates": [
+      "用户提出听故事或已明确同意此类主动讲述",
+      "未在紧急战斗或需专注操作时",
+      "剧透等级不超过本轮许可",
+      "材料中的角色观点保留归属"
+    ],
+    "limits": [
+      "四条地点事实互斥，只取匹配的一个",
+      "不臆测瓦里安下落、首领身份或战斗结果"
+    ],
+    "claim_selection": {
+      "mode": "choose_exactly_one",
+      "key": "user_requested_dungeon",
+      "options": [
+        "L05.C5",
+        "L05.C6",
+        "L05.C7",
+        "L05.C8"
+      ],
+      "on_ambiguous": "ask_or_skip_story"
+    }
+  },
+  {
+    "id": "ST13",
+    "title": "尚待开启的团队冒险",
+    "claim_ids": [
+      "L03.C1",
+      "L03.C2",
+      "L03.C3",
+      "L03.C5"
+    ],
+    "source_ids": [
+      "L03"
+    ],
+    "story_optional": true,
+    "spoiler_level": "premise",
+    "narration_type": "original_four_beat_frame_with_verified_fact_slots",
+    "beats": [
+      {
+        "role": "起",
+        "original_text": "有些冒险可以先听，有些门却还要等时间。",
+        "claim_ids": [
+          "L03.C1"
+        ]
+      },
+      {
+        "role": "承",
+        "original_text": "我们把日历和传说分开放好。",
+        "claim_ids": [],
+        "runtime_fact_slot": "selected_claim_id"
+      },
+      {
+        "role": "转",
+        "original_text": "我能先讲来历，不能把预告说成你现在已经能进去的地方。",
+        "claim_ids": []
+      },
+      {
+        "role": "收",
+        "original_text": "真正出发那天，再一起核对最新开放状态。",
+        "claim_ids": []
+      }
+    ],
+    "delivery": "按事实槽顺序插入已核实原子事实；没有事实的段落只能表达大肥鱼的感受或开放疑问。可在段落边界停下，用户说停立刻停止。",
+    "minimum_gates": [
+      "用户提出听故事或已明确同意此类主动讲述",
+      "未在紧急战斗或需专注操作时",
+      "剧透等级不超过本轮许可",
+      "材料中的角色观点保留归属"
+    ],
+    "limits": [
+      "除开放日期外，只插入用户所问副本的对应事实",
+      "开放日期过后必须重新查证，不能自动视为已开放",
+      "不把预告中的人数与入口视为实时个人可进入状态"
+    ],
+    "claim_selection": {
+      "mode": "date_notice_plus_one_topic",
+      "date_notice": "L03.C1",
+      "options": [
+        "L03.C2",
+        "L03.C3",
+        "L03.C5"
+      ],
+      "on_ambiguous": "only_date_notice"
+    }
+  },
+  {
+    "id": "ST14",
+    "title": "听一位讲述者说荣誉",
+    "claim_ids": [
+      "L04.C1",
+      "L04P.C1",
+      "L04P.C2"
+    ],
+    "source_ids": [
+      "L04",
+      "L04P"
+    ],
+    "story_optional": true,
+    "spoiler_level": "major",
+    "narration_type": "original_four_beat_frame_with_verified_fact_slots",
+    "beats": [
+      {
+        "role": "起",
+        "original_text": "这一段，我们先坐到讲述者的声音旁边。",
+        "claim_ids": [
+          "L04.C1"
+        ]
+      },
+      {
+        "role": "承",
+        "original_text": "听下去时，也记得这是他的视角。",
+        "claim_ids": [
+          "L04P.C1"
+        ]
+      },
+      {
+        "role": "转",
+        "original_text": "我想保留故事里的棱角，不替所有人决定同一种感受。",
+        "claim_ids": [
+          "L04P.C2"
+        ]
+      },
+      {
+        "role": "收",
+        "original_text": "若你只想听背景，我们就停在这里。",
+        "claim_ids": []
+      }
+    ],
+    "delivery": "按事实槽顺序插入已核实原子事实；没有事实的段落只能表达大肥鱼的感受或开放疑问。可在段落边界停下，用户说停立刻停止。",
+    "minimum_gates": [
+      "用户提出听故事或已明确同意此类主动讲述",
+      "未在紧急战斗或需专注操作时",
+      "剧透等级不超过本轮许可",
+      "材料中的角色观点保留归属"
+    ],
+    "limits": [
+      "战局事实仅在用户同意剧透时加入",
+      "不得扩写战争动作或新增人物对白",
+      "不把布兰特对部落的评价当作中立事实"
+    ]
+  },
+  {
+    "id": "ST15",
+    "title": "欢呼以后还能怎样说话",
+    "claim_ids": [
+      "L04P.C3",
+      "L04P.C4"
+    ],
+    "source_ids": [
+      "L04P"
+    ],
+    "story_optional": true,
+    "spoiler_level": "major",
+    "narration_type": "original_four_beat_frame_with_verified_fact_slots",
+    "beats": [
+      {
+        "role": "起",
+        "original_text": "我会为胜利开心，也会留意胜利之后人们怎样说话。",
+        "claim_ids": [
+          "L04P.C3"
+        ]
+      },
+      {
+        "role": "承",
+        "original_text": "这两处让我读得慢了一点。",
+        "claim_ids": [
+          "L04P.C4"
+        ]
+      },
+      {
+        "role": "转",
+        "original_text": "下面是我的感受：有人还在一起，本身就值得珍惜。",
+        "claim_ids": []
+      },
+      {
+        "role": "收",
+        "original_text": "如果你想安静一会儿，我就把故事停在这个地方。",
+        "claim_ids": []
+      }
+    ],
+    "delivery": "按事实槽顺序插入已核实原子事实；没有事实的段落只能表达大肥鱼的感受或开放疑问。可在段落边界停下，用户说停立刻停止。",
+    "minimum_gates": [
+      "用户提出听故事或已明确同意此类主动讲述",
+      "未在紧急战斗或需专注操作时",
+      "剧透等级不超过本轮许可",
+      "材料中的角色观点保留归属"
+    ],
+    "limits": [
+      "不得添加对白、场景细节、动机或结局作为官方事实",
+      "未获取任务正文时，只讲这一梗概，不承诺完整故事"
+    ]
+  },
+  {
+    "id": "ST16",
+    "title": "不屈：先认识科马克",
+    "claim_ids": [
+      "L08.C1",
+      "L08P.C1"
+    ],
+    "source_ids": [
+      "L08",
+      "L08P"
+    ],
+    "story_optional": true,
+    "spoiler_level": "minor",
+    "narration_type": "original_four_beat_frame_with_verified_fact_slots",
+    "beats": [
+      {
+        "role": "起",
+        "original_text": "这次我不想用一句厉害就把一个人讲完。",
+        "claim_ids": [
+          "L08.C1"
+        ]
+      },
+      {
+        "role": "承",
+        "original_text": "我们先看看他面对的处境。",
+        "claim_ids": [
+          "L08P.C1"
+        ]
+      },
+      {
+        "role": "转",
+        "original_text": "我会把语气放轻，因为挣扎不该被我讲成热闹。",
+        "claim_ids": []
+      },
+      {
+        "role": "收",
+        "original_text": "更后面的转折，等你说想听，我再翻过去。",
+        "claim_ids": []
+      }
+    ],
+    "delivery": "按事实槽顺序插入已核实原子事实；没有事实的段落只能表达大肥鱼的感受或开放疑问。可在段落边界停下，用户说停立刻停止。",
+    "minimum_gates": [
+      "用户提出听故事或已明确同意此类主动讲述",
+      "未在紧急战斗或需专注操作时",
+      "剧透等级不超过本轮许可",
+      "材料中的角色观点保留归属"
+    ],
+    "limits": [
+      "不得添加对白、场景细节、动机或结局作为官方事实",
+      "未获取任务正文时，只讲这一梗概，不承诺完整故事"
+    ]
+  },
+  {
+    "id": "ST17",
+    "title": "不屈：对自己的重新认识",
+    "claim_ids": [
+      "L08P.C2",
+      "L08P.C3"
+    ],
+    "source_ids": [
+      "L08P"
+    ],
+    "story_optional": true,
+    "spoiler_level": "major",
+    "narration_type": "original_four_beat_frame_with_verified_fact_slots",
+    "beats": [
+      {
+        "role": "起",
+        "original_text": "这里要走进一个比较重要的转折了。",
+        "claim_ids": [
+          "L08P.C2"
+        ]
+      },
+      {
+        "role": "承",
+        "original_text": "有些答案会改变他看待自己的方式。",
+        "claim_ids": [
+          "L08P.C3"
+        ]
+      },
+      {
+        "role": "转",
+        "original_text": "我自己的理解是，认出过去不等于只能被过去定义；这句话是我的感受。",
+        "claim_ids": []
+      },
+      {
+        "role": "收",
+        "original_text": "如果你还想自己读，我现在停下也来得及。",
+        "claim_ids": []
+      }
+    ],
+    "delivery": "按事实槽顺序插入已核实原子事实；没有事实的段落只能表达大肥鱼的感受或开放疑问。可在段落边界停下，用户说停立刻停止。",
+    "minimum_gates": [
+      "用户提出听故事或已明确同意此类主动讲述",
+      "未在紧急战斗或需专注操作时",
+      "剧透等级不超过本轮许可",
+      "材料中的角色观点保留归属"
+    ],
+    "limits": [
+      "不得添加对白、场景细节、动机或结局作为官方事实",
+      "未获取任务正文时，只讲这一梗概，不承诺完整故事"
+    ]
+  },
+  {
+    "id": "ST18",
+    "title": "不屈：把结尾轻轻放下",
+    "claim_ids": [
+      "L08P.C4"
+    ],
+    "source_ids": [
+      "L08P"
+    ],
+    "story_optional": true,
+    "spoiler_level": "major",
+    "narration_type": "original_four_beat_frame_with_verified_fact_slots",
+    "beats": [
+      {
+        "role": "起",
+        "original_text": "你已经说可以听结尾，那我慢一点讲。",
+        "claim_ids": [
+          "L08P.C4"
+        ]
+      },
+      {
+        "role": "承",
+        "original_text": "我不再添写后来发生了什么。",
+        "claim_ids": []
+      },
+      {
+        "role": "转",
+        "original_text": "这一页带给我的感觉，是一种很轻、却没有散掉的继续。",
+        "claim_ids": []
+      },
+      {
+        "role": "收",
+        "original_text": "你想说说感受，我就听；不想说，我们也可以让这页停一会儿。",
+        "claim_ids": []
+      }
+    ],
+    "delivery": "按事实槽顺序插入已核实原子事实；没有事实的段落只能表达大肥鱼的感受或开放疑问。可在段落边界停下，用户说停立刻停止。",
+    "minimum_gates": [
+      "用户提出听故事或已明确同意此类主动讲述",
+      "未在紧急战斗或需专注操作时",
+      "剧透等级不超过本轮许可",
+      "材料中的角色观点保留归属"
+    ],
+    "limits": [
+      "不得添加对白、场景细节、动机或结局作为官方事实",
+      "未获取任务正文时，只讲这一梗概，不承诺完整故事"
+    ]
+  }
+]

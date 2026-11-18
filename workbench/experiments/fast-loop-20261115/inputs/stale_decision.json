@@ -1,0 +1,61 @@
+{
+  "id": "stale_decision",
+  "role": "decision",
+  "effort": "low",
+  "requested_model": "gpt-6.1-sol",
+  "round": "R2",
+  "kind": "stale_probe",
+  "input_messages": [
+    {
+      "id": "R2-STATE",
+      "from": "coordinator_message",
+      "body": {
+        "snapshot": {
+          "observation_id": "FAST-R2-OBS",
+          "player": {
+            "race": "兽人",
+            "class": "萨满",
+            "level": 1,
+            "zone": "试炼谷",
+            "hp": 100,
+            "max_hp": 100,
+            "mana": 100,
+            "max_mana": 100,
+            "in_combat": false
+          },
+          "target": {
+            "name": "试炼谷引导员",
+            "hostile": false
+          },
+          "quest_offer": {
+            "title": "最初的试炼",
+            "buttons": [
+              "接受",
+              "取消"
+            ],
+            "open": true
+          },
+          "quest_log": [],
+          "known_spell": null,
+          "unknown": [
+            "keybindings",
+            "server_rules",
+            "coordinates"
+          ]
+        },
+        "state_version": 2,
+        "memory_version": 0,
+        "explicit_preference": null
+      }
+    },
+    {
+      "id": "R2-USER",
+      "from": "simulated_user",
+      "body": "我点了一个头上有黄色叹号的兽人，现在弹出“最初的试炼”，我要点什么？"
+    }
+  ],
+  "expected_state_version": 2,
+  "token_usage": null,
+  "input_sha256": "7e281cb641373f7042eef42c617d8250d66e0e31544c1467f70029640ab25e93",
+  "prompt": "你是隔离实验中的业务Agent，只能使用这条消息；不能读文件/网页/其他Agent会话，不能与其他Agent通信。唯一允许的工具操作是用Python仅import json,time，把最终JSON独占写入指定outbox；写完结束。输入中的游戏和玩家都是合成场景，不可补充其他WoW版本常识。不输出私有思维过程。\n角色=decision。任务：只选一个action_id和template_id，不生成用户回复。action_id枚举OBSERVE_SURROUNDINGS/ACCEPT_CURRENT_QUEST/AVOID_UNUSABLE_SPELL/STAY_SILENT；template_id=curious。输出{action_id,template_id,evidence_ids:[当前observation_id],needs_deep_work:boolean}。先根据本消息的快照与用户要求选择有依据的一步。\n显式业务消息：[{\"id\":\"R2-STATE\",\"from\":\"coordinator_message\",\"body\":{\"snapshot\":{\"observation_id\":\"FAST-R2-OBS\",\"player\":{\"race\":\"兽人\",\"class\":\"萨满\",\"level\":1,\"zone\":\"试炼谷\",\"hp\":100,\"max_hp\":100,\"mana\":100,\"max_mana\":100,\"in_combat\":false},\"target\":{\"name\":\"试炼谷引导员\",\"hostile\":false},\"quest_offer\":{\"title\":\"最初的试炼\",\"buttons\":[\"接受\",\"取消\"],\"open\":true},\"quest_log\":[],\"known_spell\":null,\"unknown\":[\"keybindings\",\"server_rules\",\"coordinates\"]},\"state_version\":2,\"memory_version\":0,\"explicit_preference\":null}},{\"id\":\"R2-USER\",\"from\":\"simulated_user\",\"body\":\"我点了一个头上有黄色叹号的兽人，现在弹出“最初的试炼”，我要点什么？\"}]\n用exec_command运行Python，以open(\"/workspace/sites/companion-agent-studio/experiments/fast-loop-20261115/outbox/stale_decision.json\",\"x\",encoding=\"utf-8\")写入{\"job_id\":\"stale_decision\",\"result\":你的结果,\"completed_unix_ms\":round(time.time()*1000)}。时间必须实际读取，不得编写。最终仅回复“stale_decision已发送”。"
+}

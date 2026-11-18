@@ -1,0 +1,296 @@
+{
+  "as_of": "2026-11-18",
+  "scope": "页面数据、预算口径与模拟时序；不是游戏后端/API性能证明",
+  "checks": [
+    {
+      "name": "unique_module_and_scenario_ids",
+      "pass": true
+    },
+    {
+      "name": "all_research_sources_resolve",
+      "pass": true
+    },
+    {
+      "name": "actual_api_measurements_remain_unknown",
+      "pass": true
+    },
+    {
+      "name": "historical_rows_unchanged",
+      "pass": true
+    },
+    {
+      "name": "measured_counts_not_query_inflation",
+      "pass": true
+    },
+    {
+      "name": "spawn_chronology",
+      "pass": true
+    },
+    {
+      "name": "spawn_module_references",
+      "pass": true
+    },
+    {
+      "name": "spawn_explicit_simulation_label",
+      "pass": true
+    },
+    {
+      "name": "spawn_first_useful_equals_first_visible",
+      "pass": true
+    },
+    {
+      "name": "spawn_foreground_equals_final_text_paint",
+      "pass": true
+    },
+    {
+      "name": "spawn_gate_before_120",
+      "pass": true
+    },
+    {
+      "name": "mana_chronology",
+      "pass": true
+    },
+    {
+      "name": "mana_module_references",
+      "pass": true
+    },
+    {
+      "name": "mana_explicit_simulation_label",
+      "pass": true
+    },
+    {
+      "name": "mana_first_useful_equals_first_visible",
+      "pass": true
+    },
+    {
+      "name": "mana_foreground_equals_final_text_paint",
+      "pass": true
+    },
+    {
+      "name": "mana_gate_before_90",
+      "pass": true
+    },
+    {
+      "name": "novel_chronology",
+      "pass": true
+    },
+    {
+      "name": "novel_module_references",
+      "pass": true
+    },
+    {
+      "name": "novel_explicit_simulation_label",
+      "pass": true
+    },
+    {
+      "name": "novel_first_useful_equals_first_visible",
+      "pass": true
+    },
+    {
+      "name": "novel_foreground_equals_final_text_paint",
+      "pass": true
+    },
+    {
+      "name": "novel_gate_before_1350",
+      "pass": true
+    },
+    {
+      "name": "novel_gate_before_2300",
+      "pass": true
+    },
+    {
+      "name": "plan_chronology",
+      "pass": true
+    },
+    {
+      "name": "plan_module_references",
+      "pass": true
+    },
+    {
+      "name": "plan_explicit_simulation_label",
+      "pass": true
+    },
+    {
+      "name": "plan_first_useful_equals_first_visible",
+      "pass": true
+    },
+    {
+      "name": "plan_foreground_equals_final_text_paint",
+      "pass": true
+    },
+    {
+      "name": "plan_gate_before_140",
+      "pass": true
+    },
+    {
+      "name": "plan_gate_before_5500",
+      "pass": true
+    },
+    {
+      "name": "plan_background_after_front",
+      "pass": true
+    },
+    {
+      "name": "stale_chronology",
+      "pass": true
+    },
+    {
+      "name": "stale_module_references",
+      "pass": true
+    },
+    {
+      "name": "stale_explicit_simulation_label",
+      "pass": true
+    },
+    {
+      "name": "stale_first_useful_equals_first_visible",
+      "pass": true
+    },
+    {
+      "name": "stale_foreground_equals_final_text_paint",
+      "pass": true
+    },
+    {
+      "name": "stale_gate_before_1050",
+      "pass": true
+    },
+    {
+      "name": "quiet_chronology",
+      "pass": true
+    },
+    {
+      "name": "quiet_module_references",
+      "pass": true
+    },
+    {
+      "name": "quiet_explicit_simulation_label",
+      "pass": true
+    },
+    {
+      "name": "quiet_silence_not_zero_latency_text",
+      "pass": true
+    },
+    {
+      "name": "complex_two_front_two_optional_background_calls",
+      "pass": true
+    },
+    {
+      "name": "complex_decision_waits_for_both_tools",
+      "pass": true
+    },
+    {
+      "name": "complex_tools_overlap",
+      "pass": true
+    },
+    {
+      "name": "stale_rejected_text_never_delivered",
+      "pass": true
+    },
+    {
+      "name": "quiet_never_speaks",
+      "pass": true
+    },
+    {
+      "name": "complex_cap_arithmetic",
+      "pass": true
+    },
+    {
+      "name": "exported_data_exactly_matches_source",
+      "pass": true
+    },
+    {
+      "name": "standalone_has_no_external_scripts_or_stylesheets",
+      "pass": true
+    },
+    {
+      "name": "all_build_markers_replaced",
+      "pass": true
+    },
+    {
+      "name": "no_duplicate_static_html_ids",
+      "pass": true
+    }
+  ],
+  "passed": 52,
+  "total": 52,
+  "actual_api_test": false,
+  "actual_game_integration_test": false,
+  "browser": {
+    "date": "2026-11-18",
+    "environment": "Sites managed preview / cloud Chrome",
+    "scope": "真实浏览器验证网页交互；页面中的模型时序仍为模拟预算",
+    "checks": [
+      {
+        "name": "four_chapters_render",
+        "pass": true,
+        "observed": "8 historical rows; 6 difficulties; 8 research patterns; 14 sources"
+      },
+      {
+        "name": "clickable_module_inspector",
+        "pass": true,
+        "observed": "点击按需规划，inspector-title 变为按需规划"
+      },
+      {
+        "name": "spawn_direct_reply",
+        "pass": true,
+        "observed": "0.120 s 跳转显示一条完整 FAQ"
+      },
+      {
+        "name": "mana_conditioned_reply",
+        "pass": true,
+        "observed": "显示法力不足说明，无其他猜测"
+      },
+      {
+        "name": "novel_chunk_append",
+        "pass": true,
+        "observed": "1.35 s 首句；随后第二句追加到同一气泡；最终回复时间统一为2.3s"
+      },
+      {
+        "name": "complex_parallel_tracks",
+        "pass": true,
+        "observed": "两个查询同从2450ms开始，分居125px/158px；保守安排保留C未知"
+      },
+      {
+        "name": "stale_candidate_hidden",
+        "pass": true,
+        "observed": "内部有gate.rejected_state_changed，聊天仅显示窗口已关闭"
+      },
+      {
+        "name": "explicit_silence",
+        "pass": true,
+        "observed": "聊天只有玩家原文；第一有用交付按钮禁用"
+      },
+      {
+        "name": "play_pause_and_next_event",
+        "pass": true,
+        "observed": "下一事件0.025s；播放变暂停并可停止"
+      },
+      {
+        "name": "slider_end",
+        "pass": true,
+        "observed": "End跳到36.0s，预演最终内容保留"
+      },
+      {
+        "name": "foreground_and_background_distinguished",
+        "pass": true,
+        "observed": "5.5s前台结束/后台未开始；6.5s后台入队后显示继续"
+      },
+      {
+        "name": "json_download_matches_source",
+        "pass": true,
+        "sha256": "201e122f5a2fe365a813577b8e0c79d721d3aba454104ff20ec84370c7630937"
+      },
+      {
+        "name": "html_download_embeds_exact_source",
+        "pass": true,
+        "sha256": "2bab52de523bce9ef0c665ddfdb89d667d0f91f5f30db2e3f733cec2b10e0070"
+      }
+    ],
+    "passed": 13,
+    "total": 13,
+    "mobile_visual_test": "not_performed; responsive CSS present",
+    "real_api_latency_test": false,
+    "real_wow_integration": false,
+    "note": "浏览器扩展自身报告metadata传送错误；未将其计为应用性能数据。"
+  }
+}

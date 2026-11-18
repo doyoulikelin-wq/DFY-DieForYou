@@ -1,0 +1,24 @@
+{
+  "round": "R2",
+  "queued_unix_ms": 1794684252588.8594,
+  "accepted_unix_ms": 1794684252593.9502,
+  "delivered_unix_ms": 1794684252593.9646,
+  "foreground_ms": 5.105224609375,
+  "pending_model_jobs_at_delivery": [],
+  "result": {
+    "accepted": true,
+    "reason": "accepted",
+    "reply": "点“接受”就好呀。",
+    "action_id": "ACCEPT_CURRENT_QUEST",
+    "state_version": 2,
+    "processing_ms": 0.00776100205257535
+  },
+  "candidate": {
+    "action_id": "ACCEPT_CURRENT_QUEST",
+    "template_id": "curious",
+    "evidence_ids": [
+      "FAST-R2-OBS"
+    ],
+    "needs_deep_work": false
+  }
+}

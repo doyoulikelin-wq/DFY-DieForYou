@@ -1,0 +1,44 @@
+# 公开资料来源
+
+核对日期：2026-11-18。官方资料与公开玩家问题分开记录。
+
+- **S001** [《魔兽世界》：“无限”现已全球同步上线！](https://wow.blizzard.cn/news/24315820/index.html) · 官方参考 · 2026-11-05
+- **S002** [《魔兽世界》：“无限”，规则集由你定](https://wow.blizzard.cn/news/24302070/index.html) · 官方参考 · 2026-09-23
+- **S003** [在《魔兽世界》：“无限”中围坐于营火旁](https://wow.blizzard.cn/news/24301516/index.html) · 官方参考 · 2026-10-22
+- **S004** [深入了解《魔兽世界》：“无限”的传承系统](https://wow.blizzard.cn/news/24307383/) · 官方参考 · 2026-09-24
+- **S005** [《魔兽世界》：“无限”职业深度解析——法师与萨满祭司](https://wow.blizzard.cn/news/24302097/index.html) · 官方参考 · 2026-10-10
+- **S006** [在《魔兽世界》：“无限”中，塑造你想成为的英雄](https://wow.blizzard.cn/news/24304075/index.html) · 官方参考 · 2026-09-24
+- **S007** [《魔兽世界》：“无限”职业深度解析——潜行者与术士](https://wow.blizzard.cn/news/24310968/index.html) · 官方参考 · 2026-10-10
+- **S008** [《魔兽世界》：“无限”职业深度解析——牧师与战士](https://wow.blizzard.cn/news/24301514/) · 官方参考 · 2026-10-02
+- **S009** [《魔兽世界》：“无限”职业深度解析——猎人与德鲁伊](https://wow.blizzard.cn/news/24301515/index.html) · 官方参考 · 2026-10-05
+- **S010** [《魔兽世界》：“无限”职业深度解析——圣骑士](https://wow.blizzard.cn/news/24302099/) · 官方参考 · 2026-10-16
+- **S011** [《魔兽世界》：“无限”在线修正——11月6日](https://wow.blizzard.cn/news/24315281/) · 官方参考 · 2026-11-12
+- **S012** [Player-Level Dungeon XP Adjustment - November 14](https://us.forums.blizzard.com/en/wow/t/player-level-dungeon-xp-adjustment-november-14/2416343) · 官方参考 · 2026-11-15
+- **S013** [《魔兽世界》：“无限PVP阵营平衡更新-11月10日](https://wow.blizzard.cn/news/20261110/43836_1319283.html) · 官方参考 · 2026-11-10
+- **S014** [《魔兽世界》：“无限”PvP成长系统详解](https://wow.blizzard.cn/news/24303316/index.html) · 官方参考 · 2026-10-08
+- **S015** [探索《魔兽世界》：“无限”的手柄玩法](https://wow.blizzard.cn/news/24316974/index.html) · 官方参考 · 2026-11-05
+- **S016** [在《魔兽世界》：“无限”中重返艾泽拉斯](https://wow.blizzard.cn/news/24315643/index.html) · 官方参考 · 2026-10-30
+- **S017** [《魔兽世界》：“无限”——认识全新种族天裔](https://wow.blizzard.cn/news/24302071/index.html) · 官方参考 · 2026-09-24
+- **S018** [新手入门指南：欢迎来到《魔兽世界》：“无限”](https://wow.blizzard.cn/news/24315280/) · 官方参考 · 2026-10-30
+- **S019** [《魔兽世界》：“无限”全新地下城探秘](https://wow.blizzard.cn/news/24301455/) · 官方参考 · 2026-10-21
+- **S020** [《魔兽世界》：“无限”深度解析座谈会回顾](https://wow.blizzard.cn/news/24303313/) · 官方参考 · 2026-09-14
+- **S021** [《魔兽世界》：“无限”，角色名字由你而定](https://wow.blizzard.cn/news/24304161/) · 官方参考 · 2026-09-22
+- **S022** [《魔兽世界》：“无限”团队副本概览——位置、团队规模和开门任务](https://wow.blizzard.cn/news/24303009/) · 官方参考 · 2026-10-21
+- **S023** [《魔兽世界》：“无限”未来展望座谈会回顾](https://wow.blizzard.cn/news/24303862/index.html) · 官方参考 · 2026-09-13
+- **S024** [《魔兽世界》：“无限”违规行为治理公告](https://wow.blizzard.cn/news/20261009/43790_1316154.html) · 官方参考 · 2026-10-09
+- **S025** [Lost Training Purchase Refunds - November 13](https://us.forums.blizzard.com/en/wow/t/lost-training-purchase-refunds-november-13/2415068) · 官方参考 · 2026-11-14
+- **S026** [WoW Forever Beta Development Notes – Updated November 2](https://us.forums.blizzard.com/en/wow/t/wow-forever-beta-development-notes-%E2%80%93-updated-november-2/2360696) · 官方参考 · 2026-11-03
+- **S027** [《魔兽世界》：“无限”——“旧影拾遗”座谈会回顾](https://wow.blizzard.cn/news/24304071/index.html) · 官方参考 · 日期未明
+- **S028** [《无限》短篇故事《荣誉的代价》官方介绍](https://wow.blizzard.cn/news/24316096/index.html) · 官方参考 · 2026-11-17
+- **S029** [《无限》短篇故事《不屈》官方介绍](https://wow.blizzard.cn/news/24313105/index.html) · 官方参考 · 2026-10-27
+- **S030** [Forced World Refresh auto fails escort quests](https://us.forums.blizzard.com/en/wow/t/forced-world-refresh-auto-fails-escort-quests/2418875) · 仅发现问题 · 2026-11-17
+- **S031** [Cannot pick up The Manor, Ravenholdt quest](https://us.forums.blizzard.com/en/wow/t/cannot-pick-up-the-manor-ravenholdt-quest/2411678) · 仅发现问题 · 2026-11-11
+- **S032** [The Drowned City achievement credit report](https://us.forums.blizzard.com/en/wow/t/the-drowned-city/2412200) · 仅发现问题 · 2026-11-12
+- **S033** [Escort Quests（测试期讨论）](https://us.forums.blizzard.com/en/wow/t/escort-quests/2356665) · 仅发现问题 · 2026-09-21
+- **S034** [How are you suppose to level?](https://us.forums.blizzard.com/en/wow/t/how-are-you-suppose-to-level/2408040) · 仅发现问题 · 2026-11-09
+- **S035** [I am sorry i chose healer in forever](https://us.forums.blizzard.com/en/wow/t/i-am-sorry-i-chose-healer-in-forever/2413943) · 仅发现问题 · 2026-11-13
+- **S036** [Questing is miserable - Layers overcrowded - mobs respawn too slow](https://us.forums.blizzard.com/en/wow/t/questing-is-miserable-layers-overcrowded-mobs-respawn-too-slow/2405753) · 仅发现问题 · 2026-11-08
+- **S037** [Shaman changes](https://us.forums.blizzard.com/en/wow/t/shaman-changes/2411494) · 仅发现问题 · 2026-11-11
+- **S038** [We need to talk about Dungeon XP in Forever](https://us.forums.blizzard.com/en/wow/t/we-need-to-talk-about-dungeon-xp-in-forever/2359222) · 仅发现问题 · 日期未明
+- **S039** [Enchanting Vellums PLEASE](https://us.forums.blizzard.com/en/wow/t/enchanting-vellums-please/2390139) · 仅发现问题 · 日期未明
+- **S040** [WoW Forever adds dynamic lighting, but OCE is stuck in perpetual midnight](https://us.forums.blizzard.com/en/wow/t/wow-forever-adds-dynamic-lighting-but-oce-is-stuck-in-perpetual-midnight-fix-the-daynight-cycle/2365303) · 仅发现问题 · 日期未明

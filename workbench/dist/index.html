@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="陪伴精灵的六个 Agent 协作流程，点击模块查看职责权限、基座模型、Token、信息链路、日志和错误历史。">
+  <title>陪伴精灵 · Agent 流程图</title>
+  <style>
+    :root{--ink:#223049;--muted:#7d899b;--line:#e6ebf1;--paper:#fff;--teal:#138981;--accent:#8b5cf6;--soft:#f6f8fb;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;color:var(--ink);background:#f4f6fa;font-synthesis:none}
+    *{box-sizing:border-box}body{margin:0}button,input{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid #9ad9d3;outline-offset:3px}button{color:inherit}button:disabled{cursor:default}svg{display:block}h1,h2,h3,p{margin:0}button svg{width:17px;height:17px;stroke:currentColor;stroke-width:1.7;fill:none;stroke-linecap:round;stroke-linejoin:round}.app-header{height:78px;display:flex;justify-content:space-between;align-items:center;padding:0 30px;border-bottom:1px solid var(--line);background:rgba(255,255,255,.96);gap:18px}.brand{display:flex;align-items:center;gap:12px}.brand-mark{width:37px;height:37px;display:grid;grid-template-columns:repeat(3,5px);grid-template-rows:repeat(3,5px);gap:4px;place-content:center;transform:rotate(-12deg);background:#eef8f6;border-radius:11px}.brand-mark i{background:#82b1c1;border-radius:2px}.brand-mark i:nth-child(3n+1){background:#60b49a}.brand-mark i:nth-child(4){background:#8b73be}.brand h1{font-size:18px;font-weight:700;letter-spacing:.02em}.brand p{font-size:11px;letter-spacing:.12em;color:#8a95a4;margin-top:4px}.header-actions{display:flex;align-items:center;gap:16px}.source-status{display:flex;align-items:center;gap:7px;font-size:12px;color:#84909f}.source-status:before{content:"";width:6px;height:6px;border-radius:50%;background:#a3afbd}.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;border:1px solid #dfe6ee;border-radius:9px;background:#fff;padding:9px 12px;font-size:12px;font-weight:600;white-space:nowrap}.btn:hover{background:#f5f9f9;border-color:#b9d5d0}.workspace{display:grid;grid-template-columns:minmax(0,1fr) 390px;height:calc(100dvh - 78px);min-height:620px}.flow-area{padding:27px 24px 18px;display:flex;flex-direction:column;min-width:0;overflow:auto}.flow-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;padding:0 7px 18px}.eyebrow{font-size:10px;letter-spacing:.13em;color:#8590a1;font-weight:700;text-transform:uppercase}.flow-heading h2{font-size:23px;letter-spacing:.01em;margin:6px 0 8px}.flow-heading p{font-size:13px;color:#8390a2;line-height:1.7}.legend{display:flex;gap:15px;font-size:11px;color:#8290a1;align-items:center;padding-top:10px;white-space:nowrap}.legend span{display:flex;align-items:center;gap:6px}.legend i{width:21px;border-top:1.5px solid #a5b0c1}.legend .dashed{border-top-style:dashed}.canvas{position:relative;background:#fff;border:1px solid #e5eaf1;border-radius:19px;min-height:400px;box-shadow:0 5px 22px rgba(37,54,88,.025);background-image:radial-gradient(#dce3ed .7px,transparent .7px);background-size:19px 19px;overflow:hidden;flex:none}.graph-wrap{position:relative;width:100%;overflow:hidden}.graph-plane{position:relative;width:900px;height:640px;transform-origin:top left}.graph-svg{position:absolute;inset:0;width:900px;height:640px;pointer-events:none}.edge{fill:none;stroke:#c5cedb;stroke-width:1.7;transition:stroke .2s,opacity .2s}.edge.background{stroke-dasharray:6 5;stroke:#b4c6d0}.edge.active{stroke:var(--accent);stroke-width:2.2;opacity:.85}.edge-label{font-size:11px;fill:#8896a8;letter-spacing:.03em}.edge-label.small{font-size:10px}.node{position:absolute;width:202px;height:140px;display:flex;flex-direction:column;text-align:left;padding:18px 17px 15px;border:1px solid #dfe6ee;border-radius:15px;background:#fff;box-shadow:0 4px 13px rgba(40,56,83,.035);transition:transform .18s,border-color .18s,box-shadow .18s}.node:hover{transform:translateY(-3px);border-color:var(--node-color);box-shadow:0 8px 22px rgba(40,56,83,.08)}.node.selected{border-color:var(--node-color);box-shadow:0 0 0 3px color-mix(in srgb,var(--node-color) 10%,transparent),0 6px 22px rgba(40,56,83,.06)}.node-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:11px}.node-symbol{width:27px;height:27px;border-radius:8px;display:grid;place-content:center;background:color-mix(in srgb,var(--node-color) 10%,white);color:var(--node-color)}.node-symbol svg{width:17px;height:17px}.node-number{font-size:11px;color:#b1bac6;font-variant-numeric:tabular-nums}.node h3{font-size:17px;font-weight:650;letter-spacing:.01em;line-height:1.1}.node p{font-size:11px;color:#8793a5;margin-top:7px;line-height:1.5}.node-meta{display:flex;align-items:center;justify-content:space-between;margin-top:auto;font-size:10px;color:#a0aaba;gap:5px}.node-meta span:first-child{max-width:135px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.node-meta b{font-weight:500;color:var(--node-color)}.node[data-agent="planning"]{left:72px;top:138px}.node[data-agent="decision"]{left:346px;top:138px}.node[data-agent="review"]{left:620px;top:138px}.node[data-agent="execution"]{left:620px;top:416px}.node[data-agent="reflection"]{left:346px;top:416px}.node[data-agent="memory"]{left:72px;top:416px}.trigger{position:absolute;left:72px;top:42px;width:202px;height:42px;border:1px solid #e6ebf2;background:#f8fafd;border-radius:12px;display:flex;align-items:center;justify-content:center;gap:8px;font-size:12px;color:#77869b}.trigger svg{width:15px;height:15px;stroke:currentColor;stroke-width:1.7;fill:none}.phase-note{position:absolute;left:346px;top:53px;font-size:11px;color:#9aa5b6;line-height:1.7}.background-group{position:absolute;left:56px;top:375px;width:508px;height:200px;background:#f2f7f680;border:1px solid #e5eee9;border-radius:19px}.group-title{position:absolute;top:389px;left:76px;font-size:11px;color:#81a297;letter-spacing:.04em}.graph-help{border-top:1px solid #edf1f5;background:rgba(255,255,255,.95);padding:14px 20px;color:#8995a6;font-size:11px;line-height:1.8;display:flex;gap:8px}.graph-help svg{width:14px;height:14px;flex:none;stroke:#9caaba;stroke-width:1.6;fill:none;margin-top:3px}.footer-note{padding:14px 7px 0;display:flex;align-items:center;justify-content:space-between;gap:15px;color:#98a2b2;font-size:10px;line-height:1.7}.save-indicator{white-space:nowrap}.save-indicator:before{content:"";display:inline-block;margin-right:6px;width:5px;height:5px;border-radius:50%;background:#8bb6a6}.detail-panel{background:#fff;border-left:1px solid var(--line);min-width:0;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:#dfe6ed transparent}.detail-header{padding:28px 27px 23px;border-bottom:1px solid var(--line);position:relative;background:linear-gradient(150deg,color-mix(in srgb,var(--accent) 5%,white),#fff 75%)}.detail-title{display:flex;align-items:center;justify-content:space-between;gap:12px}.detail-header .module-type{font-size:10px;color:var(--accent);font-weight:650;letter-spacing:.08em;margin-bottom:12px;display:flex;align-items:center;gap:6px}.module-type:before{content:"";width:6px;height:6px;border-radius:50%;background:var(--accent)}.detail-header h2{font-size:23px;letter-spacing:.01em;font-weight:650}.detail-header p{font-size:12px;line-height:1.9;color:#7d899a;margin-top:11px}.route-tag{margin-top:14px;display:inline-flex;border:1px solid color-mix(in srgb,var(--accent) 16%,white);color:var(--accent);background:color-mix(in srgb,var(--accent) 5%,white);padding:5px 8px;border-radius:5px;font-size:10px}.close-panel{display:none;border:0;background:#f2f4f8;border-radius:8px;padding:7px}.section{margin:0 27px;padding:22px 0;border-bottom:1px solid #edf0f5}.section:last-child{border:0;padding-bottom:35px}.section-title{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:13px}.section-title h3{font-size:13px;font-weight:650;letter-spacing:.02em}.section-title .section-hint{font-size:10px;color:#9ba6b5}.mini-label{color:#9ba6b5;font-size:10px;margin-bottom:7px}.detail-list{margin:0;padding-left:14px;color:#657388;font-size:12px;line-height:1.9}.detail-list li{padding-left:2px;margin:3px 0}.permission-box{background:#f7f9fc;border-radius:10px;padding:12px 14px;margin-top:14px}.permission-box .detail-list{font-size:11px}.boundaries{margin-top:10px;color:#939eae;font-size:10px;line-height:1.85}.model-input{display:block;width:100%;border:1px solid #e2e8ef;border-radius:8px;padding:10px 11px;color:#44536b;background:#fbfcfe;font-size:12px;line-height:1.5}.model-input:hover{border-color:#c4d0dd}.model-input::placeholder{color:#a3adba}.model-note{font-size:10px;line-height:1.8;color:#9aa5b4;margin-top:8px}.token-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}.token-box{background:#f7f9fc;border-radius:9px;padding:11px 10px}.token-box b{display:block;font-size:20px;font-weight:550;font-variant-numeric:tabular-nums;color:#45556e;line-height:1.2}.token-box span{display:block;font-size:10px;color:#98a3b3;margin-top:6px}.no-record{font-size:10px;color:#9ba6b4;margin-top:9px}.link-list{display:flex;flex-direction:column;gap:9px}.link-item{padding-left:10px;border-left:2px solid #e6ebf3;font-size:11px;line-height:1.8}.link-name{color:#56677f;font-weight:500}.link-item p{color:#8c98a9;font-size:10px}.output-list{margin-top:15px}.parallel-note{font-size:10px;color:#6f968a;background:#f3f8f6;padding:9px 11px;line-height:1.8;border-radius:7px;margin-top:13px}.demo-badge{font-size:9px;padding:3px 6px;border-radius:4px;background:#f6f1e8;color:#b19768;font-weight:500}.log-row{border-left:1px solid #e5eaf2;padding:0 0 13px 12px;position:relative;margin-left:3px}.log-row:last-child{padding-bottom:0}.log-row:before{content:"";position:absolute;left:-3px;top:5px;width:5px;height:5px;border-radius:50%;background:#bdcad9}.log-time{font-size:10px;color:#a4adba;font-variant-numeric:tabular-nums}.log-row p{font-size:11px;color:#758297;line-height:1.8;margin-top:4px}.empty-state{font-size:11px;color:#9ba5b3;line-height:1.8}.error-card{border:1px solid #eee7df;border-radius:9px;overflow:hidden;background:#fffcf9}.error-card summary{padding:11px 12px;cursor:pointer;list-style:none;display:flex;align-items:flex-start;gap:8px;font-size:11px;line-height:1.7;color:#8a7b6b}.error-card summary::-webkit-details-marker{display:none}.error-dot{width:6px;height:6px;margin-top:6px;border-radius:50%;background:#d3b992;flex:none}.error-chevron{margin-left:auto;color:#beaf9e;transition:transform .2s}.error-card[open] .error-chevron{transform:rotate(90deg)}.error-detail{padding:0 13px 13px;font-size:10px;line-height:1.85;color:#928775}.error-code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:9px;margin-bottom:8px;color:#afa18e;word-break:break-word}.error-detail dl{display:grid;grid-template-columns:30px 1fr;column-gap:8px;row-gap:6px;margin:0}.error-detail dt{color:#b0a391}.error-detail dd{margin:0}.mobile-backdrop{display:none}.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#26364c;color:white;border-radius:10px;padding:12px 18px;font-size:12px;box-shadow:0 8px 30px #23324b20;z-index:20;max-width:90vw;line-height:1.7}.mobile-arrow,.mobile-loop{display:none}
+    @media(min-width:1600px){.workspace{grid-template-columns:minmax(0,1fr) 420px}.flow-area{padding:34px 40px}.canvas{max-width:1100px;width:100%;align-self:center}.flow-heading,.footer-note{width:100%;max-width:1100px;align-self:center}.detail-header{padding-top:34px}}
+    @media(max-width:1120px){.workspace{display:block}.flow-area{height:100%;padding:23px}.canvas{max-width:960px;width:100%;align-self:center}.flow-heading,.footer-note{width:100%;max-width:960px;align-self:center}.detail-panel{position:fixed;right:0;top:0;bottom:0;width:390px;z-index:12;transform:translateX(101%);transition:transform .2s;box-shadow:-10px 0 50px #20304812}.panel-open .detail-panel{transform:translateX(0)}.close-panel{display:block}.panel-open .mobile-backdrop{display:block;position:fixed;inset:0;background:#14233930;backdrop-filter:blur(2px);z-index:11}.source-status{font-size:11px}.detail-header{padding-top:25px}}
+    @media(max-width:600px){.app-header{height:68px;padding:0 16px}.brand h1{font-size:15px}.brand p{font-size:9px}.brand-mark{width:32px;height:32px}.header-actions{gap:8px}.source-status{display:none}.btn{font-size:11px;padding:8px}.workspace{height:calc(100dvh - 68px);min-height:0}.flow-area{padding:20px 15px 15px}.flow-heading{padding:0 4px 15px}.flow-heading h2{font-size:21px}.flow-heading p{font-size:11px}.legend{display:none}.graph-wrap{height:auto!important}.graph-plane{width:auto;height:auto;transform:none!important;padding:25px 25px 28px;display:flex;flex-direction:column;align-items:center}.graph-svg,.background-group,.group-title,.phase-note{display:none}.trigger{position:static;width:100%;height:39px;margin-bottom:27px}.node{position:relative!important;inset:auto!important;width:100%;height:128px;flex:none;margin-bottom:31px;padding:16px 18px}.node-head{margin-bottom:9px}.node h3{font-size:17px}.node p{font-size:11px}.node:after{content:"↓";position:absolute;left:50%;bottom:-27px;transform:translateX(-50%);color:#b4c1d0;font-size:20px}.node:last-of-type{margin-bottom:0}.node:last-of-type:after{display:none}.node-meta{font-size:10px}.mobile-loop{display:block;font-size:10px;color:#8f9cad;margin-top:20px}.graph-help{padding:12px 16px;font-size:10px}.footer-note{font-size:9px;align-items:flex-start}.detail-panel{width:100%;max-width:440px}.detail-header{padding:23px 24px 20px}.section{margin:0 24px}.detail-header h2{font-size:23px}}
+    @media(max-width:600px){#nodes{width:100%}}
+    @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+  @media(max-width:1100px){.app-header{height:auto;min-height:78px;flex-wrap:wrap;padding-top:15px;padding-bottom:15px}.header-actions{flex-wrap:wrap;gap:8px}.header-actions .source-status{display:none}}
+</style>
+</head>
+<body>
+  <header class="app-header">
+    <div class="brand"><div class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div><h1>陪伴精灵</h1><p>AGENT FLOW</p></div></div>
+    <div class="header-actions"><span class="source-status">架构示意 · 尚未接入运行数据</span><a class="btn" id="streaming-plan-link" href="streaming-plan.html" style="text-decoration:none">Streaming 提速方案</a><a class="btn" id="natural-test-link" href="natural-test.html" style="text-decoration:none">本轮链路实测</a><a class="btn" id="latency-design-link" href="latency-design.html" style="text-decoration:none">提速与自然感设计</a><a class="btn" id="experiment-link" href="fast-experiment.html" style="text-decoration:none">快速交付实测</a><button type="button" class="btn" id="download-html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m-5-5 5 5 5-5M5 17v4h14v-4"/></svg>下载 HTML</button></div>
+  </header>
+  <main class="workspace">
+    <section class="flow-area" aria-label="Agent 协作流程">
+      <div class="flow-heading"><div><div class="eyebrow">SIX AGENTS · ONE COMPANION</div><h2>协作流程</h2><p>点击模块，查看职责、模型、信息链路与运行记录。</p></div><div class="legend" aria-label="连线说明"><span><i></i>本轮先后</span><span><i class="dashed"></i>后台 / 下一轮</span></div></div>
+      <div class="canvas">
+        <div class="graph-wrap" id="graph-wrap"><div class="graph-plane" id="graph-plane">
+          <div class="background-group" aria-hidden="true"></div><div class="group-title">后台静默整理</div>
+          <svg class="graph-svg" viewBox="0 0 900 640" aria-hidden="true">
+            <defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M1 1l5 3-5 3" fill="none" stroke="#b7c2d0" stroke-width="1.3"/></marker><marker id="active-arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M1 1l5 3-5 3" fill="none" stroke="var(--accent)" stroke-width="1.3"/></marker></defs>
+            <path class="edge" data-link="planning" d="M173 84V130" marker-end="url(#arrow)"/>
+            <path class="edge" data-link="planning decision" d="M274 208H338" marker-end="url(#arrow)"/>
+            <path class="edge" data-link="decision review" d="M548 208H612" marker-end="url(#arrow)"/>
+            <path class="edge" data-link="review execution" d="M721 278V408" marker-end="url(#arrow)"/>
+            <path class="edge" data-link="execution reflection" d="M620 486H556" marker-end="url(#arrow)"/>
+            <path class="edge" data-link="reflection memory" d="M346 486H282" marker-end="url(#arrow)"/>
+            <path class="edge background" data-link="execution memory" d="M721 556V592Q721 604 709 604H185Q173 604 173 592V564" marker-end="url(#arrow)"/>
+            <path class="edge background" data-link="memory planning" d="M72 486H43Q31 486 31 474V220Q31 208 43 208H64" marker-end="url(#arrow)"/>
+            <path class="edge background" data-link="review decision" d="M721 138V115Q721 103 709 103H459Q447 103 447 115V130" marker-end="url(#arrow)"/>
+            <text class="edge-label" x="310" y="194" text-anchor="middle">任务链路</text><text class="edge-label" x="584" y="194" text-anchor="middle">具体表达</text>
+            <text class="edge-label" x="739" y="344">审核通过</text><text class="edge-label" x="588" y="473" text-anchor="middle">实际反馈</text>
+            <text class="edge-label small" x="313" y="469" text-anchor="middle">审核后的</text><text class="edge-label small" x="313" y="511" text-anchor="middle">更新建议</text>
+            <text class="edge-label" x="448" y="627" text-anchor="middle">事实可以先并行整理，最终更新等待审核</text>
+            <text class="edge-label" x="18" y="352" text-anchor="middle" transform="rotate(-90 18 352)">记忆供下一轮读取</text>
+            <text class="edge-label small" x="585" y="91" text-anchor="middle">未通过，返回修改</text>
+          </svg>
+          <div class="trigger"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.4 8.4 0 0 1 3.8-.9H13a8.5 8.5 0 0 1 8 8v.5Z"/></svg>用户 / 场景事件</div>
+          <div class="phase-note">规划可选择需要的模块，安排并发与先后。</div>
+          <div id="nodes"></div>
+          <div class="mobile-loop">↻ 记忆供下一轮读取 · 事实整理可与反思并行</div>
+        </div></div>
+        <div class="graph-help"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6m0-10h.01"/></svg><span>本图展示职责关系。具体任务由规划按需组织；审核、发布前检查和记忆版本检查始终保留。</span></div>
+      </div>
+      <div class="footer-note"><span>6 类 Agent · 点击查看，不代表每次都调用全部模块</span><span class="save-indicator" id="save-status">模型配置保存在当前浏览器</span></div>
+    </section>
+    <aside class="detail-panel" id="detail-panel" aria-label="模块详情"></aside>
+  </main>
+  <button class="mobile-backdrop" id="mobile-backdrop" aria-label="关闭模块详情" type="button"></button>
+  <div id="toast-root" role="status" aria-live="polite"></div>
+  <script type="application/json" id="document-seed">{}</script>
+  <script>
+(function () {
+  'use strict';
+  window.CompanionSimpleData = {
+    schemaVersion: 1,
+    note: '职责与链路为设计方案；模型尚未选择，Token 尚未采集，日志和错误历史均为示例。',
+    agents: [
+      {
+        id: 'planning', title: '规划 Agent', subtitle: '决定调用谁、如何配合', color: '#8b5cf6', thinking: '重思考 · 按需调用',
+        summary: '把本轮目标拆成所需任务，明确先后、并发和结束条件。',
+        duties: ['明确本轮目标、可用时间和停止条件。', '选择需要的 Agent，说明哪些可以复用或跳过。', '安排任务依赖，标明可以并发的工作。'],
+        powers: ['启用或跳过可选任务，复用仍然有效的结果。', '提出任务链路、调用预算与并发安排。'],
+        limits: ['不能删除内容审核、发布前检查等必要环节。', '不能直接发言、执行动作或修改人物核心设定。'],
+        model: { name: '待选择', route: '复杂目标使用重思考；已有有效计划时可以跳过。' },
+        tokens: { input: null, output: null, source: '未接入真实运行' },
+        inputs: [{ from: '用户 / 场景事件', data: '本轮目标、当前状态与明确要求。' }, { from: '记忆整理 Agent', data: '相关经历、偏好和可复用计划。' }],
+        outputs: [{ to: '决策 Agent', data: '任务清单、依赖顺序、调用理由与预算。' }],
+        parallel: '可以与独立的资料读取并发；需要这些结果的决策必须等待。',
+        logs: [{ time: '示例 00:00.000', level: 'info', message: '接收复盘目标，确认当前没有可复用计划。', run: 'DEMO-001' }, { time: '示例 00:01.700', level: 'info', message: '生成链路：资料可并行读取，决策等待资料齐备。', run: 'DEMO-001' }],
+        errors: [{ time: '示例 00:01.300', code: 'DEPENDENCY_CYCLE', message: '候选任务链路出现循环依赖。', cause: '两项任务互相等待对方结果。', fix: '移除错误依赖，重新通过链路检查后再执行。', status: '已处理（示例）' }]
+      },
+      {
+        id: 'decision', title: '决策 Agent', subtitle: '选择本轮行为与表达', color: '#3184f5', thinking: '轻 / 重思考 · 按需路由',
+        summary: '结合人物性格、计划和当前情境，选择回应、等待、试探或保持安静。',
+        duties: ['判断此刻是否适合介入，并选择具体行动。', '按复杂程度与不确定性选择思考档位。', '准备行动意图和即将输出的候选表达。'],
+        powers: ['在获准选项中选择、推迟或放弃行动。', '请求必要资料，或把复杂问题升级为重思考。'],
+        limits: ['候选表达必须交给审核，不能直接对用户输出。', '人物性格影响行为选择，不得改变已确定的权限边界。'],
+        model: { name: '待选择', route: '熟悉场景走规则或轻思考；复杂、冲突或信息不足时用重思考。' },
+        tokens: { input: null, output: null, source: '未接入真实运行' },
+        inputs: [{ from: '规划 Agent', data: '目标、候选路径、所需资料与剩余预算。' }, { from: '记忆整理 Agent', data: '人物设定、相关偏好与历史事实。' }, { from: '用户 / 场景事件', data: '最新要求、场景变化和互动时机。' }],
+        outputs: [{ to: '审核 Agent', data: '选定行动、具体候选表达与选择依据。' }],
+        parallel: '决策要等待本次必需的信息；与当前行动无关的后台整理可以继续。',
+        logs: [{ time: '示例 00:01.700', level: 'info', message: '计划与资料已齐备，开始比较本轮候选行动。', run: 'DEMO-001' }, { time: '示例 00:02.800', level: 'info', message: '选择简短回应，并提交具体表达供审核。', run: 'DEMO-001' }],
+        errors: [{ time: '示例 00:02.200', code: 'MISSING_CONTEXT', message: '缺少选择行动所需的信息。', cause: '必需资料未返回，无法判断行动是否适合当前场景。', fix: '等待资料；超过截止时间时放弃本轮行动。', status: '已处理（示例）' }]
+      },
+      {
+        id: 'review', title: '审核 Agent', subtitle: '检查内容与更新依据', color: '#e5a037', thinking: '规则优先 · 轻思考',
+        summary: '检查真正准备输出的内容，以及后台准备写入的更新建议。',
+        duties: ['核对具体表达、行动权限和用户明确要求。', '必要时检查语义与当前情境是否冲突。', '核对记忆更新的证据、适用范围与有效性。'],
+        powers: ['通过、退回修改或拒绝本次内容与更新。', '指出违反的规则和需要修正的具体部分。'],
+        limits: ['不能自行放宽规则或增加执行权限。', '内容修改后必须重新审核，不能沿用旧通过结果。'],
+        model: { name: '待选择', route: '确定性条件由规则检查；语义与情境判断按需用轻思考。' },
+        tokens: { input: null, output: null, source: '未接入真实运行' },
+        inputs: [{ from: '决策 Agent', data: '即将输出的具体内容、行动意图与依据。' }, { from: '反馈反思 Agent / 记忆整理 Agent', data: '待写入的更新建议、来源与适用范围。' }],
+        outputs: [{ to: '执行 Agent', data: '已批准的内容与执行范围，或拒绝原因。' }, { to: '记忆整理 Agent', data: '已审核的更新建议，或退回修改意见。' }],
+        parallel: '可独立审核不同任务；同一任务必须先有具体内容，再审核，再执行。',
+        logs: [{ time: '示例 00:02.800', level: 'info', message: '开始核对候选表达、当前要求和行动权限。', run: 'DEMO-001' }, { time: '示例 00:02.980', level: 'info', message: '审核通过，将批准内容交给执行。', run: 'DEMO-001' }],
+        errors: [{ time: '示例 00:02.900', code: 'CONTENT_REJECTED', message: '候选表达与用户的明确要求冲突。', cause: '用户要求简短回应，草稿仍包含多次追问。', fix: '退回精简，并重新审核修改后的完整内容。', status: '已处理（示例）' }]
+      },
+      {
+        id: 'execution', title: '执行 Agent', subtitle: '输出批准内容并记录结果', color: '#12a991', thinking: '规则执行 · 必要时轻思考',
+        summary: '按审核结果输出文字、声音或动作，并记录是否真正送达。',
+        duties: ['在发布前状态检查通过后执行获准行动。', '保持输出内容与审核版本一致。', '记录实际输出、送达状态和失败原因。'],
+        powers: ['通过获准的渠道输出内容或执行动作。', '遇到停止指令、情境失效或送达失败时结束本轮执行。'],
+        limits: ['不能自行更改已审核内容；需要改动时返回审核。', '不能发起额外互动，也不能把未送达当作已送达。'],
+        model: { name: '待选择', route: '按批准内容输出以程序执行为主；必要的格式转换可用轻思考。' },
+        tokens: { input: null, output: null, source: '未接入真实运行' },
+        inputs: [{ from: '审核 Agent', data: '已批准的具体内容、版本与执行范围。' }, { from: '用户 / 场景事件', data: '发布前最新状态、停止要求与互动额度。' }],
+        outputs: [{ to: '用户', data: '本次获准的表达或动作。' }, { to: '反馈反思 Agent / 记忆整理 Agent', data: '实际输出、送达回执与对应事件标识。' }],
+        parallel: '完成前台交付后，反馈反思与事实整理可在后台并行；本轮回应无需等待它们。',
+        logs: [{ time: '示例 00:03.020', level: 'info', message: '发布前检查通过，按批准内容开始输出。', run: 'DEMO-001' }, { time: '示例 00:03.110', level: 'info', message: '记录已送达回执，交付本轮实际输出。', run: 'DEMO-001' }],
+        errors: [{ time: '示例 00:03.080', code: 'DELIVERY_FAILED', message: '内容没有实际送达。', cause: '输出渠道不可用或任务已被取消。', fix: '记录未送达，不消耗试探额度，也不生成偏好学习样本。', status: '已处理（示例）' }]
+      },
+      {
+        id: 'reflection', title: '反馈反思 Agent', subtitle: '在后台理解反馈与改进', color: '#d866b4', thinking: '重思考 · 后台静默',
+        summary: '根据真实发生的互动与反馈，提出有证据的改进建议。',
+        duties: ['判断反馈指向内容、态度、时机还是功能。', '保留替代解释与不确定性，避免过度归因。', '提出下一轮可验证的改进或低打扰试探问题。'],
+        powers: ['提出策略、偏好或互动方式的更新建议。', '建议保留未知、补充证据或暂缓学习。'],
+        limits: ['不能主动发言或直接覆盖长期记忆。', '没有回应保持未知，不能自动解释为讨厌或负反馈。'],
+        model: { name: '待选择', route: '纠正、冲突或阶段结束后使用重思考；普通互动可只记录。' },
+        tokens: { input: null, output: null, source: '未接入真实运行' },
+        inputs: [{ from: '执行 Agent', data: '实际送达的内容、时间与执行结果。' }, { from: '用户 / 场景事件', data: '用户原话、明确反馈与后续场景变化。' }, { from: '记忆整理 Agent', data: '相关历史事实、偏好和现有版本。' }],
+        outputs: [{ to: '审核 Agent', data: '更新建议、证据、置信程度与适用范围。' }, { to: '记忆整理 Agent', data: '待审核的反思草案；通过审核后才可提交更新。' }],
+        parallel: '可与记忆模块的事实整理并行；最终偏好或策略更新要等待建议审核。',
+        logs: [{ time: '示例 00:03.710', level: 'info', message: '读取本轮送达回执；暂未获得明确回应。', run: 'DEMO-001' }, { time: '示例 00:05.610', level: 'info', message: '反馈保持未知，建议仅归档事实，不更新长期偏好。', run: 'DEMO-001' }],
+        errors: [{ time: '示例 00:04.200', code: 'EVIDENCE_MISSING', message: '反思引用的事件证据缺失。', cause: '建议无法关联到实际输出或用户原话。', fix: '撤回无依据推断，保留待核实问题；补齐证据后再分析。', status: '已处理（示例）' }]
+      },
+      {
+        id: 'memory', title: '记忆整理 Agent', subtitle: '保存有来源、可追溯的记忆', color: '#6374db', thinking: '轻思考 · 规则提交',
+        summary: '区分事实、明确偏好和暂定假设，为下一轮提供可靠上下文。',
+        duties: ['按当前情境读取相关记忆与人物设定。', '整理本轮事实和原话，处理重复与冲突。', '保存来源、适用范围和版本，受控提交审核后的更新。'],
+        powers: ['提出新增、合并、过期或待核实的记忆整理建议。', '在审核与版本检查通过后提交更新，供下一轮读取。'],
+        limits: ['不能把暂定假设升级为已确认事实。', '旧版本不得覆盖新指令；最终提交保持单一写入顺序。'],
+        model: { name: '待选择', route: '读取和整理使用轻思考；版本检查与写入由程序完成。' },
+        tokens: { input: null, output: null, source: '未接入真实运行' },
+        inputs: [{ from: '执行 Agent / 用户', data: '实际发生的事件、送达回执和用户原话。' }, { from: '反馈反思 Agent', data: '待核实的解释与更新建议。' }, { from: '审核 Agent', data: '已通过审核的更新内容与适用范围。' }],
+        outputs: [{ to: '规划 Agent / 决策 Agent', data: '下一轮所需的人物设定、相关事实与有效偏好。' }, { to: '反馈反思 Agent', data: '可追溯的历史证据与版本信息。' }],
+        parallel: '可先与反思并行整理事实；最终更新等待建议审核，并按版本顺序提交。',
+        logs: [{ time: '示例 00:03.710', level: 'info', message: '开始整理送达事实，与后台反思并行。', run: 'DEMO-001' }, { time: '示例 00:05.950', level: 'info', message: '审核与版本检查通过，仅归档事实，供下一轮读取。', run: 'DEMO-001' }],
+        errors: [{ time: '示例 00:05.900', code: 'VERSION_CONFLICT', message: '更新所依据的记忆版本已过期。', cause: '后台整理期间，用户给出了更新的明确要求。', fix: '保留新指令，将旧建议标为待重算，不覆盖现有记忆。', status: '已处理（示例）' }]
+      }
+    ]
+  };
+}());
+
+</script>
+  <script>
+(function(){
+  'use strict';
+  const data=window.CompanionSimpleData;
+  const $=s=>document.querySelector(s);
+  const esc=v=>String(v==null?'':v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const icons={planning:'M5 4h14v5H5z M5 15h5v5H5z M14 15h5v5h-5z M12 9v3H7v3 M12 12h5v3',decision:'M12 3v5 M12 8l-7 7m7-7 7 7 M5 11v4h4m6 0h4v-4 M12 8v13',review:'M12 3l8 4v5c0 5-8 9-8 9s-8-4-8-9V7z M8 12l3 3 5-6',execution:'M13 3L4 14h7l-1 7 10-12h-7z',reflection:'M4 10a8 8 0 1 1 1 7 M4 4v6h6 M12 8v5l3 2',memory:'M4 5c0-2 16-2 16 0v14c0 2-16 2-16 0z M4 5c0 2 16 2 16 0 M4 12c0 2 16 2 16 0'};
+  const icon=id=>`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="${icons[id]}"></path></svg>`;
+  const shortTitle=id=>data.agents.find(a=>a.id===id).title.replace(' Agent','');
+  let seed={};try{seed=JSON.parse($('#document-seed').textContent)||{};}catch(_){}
+  const docId=typeof seed.docId==='string'?seed.docId:'companion-flow-v2';
+  const storageKey='companion-simple:'+docId;
+  let modelNames={...(seed.models||{})},storageAvailable=true,selected='planning';
+  try{const stored=JSON.parse(localStorage.getItem(storageKey)||'null');if(stored&&stored.models&&typeof stored.models==='object')modelNames={...modelNames,...stored.models};}catch(_){storageAvailable=false;}
+  const modelName=id=>typeof modelNames[id]==='string'?modelNames[id].trim().slice(0,180):'';
+  const tokens=v=>typeof v==='number'&&Number.isFinite(v)&&v>=0?v.toLocaleString('zh-CN'):'—';
+  function save(){try{localStorage.setItem(storageKey,JSON.stringify({models:modelNames}));storageAvailable=true;}catch(_){storageAvailable=false;}$('#save-status').textContent=storageAvailable?'模型配置已保存于当前浏览器':'请下载 HTML 保存当前配置';}
+  function drawNodes(){
+    $('#nodes').innerHTML=data.agents.map((a,i)=>`<button type="button" class="node ${a.id===selected?'selected':''}" style="--node-color:${a.color}" data-agent="${a.id}" aria-label="查看${esc(a.title)}详情" aria-pressed="${a.id===selected}"><div class="node-head"><span class="node-symbol">${icon(a.id)}</span><span class="node-number">0${i+1}</span></div><h3>${esc(shortTitle(a.id))}</h3><p>${esc(a.subtitle)}</p><div class="node-meta"><span data-model-label="${a.id}">${esc(modelName(a.id)||'基座模型待选择')}</span><b>${a.id==='planning'?'按需调用':a.id==='decision'?'轻 / 重':a.id==='review'?'规则优先':a.id==='execution'?'轻执行':a.id==='reflection'?'重思考':'轻整理'}</b></div></button>`).join('');
+  }
+  function list(items){return`<ul class="detail-list">${items.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`;}
+  function links(items,kind){return`<div class="link-list">${items.map(x=>`<div class="link-item"><div class="link-name">${esc(x[kind])}</div><p>${esc(x.data)}</p></div>`).join('')}</div>`;}
+  function renderDetails(){
+    const a=data.agents.find(a=>a.id===selected);
+    const total=typeof a.tokens.input==='number'&&typeof a.tokens.output==='number'?a.tokens.input+a.tokens.output:null;
+    const idx=data.agents.indexOf(a)+1;
+    $('#detail-panel').innerHTML=`<div class="detail-header"><div class="module-type">MODULE 0${idx} · 模块详情</div><div class="detail-title"><h2 id="detail-title">${esc(a.title)}</h2><button type="button" class="close-panel" aria-label="关闭详情"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M6 18L18 6"/></svg></button></div><p>${esc(a.summary)}</p><div class="route-tag">${esc(a.thinking)}</div></div>
+      <section class="section"><div class="section-title"><h3>职责与权限</h3></div>${list(a.duties)}<div class="permission-box"><div class="mini-label">可以做什么</div>${list(a.powers)}</div><div class="boundaries"><b>权限边界</b> · ${a.limits.map(esc).join(' ')}</div></section>
+      <section class="section"><div class="section-title"><h3><label for="model-name">基座模型</label></h3><span class="section-hint" id="model-save-state">可填写，自动保存</span></div><input class="model-input" id="model-name" type="text" maxlength="180" value="${esc(modelName(a.id))}" placeholder="${esc(a.model.name)} · 填写模型名称" autocomplete="off"><p class="model-note">${esc(a.model.route)}</p></section>
+      <section class="section"><div class="section-title"><h3>Token 消耗</h3><span class="section-hint">本次调用</span></div><div class="token-grid"><div class="token-box"><b>${tokens(a.tokens.input)}</b><span>输入 Token</span></div><div class="token-box"><b>${tokens(a.tokens.output)}</b><span>输出 Token</span></div><div class="token-box"><b>${tokens(total)}</b><span>合计</span></div></div><p class="no-record">${esc(a.tokens.source)}，暂不显示估算数值。</p></section>
+      <section class="section"><div class="section-title"><h3>信息链路</h3></div><div class="mini-label">输入来自</div>${links(a.inputs,'from')}<div class="output-list"><div class="mini-label">输出给谁</div>${links(a.outputs,'to')}</div><div class="parallel-note">${esc(a.parallel)}</div></section>
+      <section class="section"><div class="section-title"><h3>运行日志 <span style="color:#a3adba;font-weight:400">Log</span></h3><span class="demo-badge">格式示例</span></div>${a.logs.length?a.logs.map(l=>`<div class="log-row"><div class="log-time">${esc(l.time)} · ${esc(l.level.toUpperCase())}</div><p>${esc(l.message)}</p></div>`).join(''):'<p class="empty-state">暂无运行日志。</p>'}<p class="no-record">示例记录 ${esc(a.logs[0]?.run||'')}，不代表真实调用。</p></section>
+      <section class="section"><div class="section-title"><h3>错误历史</h3><span class="demo-badge">格式示例</span></div>${a.errors.length?a.errors.map(e=>`<details class="error-card"><summary><span class="error-dot"></span><span>${esc(e.message)}</span><span class="error-chevron">›</span></summary><div class="error-detail"><div class="error-code">${esc(e.time)} · ${esc(e.code)}</div><dl><dt>原因</dt><dd>${esc(e.cause)}</dd><dt>处理</dt><dd>${esc(e.fix)}</dd><dt>状态</dt><dd>${esc(e.status)}</dd></dl></div></details>`).join(''):'<p class="empty-state">暂无错误记录。</p>'}</section>`;
+    $('#detail-panel').scrollTop=0;
+  }
+  function highlight(){
+    const a=data.agents.find(a=>a.id===selected);document.documentElement.style.setProperty('--accent',a.color);
+    document.querySelectorAll('.node').forEach(n=>{n.classList.toggle('selected',n.dataset.agent===selected);n.setAttribute('aria-pressed',String(n.dataset.agent===selected));});
+    document.querySelectorAll('.edge').forEach(e=>{const active=e.dataset.link.split(' ').includes(selected);e.classList.toggle('active',active);e.setAttribute('marker-end',active?'url(#active-arrow)':'url(#arrow)');});
+  }
+  function select(id,open=true){if(!data.agents.some(a=>a.id===id))return;selected=id;highlight();renderDetails();if(open)document.body.classList.add('panel-open');}
+  function close(){document.body.classList.remove('panel-open');const n=document.querySelector(`.node[data-agent="${selected}"]`);if(n)n.focus({preventScroll:true});}
+  function fit(){if(window.innerWidth<=600){$('#graph-plane').style.transform='none';$('#graph-wrap').style.height='auto';return;}const w=$('#graph-wrap').clientWidth;const scale=Math.min(w/900,1.15);$('#graph-plane').style.transform=`translateX(${Math.max(0,(w-900*scale)/2)}px) scale(${scale})`;$('#graph-wrap').style.height=`${640*scale}px`;}
+  function toast(text){const el=document.createElement('div');el.className='toast';el.textContent=text;$('#toast-root').appendChild(el);setTimeout(()=>el.remove(),3800);}
+  function download(){
+    const root=document.documentElement.cloneNode(true);
+    root.querySelector('#experiment-link')?.remove();
+    root.querySelector('#document-seed').textContent=JSON.stringify({docId:'flow-'+Date.now().toString(36),models:modelNames}).replace(/</g,'\\u003c');
+    root.querySelector('body').classList.remove('panel-open');root.querySelector('#toast-root').innerHTML='';
+    const blob=new Blob(['<!doctype html>\n'+root.outerHTML],{type:'text/html;charset=utf-8'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='陪伴精灵-Agent流程图.html';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);toast('已下载 HTML，包含当前模型配置。');
+  }
+  document.addEventListener('click',e=>{const node=e.target.closest('[data-agent]');if(node)select(node.dataset.agent);if(e.target.closest('.close-panel')||e.target.id==='mobile-backdrop')close();});
+  document.addEventListener('input',e=>{if(e.target.id!=='model-name')return;modelNames[selected]=e.target.value.slice(0,180);save();const label=document.querySelector(`[data-model-label="${selected}"]`);if(label)label.textContent=modelName(selected)||'基座模型待选择';$('#model-save-state').textContent=storageAvailable?'已保存':'下载 HTML 可保存';});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')close();});
+  $('#download-html').addEventListener('click',download);
+  drawNodes();select('planning',false);fit();
+  if(typeof ResizeObserver!=='undefined'){new ResizeObserver(fit).observe($('#graph-wrap'));}else window.addEventListener('resize',fit);
+  if(!storageAvailable)$('#save-status').textContent='请下载 HTML 保存当前配置';
+}());
+
+</script>
+</body>
+</html>

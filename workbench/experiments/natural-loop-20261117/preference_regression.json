@@ -1,0 +1,158 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-17T11:38:44.480273+00:00",
+  "purpose": "Reproduce historical preference snapshot versus current instruction scope regression without changing runtime or run-03.",
+  "method": "Two independent CompanionRuntime instances; deterministic local calls; no model or network calls.",
+  "source_fixture": "experiments/natural-loop-20261117/fixtures.json",
+  "fixture_id": "temporary_preference_correction",
+  "runtime_source": "experiments/natural-loop-20261117/runtime_v2.py",
+  "runtime_sha256": "ccf9f8fe44878ed305a844dff88e1098326f4cca2a67e14c11cbc8532312396c",
+  "fixture_sha256": "97075eb2216c0ebe93521171ac949da5ea9d98d7a189e8371b5aa51598c7576b",
+  "runtime_modified": false,
+  "run_03_modified_by_reproduction": false,
+  "no_historical_user_quote_invented": true,
+  "historical_preferences_verbatim_fixture_data": {
+    "response_detail": "通常喜欢先听建议，再听一两句原因",
+    "source": "用户此前明确表达的长期偏好"
+  },
+  "current_user_text_verbatim_fixture_data": "这次少说一点就好，以后还是照常。我现在该做啥？",
+  "followup": {
+    "user_text": "继续。",
+    "synthetic_test_input": true,
+    "preferences_argument_omitted": true
+  },
+  "cases": [
+    {
+      "id": "fixture_snapshot_passed_to_fresh_runtime",
+      "steps": [
+        "Create fresh runtime",
+        "begin_turn with the complete fixture preference snapshot",
+        "begin_turn for the synthetic next user turn without preferences"
+      ],
+      "first_packet_preferences": {
+        "response_detail": "通常喜欢先听建议，再听一两句原因",
+        "source": "用户此前明确表达的长期偏好"
+      },
+      "first_turn_state": {
+        "preferences": {
+          "response_detail": "通常喜欢先听建议，再听一两句原因",
+          "source": "用户此前明确表达的长期偏好"
+        },
+        "session_preferences": {},
+        "current_turn_preferences": {
+          "response_detail": "通常喜欢先听建议，再听一两句原因",
+          "source": "用户此前明确表达的长期偏好"
+        },
+        "preference_version": 1,
+        "reply_epoch": 1,
+        "turn_id": "temporary_preference_correction"
+      },
+      "next_packet_preferences": {},
+      "next_turn_state": {
+        "preferences": {},
+        "session_preferences": {},
+        "current_turn_preferences": {},
+        "preference_version": 2,
+        "reply_epoch": 2,
+        "turn_id": "regression-followup-a"
+      },
+      "expected_next_preferences": {
+        "response_detail": "通常喜欢先听建议，再听一两句原因",
+        "source": "用户此前明确表达的长期偏好"
+      },
+      "outcome": "REGRESSION_REPRODUCED: historical snapshot stored only in current_turn and lost on next user turn"
+    },
+    {
+      "id": "explicit_session_seed_then_current_turn_overlay",
+      "steps": [
+        "Create another fresh runtime",
+        "set_preference with the fixture historical values, scope=session, source_quote empty because the historical verbatim quote is unavailable",
+        "begin_turn with fixture context but omit preferences",
+        "set_preference with the explicit short overlay, scope=current_turn, source_quote equal to the exact observed fixture user message",
+        "begin_turn for the synthetic next user turn without preferences"
+      ],
+      "session_seed_state": {
+        "preferences": {
+          "response_detail": "通常喜欢先听建议，再听一两句原因",
+          "source": "用户此前明确表达的长期偏好"
+        },
+        "session_preferences": {
+          "response_detail": "通常喜欢先听建议，再听一两句原因",
+          "source": "用户此前明确表达的长期偏好"
+        },
+        "current_turn_preferences": {},
+        "preference_version": 1,
+        "reply_epoch": 0,
+        "turn_id": null
+      },
+      "current_overlay_value": {
+        "response_detail": "本次回答简短"
+      },
+      "current_overlay_source_quote": "这次少说一点就好，以后还是照常。我现在该做啥？",
+      "first_turn_state": {
+        "preferences": {
+          "response_detail": "本次回答简短",
+          "source": "用户此前明确表达的长期偏好"
+        },
+        "session_preferences": {
+          "response_detail": "通常喜欢先听建议，再听一两句原因",
+          "source": "用户此前明确表达的长期偏好"
+        },
+        "current_turn_preferences": {
+          "response_detail": "本次回答简短"
+        },
+        "preference_version": 2,
+        "reply_epoch": 1,
+        "turn_id": "temporary_preference_correction"
+      },
+      "next_packet_preferences": {
+        "response_detail": "通常喜欢先听建议，再听一两句原因",
+        "source": "用户此前明确表达的长期偏好"
+      },
+      "next_turn_state": {
+        "preferences": {
+          "response_detail": "通常喜欢先听建议，再听一两句原因",
+          "source": "用户此前明确表达的长期偏好"
+        },
+        "session_preferences": {
+          "response_detail": "通常喜欢先听建议，再听一两句原因",
+          "source": "用户此前明确表达的长期偏好"
+        },
+        "current_turn_preferences": {},
+        "preference_version": 3,
+        "reply_epoch": 2,
+        "turn_id": "regression-followup-b"
+      },
+      "expected_next_preferences": {
+        "response_detail": "通常喜欢先听建议，再听一两句原因",
+        "source": "用户此前明确表达的长期偏好"
+      },
+      "outcome": "CONTROL_PASSES: explicit current_turn overlay expires; historical session preferences remain"
+    }
+  ],
+  "checks": {
+    "fixture_snapshot_was_misclassified_as_current_turn": true,
+    "fixture_historical_preferences_lost_on_next_turn": true,
+    "explicit_session_seed_survives_overlay": true,
+    "explicit_overlay_expires_and_restores_session_value": true,
+    "runtime_source_unchanged": true
+  },
+  "root_cause": [
+    "begin_turn currently calls set_preference(preferences, source_quote=user_text) for every non-proactive packet.",
+    "The fixture preferences object is a historical snapshot, not a preference asserted by the current message.",
+    "Because the current user text contains 这次, set_preference rewrites the whole supplied snapshot scope to current_turn.",
+    "The next new user turn clears that overlay. A fresh runtime never stored the snapshot in its session layer, so the historical values disappear.",
+    "Scope layering itself works when the historical session seed and the new current_turn instruction are supplied separately."
+  ],
+  "recommended_minimal_future_change": {
+    "snapshot_contract": "Treat begin_turn preferences as a historical snapshot. Initialize or reconcile its original scope/provenance explicitly; never substitute the current user_text as its source quote.",
+    "fresh_session_minimum": "For this fixture, seed its historical values into session scope with an empty exact source_quote because none is provided; keep the descriptive source metadata. Do not manufacture historical user speech.",
+    "new_instruction_contract": "Apply a new explicit instruction as a separate scoped update carrying its actual source_quote. Add a distinct structured update input processed after turn expiry and before packet capture, or use the existing set_preference plus a fresh same-turn packet.",
+    "avoid_secondary_regression": "Do not blindly reapply an old snapshot over newer explicit session preferences; use initialization or a versioned snapshot merge.",
+    "version_policy": "Keep run-03 and its runtime/results unchanged. Implement and test this correction under a later version; this report is only reproduction evidence."
+  },
+  "limits": [
+    "No claim about model response quality or latency is made.",
+    "The short overlay is an explicitly supplied test value derived from the current fixture request, not a newly invented historical preference."
+  ]
+}

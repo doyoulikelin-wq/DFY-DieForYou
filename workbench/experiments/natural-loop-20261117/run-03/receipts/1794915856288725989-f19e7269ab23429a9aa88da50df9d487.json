@@ -1,0 +1,1 @@
+{"result": 2, "snapshot": {"world": {}, "state_dependency_versions": {}, "preferences": {"proactive_allowed": true}, "session_preferences": {"proactive_allowed": true}, "current_turn_preferences": {}, "preference_version": 2, "reply_epoch": 1, "turn_id": "r10-background", "memory_version": 0, "memory_records": []}}

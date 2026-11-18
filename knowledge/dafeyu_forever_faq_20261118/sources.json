@@ -1,0 +1,1771 @@
+[
+  {
+    "id": "S001",
+    "title": "《魔兽世界》：“无限”现已全球同步上线！",
+    "url": "https://wow.blizzard.cn/news/24315820/index.html",
+    "publisher": "魔兽世界运营团队",
+    "published_at": "2026-11-05",
+    "retrieved_at": "2026-11-18",
+    "region": "CN",
+    "kind": "official_launch_announcement",
+    "web_ref": "turn55search5",
+    "summary": "上线概览。",
+    "notes": [],
+    "source_aliases": [
+      "R01",
+      "L06"
+    ],
+    "equivalent_urls": [
+      "https://wow.blizzard.cn/news/24315820/index.html"
+    ],
+    "editions": [
+      {
+        "id": "R01",
+        "url": "https://wow.blizzard.cn/news/24315820/index.html",
+        "title": "《魔兽世界》：“无限”现已全球同步上线！",
+        "published_at": "2026-11-05",
+        "retrieved_at": "2026-11-18",
+        "region": "CN",
+        "access_level": null,
+        "notes": [],
+        "web_ref": "turn55search5"
+      },
+      {
+        "id": "L06",
+        "url": "https://wow.blizzard.cn/news/24315820/index.html",
+        "title": "《魔兽世界》：“无限”现已全球同步上线！",
+        "published_at": "2026-11-05",
+        "retrieved_at": "2026-11-18",
+        "region": null,
+        "access_level": "retrieved_article_text",
+        "notes": null,
+        "web_ref": "turn58search2"
+      }
+    ],
+    "work_key": "article:24315820",
+    "claim_ids": [
+      "R01C01",
+      "R01C02",
+      "R01C03",
+      "R01C04",
+      "R01C05",
+      "R01C06",
+      "L06.C1",
+      "L06.C2",
+      "L06.C3",
+      "L06.C4"
+    ],
+    "source_role": "official_reference"
+  },
+  {
+    "id": "S002",
+    "title": "《魔兽世界》：“无限”，规则集由你定",
+    "url": "https://wow.blizzard.cn/news/24302070/index.html",
+    "publisher": "魔兽世界运营团队",
+    "published_at": "2026-09-23",
+    "retrieved_at": "2026-11-18",
+    "region": "CN",
+    "kind": "official_guide",
+    "web_ref": "turn56search6",
+    "summary": "跨规则集边界。",
+    "notes": [
+      "规则集种类用R19的10月30日入门指南更新；本页未完整列RP-PvP。"
+    ],
+    "source_aliases": [
+      "R02"
+    ],
+    "equivalent_urls": [
+      "https://wow.blizzard.cn/news/24302070/index.html"
+    ],
+    "editions": [
+      {
+        "id": "R02",
+        "url": "https://wow.blizzard.cn/news/24302070/index.html",
+        "title": "《魔兽世界》：“无限”，规则集由你定",
+        "published_at": "2026-09-23",
+        "retrieved_at": "2026-11-18",
+        "region": "CN",
+        "access_level": null,
+        "notes": [
+          "规则集种类用R19的10月30日入门指南更新；本页未完整列RP-PvP。"
+        ],
+        "web_ref": "turn56search6"
+      }
+    ],
+    "work_key": "article:24302070",
+    "claim_ids": [
+      "R02C01",
+      "R02C02",
+      "R02C03",
+      "R02C04",
+      "R02C05",
+      "R02C06"
+    ],
+    "source_role": "official_reference"
+  },
+  {
+    "id": "S003",
+    "title": "在《魔兽世界》：“无限”中围坐于营火旁",
+    "url": "https://wow.blizzard.cn/news/24301516/index.html",
+    "publisher": "魔兽世界运营团队",
+    "published_at": "2026-10-22",
+    "retrieved_at": "2026-11-18",
+    "region": "CN",
+    "kind": "official_guide",
+    "web_ref": "turn68view2",
+    "summary": "共享露营规则。",
+    "notes": [],
+    "source_aliases": [
+      "R03"
+    ],
+    "equivalent_urls": [
+      "https://wow.blizzard.cn/news/24301516/index.html"
+    ],
+    "editions": [
+      {
+        "id": "R03",
+        "url": "https://wow.blizzard.cn/news/24301516/index.html",
+        "title": "在《魔兽世界》：“无限”中围坐于营火旁",
+        "published_at": "2026-10-22",
+        "retrieved_at": "2026-11-18",
+        "region": "CN",
+        "access_level": null,
+        "notes": [],
+        "web_ref": "turn68view2"
+      }
+    ],
+    "work_key": "article:24301516",
+    "claim_ids": [
+      "R03C01",
+      "R03C02",
+      "R03C03",
+      "R03C04",
+      "R03C05",
+      "R03C06",
+      "R03C07"
+    ],
+    "source_role": "official_reference"
+  },
+  {
+    "id": "S004",
+    "title": "深入了解《魔兽世界》：“无限”的传承系统",
+    "url": "https://wow.blizzard.cn/news/24307383/",
+    "publisher": "魔兽世界运营团队",
+    "published_at": "2026-09-24",
+    "retrieved_at": "2026-11-18",
+    "region": "CN",
+    "kind": "official_guide",
+    "web_ref": "turn68view0",
+    "summary": "账号成长框架。",
+    "notes": [],
+    "source_aliases": [
+      "R04"
+    ],
+    "equivalent_urls": [
+      "https://wow.blizzard.cn/news/24307383/"
+    ],
+    "editions": [
+      {
+        "id": "R04",
+        "url": "https://wow.blizzard.cn/news/24307383/",
+        "title": "深入了解《魔兽世界》：“无限”的传承系统",
+        "published_at": "2026-09-24",
+        "retrieved_at": "2026-11-18",
+        "region": "CN",
+        "access_level": null,
+        "notes": [],
+        "web_ref": "turn68view0"
+      }
+    ],
+    "work_key": "article:24307383",
+    "claim_ids": [
+      "R04C01",
+      "R04C02",
+      "R04C03",
+      "R04C04",
+      "R04C05",
+      "R04C06",
+      "R04C07"
+    ],
+    "source_role": "official_reference"
+  },
+  {
+    "id": "S005",
+    "title": "《魔兽世界》：“无限”职业深度解析——法师与萨满祭司",
+    "url": "https://wow.blizzard.cn/news/24302097/index.html",
+    "publisher": "魔兽世界运营团队",
+    "published_at": "2026-10-10",
+    "retrieved_at": "2026-11-18",
+    "region": "CN",
+    "kind": "official_prelaunch_class_design",
+    "web_ref": "turn63view1",
+    "summary": "测试期职业设计。",
+    "notes": [
+      "不能使用本页风怒武器与风怒图腾互斥的旧说法：国服11月11日已调整，见R11C01。"
+    ],
+    "source_aliases": [
+      "R05"
+    ],
+    "equivalent_urls": [
+      "https://wow.blizzard.cn/news/24302097/index.html"
+    ],
+    "editions": [
+      {
+        "id": "R05",
+        "url": "https://wow.blizzard.cn/news/24302097/index.html",
+        "title": "《魔兽世界》：“无限”职业深度解析——法师与萨满祭司",
+        "published_at": "2026-10-10",
+        "retrieved_at": "2026-11-18",
+        "region": "CN",
+        "access_level": null,
+        "notes": [
+          "不能使用本页风怒武器与风怒图腾互斥的旧说法：国服11月11日已调整，见R11C01。"
+        ],
+        "web_ref": "turn63view1"
+      }
+    ],
+    "work_key": "article:24302097",
+    "claim_ids": [
+      "R05C01",
+      "R05C02",
+      "R05C03",
+      "R05C04",
+      "R05C05",
+      "R05C06"
+    ],
+    "source_role": "official_reference"
+  },
+  {
+    "id": "S006",
+    "title": "在《魔兽世界》：“无限”中，塑造你想成为的英雄",
+    "url": "https://wow.blizzard.cn/news/24304075/index.html",
+    "publisher": "魔兽世界运营团队",
+    "published_at": "2026-09-24",
+    "retrieved_at": "2026-11-18",
+    "region": "CN",
+    "kind": "official_prelaunch_class_design",
+    "web_ref": "turn61view1",
+    "summary": "创建角色与种族特长。",
+    "notes": [],
+    "source_aliases": [
+      "R06"
+    ],
+    "equivalent_urls": [
+      "https://wow.blizzard.cn/news/24304075/index.html"
+    ],
+    "editions": [
+      {
+        "id": "R06",
+        "url": "https://wow.blizzard.cn/news/24304075/index.html",
+        "title": "在《魔兽世界》：“无限”中，塑造你想成为的英雄",
+        "published_at": "2026-09-24",
+        "retrieved_at": "2026-11-18",
+        "region": "CN",
+        "access_level": null,
+        "notes": [],
+        "web_ref": "turn61view1"
+      }
+    ],
+    "work_key": "article:24304075",
+    "claim_ids": [
+      "R06C01",
+      "R06C02",
+      "R06C03",
+      "R06C04",
+      "R06C05",
+      "R06C06"
+    ],
+    "source_role": "official_reference"
+  },
+  {
+    "id": "S007",
+    "title": "《魔兽世界》：“无限”职业深度解析——潜行者与术士",
+    "url": "https://wow.blizzard.cn/news/24310968/index.html",
+    "publisher": "魔兽世界运营团队",
+    "published_at": "2026-10-10",
+    "retrieved_at": "2026-11-18",
+    "region": "CN",
+    "kind": "official_prelaunch_class_design",
+    "web_ref": "turn63view4",
+    "summary": "潜行与恶魔职业设计。",
+    "notes": [],
+    "source_aliases": [
+      "R07"
+    ],
+    "equivalent_urls": [
+      "https://wow.blizzard.cn/news/24310968/index.html"
+    ],
+    "editions": [
+      {
+        "id": "R07",
+        "url": "https://wow.blizzard.cn/news/24310968/index.html",
+        "title": "《魔兽世界》：“无限”职业深度解析——潜行者与术士",
+        "published_at": "2026-10-10",
+        "retrieved_at": "2026-11-18",
+        "region": "CN",
+        "access_level": null,
+        "notes": [],
+        "web_ref": "turn63view4"
+      }
+    ],
+    "work_key": "article:24310968",
+    "claim_ids": [
+      "R07C01",
+      "R07C02",
+      "R07C03",
+      "R07C04",
+      "R07C05",
+      "R07C06"
+    ],
+    "source_role": "official_reference"
+  },
+  {
+    "id": "S008",
+    "title": "《魔兽世界》：“无限”职业深度解析——牧师与战士",
+    "url": "https://wow.blizzard.cn/news/24301514/",
+    "publisher": "魔兽世界运营团队",
+    "published_at": "2026-10-02",
+    "retrieved_at": "2026-11-18",
+    "region": "CN",
+    "kind": "official_prelaunch_class_design",
+    "web_ref": "turn63view2",
+    "summary": "技能学习及战斗机制。",
+    "notes": [],
+    "source_aliases": [
+      "R08"
+    ],
+    "equivalent_urls": [
+      "https://wow.blizzard.cn/news/24301514/"
+    ],
+    "editions": [
+      {
+        "id": "R08",
+        "url": "https://wow.blizzard.cn/news/24301514/",
+        "title": "《魔兽世界》：“无限”职业深度解析——牧师与战士",
+        "published_at": "2026-10-02",
+        "retrieved_at": "2026-11-18",
+        "region": "CN",
+        "access_level": null,
+        "notes": [],
+        "web_ref": "turn63view2"
+      }
+    ],
+    "work_key": "article:24301514",
+    "claim_ids": [
+      "R08C01",
+      "R08C02",
+      "R08C03",
+      "R08C04",
+      "R08C05",
+      "R08C06"
+    ],
+    "source_role": "official_reference"
+  },
+  {
+    "id": "S009",
+    "title": "《魔兽世界》：“无限”职业深度解析——猎人与德鲁伊",
+    "url": "https://wow.blizzard.cn/news/24301515/index.html",
+    "publisher": "魔兽世界运营团队",
+    "published_at": "2026-10-05",
+    "retrieved_at": "2026-11-18",
+    "region": "CN",
+    "kind": "official_prelaunch_class_design",
+    "web_ref": "turn63view3",
+    "summary": "宠物与变形职业设计。",
+    "notes": [],
+    "source_aliases": [
+      "R09"
+    ],
+    "equivalent_urls": [
+      "https://wow.blizzard.cn/news/24301515/index.html"
+    ],
+    "editions": [
+      {
+        "id": "R09",
+        "url": "https://wow.blizzard.cn/news/24301515/index.html",
+        "title": "《魔兽世界》：“无限”职业深度解析——猎人与德鲁伊",
+        "published_at": "2026-10-05",
+        "retrieved_at": "2026-11-18",
+        "region": "CN",
+        "access_level": null,
+        "notes": [],
+        "web_ref": "turn63view3"
+      }
+    ],
+    "work_key": "article:24301515",
+    "claim_ids": [
+      "R09C01",
+      "R09C02",
+      "R09C03",
+      "R09C04",
+      "R09C05",
+      "R09C06"
+    ],
+    "source_role": "official_reference"
+  },
+  {
+    "id": "S010",
+    "title": "《魔兽世界》：“无限”职业深度解析——圣骑士",
+    "url": "https://wow.blizzard.cn/news/24302099/",
+    "publisher": "魔兽世界运营团队",
+    "published_at": "2026-10-16",
+    "retrieved_at": "2026-11-18",
+    "region": "CN",
+    "kind": "official_prelaunch_class_design",
+    "web_ref": "turn63view5",
+    "summary": "圣印及职责变化。",
+    "notes": [],
+    "source_aliases": [
+      "R10"
+    ],
+    "equivalent_urls": [
+      "https://wow.blizzard.cn/news/24302099/"
+    ],
+    "editions": [
+      {
+        "id": "R10",
+        "url": "https://wow.blizzard.cn/news/24302099/",
+        "title": "《魔兽世界》：“无限”职业深度解析——圣骑士",
+        "published_at": "2026-10-16",
+        "retrieved_at": "2026-11-18",
+        "region": "CN",
+        "access_level": null,
+        "notes": [],
+        "web_ref": "turn63view5"
+      }
+    ],
+    "work_key": "article:24302099",
+    "claim_ids": [
+      "R10C01",
+      "R10C02",
+      "R10C03",
+      "R10C04",
+      "R10C05"
+    ],
+    "source_role": "official_reference"
+  },
+  {
+    "id": "S011",
+    "title": "《魔兽世界》：“无限”在线修正——11月6日",
+    "url": "https://wow.blizzard.cn/news/24315281/",
+    "publisher": "魔兽世界运营团队",
+    "published_at": "2026-11-12",
+    "retrieved_at": "2026-11-18",
+    "region": "CN",
+    "kind": "official_hotfix",
+    "web_ref": "turn68view3",
+    "summary": "正文更新至11月12日。",
+    "notes": [
+      "页面标题仍写11月6日；不能拿标题替代各段生效日期。",
+      "修复公告不等于当前角色问题已消失；须核对客户端、区服与实时状态。"
+    ],
+    "source_aliases": [
+      "R11",
+      "R12"
+    ],
+    "equivalent_urls": [
+      "https://wow.blizzard.cn/news/24315281/",
+      "https://worldofwarcraft.blizzard.com/en-us/news/24315281/wow-forever-hotfixes-november-10-2026"
+    ],
+    "editions": [
+      {
+        "id": "R11",
+        "url": "https://wow.blizzard.cn/news/24315281/",
+        "title": "《魔兽世界》：“无限”在线修正——11月6日",
+        "published_at": "2026-11-12",
+        "retrieved_at": "2026-11-18",
+        "region": "CN",
+        "access_level": null,
+        "notes": [
+          "页面标题仍写11月6日；不能拿标题替代各段生效日期。",
+          "修复公告不等于当前角色问题已消失；须核对客户端、区服与实时状态。"
+        ],
+        "web_ref": "turn68view3"
+      },
+      {
+        "id": "R12",
+        "url": "https://worldofwarcraft.blizzard.com/en-us/news/24315281/wow-forever-hotfixes-november-10-2026",
+        "title": "WoW: Forever Hotfixes - November 16, 2026",
+        "published_at": "2026-11-17",
+        "retrieved_at": "2026-11-18",
+        "region": "US",
+        "access_level": null,
+        "notes": [
+          "检索返回官方正文；直接open返回403。",
+          "国服生效时点未独立确认，不允许自动当作国服实时状态。",
+          "URL日期与最新页面标题日期不同；统一视为24315281这篇累积热修页面。"
+        ],
+        "web_ref": "turn61search0"
+      }
+    ],
+    "work_key": "article:24315281",
+    "claim_ids": [
+      "R11C01",
+      "R11C02",
+      "R11C03",
+      "R11C04",
+      "R11C05",
+      "R11C06",
+      "R11C07",
+      "R12C01",
+      "R12C02",
+      "R12C03",
+      "R12C04"
+    ],
+    "source_role": "official_reference"
+  },
+  {
+    "id": "S012",
+    "title": "Player-Level Dungeon XP Adjustment - November 14",
+    "url": "https://us.forums.blizzard.com/en/wow/t/player-level-dungeon-xp-adjustment-november-14/2416343",
+    "publisher": "Blizzard Entertainment",
+    "published_at": "2026-11-15",
+    "retrieved_at": "2026-11-18",
+    "region": "US",
+    "kind": "official_hotfix",
+    "web_ref": "turn63view7",
+    "summary": "Kaivax发布的修订蓝帖。",
+    "notes": [
+      "发布时间为论坛显示的2026-11-15 01:18；主题改动日为11月14日，不能混淆。",
+      "国服当前应用情况须另核。"
+    ],
+    "source_aliases": [
+      "R13"
+    ],
+    "equivalent_urls": [
+      "https://us.forums.blizzard.com/en/wow/t/player-level-dungeon-xp-adjustment-november-14/2416343"
+    ],
+    "editions": [
+      {
+        "id": "R13",
+        "url": "https://us.forums.blizzard.com/en/wow/t/player-level-dungeon-xp-adjustment-november-14/2416343",
+        "title": "Player-Level Dungeon XP Adjustment - November 14",
+        "published_at": "2026-11-15",
+        "retrieved_at": "2026-11-18",
+        "region": "US",
+        "access_level": null,
+        "notes": [
+          "发布时间为论坛显示的2026-11-15 01:18；主题改动日为11月14日，不能混淆。",
+          "国服当前应用情况须另核。"
+        ],
+        "web_ref": "turn63view7"
+      }
+    ],
+    "work_key": "https://us.forums.blizzard.com/en/wow/t/player-level-dungeon-xp-adjustment-november-14/2416343",
+    "claim_ids": [
+      "R13C01",
+      "R13C02",
+      "R13C03"
+    ],
+    "source_role": "official_reference"
+  },
+  {
+    "id": "S013",
+    "title": "《魔兽世界》：“无限PVP阵营平衡更新-11月10日",
+    "url": "https://wow.blizzard.cn/news/20261110/43836_1319283.html",
+    "publisher": "魔兽世界运营团队",
+    "published_at": "2026-11-10",
+    "retrieved_at": "2026-11-18",
+    "region": "CN",
+    "kind": "official_hotfix",
+    "web_ref": "turn65view3",
+    "summary": "动态人口限制。",
+    "notes": [],
+    "source_aliases": [
+      "R14"
+    ],
+    "equivalent_urls": [
+      "https://wow.blizzard.cn/news/20261110/43836_1319283.html"
+    ],
+    "editions": [
+      {
+        "id": "R14",
+        "url": "https://wow.blizzard.cn/news/20261110/43836_1319283.html",
+        "title": "《魔兽世界》：“无限PVP阵营平衡更新-11月10日",
+        "published_at": "2026-11-10",
+        "retrieved_at": "2026-11-18",
+        "region": "CN",
+        "access_level": null,
+        "notes": [],
+        "web_ref": "turn65view3"
+      }
+    ],
+    "work_key": "https://wow.blizzard.cn/news/20261110/43836_1319283.html",
+    "claim_ids": [
+      "R14C01",
+      "R14C02",
+      "R14C03"
+    ],
+    "source_role": "official_reference"
+  },
+  {
+    "id": "S014",
+    "title": "《魔兽世界》：“无限”PvP成长系统详解",
+    "url": "https://wow.blizzard.cn/news/24303316/index.html",
+    "publisher": "魔兽世界运营团队",
+    "published_at": "2026-10-08",
+    "retrieved_at": "2026-11-18",
+    "region": "CN",
+    "kind": "official_guide",
+    "web_ref": "turn63view6",
+    "summary": "荣誉与等级点数分工。",
+    "notes": [],
+    "source_aliases": [
+      "R15"
+    ],
+    "equivalent_urls": [
+      "https://wow.blizzard.cn/news/24303316/index.html"
+    ],
+    "editions": [
+      {
+        "id": "R15",
+        "url": "https://wow.blizzard.cn/news/24303316/index.html",
+        "title": "《魔兽世界》：“无限”PvP成长系统详解",
+        "published_at": "2026-10-08",
+        "retrieved_at": "2026-11-18",
+        "region": "CN",
+        "access_level": null,
+        "notes": [],
+        "web_ref": "turn63view6"
+      }
+    ],
+    "work_key": "article:24303316",
+    "claim_ids": [
+      "R15C01",
+      "R15C02",
+      "R15C03",
+      "R15C04",
+      "R15C05"
+    ],
+    "source_role": "official_reference"
+  },
+  {
+    "id": "S015",
+    "title": "探索《魔兽世界》：“无限”的手柄玩法",
+    "url": "https://wow.blizzard.cn/news/24316974/index.html",
+    "publisher": "魔兽世界运营团队",
+    "published_at": "2026-11-05",
+    "retrieved_at": "2026-11-18",
+    "region": "CN",
+    "kind": "official_guide",
+    "web_ref": "turn67view3",
+    "summary": "手柄Beta操作。",
+    "notes": [],
+    "source_aliases": [
+      "R16"
+    ],
+    "equivalent_urls": [
+      "https://wow.blizzard.cn/news/24316974/index.html"
+    ],
+    "editions": [
+      {
+        "id": "R16",
+        "url": "https://wow.blizzard.cn/news/24316974/index.html",
+        "title": "探索《魔兽世界》：“无限”的手柄玩法",
+        "published_at": "2026-11-05",
+        "retrieved_at": "2026-11-18",
+        "region": "CN",
+        "access_level": null,
+        "notes": [],
+        "web_ref": "turn67view3"
+      }
+    ],
+    "work_key": "article:24316974",
+    "claim_ids": [
+      "R16C01",
+      "R16C02",
+      "R16C03",
+      "R16C04",
+      "R16C05"
+    ],
+    "source_role": "official_reference"
+  },
+  {
+    "id": "S016",
+    "title": "在《魔兽世界》：“无限”中重返艾泽拉斯",
+    "url": "https://wow.blizzard.cn/news/24315643/index.html",
+    "publisher": "魔兽世界运营团队",
+    "published_at": "2026-10-30",
+    "retrieved_at": "2026-11-18",
+    "region": "CN",
+    "kind": "official_guide",
+    "web_ref": "turn67view1",
+    "summary": "回归指引。",
+    "notes": [],
+    "source_aliases": [
+      "R17",
+      "L01"
+    ],
+    "equivalent_urls": [
+      "https://wow.blizzard.cn/news/24315643/index.html"
+    ],
+    "editions": [
+      {
+        "id": "R17",
+        "url": "https://wow.blizzard.cn/news/24315643/index.html",
+        "title": "在《魔兽世界》：“无限”中重返艾泽拉斯",
+        "published_at": "2026-10-30",
+        "retrieved_at": "2026-11-18",
+        "region": "CN",
+        "access_level": null,
+        "notes": [],
+        "web_ref": "turn67view1"
+      },
+      {
+        "id": "L01",
+        "url": "https://wow.blizzard.cn/news/24315643/index.html",
+        "title": "在《魔兽世界》：“无限”中重返艾泽拉斯",
+        "published_at": "2026-10-30",
+        "retrieved_at": "2026-11-18",
+        "region": null,
+        "access_level": "full_page",
+        "notes": null,
+        "web_ref": "turn62view1"
+      }
+    ],
+    "work_key": "article:24315643",
+    "claim_ids": [
+      "R17C01",
+      "R17C02",
+      "R17C03",
+      "R17C04",
+      "R17C05",
+      "L01.C1",
+      "L01.C2",
+      "L01.C3"
+    ],
+    "source_role": "official_reference"
+  },
+  {
+    "id": "S017",
+    "title": "《魔兽世界》：“无限”——认识全新种族天裔",
+    "url": "https://wow.blizzard.cn/news/24302071/index.html",
+    "publisher": "魔兽世界运营团队",
+    "published_at": "2026-09-24",
+    "retrieved_at": "2026-11-18",
+    "region": "CN",
+    "kind": "official_guide",
+    "web_ref": "turn67view2",
+    "summary": "天裔创建选项。",
+    "notes": [
+      "故事留给剧情资料编写者，本文件不展开剧情。"
+    ],
+    "source_aliases": [
+      "R18",
+      "L07"
+    ],
+    "equivalent_urls": [
+      "https://wow.blizzard.cn/news/24302071/index.html"
+    ],
+    "editions": [
+      {
+        "id": "R18",
+        "url": "https://wow.blizzard.cn/news/24302071/index.html",
+        "title": "《魔兽世界》：“无限”——认识全新种族天裔",
+        "published_at": "2026-09-24",
+        "retrieved_at": "2026-11-18",
+        "region": "CN",
+        "access_level": null,
+        "notes": [
+          "故事留给剧情资料编写者，本文件不展开剧情。"
+        ],
+        "web_ref": "turn67view2"
+      },
+      {
+        "id": "L07",
+        "url": "https://wow.blizzard.cn/news/24302071/index.html",
+        "title": "《魔兽世界》：“无限”——认识全新种族天裔",
+        "published_at": "2026-09-24",
+        "retrieved_at": "2026-11-18",
+        "region": null,
+        "access_level": "full_page",
+        "notes": null,
+        "web_ref": "turn73view1"
+      }
+    ],
+    "work_key": "article:24302071",
+    "claim_ids": [
+      "R18C01",
+      "R18C02",
+      "R18C03",
+      "R18C04",
+      "L07.C1",
+      "L07.C2",
+      "L07.C3",
+      "L07.C4"
+    ],
+    "source_role": "official_reference"
+  },
+  {
+    "id": "S018",
+    "title": "新手入门指南：欢迎来到《魔兽世界》：“无限”",
+    "url": "https://wow.blizzard.cn/news/24315280/",
+    "publisher": "魔兽世界运营团队",
+    "published_at": "2026-10-30",
+    "retrieved_at": "2026-11-18",
+    "region": "CN",
+    "kind": "official_guide",
+    "web_ref": "turn68view1",
+    "summary": "键位均指默认设置。",
+    "notes": [],
+    "source_aliases": [
+      "R19"
+    ],
+    "equivalent_urls": [
+      "https://wow.blizzard.cn/news/24315280/"
+    ],
+    "editions": [
+      {
+        "id": "R19",
+        "url": "https://wow.blizzard.cn/news/24315280/",
+        "title": "新手入门指南：欢迎来到《魔兽世界》：“无限”",
+        "published_at": "2026-10-30",
+        "retrieved_at": "2026-11-18",
+        "region": "CN",
+        "access_level": null,
+        "notes": [],
+        "web_ref": "turn68view1"
+      }
+    ],
+    "work_key": "article:24315280",
+    "claim_ids": [
+      "R19C01",
+      "R19C02",
+      "R19C03",
+      "R19C04",
+      "R19C05",
+      "R19C06",
+      "R19C07",
+      "R19C08"
+    ],
+    "source_role": "official_reference"
+  },
+  {
+    "id": "S019",
+    "title": "《魔兽世界》：“无限”全新地下城探秘",
+    "url": "https://wow.blizzard.cn/news/24301455/",
+    "publisher": "魔兽世界运营团队",
+    "published_at": "2026-10-21",
+    "retrieved_at": "2026-11-18",
+    "region": "CN",
+    "kind": "official_guide",
+    "web_ref": "turn65search1",
+    "summary": "官方等级范围，非最低准入断言。",
+    "notes": [
+      "没有依据此表编造精确坐标、路线时间、首领技能或掉落。"
+    ],
+    "source_aliases": [
+      "R20",
+      "L05"
+    ],
+    "equivalent_urls": [
+      "https://wow.blizzard.cn/news/24301455/",
+      "https://wow.blizzard.cn/news/24301455/index.html"
+    ],
+    "editions": [
+      {
+        "id": "R20",
+        "url": "https://wow.blizzard.cn/news/24301455/",
+        "title": "《魔兽世界》：“无限”全新地下城探秘",
+        "published_at": "2026-10-21",
+        "retrieved_at": "2026-11-18",
+        "region": "CN",
+        "access_level": null,
+        "notes": [
+          "没有依据此表编造精确坐标、路线时间、首领技能或掉落。"
+        ],
+        "web_ref": "turn65search1"
+      },
+      {
+        "id": "L05",
+        "url": "https://wow.blizzard.cn/news/24301455/index.html",
+        "title": "《魔兽世界》：“无限”全新地下城探秘",
+        "published_at": "2026-10-21",
+        "retrieved_at": "2026-11-18",
+        "region": null,
+        "access_level": "full_page",
+        "notes": null,
+        "web_ref": "turn71view5"
+      }
+    ],
+    "work_key": "article:24301455",
+    "claim_ids": [
+      "L05.C1",
+      "L05.C2",
+      "L05.C3",
+      "L05.C4",
+      "L05.C5",
+      "L05.C6",
+      "L05.C7",
+      "L05.C8",
+      "L05.C9"
+    ],
+    "source_role": "official_reference"
+  },
+  {
+    "id": "S020",
+    "title": "《魔兽世界》：“无限”深度解析座谈会回顾",
+    "url": "https://wow.blizzard.cn/news/24303313/",
+    "publisher": "魔兽世界运营团队",
+    "published_at": "2026-09-14",
+    "retrieved_at": "2026-11-18",
+    "region": "CN",
+    "kind": "official_prelaunch_system_design",
+    "web_ref": "turn77view0",
+    "summary": "配方与设施扩展。",
+    "notes": [],
+    "source_aliases": [
+      "R21"
+    ],
+    "equivalent_urls": [
+      "https://wow.blizzard.cn/news/24303313/"
+    ],
+    "editions": [
+      {
+        "id": "R21",
+        "url": "https://wow.blizzard.cn/news/24303313/",
+        "title": "《魔兽世界》：“无限”深度解析座谈会回顾",
+        "published_at": "2026-09-14",
+        "retrieved_at": "2026-11-18",
+        "region": "CN",
+        "access_level": null,
+        "notes": [],
+        "web_ref": "turn77view0"
+      }
+    ],
+    "work_key": "article:24303313",
+    "claim_ids": [
+      "R21C01",
+      "R21C02",
+      "R21C03",
+      "R21C04",
+      "R21C05",
+      "R21C06",
+      "R21C07",
+      "R21C08"
+    ],
+    "source_role": "official_reference"
+  },
+  {
+    "id": "S021",
+    "title": "《魔兽世界》：“无限”，角色名字由你而定",
+    "url": "https://wow.blizzard.cn/news/24304161/",
+    "publisher": "魔兽世界运营团队",
+    "published_at": "2026-09-22",
+    "retrieved_at": "2026-11-18",
+    "region": "CN",
+    "kind": "official_guide",
+    "web_ref": "turn79view3",
+    "summary": "双名和命名校验。",
+    "notes": [],
+    "source_aliases": [
+      "R22"
+    ],
+    "equivalent_urls": [
+      "https://wow.blizzard.cn/news/24304161/"
+    ],
+    "editions": [
+      {
+        "id": "R22",
+        "url": "https://wow.blizzard.cn/news/24304161/",
+        "title": "《魔兽世界》：“无限”，角色名字由你而定",
+        "published_at": "2026-09-22",
+        "retrieved_at": "2026-11-18",
+        "region": "CN",
+        "access_level": null,
+        "notes": [],
+        "web_ref": "turn79view3"
+      }
+    ],
+    "work_key": "article:24304161",
+    "claim_ids": [
+      "R22C01",
+      "R22C02",
+      "R22C03",
+      "R22C04"
+    ],
+    "source_role": "official_reference"
+  },
+  {
+    "id": "S022",
+    "title": "《魔兽世界》：“无限”团队副本概览——位置、团队规模和开门任务",
+    "url": "https://wow.blizzard.cn/news/24303009/",
+    "publisher": "魔兽世界运营团队",
+    "published_at": "2026-10-21",
+    "retrieved_at": "2026-11-18",
+    "region": "CN",
+    "kind": "official_future_raid_guide",
+    "web_ref": "turn79view2",
+    "summary": "12月10日开放计划。",
+    "notes": [
+      "截至2026-11-18为未开放计划；组团和入场指令必须先确认实际开放、等级、任务与队伍状态。"
+    ],
+    "source_aliases": [
+      "R23",
+      "L03"
+    ],
+    "equivalent_urls": [
+      "https://wow.blizzard.cn/news/24303009/",
+      "https://wow.blizzard.cn/news/24303009/index.html"
+    ],
+    "editions": [
+      {
+        "id": "R23",
+        "url": "https://wow.blizzard.cn/news/24303009/",
+        "title": "《魔兽世界》：“无限”团队副本概览——位置、团队规模和开门任务",
+        "published_at": "2026-10-21",
+        "retrieved_at": "2026-11-18",
+        "region": "CN",
+        "access_level": null,
+        "notes": [
+          "截至2026-11-18为未开放计划；组团和入场指令必须先确认实际开放、等级、任务与队伍状态。"
+        ],
+        "web_ref": "turn79view2"
+      },
+      {
+        "id": "L03",
+        "url": "https://wow.blizzard.cn/news/24303009/index.html",
+        "title": "《魔兽世界》：“无限”团队副本概览——位置、团队规模和开门任务",
+        "published_at": "2026-10-21",
+        "retrieved_at": "2026-11-18",
+        "region": null,
+        "access_level": "full_page",
+        "notes": null,
+        "web_ref": "turn64view1"
+      }
+    ],
+    "work_key": "article:24303009",
+    "claim_ids": [
+      "R23C01",
+      "R23C02",
+      "R23C03",
+      "R23C04",
+      "R23C05",
+      "R23C06",
+      "R23C07",
+      "L03.C1",
+      "L03.C2",
+      "L03.C3",
+      "L03.C4",
+      "L03.C5"
+    ],
+    "source_role": "official_reference"
+  },
+  {
+    "id": "S023",
+    "title": "《魔兽世界》：“无限”未来展望座谈会回顾",
+    "url": "https://wow.blizzard.cn/news/24303862/index.html",
+    "publisher": "魔兽世界运营团队",
+    "published_at": "2026-09-13",
+    "retrieved_at": "2026-11-18",
+    "region": "CN",
+    "kind": "official_prelaunch_system_design",
+    "web_ref": "turn77view1",
+    "summary": "世界与体验设计。",
+    "notes": [],
+    "source_aliases": [
+      "R24"
+    ],
+    "equivalent_urls": [
+      "https://wow.blizzard.cn/news/24303862/index.html"
+    ],
+    "editions": [
+      {
+        "id": "R24",
+        "url": "https://wow.blizzard.cn/news/24303862/index.html",
+        "title": "《魔兽世界》：“无限”未来展望座谈会回顾",
+        "published_at": "2026-09-13",
+        "retrieved_at": "2026-11-18",
+        "region": "CN",
+        "access_level": null,
+        "notes": [],
+        "web_ref": "turn77view1"
+      }
+    ],
+    "work_key": "article:24303862",
+    "claim_ids": [
+      "R24C01",
+      "R24C02",
+      "R24C03",
+      "R24C04"
+    ],
+    "source_role": "official_reference"
+  },
+  {
+    "id": "S024",
+    "title": "《魔兽世界》：“无限”违规行为治理公告",
+    "url": "https://wow.blizzard.cn/news/20261009/43790_1316154.html",
+    "publisher": "魔兽世界运营团队",
+    "published_at": "2026-10-09",
+    "retrieved_at": "2026-11-18",
+    "region": "CN",
+    "kind": "official_policy",
+    "web_ref": "turn79view4",
+    "summary": "公告声明正式上线沿用。",
+    "notes": [
+      "不要从公告推导未写明的正常组队等级差阈值；游戏内机制与运营处罚判定是不同事物。"
+    ],
+    "source_aliases": [
+      "R25"
+    ],
+    "equivalent_urls": [
+      "https://wow.blizzard.cn/news/20261009/43790_1316154.html"
+    ],
+    "editions": [
+      {
+        "id": "R25",
+        "url": "https://wow.blizzard.cn/news/20261009/43790_1316154.html",
+        "title": "《魔兽世界》：“无限”违规行为治理公告",
+        "published_at": "2026-10-09",
+        "retrieved_at": "2026-11-18",
+        "region": "CN",
+        "access_level": null,
+        "notes": [
+          "不要从公告推导未写明的正常组队等级差阈值；游戏内机制与运营处罚判定是不同事物。"
+        ],
+        "web_ref": "turn79view4"
+      }
+    ],
+    "work_key": "https://wow.blizzard.cn/news/20261009/43790_1316154.html",
+    "claim_ids": [
+      "R25C01",
+      "R25C02",
+      "R25C03",
+      "R25C04"
+    ],
+    "source_role": "official_reference"
+  },
+  {
+    "id": "S025",
+    "title": "Lost Training Purchase Refunds - November 13",
+    "url": "https://us.forums.blizzard.com/en/wow/t/lost-training-purchase-refunds-november-13/2415068",
+    "publisher": "Blizzard Entertainment",
+    "published_at": "2026-11-14",
+    "retrieved_at": "2026-11-18",
+    "region": "US",
+    "kind": "official_hotfix",
+    "web_ref": "turn79view1",
+    "summary": "Kaivax的事故退费说明。",
+    "notes": [
+      "不自动套到国服事故，也不保证当前角色已收到邮件。",
+      "原帖显示11月14日01:36；标题11月13日，事故时段使用PST。"
+    ],
+    "source_aliases": [
+      "R26"
+    ],
+    "equivalent_urls": [
+      "https://us.forums.blizzard.com/en/wow/t/lost-training-purchase-refunds-november-13/2415068"
+    ],
+    "editions": [
+      {
+        "id": "R26",
+        "url": "https://us.forums.blizzard.com/en/wow/t/lost-training-purchase-refunds-november-13/2415068",
+        "title": "Lost Training Purchase Refunds - November 13",
+        "published_at": "2026-11-14",
+        "retrieved_at": "2026-11-18",
+        "region": "US",
+        "access_level": null,
+        "notes": [
+          "不自动套到国服事故，也不保证当前角色已收到邮件。",
+          "原帖显示11月14日01:36；标题11月13日，事故时段使用PST。"
+        ],
+        "web_ref": "turn79view1"
+      }
+    ],
+    "work_key": "https://us.forums.blizzard.com/en/wow/t/lost-training-purchase-refunds-november-13/2415068",
+    "claim_ids": [
+      "R26C01",
+      "R26C02",
+      "R26C03"
+    ],
+    "source_role": "official_reference"
+  },
+  {
+    "id": "S026",
+    "title": "WoW Forever Beta Development Notes – Updated November 2",
+    "url": "https://us.forums.blizzard.com/en/wow/t/wow-forever-beta-development-notes-%E2%80%93-updated-november-2/2360696",
+    "publisher": "Blizzard Entertainment",
+    "published_at": "2026-11-03",
+    "retrieved_at": "2026-11-18",
+    "region": "US",
+    "kind": "official_prelaunch_system_design",
+    "web_ref": "turn79view0",
+    "summary": "测试期累积开发记录。",
+    "notes": [
+      "全文含多个日期的帖子；这些是历史变更线索，需当前国服客户端核对，不能当作已亲测。"
+    ],
+    "source_aliases": [
+      "R27"
+    ],
+    "equivalent_urls": [
+      "https://us.forums.blizzard.com/en/wow/t/wow-forever-beta-development-notes-%E2%80%93-updated-november-2/2360696"
+    ],
+    "editions": [
+      {
+        "id": "R27",
+        "url": "https://us.forums.blizzard.com/en/wow/t/wow-forever-beta-development-notes-%E2%80%93-updated-november-2/2360696",
+        "title": "WoW Forever Beta Development Notes – Updated November 2",
+        "published_at": "2026-11-03",
+        "retrieved_at": "2026-11-18",
+        "region": "US",
+        "access_level": null,
+        "notes": [
+          "全文含多个日期的帖子；这些是历史变更线索，需当前国服客户端核对，不能当作已亲测。"
+        ],
+        "web_ref": "turn79view0"
+      }
+    ],
+    "work_key": "https://us.forums.blizzard.com/en/wow/t/wow-forever-beta-development-notes-%E2%80%93-updated-november-2/2360696",
+    "claim_ids": [
+      "R27C01",
+      "R27C02",
+      "R27C03",
+      "R27C04",
+      "R27C05",
+      "R27C06"
+    ],
+    "source_role": "official_reference"
+  },
+  {
+    "id": "S027",
+    "title": "《魔兽世界》：“无限”——“旧影拾遗”座谈会回顾",
+    "url": "https://wow.blizzard.cn/news/24304071/index.html",
+    "publisher": "魔兽世界运营团队 / Blizzard Entertainment",
+    "published_at": null,
+    "retrieved_at": "2026-11-18",
+    "kind": "official",
+    "web_ref": "turn62view3",
+    "access_level": "full_page",
+    "full_page_or_snippet": "full_page",
+    "summary": "仅将下列原子事实作为依据；卡片按引用读取，未转存原文。",
+    "source_aliases": [
+      "L02"
+    ],
+    "equivalent_urls": [
+      "https://wow.blizzard.cn/news/24304071/index.html"
+    ],
+    "editions": [
+      {
+        "id": "L02",
+        "url": "https://wow.blizzard.cn/news/24304071/index.html",
+        "title": "《魔兽世界》：“无限”——“旧影拾遗”座谈会回顾",
+        "published_at": null,
+        "retrieved_at": "2026-11-18",
+        "region": null,
+        "access_level": "full_page",
+        "notes": null,
+        "web_ref": "turn62view3"
+      }
+    ],
+    "work_key": "article:24304071",
+    "claim_ids": [
+      "L02.C1",
+      "L02.C2",
+      "L02.C3",
+      "L02.C4",
+      "L02.C5"
+    ],
+    "source_role": "official_reference"
+  },
+  {
+    "id": "S028",
+    "title": "《无限》短篇故事《荣誉的代价》官方介绍",
+    "url": "https://wow.blizzard.cn/news/24316096/index.html",
+    "publisher": "魔兽世界运营团队 / Blizzard Entertainment",
+    "published_at": "2026-11-17",
+    "retrieved_at": "2026-11-18",
+    "kind": "official",
+    "web_ref": "turn62view0",
+    "access_level": "full_page",
+    "full_page_or_snippet": "full_page",
+    "summary": "仅将下列原子事实作为依据；卡片按引用读取，未转存原文。",
+    "source_aliases": [
+      "L04",
+      "L04P"
+    ],
+    "equivalent_urls": [
+      "https://wow.blizzard.cn/news/24316096/index.html",
+      "https://wow.res.netease.com/images/20261117/1794881153402_edf989005f.pdf"
+    ],
+    "editions": [
+      {
+        "id": "L04",
+        "url": "https://wow.blizzard.cn/news/24316096/index.html",
+        "title": "《无限》短篇故事《荣誉的代价》官方介绍",
+        "published_at": "2026-11-17",
+        "retrieved_at": "2026-11-18",
+        "region": null,
+        "access_level": "full_page",
+        "notes": null,
+        "web_ref": "turn62view0"
+      },
+      {
+        "id": "L04P",
+        "url": "https://wow.res.netease.com/images/20261117/1794881153402_edf989005f.pdf",
+        "title": "《荣誉的代价》官方中文PDF",
+        "published_at": "2026-11-17",
+        "retrieved_at": "2026-11-18",
+        "region": null,
+        "access_level": "full_pdf_text",
+        "notes": null,
+        "web_ref": "turn69view0"
+      }
+    ],
+    "work_key": "story:cost_of_honor",
+    "claim_ids": [
+      "L04.C1",
+      "L04P.C1",
+      "L04P.C2",
+      "L04P.C3",
+      "L04P.C4"
+    ],
+    "source_role": "official_reference"
+  },
+  {
+    "id": "S029",
+    "title": "《无限》短篇故事《不屈》官方介绍",
+    "url": "https://wow.blizzard.cn/news/24313105/index.html",
+    "publisher": "魔兽世界运营团队 / Blizzard Entertainment",
+    "published_at": "2026-10-27",
+    "retrieved_at": "2026-11-18",
+    "kind": "official",
+    "web_ref": "turn73view0",
+    "access_level": "full_page",
+    "full_page_or_snippet": "full_page",
+    "summary": "仅将下列原子事实作为依据；卡片按引用读取，未转存原文。",
+    "source_aliases": [
+      "L08",
+      "L08P"
+    ],
+    "equivalent_urls": [
+      "https://wow.blizzard.cn/news/24313105/index.html",
+      "https://bnetcmsus-a.akamaihd.net/cms/template_resource/GU1EME7LW5WB1792604705816.pdf"
+    ],
+    "editions": [
+      {
+        "id": "L08",
+        "url": "https://wow.blizzard.cn/news/24313105/index.html",
+        "title": "《无限》短篇故事《不屈》官方介绍",
+        "published_at": "2026-10-27",
+        "retrieved_at": "2026-11-18",
+        "region": null,
+        "access_level": "full_page",
+        "notes": null,
+        "web_ref": "turn73view0"
+      },
+      {
+        "id": "L08P",
+        "url": "https://bnetcmsus-a.akamaihd.net/cms/template_resource/GU1EME7LW5WB1792604705816.pdf",
+        "title": "Unbowed 官方英文PDF",
+        "published_at": "2026-10-26",
+        "retrieved_at": "2026-11-18",
+        "region": null,
+        "access_level": "full_pdf_text",
+        "notes": null,
+        "web_ref": "turn74view1"
+      }
+    ],
+    "work_key": "story:unbowed",
+    "claim_ids": [
+      "L08.C1",
+      "L08P.C1",
+      "L08P.C2",
+      "L08P.C3",
+      "L08P.C4"
+    ],
+    "source_role": "official_reference"
+  },
+  {
+    "id": "S030",
+    "title": "Forced World Refresh auto fails escort quests",
+    "url": "https://us.forums.blizzard.com/en/wow/t/forced-world-refresh-auto-fails-escort-quests/2418875",
+    "publisher": "暴雪公开玩家论坛（玩家发帖）",
+    "published_at": "2026-11-17",
+    "retrieved_at": "2026-11-18",
+    "kind": "community_question",
+    "web_ref": "turn71view2",
+    "access_level": "full_page",
+    "full_page_or_snippet": "full_page",
+    "summary": "仅将下列原子事实作为依据；卡片按引用读取，未转存原文。",
+    "source_aliases": [
+      "LF01"
+    ],
+    "equivalent_urls": [
+      "https://us.forums.blizzard.com/en/wow/t/forced-world-refresh-auto-fails-escort-quests/2418875"
+    ],
+    "editions": [
+      {
+        "id": "LF01",
+        "url": "https://us.forums.blizzard.com/en/wow/t/forced-world-refresh-auto-fails-escort-quests/2418875",
+        "title": "Forced World Refresh auto fails escort quests",
+        "published_at": "2026-11-17",
+        "retrieved_at": "2026-11-18",
+        "region": null,
+        "access_level": "full_page",
+        "notes": null,
+        "web_ref": "turn71view2"
+      }
+    ],
+    "work_key": "https://us.forums.blizzard.com/en/wow/t/forced-world-refresh-auto-fails-escort-quests/2418875",
+    "claim_ids": [
+      "LF01.C1"
+    ],
+    "source_role": "question_discovery_only"
+  },
+  {
+    "id": "S031",
+    "title": "Cannot pick up The Manor, Ravenholdt quest",
+    "url": "https://us.forums.blizzard.com/en/wow/t/cannot-pick-up-the-manor-ravenholdt-quest/2411678",
+    "publisher": "暴雪公开玩家论坛（玩家发帖）",
+    "published_at": "2026-11-11",
+    "retrieved_at": "2026-11-18",
+    "kind": "community_question",
+    "web_ref": "turn71view3",
+    "access_level": "full_page",
+    "full_page_or_snippet": "full_page",
+    "summary": "仅将下列原子事实作为依据；卡片按引用读取，未转存原文。",
+    "source_aliases": [
+      "LF02"
+    ],
+    "equivalent_urls": [
+      "https://us.forums.blizzard.com/en/wow/t/cannot-pick-up-the-manor-ravenholdt-quest/2411678"
+    ],
+    "editions": [
+      {
+        "id": "LF02",
+        "url": "https://us.forums.blizzard.com/en/wow/t/cannot-pick-up-the-manor-ravenholdt-quest/2411678",
+        "title": "Cannot pick up The Manor, Ravenholdt quest",
+        "published_at": "2026-11-11",
+        "retrieved_at": "2026-11-18",
+        "region": null,
+        "access_level": "full_page",
+        "notes": null,
+        "web_ref": "turn71view3"
+      }
+    ],
+    "work_key": "https://us.forums.blizzard.com/en/wow/t/cannot-pick-up-the-manor-ravenholdt-quest/2411678",
+    "claim_ids": [
+      "LF02.C1"
+    ],
+    "source_role": "question_discovery_only"
+  },
+  {
+    "id": "S032",
+    "title": "The Drowned City achievement credit report",
+    "url": "https://us.forums.blizzard.com/en/wow/t/the-drowned-city/2412200",
+    "publisher": "暴雪公开玩家论坛（玩家发帖）",
+    "published_at": "2026-11-12",
+    "retrieved_at": "2026-11-18",
+    "kind": "community_question",
+    "web_ref": "turn71view4",
+    "access_level": "full_page",
+    "full_page_or_snippet": "full_page",
+    "summary": "仅将下列原子事实作为依据；卡片按引用读取，未转存原文。",
+    "source_aliases": [
+      "LF03"
+    ],
+    "equivalent_urls": [
+      "https://us.forums.blizzard.com/en/wow/t/the-drowned-city/2412200"
+    ],
+    "editions": [
+      {
+        "id": "LF03",
+        "url": "https://us.forums.blizzard.com/en/wow/t/the-drowned-city/2412200",
+        "title": "The Drowned City achievement credit report",
+        "published_at": "2026-11-12",
+        "retrieved_at": "2026-11-18",
+        "region": null,
+        "access_level": "full_page",
+        "notes": null,
+        "web_ref": "turn71view4"
+      }
+    ],
+    "work_key": "https://us.forums.blizzard.com/en/wow/t/the-drowned-city/2412200",
+    "claim_ids": [
+      "LF03.C1"
+    ],
+    "source_role": "question_discovery_only"
+  },
+  {
+    "id": "S033",
+    "title": "Escort Quests（测试期讨论）",
+    "url": "https://us.forums.blizzard.com/en/wow/t/escort-quests/2356665",
+    "publisher": "暴雪公开玩家论坛（玩家发帖）",
+    "published_at": "2026-09-21",
+    "retrieved_at": "2026-11-18",
+    "kind": "community_question",
+    "web_ref": "turn64search3",
+    "access_level": "search_result_article_text",
+    "full_page_or_snippet": "search_result_article_text",
+    "summary": "仅将下列原子事实作为依据；卡片按引用读取，未转存原文。",
+    "source_aliases": [
+      "LF04"
+    ],
+    "equivalent_urls": [
+      "https://us.forums.blizzard.com/en/wow/t/escort-quests/2356665"
+    ],
+    "editions": [
+      {
+        "id": "LF04",
+        "url": "https://us.forums.blizzard.com/en/wow/t/escort-quests/2356665",
+        "title": "Escort Quests（测试期讨论）",
+        "published_at": "2026-09-21",
+        "retrieved_at": "2026-11-18",
+        "region": null,
+        "access_level": "search_result_article_text",
+        "notes": null,
+        "web_ref": "turn64search3"
+      }
+    ],
+    "work_key": "https://us.forums.blizzard.com/en/wow/t/escort-quests/2356665",
+    "claim_ids": [
+      "LF04.C1"
+    ],
+    "source_role": "question_discovery_only"
+  },
+  {
+    "id": "S034",
+    "title": "How are you suppose to level?",
+    "url": "https://us.forums.blizzard.com/en/wow/t/how-are-you-suppose-to-level/2408040",
+    "published_at": "2026-11-09",
+    "retrieved_at": "2026-11-18",
+    "web_ref": "turn75view0",
+    "publisher": "Blizzard public forums / player posts",
+    "kind": "community_question",
+    "access_level": "public_page_read",
+    "summary": "玩家讨论抢怪、升级节奏与副本经验，回复中的体验并不一致。",
+    "usage": "仅用来发现问题和体验分歧；不作为机制、概率、当前服务状态的定论",
+    "source_aliases": [
+      "M01"
+    ],
+    "equivalent_urls": [
+      "https://us.forums.blizzard.com/en/wow/t/how-are-you-suppose-to-level/2408040"
+    ],
+    "editions": [
+      {
+        "id": "M01",
+        "url": "https://us.forums.blizzard.com/en/wow/t/how-are-you-suppose-to-level/2408040",
+        "title": "How are you suppose to level?",
+        "published_at": "2026-11-09",
+        "retrieved_at": "2026-11-18",
+        "region": null,
+        "access_level": "public_page_read",
+        "notes": null,
+        "web_ref": "turn75view0"
+      }
+    ],
+    "work_key": "https://us.forums.blizzard.com/en/wow/t/how-are-you-suppose-to-level/2408040",
+    "claim_ids": [],
+    "source_role": "question_discovery_only"
+  },
+  {
+    "id": "S035",
+    "title": "I am sorry i chose healer in forever",
+    "url": "https://us.forums.blizzard.com/en/wow/t/i-am-sorry-i-chose-healer-in-forever/2413943",
+    "published_at": "2026-11-13",
+    "retrieved_at": "2026-11-18",
+    "web_ref": "turn75view1",
+    "publisher": "Blizzard public forums / player posts",
+    "kind": "community_question",
+    "access_level": "public_page_read",
+    "summary": "玩家讨论治疗定位的单人升级体验、队伍节奏和配装取舍。",
+    "usage": "仅用来发现问题和体验分歧；不作为机制、概率、当前服务状态的定论",
+    "source_aliases": [
+      "M02"
+    ],
+    "equivalent_urls": [
+      "https://us.forums.blizzard.com/en/wow/t/i-am-sorry-i-chose-healer-in-forever/2413943"
+    ],
+    "editions": [
+      {
+        "id": "M02",
+        "url": "https://us.forums.blizzard.com/en/wow/t/i-am-sorry-i-chose-healer-in-forever/2413943",
+        "title": "I am sorry i chose healer in forever",
+        "published_at": "2026-11-13",
+        "retrieved_at": "2026-11-18",
+        "region": null,
+        "access_level": "public_page_read",
+        "notes": null,
+        "web_ref": "turn75view1"
+      }
+    ],
+    "work_key": "https://us.forums.blizzard.com/en/wow/t/i-am-sorry-i-chose-healer-in-forever/2413943",
+    "claim_ids": [],
+    "source_role": "question_discovery_only"
+  },
+  {
+    "id": "S036",
+    "title": "Questing is miserable - Layers overcrowded - mobs respawn too slow",
+    "url": "https://us.forums.blizzard.com/en/wow/t/questing-is-miserable-layers-overcrowded-mobs-respawn-too-slow/2405753",
+    "published_at": "2026-11-08",
+    "retrieved_at": "2026-11-18",
+    "web_ref": "turn75view2",
+    "publisher": "Blizzard public forums / player posts",
+    "kind": "community_question",
+    "access_level": "public_page_read",
+    "summary": "部分玩家报告任务点拥挤、等待刷新和击杀归属竞争；不代表当前所有规则集。",
+    "usage": "仅用来发现问题和体验分歧；不作为机制、概率、当前服务状态的定论",
+    "source_aliases": [
+      "M03"
+    ],
+    "equivalent_urls": [
+      "https://us.forums.blizzard.com/en/wow/t/questing-is-miserable-layers-overcrowded-mobs-respawn-too-slow/2405753"
+    ],
+    "editions": [
+      {
+        "id": "M03",
+        "url": "https://us.forums.blizzard.com/en/wow/t/questing-is-miserable-layers-overcrowded-mobs-respawn-too-slow/2405753",
+        "title": "Questing is miserable - Layers overcrowded - mobs respawn too slow",
+        "published_at": "2026-11-08",
+        "retrieved_at": "2026-11-18",
+        "region": null,
+        "access_level": "public_page_read",
+        "notes": null,
+        "web_ref": "turn75view2"
+      }
+    ],
+    "work_key": "https://us.forums.blizzard.com/en/wow/t/questing-is-miserable-layers-overcrowded-mobs-respawn-too-slow/2405753",
+    "claim_ids": [],
+    "source_role": "question_discovery_only"
+  },
+  {
+    "id": "S037",
+    "title": "Shaman changes",
+    "url": "https://us.forums.blizzard.com/en/wow/t/shaman-changes/2411494",
+    "published_at": "2026-11-11",
+    "retrieved_at": "2026-11-18",
+    "web_ref": "turn75view3",
+    "publisher": "Blizzard public forums / player posts",
+    "kind": "community_question",
+    "access_level": "public_page_read",
+    "summary": "玩家表达增强萨满调整后的挫折与职业体验分歧。",
+    "usage": "仅用来发现问题和体验分歧；不作为机制、概率、当前服务状态的定论",
+    "source_aliases": [
+      "M04"
+    ],
+    "equivalent_urls": [
+      "https://us.forums.blizzard.com/en/wow/t/shaman-changes/2411494"
+    ],
+    "editions": [
+      {
+        "id": "M04",
+        "url": "https://us.forums.blizzard.com/en/wow/t/shaman-changes/2411494",
+        "title": "Shaman changes",
+        "published_at": "2026-11-11",
+        "retrieved_at": "2026-11-18",
+        "region": null,
+        "access_level": "public_page_read",
+        "notes": null,
+        "web_ref": "turn75view3"
+      }
+    ],
+    "work_key": "https://us.forums.blizzard.com/en/wow/t/shaman-changes/2411494",
+    "claim_ids": [],
+    "source_role": "question_discovery_only"
+  },
+  {
+    "id": "S038",
+    "title": "We need to talk about Dungeon XP in Forever",
+    "url": "https://us.forums.blizzard.com/en/wow/t/we-need-to-talk-about-dungeon-xp-in-forever/2359222",
+    "published_at": null,
+    "retrieved_at": "2026-11-18",
+    "web_ref": "turn75view4",
+    "publisher": "Blizzard public forums / player posts",
+    "kind": "community_question",
+    "access_level": "public_page_read",
+    "summary": "副本经验是社区持续讨论的问题，旧贴意见不能代替当前经验规则。",
+    "usage": "仅用来发现问题和体验分歧；不作为机制、概率、当前服务状态的定论",
+    "source_aliases": [
+      "M05"
+    ],
+    "equivalent_urls": [
+      "https://us.forums.blizzard.com/en/wow/t/we-need-to-talk-about-dungeon-xp-in-forever/2359222"
+    ],
+    "editions": [
+      {
+        "id": "M05",
+        "url": "https://us.forums.blizzard.com/en/wow/t/we-need-to-talk-about-dungeon-xp-in-forever/2359222",
+        "title": "We need to talk about Dungeon XP in Forever",
+        "published_at": null,
+        "retrieved_at": "2026-11-18",
+        "region": null,
+        "access_level": "public_page_read",
+        "notes": null,
+        "web_ref": "turn75view4"
+      }
+    ],
+    "work_key": "https://us.forums.blizzard.com/en/wow/t/we-need-to-talk-about-dungeon-xp-in-forever/2359222",
+    "claim_ids": [],
+    "source_role": "question_discovery_only"
+  },
+  {
+    "id": "S039",
+    "title": "Enchanting Vellums PLEASE",
+    "url": "https://us.forums.blizzard.com/en/wow/t/enchanting-vellums-please/2390139",
+    "published_at": null,
+    "retrieved_at": "2026-11-18",
+    "web_ref": "turn75view5",
+    "publisher": "Blizzard public forums / player posts",
+    "kind": "community_question",
+    "access_level": "public_page_read",
+    "summary": "社区讨论附魔交易便利性；玩家诉求不能证明对应功能已实现。",
+    "usage": "仅用来发现问题和体验分歧；不作为机制、概率、当前服务状态的定论",
+    "source_aliases": [
+      "M06"
+    ],
+    "equivalent_urls": [
+      "https://us.forums.blizzard.com/en/wow/t/enchanting-vellums-please/2390139"
+    ],
+    "editions": [
+      {
+        "id": "M06",
+        "url": "https://us.forums.blizzard.com/en/wow/t/enchanting-vellums-please/2390139",
+        "title": "Enchanting Vellums PLEASE",
+        "published_at": null,
+        "retrieved_at": "2026-11-18",
+        "region": null,
+        "access_level": "public_page_read",
+        "notes": null,
+        "web_ref": "turn75view5"
+      }
+    ],
+    "work_key": "https://us.forums.blizzard.com/en/wow/t/enchanting-vellums-please/2390139",
+    "claim_ids": [],
+    "source_role": "question_discovery_only"
+  },
+  {
+    "id": "S040",
+    "title": "WoW Forever adds dynamic lighting, but OCE is stuck in perpetual midnight",
+    "url": "https://us.forums.blizzard.com/en/wow/t/wow-forever-adds-dynamic-lighting-but-oce-is-stuck-in-perpetual-midnight-fix-the-daynight-cycle/2365303",
+    "published_at": null,
+    "retrieved_at": "2026-11-18",
+    "web_ref": "turn75view6",
+    "publisher": "Blizzard public forums / player posts",
+    "kind": "community_question",
+    "access_level": "public_page_read",
+    "summary": "大洋洲社区讨论游戏昼夜与游玩时段；不用于断言国服当前天气或时间。",
+    "usage": "仅用来发现问题和体验分歧；不作为机制、概率、当前服务状态的定论",
+    "source_aliases": [
+      "M07"
+    ],
+    "equivalent_urls": [
+      "https://us.forums.blizzard.com/en/wow/t/wow-forever-adds-dynamic-lighting-but-oce-is-stuck-in-perpetual-midnight-fix-the-daynight-cycle/2365303"
+    ],
+    "editions": [
+      {
+        "id": "M07",
+        "url": "https://us.forums.blizzard.com/en/wow/t/wow-forever-adds-dynamic-lighting-but-oce-is-stuck-in-perpetual-midnight-fix-the-daynight-cycle/2365303",
+        "title": "WoW Forever adds dynamic lighting, but OCE is stuck in perpetual midnight",
+        "published_at": null,
+        "retrieved_at": "2026-11-18",
+        "region": null,
+        "access_level": "public_page_read",
+        "notes": null,
+        "web_ref": "turn75view6"
+      }
+    ],
+    "work_key": "https://us.forums.blizzard.com/en/wow/t/wow-forever-adds-dynamic-lighting-but-oce-is-stuck-in-perpetual-midnight-fix-the-daynight-cycle/2365303",
+    "claim_ids": [],
+    "source_role": "question_discovery_only"
+  }
+]

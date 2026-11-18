@@ -1,0 +1,1 @@
+{"job_id": "r3_review_low", "result": {"pass": true, "approved_reply": "先朝远离这只野猪的方向移动！", "issues": [], "evidence_ids": ["R3-SNAPSHOT", "R3U"], "reason_brief": "原稿依据当前受攻击状态给出单步移动建议，未假定路线、按键或治疗能力，符合紧急简短要求。"}, "completed_unix_ms": 1794681179631}

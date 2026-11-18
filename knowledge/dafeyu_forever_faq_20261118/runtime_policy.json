@@ -1,0 +1,39 @@
+{
+  "version": "2026.11.18-v1",
+  "default_auto_send": false,
+  "runtime_contract": "各Agent只接收本轮信息包；规则/事实/角色资产为版本化静态内容。不得读取他Agent会话或把共享磁盘当共享私有记忆。",
+  "proposed_frequency_defaults_not_measured": {
+    "ambient_min_interval_seconds": 90,
+    "real_world_probe_min_interval_seconds": 1200,
+    "real_world_probes_max_per_session": 2,
+    "unanswered_probe_blocks_next": true,
+    "same_event_max_deliveries": 1
+  },
+  "priority": [
+    "用户最新明确要求",
+    "事实与当前状态",
+    "眼前有用交付",
+    "性格与好奇",
+    "表达变化"
+  ],
+  "hard_gates": [
+    "未知条件视为不满足",
+    "静音不触发陪伴对白",
+    "战斗中不讲长故事或问现实",
+    "目标消失不等于死亡",
+    "有名友方NPC不当强敌庆祝",
+    "首杀需独立证据",
+    "剧透需明确许可",
+    "模板变量必须绑定已知事实",
+    "新状态与新偏好到达后旧候选作废"
+  ],
+  "source_order": [
+    "当前无限国服客户端可验证状态",
+    "适用的最新国服公告",
+    "版本适用的官方资料",
+    "海外公告（地区隔离）",
+    "玩家帖子（问题发现，非机制定论）"
+  ],
+  "offline_learning": "记录未命中/误命中/重复/打扰；离线补充候选，独立复核后发新版本；不能用户没反对就当满意。",
+  "engine_note": "本地检索示例只返回候选；条件未可靠映射时阻止自动交付。"
+}

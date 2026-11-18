@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="大肥鱼陪伴精灵：从现状、难点和一手调研，到可播放的低延迟链路设计。分别查看实测证据与时间、token预算。">
+  <meta name="theme-color" content="#f5f7f7">
+  <title>大肥鱼 · 让陪伴及时发生</title>
+  <style>__CSS__</style>
+</head>
+<body>
+  <a class="skip" href="#main">跳到主要内容</a>
+  <header class="topbar">
+    <a class="brand" href="https://companion-agent-studio-nov15.mylssssdddd.chatgpt.site" aria-label="返回陪伴精灵首页">
+      <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+      <span><strong>大肥鱼 · 陪伴精灵</strong><small>互动链路研究室</small></span>
+    </a>
+    <div class="toplinks">
+      <a href="https://companion-agent-studio-nov15.mylssssdddd.chatgpt.site/natural-test.html">查看真实日志 ↗</a>
+      <a href="https://companion-agent-studio-nov15.mylssssdddd.chatgpt.site/streaming-plan.md">完整说明 ↗</a>
+      <button class="plain-button" id="download-html" type="button">下载 HTML</button>
+    </div>
+  </header>
+  <main id="main" class="page">
+    <section class="intro">
+      <div class="intro-main">
+        <p class="eyebrow">从实测出发 · 低延迟交互设计</p>
+        <h1>先交付有用的一句。<br><span>其余工作，在后台继续。</span></h1>
+        <p class="intro-copy">点击模块看职责与消耗，播放场景看玩家何时收到什么。先把等待拆开，再决定哪些 Agent 值得启动。</p>
+      </div>
+      <aside class="evidence-key" aria-label="数字口径">
+        <div><span class="key-dot measured"></span><b>实测记录</b><span>过去的任务日志与本地检索</span></div>
+        <div><span class="key-dot planned"></span><b>规划预算</b><span>下一版的目标，尚待 API 验证</span></div>
+        <div><span class="key-dot unknown"></span><b>未采集</b><span>不把未知值补成 0</span></div>
+        <p id="data-date"></p>
+      </aside>
+    </section>
+
+    <nav class="tabs" role="tablist" aria-label="研究与设计章节">
+      <button id="tab-current" role="tab" aria-controls="panel-current" aria-selected="false" tabindex="-1" data-tab="current"><span>01</span>现状</button>
+      <button id="tab-difficulties" role="tab" aria-controls="panel-difficulties" aria-selected="false" tabindex="-1" data-tab="difficulties"><span>02</span>难点</button>
+      <button id="tab-research" role="tab" aria-controls="panel-research" aria-selected="false" tabindex="-1" data-tab="research"><span>03</span>类似方案调研</button>
+      <button id="tab-plan" role="tab" aria-controls="panel-plan" aria-selected="true" tabindex="0" data-tab="plan"><span>04</span>方案与预演</button>
+    </nav>
+
+    <section id="panel-current" class="tab-panel" role="tabpanel" aria-labelledby="tab-current" hidden>
+      <div class="section-title"><div><p class="eyebrow">我们已掌握的证据</p><h2>快与慢，要先量在同一个位置。</h2></div><span class="tag measured-tag">历史实测</span></div>
+      <div id="baseline-metrics" class="metrics-grid"></div>
+      <div class="paper baseline-table"><div class="paper-heading"><h3>上一轮 8 个基础场景</h3><p>这两个时长包含任务与编排开销，均非纯 API TTFT。</p></div><div class="table-scroll"><table><thead><tr><th>场景</th><th>派发 → 候选审核</th><th>完整 loop</th></tr></thead><tbody id="baseline-rows"></tbody></table></div></div>
+      <div class="limits"><h3>这些证据还不能说明什么</h3><ul id="baseline-limits"></ul></div>
+    </section>
+
+    <section id="panel-difficulties" class="tab-panel" role="tabpanel" aria-labelledby="tab-difficulties" hidden>
+      <div class="section-title"><div><p class="eyebrow">把慢点变成可处理的问题</p><h2>速度、准确与自然感，需要一起设计。</h2></div></div>
+      <div class="issue-header"><span>难点</span><span>当前证据</span><span>对应调整</span></div>
+      <div id="difficulties-list"></div>
+    </section>
+
+    <section id="panel-research" class="tab-panel" role="tabpanel" aria-labelledby="tab-research" hidden>
+      <div class="section-title"><div><p class="eyebrow">一手资料 · 对应到当前链路</p><h2>借用成熟机制，也保留它们的适用边界。</h2></div></div>
+      <div id="research-list" class="research-list"></div>
+      <details class="source-disclosure" open><summary>资料来源与核对日期</summary><ol id="sources-list"></ol></details>
+    </section>
+
+    <section id="panel-plan" class="tab-panel" role="tabpanel" aria-labelledby="tab-plan">
+      <div class="section-title plan-heading"><div><p class="eyebrow">一张图，看清谁需要等待</p><h2>按需要调度，所有交付都经过发布审核。</h2></div><span class="tag planned-tag">设计方案 · 尚未接入真实游戏</span></div>
+      <div class="architecture">
+        <section class="paper diagram-paper" aria-labelledby="flow-heading">
+          <div class="paper-heading diagram-heading"><div><h3 id="flow-heading">主链路</h3><p>点击任意模块查看职责、模型、预算和错误历史。</p></div><div class="diagram-key"><span><i class="route-key"></i>当前场景</span><span><i class="background-key"></i>后台</span></div></div>
+          <div class="flow-scroll" id="flow-scroll">
+            <div class="flow" id="flow">
+              <svg id="flow-lines" aria-hidden="true"><defs><marker id="flow-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z"></path></marker><marker id="flow-arrow-active" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z"></path></marker></defs><g id="flow-edges"></g></svg>
+              <button class="flow-node node-input" data-node="input"><span class="node-index">01</span><span class="node-copy"><b></b><small></small></span></button>
+              <button class="flow-node node-route" data-node="route"><span class="node-index">02</span><span class="node-copy"><b></b><small></small></span></button>
+              <div class="branch-caption branch-instant">命中且条件齐全</div><div class="branch-caption branch-fast">需要理解与表达</div><div class="branch-caption branch-complex">需要新信息或规划</div>
+              <button class="flow-node node-instant" data-node="instant"><span class="node-index">03</span><span class="node-copy"><b></b><small></small></span></button>
+              <button class="flow-node node-fast" data-node="fast"><span class="node-index">04</span><span class="node-copy"><b></b><small></small></span></button>
+              <button class="flow-node node-plan" data-node="plan"><span class="node-index">05</span><span class="node-copy"><b></b><small></small></span></button>
+              <button class="flow-node node-tools" data-node="tools"><span class="node-index">06</span><span class="node-copy"><b></b><small></small></span></button>
+              <p class="complex-note">规划先产 DAG，独立查询再并发</p>
+              <button class="flow-node node-gate" data-node="gate"><span class="node-index">07</span><span class="node-copy"><b></b><small></small></span></button>
+              <button class="flow-node node-deliver" data-node="deliver"><span class="node-index">08</span><span class="node-copy"><b></b><small></small></span></button>
+              <div class="background-band"><span>后台 · 不阻塞玩家交付</span></div>
+              <button class="flow-node background-node node-reflect" data-node="reflect"><span class="node-index">09</span><span class="node-copy"><b></b><small></small></span></button>
+              <button class="flow-node background-node node-memory" data-node="memory"><span class="node-index">10</span><span class="node-copy"><b></b><small></small></span></button>
+            </div>
+          </div>
+          <div class="diagram-foot"><span>复杂任务：规划 → 查询 → 合流决策。普通刷新可从路由直接查询。</span><span>明确消息包；Agent 不共享私有记忆。</span></div>
+        </section>
+        <aside class="paper inspector" aria-labelledby="inspector-title"><div id="module-detail"></div></aside>
+      </div>
+      <details class="architecture-notes"><summary>链路约束与信息边界</summary><ul id="architecture-notes"></ul></details>
+
+      <section class="replay-section" aria-labelledby="replay-heading">
+        <div class="section-title"><div><p class="eyebrow">玩家可见 × 前台内部 × 后台</p><h2 id="replay-heading">播放一轮，看看等待发生在哪里。</h2></div><span class="tag planned-tag">预算预演 · 非真实 API streaming</span></div>
+        <div class="paper replay">
+          <div class="scenario-top"><label for="scenario-select">选择场景</label><select id="scenario-select"></select><span id="scenario-kind" class="tag"></span><button id="download-json" class="plain-button" type="button">导出方案 JSON</button></div>
+          <div class="scenario-brief"><div><span class="overline">玩家输入</span><p id="scenario-user"></p></div><div><span class="overline">已传入的信息</span><p id="scenario-context"></p></div></div>
+          <div class="timing-metrics" id="timing-metrics"></div>
+          <p class="time-origin">时间轴从玩家输入开始；首 delta 指生成玩家回复的文字流，规划 JSON 不计入。API TTFT 另从该请求发出计时。所有时刻均为预算。</p>
+          <div class="play-controls"><button id="play-pause" class="primary-button" type="button">播放预演</button><button id="next-event" class="secondary-button" type="button">下一事件</button><button id="restart" class="plain-button" type="button">重置</button><label class="speed-label">速度 <select id="play-speed"><option value="1">1×</option><option value="4">4×</option><option value="20">20×</option></select></label><output id="current-time">0.000 s</output><span class="duration" id="total-time"></span></div>
+          <div class="scrubber-wrap"><label class="sr-only" for="scrubber">预演时间</label><input id="scrubber" type="range" min="0" max="1000" value="0" step="1"></div>
+          <div class="jump-controls"><span>直接跳到</span><button id="jump-useful" type="button">第一有用交付</button><button id="jump-foreground" type="button">前台完成</button><button id="jump-background" type="button">后台完成</button></div>
+          <div class="stream-layout">
+            <div class="timeline-pane"><div class="timeline-head"><h3>Streaming 路径</h3><span>保持线性时间刻度，可横向滚动</span></div><div class="timeline-scroll" id="timeline-scroll"><div id="timeline" class="timeline"></div></div><div class="lane-legend"><span><i class="user-lane"></i>玩家可见</span><span><i class="front-lane"></i>前台内部</span><span><i class="back-lane"></i>后台静默</span></div></div>
+            <section class="chat-pane" aria-label="玩家收到的内容"><div class="chat-heading"><span class="fish-symbol" aria-hidden="true">✦</span><div><h3>玩家此刻看见的</h3><p>只有通过审核的交付进入这里</p></div></div><div id="chat-messages" class="chat-messages"></div><p id="chat-status" class="chat-status"></p></section>
+          </div>
+          <div class="scenario-bottom"><div class="budget-summary"><p class="overline">本轮预期消耗</p><strong id="token-summary"></strong><p id="token-detail"></p></div><div class="outcome-summary"><p class="overline">预期成果</p><p id="scenario-output"></p></div></div>
+          <details class="scenario-conditions"><summary>本场景的交付前提与降级条件</summary><ul id="scenario-conditions"></ul></details>
+          <details class="event-disclosure" open><summary>本次预演事件 <span id="event-count"></span><small>设计事件，不是实际模型日志</small></summary><div id="event-log" class="event-log"></div></details>
+        </div>
+      </section>
+      <details class="token-notes"><summary>Token 预算口径：哪些可估，哪些必须等 usage</summary><ul id="token-notes"></ul></details>
+      <section class="acceptance-section" aria-labelledby="acceptance-heading"><div class="section-title"><div><p class="eyebrow">每一步都留下可验收的成果</p><h2 id="acceptance-heading">实现、验收，再决定下一处优化。</h2></div></div><div class="table-scroll paper"><table class="acceptance-table"><thead><tr><th>阶段</th><th>交付成果</th><th>通过条件</th><th>不通过时调整</th></tr></thead><tbody id="acceptance-rows"></tbody></table></div></section>
+    </section>
+    <footer class="footer"><p id="footer-note"></p><a href="https://companion-agent-studio-nov15.mylssssdddd.chatgpt.site/natural-test.html">查看上一轮实际事件与原始日志 ↗</a></footer>
+  </main>
+  <div id="live-status" class="sr-only" role="status" aria-live="polite"></div>
+  <script id="streaming-data" type="application/json">__DATA__</script>
+  <script>__JS__</script>
+</body>
+</html>

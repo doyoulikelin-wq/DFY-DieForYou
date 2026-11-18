@@ -1,0 +1,577 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="大肥鱼陪伴精灵：从现状、难点和一手调研，到可播放的低延迟链路设计。分别查看实测证据与时间、token预算。">
+  <meta name="theme-color" content="#f5f7f7">
+  <title>大肥鱼 · 让陪伴及时发生</title>
+  <style>:root{--bg:#f5f7f7;--paper:#fff;--ink:#23363d;--muted:#6b7c80;--subtle:#8b999d;--line:#dfe7e7;--green:#197c69;--green-light:#edf7f2;--purple:#7a62aa;--purple-light:#f5f1fa;--blue:#577e9a;--amber:#946e35;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;font-synthesis:none;color:var(--ink);background:var(--bg);line-height:1.6}
+*{box-sizing:border-box}body{margin:0}button,input,select{font:inherit;color:inherit}button,select,summary{cursor:pointer}button{border:0}a{color:var(--green);text-decoration:none}a:hover{text-decoration:underline}h1,h2,h3,h4,p{margin:0}button,a,select,input,summary{-webkit-tap-highlight-color:transparent}button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visible,[tabindex]:focus-visible{outline:3px solid #5cb39c;outline-offset:4px}button:disabled{cursor:default;opacity:.42}button:hover:not(:disabled){filter:brightness(.98)}[hidden]{display:none!important}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}.skip{position:fixed;left:20px;top:-80px;z-index:100;background:white;padding:12px;border:2px solid var(--green);border-radius:8px}.skip:focus{top:10px}ul,ol{padding-left:20px}code,pre{font-family:"SFMono-Regular",Consolas,"Liberation Mono",monospace}
+.topbar{height:79px;padding:0 34px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:24px}.brand{display:flex;align-items:center;gap:12px;color:var(--ink)}.brand:hover{text-decoration:none}.brand strong{font-size:15px;letter-spacing:.025em;font-weight:680}.brand small{display:block;color:var(--subtle);font-size:10px;letter-spacing:.1em;margin-top:2px}.brand-mark{display:grid;grid-template-columns:repeat(2,7px);gap:5px;place-content:center;width:38px;height:38px;background:#edf5f1;border-radius:12px;transform:rotate(-8deg)}.brand-mark i{width:7px;height:7px;border-radius:2px;background:#71ad99}.brand-mark i:nth-child(2){background:#a69abc}.brand-mark i:nth-child(3){background:#8ca6b2}.toplinks{display:flex;align-items:center;gap:23px;font-size:12px}.toplinks a{color:var(--muted)}.plain-button{background:transparent;color:var(--muted);padding:8px 2px;font-size:12px}.toplinks .plain-button{padding:7px 13px;border:1px solid var(--line);border-radius:8px}.page{max-width:1480px;padding:38px 34px 22px;margin:auto}.intro{display:flex;justify-content:space-between;gap:45px;align-items:center;margin-bottom:33px}.eyebrow{font-size:10px;letter-spacing:.12em;color:var(--green);font-weight:700}.intro h1{font-size:34px;line-height:1.45;letter-spacing:.015em;margin:11px 0 13px;font-weight:710}.intro h1 span{color:#738584;font-weight:450}.intro-copy{font-size:13px;color:var(--muted);max-width:650px;line-height:1.9}.evidence-key{flex-shrink:0;border-left:1px solid var(--line);padding:7px 0 3px 30px;min-width:300px}.evidence-key div{display:grid;grid-template-columns:8px 70px 1fr;gap:10px;align-items:center;font-size:10px;color:var(--muted);margin:9px 0}.evidence-key b{font-size:11px;font-weight:600;color:#52676c}.key-dot{width:6px;height:6px;border-radius:50%;display:inline-block}.measured{background:#438e78}.planned{background:#9c83bd}.unknown{background:#a5b0b3}.evidence-key p{font-size:10px;color:var(--subtle);margin-top:15px}.tabs{display:flex;border-bottom:1px solid #d7e1e0;gap:5px;margin-bottom:28px}.tabs button{position:relative;background:transparent;padding:15px 21px 16px;font-size:13px;color:var(--muted);display:flex;gap:9px;align-items:center;white-space:nowrap}.tabs button span{font-size:10px;color:#9ba9ab}.tabs button[aria-selected=true]{color:var(--green);font-weight:650}.tabs button[aria-selected=true]:after{content:"";height:3px;background:var(--green);border-radius:3px;position:absolute;left:21px;right:21px;bottom:-2px}.section-title{display:flex;justify-content:space-between;align-items:center;gap:20px;margin:0 0 20px}.section-title h2{font-size:21px;line-height:1.5;font-weight:650;margin-top:5px;letter-spacing:.01em}.tag{display:inline-flex;align-items:center;justify-content:center;padding:4px 9px;border-radius:6px;white-space:nowrap;font-size:10px;background:#f0f3f4;color:#70838c;line-height:1.6}.planned-tag{background:var(--purple-light);color:#8870a6}.measured-tag{background:var(--green-light);color:#4a8b74}.unknown-tag{background:#f0f3f3;color:#889694}.paper{background:var(--paper);border:1px solid var(--line);border-radius:13px;overflow:hidden}.paper-heading{padding:18px 21px;border-bottom:1px solid #ebf0ef}.paper-heading h3{font-size:13px;font-weight:650}.paper-heading p{font-size:11px;color:var(--subtle);margin-top:3px}.metrics-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:15px;margin-bottom:24px}.metric{padding:22px 22px 18px;background:white;border:1px solid var(--line);border-radius:11px}.metric-value{font-size:28px;font-weight:650;letter-spacing:-.025em;margin-bottom:5px;color:var(--green)}.metric h3{font-size:12px;font-weight:600}.metric p{font-size:11px;color:var(--muted);line-height:1.8;margin-top:10px}.metric a{display:inline-block;font-size:11px;margin-top:11px}.metric .tag{margin-bottom:10px}.table-scroll{overflow-x:auto}table{width:100%;border-collapse:collapse;text-align:left;font-size:12px}th{background:#fafcfc;color:var(--muted);font-size:11px;font-weight:550;padding:12px 21px;white-space:nowrap}td{padding:14px 21px;border-top:1px solid #eaf0ef;vertical-align:top;line-height:1.8}td:nth-child(n+2){font-variant-numeric:tabular-nums}.baseline-table{max-width:100%}.baseline-table td:nth-child(n+2){width:25%}.limits{margin:27px 0 14px;background:#f0f4f3;padding:20px 24px;border-radius:11px}.limits h3{font-size:12px;font-weight:650}.limits ul{font-size:12px;line-height:1.9;color:var(--muted);margin:9px 0 0}.issue-header,.issue{display:grid;grid-template-columns:minmax(140px,.7fr) 1.2fr 1.2fr;gap:35px}.issue-header{font-size:10px;color:var(--subtle);padding:12px 24px 10px}.issue{padding:24px;border-top:1px solid var(--line);background:white}.issue:last-child{border-bottom:1px solid var(--line)}.issue h3{font-size:14px;font-weight:650;line-height:1.8}.issue p{font-size:12px;line-height:1.9;color:var(--muted)}.issue .issue-change{color:#4f7b70}.research-list{display:grid;gap:0;border:1px solid var(--line);border-radius:13px;overflow:hidden;background:white}.research-item{padding:24px;display:grid;grid-template-columns:200px 1fr;gap:29px;border-bottom:1px solid #e8eeee}.research-item:last-child{border-bottom:0}.research-item h3{font-size:15px;font-weight:650;line-height:1.7;margin:8px 0 10px}.research-number{font-size:10px;color:#a1afb2;font-variant-numeric:tabular-nums}.research-body{display:grid;grid-template-columns:1fr 1fr;gap:12px 28px;font-size:12px;line-height:1.9;color:var(--muted)}.research-body p b{display:block;color:#4c646a;font-size:10px;font-weight:600;margin-bottom:5px}.research-body .research-limit{grid-column:1/-1;padding-top:10px;border-top:1px dashed #e2e9e7;font-size:11px}.research-links{display:flex;flex-wrap:wrap;gap:6px;font-size:10px}.research-links a{padding:3px 7px;background:#f3f7f5;border-radius:5px}.source-disclosure{margin-top:20px;padding:17px 21px;border:1px solid var(--line);border-radius:11px;background:#fff}.source-disclosure summary{font-size:12px;color:#566d73}.source-disclosure ol{font-size:11px;color:var(--muted);margin-bottom:0}.source-disclosure li{padding:6px 0;line-height:1.8}.source-disclosure small{display:block;color:var(--subtle)}
+.architecture{display:grid;grid-template-columns:minmax(0,1fr) 329px;gap:18px;align-items:start}.diagram-heading{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:16px 20px}.diagram-key{display:flex;gap:12px;font-size:10px;color:var(--subtle)}.diagram-key span,.lane-legend span{display:flex;gap:6px;align-items:center;white-space:nowrap}.diagram-key i{display:inline-block;width:13px;height:2px}.route-key{background:var(--green)}.background-key{background:#a597b8}.flow-scroll{overflow-x:auto;background-image:radial-gradient(#dfe7e4 .7px,transparent .7px);background-size:18px 18px}.flow{position:relative;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-template-rows:65px 35px 65px 36px 68px 36px 67px 36px 65px 55px 65px;column-gap:15px;max-width:100%;min-width:690px;padding:24px 24px 30px}.flow svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}.flow marker path{fill:#c3cfcd}.flow #flow-arrow-active path{fill:#6aa791}.flow-edge{fill:none;stroke:#ccd7d4;stroke-width:1.35;marker-end:url(#flow-arrow)}.flow-edge.is-route{stroke:#78aa99;stroke-width:1.7;marker-end:url(#flow-arrow-active)}.flow-edge.is-background{stroke-dasharray:4 4}.flow-edge.is-optional{stroke-dasharray:2 4}.flow-node{min-width:0;position:relative;z-index:1;display:flex;align-items:center;gap:9px;text-align:left;background:#fff;border:1px solid #d8e2df;border-radius:10px;padding:10px 11px;box-shadow:0 2px 4px #23363d03;transition:border-color .15s,box-shadow .15s,opacity .15s}.flow-node:hover{border-color:#8eb5a6}.flow-node .node-index{font-size:10px;display:grid;place-items:center;width:24px;height:27px;background:#f2f5f4;border-radius:6px;color:#859a91;flex-shrink:0}.flow-node b{display:block;font-size:11px;line-height:1.6;font-weight:650}.flow-node small{display:block;font-size:9px;line-height:1.6;color:#8b9898;margin-top:3px}.flow-node.selected{border-color:var(--green);box-shadow:0 0 0 3px #24876d13}.flow-node.is-route{border-color:#91bcaa;background:#fcfefc}.flow-node.is-outside{opacity:.53}.flow-node.is-outside.selected,.flow-node.is-outside:hover{opacity:1}.flow-node.is-now{border-color:#2a9c7e;box-shadow:0 0 0 3px #40aa841c}.node-copy{min-width:0}.node-input{grid-column:2/4;grid-row:1}.node-route{grid-column:2/4;grid-row:3}.node-instant{grid-column:1;grid-row:5}.node-fast{grid-column:2;grid-row:5}.node-plan{grid-column:3;grid-row:5}.node-tools{grid-column:4;grid-row:5}.node-gate{grid-column:2/4;grid-row:7}.node-deliver{grid-column:2/4;grid-row:9;border-color:#82b5a1;background:#f6fbf8}.node-deliver .node-index{background:#eaf5ee;color:#5c9e83}.background-band{grid-column:1/-1;grid-row:11;background:#f7f4fb;border:1px dashed #ddd5e7;border-radius:12px;position:relative;inset:-13px -10px -10px;width:calc(100% + 20px);height:calc(100% + 26px)}.background-band span{font-size:9px;color:#a292b5;position:absolute;left:13px;top:8px;max-width:85px}.node-reflect{grid-column:2;grid-row:11}.node-memory{grid-column:3;grid-row:11}.background-node{border-color:#ded6e7;background:#fff;box-shadow:none}.background-node .node-index{background:#f5f1fa;color:#ab98c1}.branch-caption{font-size:9px;color:#94a2a0;align-self:end;padding-bottom:7px;text-align:center;z-index:1}.branch-instant{grid-column:1;grid-row:4}.branch-fast{grid-column:2;grid-row:4}.branch-complex{grid-column:3/5;grid-row:4}.complex-note{font-size:8px;line-height:1.7;color:#9d96ab;grid-column:3/5;grid-row:6;text-align:center;align-self:center;z-index:1;justify-self:center;padding:0 4px;background:var(--paper)}.diagram-foot{display:flex;justify-content:space-between;gap:14px;padding:13px 20px;background:#fcfdfd;border-top:1px solid #edf1ef;font-size:10px;color:#8a9898}.inspector{padding:20px 20px 13px;max-height:796px;overflow:auto;scrollbar-width:thin;scrollbar-color:#d5dfdb transparent}.inspector .inspector-type{font-size:9px;text-transform:uppercase;letter-spacing:.09em;color:#a0afad}.inspector h3{font-size:18px;margin:5px 0 4px;font-weight:650}.inspector .role{font-size:11px;line-height:1.9;color:var(--muted);margin:13px 0 16px}.inspector-section{padding:14px 0;border-top:1px solid #edf1f0}.inspector-section h4{font-size:10px;font-weight:650;color:#6c8385;margin:0 0 8px}.inspector-section p,.inspector-section ul{font-size:11px;color:#718186;line-height:1.9;margin:0}.inspector-section ul{padding-left:15px}.inspector-section li+li{margin-top:4px}.inspector-model{font-size:11px;color:#5b7377;background:#f4f7f6;padding:8px 10px;border-radius:7px;margin-top:10px}.inspector-model b{font-weight:600}.inspector-budget p+p{margin-top:8px}.inspector-budget strong{display:block;font-size:9px;color:#9ba8a8;font-weight:500;margin-bottom:3px}.inspector details summary{font-size:11px;color:#748589}.inspector details ul{margin-top:8px}.architecture-notes,.token-notes{padding:13px 3px;color:var(--muted);font-size:11px}.architecture-notes summary,.token-notes summary{font-size:11px;color:#7a8b8b}.architecture-notes ul,.token-notes ul{font-size:11px;line-height:1.9;margin-top:11px;padding-left:18px}.architecture-notes li,.token-notes li{margin-bottom:5px}
+.replay-section{margin-top:30px}.scenario-top{padding:18px 22px;display:flex;align-items:center;gap:13px;border-bottom:1px solid #e9eeec}.scenario-top label{font-size:11px;color:#829190;white-space:nowrap}.scenario-top select{font-size:12px;min-width:270px;max-width:450px;padding:8px 27px 8px 11px;border:1px solid #d8e2df;background:#fbfdfc;border-radius:7px}.scenario-top .plain-button{margin-left:auto;white-space:nowrap}.scenario-brief{padding:19px 22px 22px;display:grid;grid-template-columns:.8fr 1.2fr;gap:35px;border-bottom:1px solid #edf1ef}.overline{display:block;font-size:9px;color:#9aa7a5;letter-spacing:.045em;margin-bottom:6px}.scenario-brief p{font-size:12px;color:#6a7d7c;line-height:1.9}.scenario-brief div:first-child p{font-size:14px;color:#354f4d}.timing-metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));padding:21px 22px 7px}.timing-metric{padding:0 18px;border-left:1px solid #e7edeb}.timing-metric:first-child{padding-left:0;border-left:0}.timing-metric h4{font-size:10px;color:#8a9a99;font-weight:500}.timing-metric b{display:block;font-size:23px;font-weight:620;line-height:1.5;color:#6a7f80;margin-top:5px;font-variant-numeric:tabular-nums}.timing-metric.key-metric b{color:var(--green)}.timing-metric small{font-size:9px;color:#a0aeab}.time-origin{font-size:10px;color:#a0aaa9;padding:5px 22px 16px}.play-controls{display:flex;align-items:center;gap:11px;padding:17px 22px 10px;border-top:1px solid #edf1ef;background:#fcfdfc}.primary-button{background:var(--green);color:white;padding:9px 17px;border-radius:7px;font-size:11px}.secondary-button{background:#fff;border:1px solid #dae4df;padding:8px 13px;border-radius:7px;font-size:11px;color:#5f7772}.play-controls .plain-button{font-size:11px}.speed-label{font-size:10px;color:#8c9b97;display:flex;align-items:center;gap:5px;margin-left:10px}.speed-label select{font-size:11px;border:1px solid #e0e8e4;background:#fff;border-radius:5px;padding:4px}.play-controls output{margin-left:auto;font-size:15px;font-variant-numeric:tabular-nums;color:var(--green);white-space:nowrap}.duration{font-size:11px;color:#a3afaa;white-space:nowrap}.scrubber-wrap{padding:0 22px 3px;background:#fcfdfc}.scrubber-wrap input{width:100%;height:16px;margin:0;accent-color:var(--green)}.jump-controls{display:flex;align-items:center;gap:10px;padding:4px 22px 16px;background:#fcfdfc;font-size:10px;color:#a1adaa}.jump-controls button{font-size:10px;background:transparent;color:#658a7f;padding:3px 6px;border-radius:4px}.stream-layout{display:grid;grid-template-columns:minmax(0,1fr) 330px;border-top:1px solid #e8eeeb;border-bottom:1px solid #e8eeeb}.timeline-pane{min-width:0;padding:18px 0 14px 22px;overflow:hidden}.timeline-head{display:flex;align-items:center;justify-content:space-between;gap:15px;padding-right:19px;margin-bottom:16px}.timeline-head h3{font-size:11px;font-weight:650}.timeline-head span{font-size:9px;color:#a0aba8}.timeline-scroll{overflow-x:auto;scrollbar-width:thin;scrollbar-color:#d9e4de #f8faf9;padding-bottom:13px;margin-right:20px;scroll-behavior:auto}.timeline{height:245px;position:relative;padding-left:0;background:#fff;min-width:720px}.timeline-tick{position:absolute;top:0;height:233px;border-left:1px solid #e5ece8;font-size:9px;font-variant-numeric:tabular-nums;color:#a5b1ad;pointer-events:none}.timeline-tick span{display:block;padding-left:5px;white-space:nowrap}.lane-name{position:sticky;display:block;left:3px;z-index:3;width:max-content;max-width:110px;font-size:9px;padding:1px 5px;color:#9aa9a0;background:#f8fbf9;top:38px}.timeline-lane{position:absolute;inset:0;height:65px;pointer-events:none}.timeline-lane.user-lane{top:34px;background:#f8fbf9}.timeline-lane.front-lane{top:101px;background:#fafbfc}.timeline-lane.back-lane{top:168px;background:#fbf9fd}.timeline-lane .lane-name{top:0;background:transparent;transform:translateY(3px)}.segment{position:absolute;height:26px;border-radius:5px;border:1px solid #a3cbb8;background:#eaf5ee;top:59px;min-width:5px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;display:block;font-size:9px;color:#4e8a70;padding:5px 7px;line-height:14px;z-index:2;cursor:pointer}.segment.foreground{top:126px;border-color:#bccedc;background:#edf3f7;color:#678498}.segment.background{top:193px;border-color:#cdbedf;background:#f2edf8;color:#9580ad}.segment.future{opacity:.42}.segment.complete{opacity:.75}.segment.active{border-width:2px;padding-top:4px;opacity:1}.segment.selected-segment{box-shadow:0 0 0 2px #7da89335}.event-mark{position:absolute;width:7px;height:7px;border-radius:50%;transform:translateX(-3px);top:89px;background:#70a78b;z-index:4;border:1px solid #fff}.event-mark.foreground{top:156px;background:#91aabd}.event-mark.background{top:223px;background:#b29cc7}.playhead{position:absolute;top:24px;bottom:10px;width:1px;background:#4c9779;z-index:5;pointer-events:none}.playhead:before{content:"";position:absolute;top:0;left:-3px;border-left:3.5px solid transparent;border-right:3.5px solid transparent;border-top:5px solid #4c9779}.lane-legend{display:flex;gap:18px;font-size:9px;color:#91a09a;margin:10px 0 0}.lane-legend i{width:7px;height:7px;border-radius:2px;display:inline-block}.lane-legend .user-lane{background:#8cbc9d}.lane-legend .front-lane{background:#a6bfd1}.lane-legend .back-lane{background:#bda7d1}.chat-pane{border-left:1px solid #e5ece8;background:#fcfdfc;display:flex;flex-direction:column}.chat-heading{display:flex;align-items:center;gap:9px;padding:17px 17px 13px}.chat-heading h3{font-size:11px;font-weight:650}.chat-heading p{font-size:9px;color:#9eaca6;margin-top:2px}.fish-symbol{display:grid;place-items:center;width:29px;height:29px;border-radius:10px;background:#eaf4ed;color:#65a17e}.chat-messages{padding:1px 16px 16px;min-height:198px;max-height:350px;overflow-y:auto}.chat-item{margin-top:13px}.chat-item .speaker{font-size:9px;color:#a5b0a9;display:block;margin:0 3px 5px}.chat-item .bubble{font-size:11px;color:#4a6659;line-height:1.9;padding:10px 12px;background:#edf6ef;border-radius:9px;white-space:pre-wrap;overflow-wrap:anywhere}.chat-item.user .speaker{text-align:right}.chat-item.user .bubble{background:#f0f3f1;color:#7a8981;margin-left:24px}.chat-status{font-size:10px;color:#a2afa5;padding:0 19px 13px;margin-top:auto;min-height:29px}.scenario-bottom{display:grid;grid-template-columns:1fr 1fr;gap:30px;padding:20px 22px 18px}.budget-summary{border-right:1px solid #e8eeea;padding-right:25px}.budget-summary strong{font-size:13px;line-height:1.8;font-weight:630;color:#536f66;display:block}.budget-summary>p:last-child{font-size:10px;color:#94a29c;line-height:1.9;margin-top:7px}.outcome-summary>p:last-child{font-size:12px;line-height:1.9;color:#76887e}.scenario-conditions{font-size:10px;padding:0 22px 17px;color:#899d91}.scenario-conditions summary{font-size:10px}.scenario-conditions ul{font-size:11px;line-height:1.9;color:#8b9c93;margin:9px 0 0}.event-disclosure{border-top:1px solid #e8edea}.event-disclosure>summary{padding:14px 22px;font-size:11px;color:#5d766a;background:#fcfdfc}.event-disclosure>summary span{margin-left:8px;font-size:10px;color:#8da394}.event-disclosure>summary small{font-size:9px;color:#aab6af;margin-left:15px}.event-log{max-height:315px;overflow-y:auto;scrollbar-width:thin;background:#fff}.event-row{display:grid;grid-template-columns:75px 88px minmax(0,1fr);gap:12px;align-items:start;padding:11px 22px;border-top:1px solid #f0f3f1;font-size:10px}.event-row time{font-variant-numeric:tabular-nums;color:#8c9f93;white-space:nowrap}.event-row .event-lane{font-size:9px;color:#829d8e}.event-row.foreground .event-lane{color:#8a9db2}.event-row.background .event-lane{color:#a896bb}.event-content{min-width:0}.event-content b{display:block;font-size:10px;font-weight:550;color:#648071;overflow-wrap:anywhere}.event-content p{font-size:11px;color:#87998e;line-height:1.8;margin-top:3px}.event-content details{margin-top:6px}.event-content details summary{font-size:9px;color:#b0bcb4}.event-content pre{font-size:9px;line-height:1.7;white-space:pre-wrap;overflow-wrap:anywhere;background:#f7faf8;padding:10px;margin:7px 0 0;border-radius:5px;color:#8d9e93}.log-empty{font-size:11px;color:#a0ada5;padding:23px}.acceptance-section{margin:28px 0 30px}.acceptance-table{min-width:760px}.acceptance-table th:first-child{width:14%}.acceptance-table th:nth-child(2){width:24%}.acceptance-table th:nth-child(3){width:34%}.acceptance-table td{font-size:11px;color:#73877d}.acceptance-table td:first-child{font-weight:650;color:#4d6c5c}.footer{margin-top:32px;padding:18px 0;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:flex-start;gap:35px;font-size:10px;color:#99a8a1;line-height:1.9}.footer p{max-width:800px}.footer a{white-space:nowrap;font-size:10px}
+@media(min-width:1400px){.flow{column-gap:18px;padding-left:28px;padding-right:28px}.flow-node b{font-size:12px}.flow-node small{font-size:9px}.architecture{grid-template-columns:minmax(0,1fr) 348px}.stream-layout{grid-template-columns:minmax(0,1fr) 348px}}
+@media(max-width:1120px){.page{padding:28px 22px}.topbar{padding:0 23px}.architecture{grid-template-columns:minmax(0,1fr) 300px;gap:12px}.flow{min-width:650px;column-gap:10px;padding-left:18px;padding-right:18px}.flow-node{padding:9px 8px;gap:5px}.flow-node .node-index{width:20px;font-size:9px}.diagram-key{display:none}.diagram-foot{display:block;font-size:9px}.diagram-foot span{display:block}.inspector{padding:17px;max-height:780px}.metrics-grid{grid-template-columns:repeat(2,1fr)}.intro h1{font-size:30px}.evidence-key{padding-left:23px;min-width:280px}.intro{gap:28px}.stream-layout{grid-template-columns:minmax(0,1fr) 300px}.scenario-top select{max-width:350px;min-width:230px}.timeline-head span{display:none}.research-item{grid-template-columns:180px 1fr}.issue-header,.issue{gap:24px}.footer{display:block}.footer a{display:inline-block;margin-top:10px}}
+@media(max-width:900px){.architecture{grid-template-columns:minmax(0,1fr)}.inspector{max-height:490px}.inspector #module-detail{display:grid;grid-template-columns:1fr 1fr;gap:0 25px}.inspector .module-overview{grid-column:1/-1}.inspector .inspector-type{display:none}.inspector .role{margin:9px 0 14px}.inspector .inspector-model{display:inline-block;margin:6px 0 0}.inspector-section{padding:12px 0}.intro{align-items:flex-start}.intro h1{font-size:29px}.evidence-key{min-width:250px}.evidence-key div{grid-template-columns:7px 64px 1fr;gap:7px;font-size:9px}.evidence-key b{font-size:10px}.section-title h2{font-size:19px}.section-title .tag{font-size:9px}.stream-layout{grid-template-columns:minmax(0,1fr)}.timeline-pane{padding-bottom:18px}.chat-pane{border-left:0;border-top:1px solid #e5ece8}.chat-messages{min-height:80px;max-height:300px;display:flex;flex-direction:column;padding-left:22px;padding-right:22px}.chat-item.user{align-self:flex-end;max-width:80%}.chat-item.assistant{max-width:90%}.chat-item.user .bubble{margin-left:0}.chat-heading{padding-left:22px}.chat-status{padding-left:25px}.chat-item{margin-top:9px}.scenario-top{flex-wrap:wrap}.scenario-top select{flex:1;max-width:none}.scenario-top .plain-button{margin-left:auto}.research-item{grid-template-columns:160px 1fr;gap:20px}.research-body{grid-template-columns:1fr;gap:12px}.research-body .research-limit{grid-column:auto}.issue-header,.issue{grid-template-columns:.8fr 1fr 1fr;gap:20px}.issue{padding:21px}.issue h3{font-size:13px}.issue p{font-size:11px}}
+@media(max-width:650px){.topbar{height:68px;padding:0 17px;gap:10px}.brand{gap:8px}.brand-mark{width:31px;height:31px;gap:4px;grid-template-columns:repeat(2,6px)}.brand-mark i{width:6px;height:6px}.brand strong{font-size:12px}.brand small{font-size:8px}.toplinks{gap:8px;font-size:10px}.toplinks a{display:none}.toplinks .plain-button{font-size:10px;padding:5px 8px}.page{padding:25px 16px 15px}.intro{display:block;margin-bottom:20px}.intro h1{font-size:28px;line-height:1.5;margin:9px 0 12px}.intro-copy{font-size:12px;line-height:1.9}.evidence-key{display:flex;flex-wrap:wrap;gap:5px 13px;border-left:0;border-top:1px solid #e4eae6;padding:13px 0 0;margin-top:20px}.evidence-key div{display:flex;gap:6px;margin:0}.evidence-key div span:last-child{display:none}.evidence-key b{font-size:9px;font-weight:500}.evidence-key p{font-size:9px;margin:0 0 0 auto}.tabs{gap:0;margin-bottom:24px;overflow-x:auto;scrollbar-width:none}.tabs button{font-size:11px;gap:6px;padding:12px 12px}.tabs button span{font-size:9px}.tabs button[aria-selected=true]:after{left:11px;right:11px}.section-title{display:block;margin-bottom:16px}.section-title h2{font-size:18px;line-height:1.6}.section-title .tag{margin-top:9px}.eyebrow{font-size:9px}.paper{border-radius:10px}.metrics-grid{gap:10px;margin-bottom:19px}.metric{padding:16px}.metric-value{font-size:25px}.metric h3{font-size:11px}.metric p{font-size:10px;line-height:1.8}.metric .tag{font-size:9px}.paper-heading{padding:15px 16px}.paper-heading h3{font-size:12px}.paper-heading p{font-size:10px;line-height:1.8}th{padding:10px 15px;font-size:10px}td{padding:12px 15px;font-size:11px}.baseline-table th:first-child{min-width:165px}.baseline-table th:nth-child(n+2){min-width:138px}.limits{padding:18px;margin-top:21px}.limits ul{font-size:11px}.issue-header{display:none}.issue{display:block;border:1px solid var(--line);border-radius:10px;margin-bottom:12px;padding:20px}.issue h3{font-size:14px;margin-bottom:13px}.issue p{font-size:12px}.issue p:before{content:"当前证据";display:block;font-size:9px;color:#a4b0aa;margin-bottom:5px}.issue .issue-change{margin-top:13px;padding-top:13px;border-top:1px dashed #dce6df}.issue .issue-change:before{content:"对应调整"}.research-item{display:block;padding:20px}.research-item h3{font-size:14px;margin:4px 0 10px}.research-links{margin-bottom:17px}.research-body{font-size:11px}.source-disclosure{padding:16px}.source-disclosure li{font-size:10px;overflow-wrap:anywhere}.architecture{gap:12px}.diagram-foot{padding:12px 16px}.flow{min-width:650px}.flow-scroll{max-width:100%}.inspector{max-height:590px;padding:18px}.inspector #module-detail{display:block}.inspector h3{font-size:17px}.inspector-section ul,.inspector-section p{font-size:11px}.architecture-notes{font-size:10px;padding:13px 1px}.architecture-notes ul{font-size:10px}.replay-section{margin-top:24px}.scenario-top{padding:14px 16px;gap:9px}.scenario-top label{font-size:10px}.scenario-top select{font-size:11px;min-width:0;max-width:calc(100% - 57px);padding:7px 23px 7px 9px}.scenario-top .tag{font-size:9px}.scenario-top .plain-button{font-size:10px}.scenario-brief{padding:16px;display:block}.scenario-brief>div+div{margin-top:14px}.scenario-brief div:first-child p{font-size:13px}.scenario-brief p{font-size:11px}.timing-metrics{grid-template-columns:repeat(2,1fr);padding:18px 16px 1px;gap:18px 0}.timing-metric{padding:0 14px}.timing-metric:nth-child(3){padding-left:0;border-left:0}.timing-metric b{font-size:22px}.timing-metric h4{font-size:9px}.time-origin{font-size:9px;padding:13px 16px 14px;line-height:1.8}.play-controls{padding:13px 16px 9px;gap:8px;flex-wrap:wrap}.primary-button{font-size:10px;padding:8px 12px}.secondary-button{font-size:10px;padding:7px 9px}.play-controls .plain-button{font-size:10px}.speed-label{margin-left:3px;font-size:9px}.speed-label select{font-size:10px;padding:3px}.play-controls output{font-size:12px}.duration{font-size:9px}.scrubber-wrap{padding:0 16px 3px}.jump-controls{padding:5px 16px 13px;gap:4px;flex-wrap:wrap;font-size:9px}.jump-controls button{font-size:9px}.timeline-pane{padding:16px 0 15px 16px}.timeline-scroll{margin-right:16px}.timeline-head{margin-bottom:13px}.lane-legend{font-size:8px;gap:13px}.chat-heading{padding-left:16px}.chat-messages{padding-left:16px;padding-right:16px}.chat-status{padding-left:19px;font-size:9px}.scenario-bottom{display:block;padding:18px 16px}.budget-summary{border-right:0;padding-right:0;padding-bottom:15px;margin-bottom:15px;border-bottom:1px solid #e8eeea}.budget-summary strong{font-size:12px}.outcome-summary>p:last-child{font-size:11px}.scenario-conditions{padding:0 16px 15px}.event-disclosure>summary{padding:13px 16px;font-size:10px}.event-disclosure>summary small{display:block;margin:3px 0 0 14px;font-size:8px}.event-row{grid-template-columns:60px 58px minmax(0,1fr);gap:7px;padding:10px 16px}.event-row time{font-size:9px}.event-row .event-lane{font-size:8px}.event-content b{font-size:9px}.event-content p{font-size:10px}.token-notes summary{font-size:10px}.token-notes ul{font-size:10px}.acceptance-section{margin-top:20px}.acceptance-table td{font-size:10px}.footer{margin-top:25px;font-size:9px}.footer a{font-size:9px}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+
+/* Readability pass: keep explanatory text legible in every responsive layout. */
+:root{--muted:#566e68;--subtle:#687e76}
+.brand small,.eyebrow{font-size:10.5px;color:#58756a}
+.evidence-key div,.evidence-key b,.evidence-key p{font-size:11px;color:#60766d}
+.tag,.section-title .tag{font-size:11px}
+.unknown-tag{color:#5f706d;background:#eef2f1}
+.metric h3{font-size:12px}.metric p{font-size:12px;color:#566e68;line-height:1.85}.metric a{font-size:11px}
+.paper-heading p,.intro-copy{color:#566e68}.paper-heading p{font-size:12px;line-height:1.8}
+.issue p,.research-body,.research-body .research-limit,.limits ul{font-size:12px;line-height:1.9;color:#566e68}
+.research-body p b,.research-number,.research-links,.source-disclosure li,.source-disclosure small{font-size:11px;color:#60776b}
+.source-disclosure li{line-height:1.9}.source-disclosure summary{font-size:12px}
+.diagram-key,.diagram-foot,.branch-caption{font-size:10.5px;color:#5e786d}
+.diagram-foot{line-height:1.9}.complex-note{font-size:10px;color:#74638b;line-height:1.6}
+.flow-node{padding:7px 8px;gap:7px}.flow-node b{font-size:12px;line-height:1.45;color:#314d42}
+.flow-node small{font-size:10.5px;line-height:1.5;color:#607a6e}.flow-node .node-index{width:19px;font-size:10px;color:#658074}
+.flow-node.is-outside{opacity:1;background:#fafcfc;border-color:#d8e2df}.flow-node.is-outside.selected{border-color:var(--green);background:#fff}
+.background-band span{font-size:10px;color:#79658f;max-width:88px}
+.inspector .inspector-type,.inspector-section h4{font-size:11px;color:#60776c}
+.inspector .role,.inspector-section p,.inspector-section ul{font-size:12px;line-height:1.85;color:#566e68}
+.inspector-model{font-size:12px;color:#536d61}.inspector-budget strong{font-size:10.5px;color:#687e73}
+.inspector details summary{font-size:11px;color:#5f776b}
+.architecture-notes summary,.token-notes summary{font-size:12px;color:#5d776a}
+.architecture-notes ul,.token-notes ul{font-size:12px;line-height:1.9;color:#60776c}
+.scenario-top label,.scenario-top select,.scenario-top .plain-button{font-size:12px}
+.overline{font-size:10.5px;color:#657e6f}.scenario-brief p{font-size:12px;line-height:1.9;color:#566e68}
+.timing-metric h4{font-size:11px;color:#5d776b}.timing-metric small{font-size:10.5px;color:#687d72}
+.time-origin{font-size:11px;color:#667c71;line-height:1.85}
+.jump-controls,.jump-controls button,.speed-label,.duration{font-size:11px;color:#657d71}
+.timeline-head h3{font-size:12px}.timeline-head span,.timeline-tick,.lane-name{font-size:10.5px;color:#657c70}
+.lane-legend,.lane-legend span{font-size:10.5px;color:#60786b}
+.segment{font-size:11px;line-height:14px;color:#396d51}.segment.foreground{color:#4d6d85}.segment.background{color:#745b91}
+.segment.future{opacity:1;color:#5c7566;background:#f5f9f5;border-color:#bfd1c4}
+.segment.foreground.future{color:#5c7388;background:#f5f8fa;border-color:#c2d1dd}
+.segment.background.future{color:#7b688f;background:#f8f5fb;border-color:#d3c6df}
+.segment.complete{opacity:1}
+.chat-heading h3{font-size:12px}.chat-heading p,.chat-item .speaker,.chat-status{font-size:10.5px;color:#657d6d}
+.chat-item .bubble{font-size:12px;line-height:1.9;color:#42614d}.chat-item.user .bubble{color:#5e7266}
+.budget-summary strong{font-size:13px}.budget-summary>p:last-child,.outcome-summary>p:last-child{font-size:12px;line-height:1.9;color:#566e68}
+.scenario-conditions,.scenario-conditions summary{font-size:11px;color:#607a6b}.scenario-conditions ul{font-size:12px;color:#60776b;line-height:1.9}
+.event-disclosure>summary{font-size:12px;color:#566f61}.event-disclosure>summary small,.event-disclosure>summary span{font-size:10.5px;color:#6a8072}
+.event-row,.event-row time{font-size:11px;color:#627b6a}.event-row .event-lane{font-size:10.5px;color:#557e65}
+.event-row.foreground .event-lane{color:#5b7693}.event-row.background .event-lane{color:#806795}
+.event-content b{font-size:11px;color:#55735f}.event-content p{font-size:12px;line-height:1.85;color:#566e68}
+.event-content details summary{font-size:10.5px;color:#667e6d}.event-content pre{font-size:11px;line-height:1.8;color:#536c5b}
+.log-empty{font-size:12px;color:#637c6b}
+.acceptance-table td,td{font-size:12px;color:#566e68;line-height:1.9}.acceptance-table th,th{font-size:11px;color:#5c7468}
+.footer,.footer a{font-size:11px;color:#647d70;line-height:1.9}
+</style>
+</head>
+<body>
+  <a class="skip" href="#main">跳到主要内容</a>
+  <header class="topbar">
+    <a class="brand" href="https://companion-agent-studio-nov15.mylssssdddd.chatgpt.site" aria-label="返回陪伴精灵首页">
+      <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+      <span><strong>大肥鱼 · 陪伴精灵</strong><small>互动链路研究室</small></span>
+    </a>
+    <div class="toplinks">
+      <a href="https://companion-agent-studio-nov15.mylssssdddd.chatgpt.site/natural-test.html">查看真实日志 ↗</a>
+      <a href="https://companion-agent-studio-nov15.mylssssdddd.chatgpt.site/streaming-plan.md">完整说明 ↗</a>
+      <button class="plain-button" id="download-html" type="button">下载 HTML</button>
+    </div>
+  </header>
+  <main id="main" class="page">
+    <section class="intro">
+      <div class="intro-main">
+        <p class="eyebrow">从实测出发 · 低延迟交互设计</p>
+        <h1>先交付有用的一句。<br><span>其余工作，在后台继续。</span></h1>
+        <p class="intro-copy">点击模块看职责与消耗，播放场景看玩家何时收到什么。先把等待拆开，再决定哪些 Agent 值得启动。</p>
+      </div>
+      <aside class="evidence-key" aria-label="数字口径">
+        <div><span class="key-dot measured"></span><b>实测记录</b><span>过去的任务日志与本地检索</span></div>
+        <div><span class="key-dot planned"></span><b>规划预算</b><span>下一版的目标，尚待 API 验证</span></div>
+        <div><span class="key-dot unknown"></span><b>未采集</b><span>不把未知值补成 0</span></div>
+        <p id="data-date"></p>
+      </aside>
+    </section>
+
+    <nav class="tabs" role="tablist" aria-label="研究与设计章节">
+      <button id="tab-current" role="tab" aria-controls="panel-current" aria-selected="false" tabindex="-1" data-tab="current"><span>01</span>现状</button>
+      <button id="tab-difficulties" role="tab" aria-controls="panel-difficulties" aria-selected="false" tabindex="-1" data-tab="difficulties"><span>02</span>难点</button>
+      <button id="tab-research" role="tab" aria-controls="panel-research" aria-selected="false" tabindex="-1" data-tab="research"><span>03</span>类似方案调研</button>
+      <button id="tab-plan" role="tab" aria-controls="panel-plan" aria-selected="true" tabindex="0" data-tab="plan"><span>04</span>方案与预演</button>
+    </nav>
+
+    <section id="panel-current" class="tab-panel" role="tabpanel" aria-labelledby="tab-current" hidden>
+      <div class="section-title"><div><p class="eyebrow">我们已掌握的证据</p><h2>快与慢，要先量在同一个位置。</h2></div><span class="tag measured-tag">历史实测</span></div>
+      <div id="baseline-metrics" class="metrics-grid"></div>
+      <div class="paper baseline-table"><div class="paper-heading"><h3>上一轮 8 个基础场景</h3><p>这两个时长包含任务与编排开销，均非纯 API TTFT。</p></div><div class="table-scroll"><table><thead><tr><th>场景</th><th>派发 → 候选审核</th><th>完整 loop</th></tr></thead><tbody id="baseline-rows"></tbody></table></div></div>
+      <div class="limits"><h3>这些证据还不能说明什么</h3><ul id="baseline-limits"></ul></div>
+    </section>
+
+    <section id="panel-difficulties" class="tab-panel" role="tabpanel" aria-labelledby="tab-difficulties" hidden>
+      <div class="section-title"><div><p class="eyebrow">把慢点变成可处理的问题</p><h2>速度、准确与自然感，需要一起设计。</h2></div></div>
+      <div class="issue-header"><span>难点</span><span>当前证据</span><span>对应调整</span></div>
+      <div id="difficulties-list"></div>
+    </section>
+
+    <section id="panel-research" class="tab-panel" role="tabpanel" aria-labelledby="tab-research" hidden>
+      <div class="section-title"><div><p class="eyebrow">一手资料 · 对应到当前链路</p><h2>借用成熟机制，也保留它们的适用边界。</h2></div></div>
+      <div id="research-list" class="research-list"></div>
+      <details class="source-disclosure" open><summary>资料来源与核对日期</summary><ol id="sources-list"></ol></details>
+    </section>
+
+    <section id="panel-plan" class="tab-panel" role="tabpanel" aria-labelledby="tab-plan">
+      <div class="section-title plan-heading"><div><p class="eyebrow">一张图，看清谁需要等待</p><h2>按需要调度，所有交付都经过发布审核。</h2></div><span class="tag planned-tag">设计方案 · 尚未接入真实游戏</span></div>
+      <div class="architecture">
+        <section class="paper diagram-paper" aria-labelledby="flow-heading">
+          <div class="paper-heading diagram-heading"><div><h3 id="flow-heading">主链路</h3><p>点击任意模块查看职责、模型、预算和错误历史。</p></div><div class="diagram-key"><span><i class="route-key"></i>当前场景</span><span><i class="background-key"></i>后台</span></div></div>
+          <div class="flow-scroll" id="flow-scroll">
+            <div class="flow" id="flow">
+              <svg id="flow-lines" aria-hidden="true"><defs><marker id="flow-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z"></path></marker><marker id="flow-arrow-active" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z"></path></marker></defs><g id="flow-edges"></g></svg>
+              <button class="flow-node node-input" data-node="input"><span class="node-index">01</span><span class="node-copy"><b></b><small></small></span></button>
+              <button class="flow-node node-route" data-node="route"><span class="node-index">02</span><span class="node-copy"><b></b><small></small></span></button>
+              <div class="branch-caption branch-instant">命中且条件齐全</div><div class="branch-caption branch-fast">需要理解与表达</div><div class="branch-caption branch-complex">需要新信息或规划</div>
+              <button class="flow-node node-instant" data-node="instant"><span class="node-index">03</span><span class="node-copy"><b></b><small></small></span></button>
+              <button class="flow-node node-fast" data-node="fast"><span class="node-index">04</span><span class="node-copy"><b></b><small></small></span></button>
+              <button class="flow-node node-plan" data-node="plan"><span class="node-index">05</span><span class="node-copy"><b></b><small></small></span></button>
+              <button class="flow-node node-tools" data-node="tools"><span class="node-index">06</span><span class="node-copy"><b></b><small></small></span></button>
+              <p class="complex-note">规划先产 DAG，独立查询再并发</p>
+              <button class="flow-node node-gate" data-node="gate"><span class="node-index">07</span><span class="node-copy"><b></b><small></small></span></button>
+              <button class="flow-node node-deliver" data-node="deliver"><span class="node-index">08</span><span class="node-copy"><b></b><small></small></span></button>
+              <div class="background-band"><span>后台 · 不阻塞玩家交付</span></div>
+              <button class="flow-node background-node node-reflect" data-node="reflect"><span class="node-index">09</span><span class="node-copy"><b></b><small></small></span></button>
+              <button class="flow-node background-node node-memory" data-node="memory"><span class="node-index">10</span><span class="node-copy"><b></b><small></small></span></button>
+            </div>
+          </div>
+          <div class="diagram-foot"><span>复杂任务：规划 → 查询 → 合流决策。普通刷新可从路由直接查询。</span><span>明确消息包；Agent 不共享私有记忆。</span></div>
+        </section>
+        <aside class="paper inspector" aria-labelledby="inspector-title"><div id="module-detail"></div></aside>
+      </div>
+      <details class="architecture-notes"><summary>链路约束与信息边界</summary><ul id="architecture-notes"></ul></details>
+
+      <section class="replay-section" aria-labelledby="replay-heading">
+        <div class="section-title"><div><p class="eyebrow">玩家可见 × 前台内部 × 后台</p><h2 id="replay-heading">播放一轮，看看等待发生在哪里。</h2></div><span class="tag planned-tag">预算预演 · 非真实 API streaming</span></div>
+        <div class="paper replay">
+          <div class="scenario-top"><label for="scenario-select">选择场景</label><select id="scenario-select"></select><span id="scenario-kind" class="tag"></span><button id="download-json" class="plain-button" type="button">导出方案 JSON</button></div>
+          <div class="scenario-brief"><div><span class="overline">玩家输入</span><p id="scenario-user"></p></div><div><span class="overline">已传入的信息</span><p id="scenario-context"></p></div></div>
+          <div class="timing-metrics" id="timing-metrics"></div>
+          <p class="time-origin">时间轴从玩家输入开始；首 delta 指生成玩家回复的文字流，规划 JSON 不计入。API TTFT 另从该请求发出计时。所有时刻均为预算。</p>
+          <div class="play-controls"><button id="play-pause" class="primary-button" type="button">播放预演</button><button id="next-event" class="secondary-button" type="button">下一事件</button><button id="restart" class="plain-button" type="button">重置</button><label class="speed-label">速度 <select id="play-speed"><option value="1">1×</option><option value="4">4×</option><option value="20">20×</option></select></label><output id="current-time">0.000 s</output><span class="duration" id="total-time"></span></div>
+          <div class="scrubber-wrap"><label class="sr-only" for="scrubber">预演时间</label><input id="scrubber" type="range" min="0" max="1000" value="0" step="1"></div>
+          <div class="jump-controls"><span>直接跳到</span><button id="jump-useful" type="button">第一有用交付</button><button id="jump-foreground" type="button">前台完成</button><button id="jump-background" type="button">后台完成</button></div>
+          <div class="stream-layout">
+            <div class="timeline-pane"><div class="timeline-head"><h3>Streaming 路径</h3><span>保持线性时间刻度，可横向滚动</span></div><div class="timeline-scroll" id="timeline-scroll"><div id="timeline" class="timeline"></div></div><div class="lane-legend"><span><i class="user-lane"></i>玩家可见</span><span><i class="front-lane"></i>前台内部</span><span><i class="back-lane"></i>后台静默</span></div></div>
+            <section class="chat-pane" aria-label="玩家收到的内容"><div class="chat-heading"><span class="fish-symbol" aria-hidden="true">✦</span><div><h3>玩家此刻看见的</h3><p>只有通过审核的交付进入这里</p></div></div><div id="chat-messages" class="chat-messages"></div><p id="chat-status" class="chat-status"></p></section>
+          </div>
+          <div class="scenario-bottom"><div class="budget-summary"><p class="overline">本轮预期消耗</p><strong id="token-summary"></strong><p id="token-detail"></p></div><div class="outcome-summary"><p class="overline">预期成果</p><p id="scenario-output"></p></div></div>
+          <details class="scenario-conditions"><summary>本场景的交付前提与降级条件</summary><ul id="scenario-conditions"></ul></details>
+          <details class="event-disclosure" open><summary>本次预演事件 <span id="event-count"></span><small>设计事件，不是实际模型日志</small></summary><div id="event-log" class="event-log"></div></details>
+        </div>
+      </section>
+      <details class="token-notes"><summary>Token 预算口径：哪些可估，哪些必须等 usage</summary><ul id="token-notes"></ul></details>
+      <section class="acceptance-section" aria-labelledby="acceptance-heading"><div class="section-title"><div><p class="eyebrow">每一步都留下可验收的成果</p><h2 id="acceptance-heading">实现、验收，再决定下一处优化。</h2></div></div><div class="table-scroll paper"><table class="acceptance-table"><thead><tr><th>阶段</th><th>交付成果</th><th>通过条件</th><th>不通过时调整</th></tr></thead><tbody id="acceptance-rows"></tbody></table></div></section>
+    </section>
+    <footer class="footer"><p id="footer-note"></p><a href="https://companion-agent-studio-nov15.mylssssdddd.chatgpt.site/natural-test.html">查看上一轮实际事件与原始日志 ↗</a></footer>
+  </main>
+  <div id="live-status" class="sr-only" role="status" aria-live="polite"></div>
+  <script id="streaming-data" type="application/json">{"meta":{"title":"大肥鱼 · 更快交付的 Streaming 路径","date":"2026-11-18 · Asia/Shanghai","note":"可交互设计与预算预演。旧日志、本地检索实测和未来目标分开列示；本页不调用模型或连接游戏。"},"baseline":{"metrics":[{"value":"21.3 s","label":"历史候选等待中位数","detail":"8 个基础场景；派发 → 候选审核。含工具和编排开销，非 API TTFT。","kind":"真实协调器测量","href":"natural-test.html"},{"value":"958 / 1,851","label":"已有情境卡 / 表达变体","detail":"另有 12,382 条检索问法记录；不等于 12,382 个独立事实。仍需批准运行时 guard。","kind":"已生成资产","href":"https://chatgpt.com/library?file_id=libfile_fde3_f-b70a5a601d2881918ca88a82a38848b7_053573d8dd2081918075b4be0ea5e11c&account_id=personal"},{"value":"0.481 ms","label":"本地候选检索中位数","detail":"160 次热内存索引 lookup，P95 0.706 ms；不含意图判定、网络、模型与客户端。","kind":"局部实测","href":"streaming-plan-evidence.json"},{"value":"待采集","label":"真实 API 首字 / token","detail":"此前没有 API usage、逐 token / SSE 日志或客户端可见时间，不能填成 0。","kind":"未测","href":"natural-test.html"}],"rows":[{"scenario":"出生迷茫：只给一个可靠起步动作","candidate_ms":23209.088378,"loop_ms":23220.344437},{"scenario":"偏好纠正：这次简短，长期偏好保留","candidate_ms":21463.655824,"loop_ms":21486.928309},{"scenario":"代词指代：从最近原文找回那个","candidate_ms":17484.134509,"loop_ms":32628.125382},{"scenario":"平静闲聊：好奇但不连环提问","candidate_ms":14437.611586,"loop_ms":14461.094293},{"scenario":"用户受挫：回应原话，避免揣测状态","candidate_ms":16390.128908,"loop_ms":32991.635702},{"scenario":"经验倍率未知（历史夹具）：不编经验倍率","candidate_ms":22652.319999,"loop_ms":22676.982582},{"scenario":"用户纠正API：保留冲突并刷新任务日志","candidate_ms":40247.798995,"loop_ms":263248.987918},{"scenario":"复杂规划：半小时、少跑动与未知耗时","candidate_ms":21183.497809,"loop_ms":274828.467459}],"limits":["完整 loop 的 263.249 s / 274.828 s 长尾含编排空档；不能当成 Sol 6.1 的纯推理速度。","本地直答已验证极窄路径约 0.13–0.40 ms；这个指标和客户端 50–200 ms 的新目标不是同一口径。","59/59 门控夹具通过，但尚未真实游戏联调，也没有自然流量 FAQ 命中率与人设盲评。","当前已确认“无限”是官方 World of Warcraft: Forever；历史未知服务器夹具原样保留，不把原版/其他版本规则混用。","独立 Agent 通过显式消息协作；前次实验共享底层文件系统，未证明 OS 级隔离。"]},"difficulties":[{"title":"简单问题等待了完整模型任务","evidence":"出生、代词、安静闲聊等都走了真实 low 任务；8 例候选等待中位 21.3 s。","change":"先做 0 模型直答；未知普通问题合并为一次快速判断与表达。"},{"title":"完整 loop 包含没有价值的接力","evidence":"R8 首答已有足够信息，后续规划没有新增价值；最终补充被抑制。","change":"启动 planner 前必须说明“还缺什么、从哪获得、能改善什么”；否则结束。"},{"title":"FAQ 很大，条件仍未完全可执行","evidence":"958 卡不等于覆盖全部实际问题。部分 trigger / suppress_when 仍需适配器实现；原始命中不代表能发送。","change":"先批准高频子集，按用户意图与状态分组做留出集；硬条件验证与语义召回分开。"},{"title":"游戏状态会在生成时改变","evidence":"R9 旧接受任务建议被拦；R10 旧记忆提案晚于新的明确偏好。","change":"每个可见段与每次记忆提交重查相关版本；过期结果丢弃，取消成本仍记账。"},{"title":"首字快，并不等于有用得快","evidence":"此前没有真实 SSE 和客户端 first-useful 记录；“好问题”可以制造虚假的快。","change":"把首 delta、首渲染、有用句、完整结果、后台完成分成五个时点；进度不当完成。"},{"title":"自然感与主动性需要节奏","evidence":"前次静静看天的两次回复仍偏泛化；模板不能每条都带欢呼、问题与陪伴承诺。","change":"完整表达变体、去重、剧透边界和沉默。欢呼要有首领/重要敌人证据，现实好奇只来自玩家文字。"}],"research":[{"id":"r-cache","title":"整答缓存：合格命中跳过模型","mechanism":"Redis 文档将完整回答复用与前缀缓存区分，并强调相似度与元数据边界共同约束。","fit":"本项目先用现有本地索引：召回 → 意图/状态/版本/槽位校验 → 选已审定变体 → 发布。","limit":"相似不是适用。个人信息、旧状态与不同游戏规则不可串用；若在线嵌入，增加的调用要计入成本。现有库不等于已接入 Redis。","priority":"P0 · 直接减少在线调用","source_ids":["redis"]},{"id":"r-route","title":"条件路由与动态 DAG","mechanism":"Anthropic 的工作流模式包括路由、独立子任务并行与动态编排。","fit":"常见事件零模型；普通未知一次 low；只有存在可解决缺口才让 planner 生成 DAG。","limit":"能并行的是独立依赖。第一句话已经答完，就不再让规划、复核、润色机械接力。来源中的模式不保证本项目速度。","priority":"P0 · 缩短关键路径","source_ids":["anthropic"]},{"id":"r-stream","title":"真正流式：尽早传递有用内容","mechanism":"Responses API 提供类型化流事件；首个非空文字与调用结束是不同时间点。","fit":"记录 request_sent → delta → 段审核 → client.first_useful → final。已知第一步先交付，后续只补新增信息。","limit":"推理与工具等待仍可能发生在首文字之前。规则门不能证明任意自由文本；事实段需足够证据，检查通过再显示。","priority":"P0 · 用户可感知提速","source_ids":["o_stream","o_latency"]},{"id":"r-kv","title":"API KV / Prompt caching","mechanism":"OpenAI 支持复用匹配的稳定前缀；命中仍生成新的输出。vLLM 的 APC 也主要减少 prefill。","fit":"每个 Agent 固定自己的角色/规则/工具前缀，变化的当前状态放后面。记录 cached_tokens，冷/热分别测试。","limit":"缓存不等于共享私有记忆；不共享 response_id 或对话状态。不要为了命中阈值故意填充无用 prompt；配置变更也可能破坏匹配。","priority":"P1 · 减少重复输入处理","source_ids":["o_cache","vllm_apc"]},{"id":"r-speed","title":"同模型的速度档位与连接复用","mechanism":"GPT-6.1 Sol 支持 low / medium / high 等思考强度；官方提供 Fast / Ultrafast，代价更高。","fit":"优先对同一 Sol-low、相同输入输出做 Standard / Fast / Ultrafast 对照。复用连接，前台保留并发额度，后台低优先。","limit":"无本项目收益数字；记录实际 service_tier、限流与重试。WebSocket 连续会话只在同一 Agent 内使用，不跨 Agent 继承状态。","priority":"P1 · 真实 API 对照","source_ids":["o_model","o_fast","o_ultra"]},{"id":"r-skill","title":"离线 Skill Training 改善卡片与表达","mechanism":"作者项目以损坏、重建、比较和更新外部技能文本学习，模型权重冻结；diffusion 是方法启发。","fit":"用审定陪伴片段制作情境 → 重建回答 → 比较边界与自然度 → 改规则/反例 → 留出集验收 → 批准卡片。","limit":"研究对象是短剧写作，不是本项目时延。更多合格直答卡可能间接减少在线生成；这个收益需在真实流量测量。","priority":"P1 · 离线质量与覆盖","source_ids":["skill"]},{"id":"r-prefetch","title":"只预取高概率、只读的信息","mechanism":"延迟优化文档建议独立查询并行，并衡量提前查询错误分支的成本。","fit":"进入任务对话后可预读该任务正文；开战后取消故事预取。最多保留少量候选，按状态版本失效。","limit":"本项目尚未实现。没有事件触发和明确命中收益时不铺满预计算；预取成功不能自动发起对白。","priority":"P1 · 命中收益先测量","source_ids":["o_latency"]},{"id":"r-spec","title":"自托管推测解码：后续候选","mechanism":"vLLM 的推测解码在合适负载中用草拟与验证减少 token 间隔。","fit":"只有未来转自托管模型时，再做硬件、吞吐、延迟与接受率对照。","limit":"不是当前 Sol API 可由客户端打开的通用开关。不能替代应用层直答、条件路由和减少无用生成。","priority":"P2 · 当前不依赖","source_ids":["vllm_spec"]}],"sources":[{"id":"o_latency","title":"Latency optimization","url":"https://developers.openai.com/api/docs/guides/latency-optimization","publisher":"OpenAI","checked":"2026-11-18"},{"id":"o_stream","title":"Streaming API responses","url":"https://developers.openai.com/api/docs/guides/streaming-responses","publisher":"OpenAI","checked":"2026-11-18"},{"id":"o_cache","title":"Prompt caching","url":"https://developers.openai.com/api/docs/guides/prompt-caching","publisher":"OpenAI","checked":"2026-11-18"},{"id":"o_model","title":"GPT-6.1 Sol","url":"https://developers.openai.com/api/docs/models/gpt-6.1-sol","publisher":"OpenAI","checked":"2026-11-18"},{"id":"o_fast","title":"Fast mode","url":"https://developers.openai.com/api/docs/guides/fast-mode","publisher":"OpenAI","checked":"2026-11-18"},{"id":"o_ultra","title":"Ultrafast mode","url":"https://developers.openai.com/api/docs/guides/ultrafast-mode","publisher":"OpenAI","checked":"2026-11-18"},{"id":"redis","title":"Semantic cache","url":"https://redis.io/docs/latest/develop/use-cases/semantic-cache/","publisher":"Redis","checked":"2026-11-18"},{"id":"anthropic","title":"Building effective agents","url":"https://www.anthropic.com/research/building-effective-agents","publisher":"Anthropic","checked":"2026-11-18"},{"id":"skill","title":"Skill Training with Corruption and Reconstruction Loop","url":"https://skilltraining-project.github.io/","publisher":"论文作者 · 2026 年 7 月预印本","checked":"2026-11-18"},{"id":"vllm_apc","title":"Automatic Prefix Caching","url":"https://docs.vllm.ai/en/latest/features/automatic_prefix_caching/","publisher":"vLLM","checked":"2026-11-18"},{"id":"vllm_spec","title":"Speculative Decoding","url":"https://docs.vllm.ai/en/latest/features/speculative_decoding/","publisher":"vLLM","checked":"2026-11-18"},{"id":"prior","title":"本项目 · 真实协调器日志与回放","url":"natural-test.html","publisher":"2026-11-17 实验","checked":"2026-11-18"},{"id":"faq","title":"大肥鱼 · 无限情境 FAQ 资料库","url":"https://chatgpt.com/library?file_id=libfile_fde3_f-b70a5a601d2881918ca88a82a38848b7_053573d8dd2081918075b4be0ea5e11c&account_id=personal","publisher":"2026-11-18 资料库","checked":"2026-11-18"},{"id":"forever","title":"《魔兽世界》“无限”现已上线","url":"https://wow.blizzard.cn/news/24315820/index.html","publisher":"暴雪中国","checked":"2026-11-18"}],"modules":[{"id":"input","title":"输入与状态","subtitle":"只收接口与用户文字","model":"本地代码","effort":"无需推理","role":"建立本轮可信、带版本的信息包；未知字段保持未知。用户的“这次”和“以后”使用不同偏好作用域。","rights":["读取已授权游戏接口与当前用户文字","提取接口字段；不替玩家执行游戏操作","不能从表情、语音或屏幕推断状态；本方案没有这些输入"],"inputs":["user_text / game_event","game_scope / region / ruleset","entity_id / dependency_versions / preference_epoch"],"outputs":["InputPacket：事实、来源、未知项、当前偏好、允许工具与截止时间"],"token_budget":"0 模型 token。后续只传必要字段；不把整本 FAQ 和全量日志放进 prompt。","latency_budget":"预算 5–30 ms；已有快照路径。必须刷新接口时另计，不能伪装为零耗时。","depends":[],"parallel":["不同实体的独立只读字段可并行"],"logs":["input.received","state.packet_created","preference.applied"],"errors":["历史 R2：旧快照偏好与“这次简短”混用；v3 修复，8 项定向回归通过。","待验证：真实游戏字段映射、事件乱序与快照时间戳。"]},{"id":"route","title":"检索与轻路由","subtitle":"先找能直接交付的内容","model":"本地规则 + 本地索引","effort":"默认不调用模型","role":"候选检索与适用判断分开。明确意图与硬条件全部满足才直答；不确定时直接交给快速决策，不再单独加一次 LLM 分类。","rights":["读取本轮显式 InputPacket 和审核后的卡片索引","选择直答 / 单模型 / 按需规划 / 静默","不能把相似度分数当作意图已确认或事实证明"],"inputs":["InputPacket","FAQ 版本与已批准卡片 ID","本会话最近回应 ID（由主程序显式提供）"],"outputs":["RoutePacket：路线、候选 ID、证据依赖、缺失信息"],"token_budget":"本地词法检索为 0 模型 token。若改用在线 embedding，须另计 embedding token 与网络时间。","latency_budget":"本地预算 1–20 ms；现有 160 次热索引 lookup 中位 0.481 ms，仅为候选检索。","depends":["输入包完成"],"parallel":["同一快照下候选召回与偏好检查可并行"],"logs":["route.selected","faq.candidates","faq.guard_miss"],"errors":["59/59 夹具门控通过；不能证明真实意图准确率或自然流量命中率。","同一句“放不出来”可能是缺蓝、距离、冷却；错误原因未知就不直答。"]},{"id":"instant","title":"现成回复","subtitle":"合格卡片，直接说","model":"本地模板与变体选择","effort":"无需推理","role":"从已经审定的完整表达中挑选合适版本，填入有证据的槽位。不在每次命中后再用模型润色。","rights":["选择已审核表达、去重、填入明确槽位","可输出严格沉默","未实现的自然语言触发条件不能自动提升为已通过"],"inputs":["卡片 ID + 变体依赖","当前槽位值与 evidence_id","情绪节奏 / 剧透预算 / 最近表达 ID"],"outputs":["CandidatePacket：完整短答或 silence；附依赖与来源"],"token_budget":"在线 0 模型 token。离线造卡、审核和学习成本单独统计，不等于系统总成本为零。","latency_budget":"本地组装预算 1–10 ms；整条直答路径客户端首个有用交付目标 50–200 ms。","depends":["路由确认可复用"],"parallel":[],"logs":["variant.selected","slots.bound","candidate.ready"],"errors":["958 张卡目前仍是待运行时验证候选；先批准高频子集。","防机械感：完整表达变体 + 场景选择，避免每条硬塞口癖、欢呼或问句。"]},{"id":"fast","title":"快速决策 · 交付","subtitle":"普通问题一次模型","model":"gpt-6.1-sol","effort":"low · standard reasoning","role":"在一次调用里完成轻量判断和短回答；仅接收显式证据。复杂路径则消费规划与工具结果，给出最终可执行的小步骤。","rights":["生成候选表达、提出一个必要澄清","明确标记是否还有具体未完成目标","不能直接发布、写记忆、读取其他 Agent 的上下文"],"inputs":["当前 InputPacket + 最相关的少量知识","必要的最近原文；由主程序复制","复杂路线追加 PlanPacket 与 ToolResultPacket"],"outputs":["句子/语义段 CandidateChunk","每段证据依赖 + should_continue + unresolved_goal"],"token_budget":"普通调用：输入 1,200–2,200，文本 30–100。复杂结果合流调用：输入 1,200–2,400，文本 80–180。隐藏 R 待 API usage 实测；生成上限初设 1,024，含 R 与文本。","latency_budget":"普通路径探索目标：第一有用交付 1–2.5 s，完整短答 2–5 s。服务档位与负载未实测；无速度保证。","depends":["路由或规划工具合流完成"],"parallel":["独立只读预取可并行；不得提前使用其未完成结果"],"logs":["model.request_sent","response.output_text.delta → 内部缓冲","candidate.chunk_ready","response.completed / failed / incomplete"],"errors":["历史安静陪伴两次表现泛化；仅缩短文字不会自动改善人设。","流式原文不是已审核事实；新事实无法验证时暂停该段或走明确澄清。"]},{"id":"plan","title":"按需规划","subtitle":"只处理具体未完成目标","model":"gpt-6.1-sol","effort":"medium；难例再评估 high","role":"决定要哪些 Agent、读取哪些信息、先后依赖、并发组、截止时间与停止条件。已答完且没有新证据可获得时，不启动规划。","rights":["在工具白名单内提出只读 DAG","跳过无收益 Agent；建议取消过期分支","不能绕过发布审核、替玩家操作或授权新工具"],"inputs":["GoalPacket：目标、时间、约束、缺口","当前已确认事实与工具能力","前台截止时间与 token 额度"],"outputs":["PlanPacket：节点、depends_on、deadline、cancel_if、预期产物","候选条件计划；不能把尚未查到的路线当成已知"],"token_budget":"一次调用输入预算 1,800–3,500；结构化输出 200–500；R 待测；生成上限初设 4,096。额外 continuation 必须另计。","latency_budget":"规划自身预算 1.5–4 s；复杂完整结果目标 3–8 s（数据可得时）。不阻塞独立的已知第一步。","depends":["存在未完成目标，且有可获得的新信息"],"parallel":["先前可靠短答可同时交付","DAG 内没有相互依赖的查询可并行"],"logs":["plan.started","plan.dag_ready","plan.skipped_no_new_value","plan.deadline_exceeded"],"errors":["历史 R8：完整 loop 274.828 s；补充最后没有新价值而被抑制。","新增收益门：若不能改善下一步或回答缺口，就结束本轮。"]},{"id":"tools","title":"游戏信息查询","subtitle":"有依据地补齐缺口","model":"游戏适配器 / 本地知识","effort":"无需模型推理","role":"执行获准的只读查询。接口结果以带时间和版本的消息返回；论坛材料只在离线审核后成为知识包。","rights":["仅查询已授权接口","独立读取并行；依赖实体 ID 的读取等待上游","不能假设接口能获得地图可达性或怪物数据；缺能力就返回 unknown"],"inputs":["ToolRequestPacket：字段、实体、授权、截止时间"],"outputs":["ToolResultPacket：值、evidence_id、observed_at、版本、缺失字段"],"token_budget":"工具本身 0 LLM token；把结果交给模型时，会增加下一调用的输入 token。","latency_budget":"演示假设每次读取 100–800 ms；真实游戏联调后替换。并行两项耗时取较慢项，加合流成本。","depends":["实体、所需字段与授权已明确"],"parallel":["任务状态与独立可用路线查询","不依赖对方结果的不同实体读取"],"logs":["tool.requested","tool.completed","tool.timeout","evidence.updated"],"errors":["历史 R7：用户看到 3 项、旧快照只有 2 项；刷新后才可确认。","示例 get_route 等是适配器能力契约，不是声称存在同名魔兽官方 API。"]},{"id":"gate","title":"发布审核","subtitle":"每个可见段发布前复查","model":"本地规则；疑难语义另审","effort":"常规 0；必要时阻断升级","role":"检查当前状态依赖、偏好版本、槽位、已知事实、去重与打扰预算。规则能检查契约，不能证明任意自由文本语义正确。","rights":["批准 / 拒绝 / 保持静默 / 要求补证据","在每个段发布前检查 reply_epoch 与相关字段版本","不能把后台模型自评当成事实授权"],"inputs":["CandidateChunk + evidence IDs","当前 state / preference epochs","已经交付内容和当前任务状态"],"outputs":["DeliveryPacket 或 RejectEvent；拒绝原因可审计"],"token_budget":"规则路径 0 模型 token。若任意生成事实需额外语义审核，单列其模型与延迟，不算在直答预算里。","latency_budget":"规则预算 1–10 ms；对生成内容按完整语义段缓冲，预算另留 50–200 ms。","depends":["候选与必要证据全部就绪"],"parallel":[],"logs":["gate.accepted","gate.rejected_state_changed","gate.rejected_no_new_value","gate.rejected_preference"],"errors":["历史 R9：窗口关闭且进入战斗；旧“点击接受”被拦截。","已展示的句子无法撤回为未发生；因此第一段只能说当时已确认的内容。"]},{"id":"deliver","title":"玩家可见","subtitle":"先交付有用的一句","model":"本地 UI / 传输层","effort":"无需推理","role":"仅消费通过审核的 DeliveryPacket。现成短答整句立即显示；模型输出在语义段通过后尽快展示。","rights":["显示文本、流式追加、结束或取消当前回复","记录真正首个渲染帧与第一有用句","不播放虚假逐字等待，不展示后台推理或内部候选"],"inputs":["DeliveryPacket：id、text、sequence、epoch","明确的流结束、失败、取消事件"],"outputs":["client.first_paint","client.first_useful","client.final_paint","delivery.ack"],"token_budget":"0 模型 token；显示中文字符数不等于模型 token 数。","latency_budget":"本地 UI 与桥接预留 20–150 ms；须在真实客户端采集。不把 response.created 当首字。","depends":["发布审核批准"],"parallel":["后台反思、记忆不阻塞玩家"],"logs":["delivery.sent","client.first_useful","delivery.completed","delivery.cancelled"],"errors":["历史日志没有真实 SSE delta、客户端渲染时间或 token usage。","“好问题 / 我想想”不算第一有用交付；真实进度也不算任务已完成。"]},{"id":"reflect","title":"反馈反思","subtitle":"后台，抽样才运行","model":"gpt-6.1-sol","effort":"high · 非每轮必跑","role":"在重要纠正、失败或抽样会话上复盘；只形成候选改进，不直接改规则或打断玩家。","rights":["消费完成后的显式 OutcomePacket","建议新反例、话术、技能或偏好候选","不能把“用户未反驳”当正确奖励；不能自发联系玩家"],"inputs":["输入、实际交付、证据摘要、用户明确反馈","脱敏的错误类型与状态版本"],"outputs":["ReflectionPacket：建议、证据、适用范围、是否值得存储"],"token_budget":"被选中才运行：输入 1,200–2,400；结构化输出 120–250；R 待测；生成上限初设 8,192。成本按实际抽样率摊销。","latency_budget":"预算 10–45 s；空闲队列运行，前台负载升高时让路；不承诺每轮都有后台工作。","depends":["已有实际结果或明确反馈"],"parallel":["独立的事实整理可并行","不能与前台争抢保留的并发额度"],"logs":["reflection.enqueued","reflection.sampled_out","reflection.proposed"],"errors":["历史 R10：后台旧偏好提案晚到；不能覆盖新的明确用户输入。","离线改进必须过留出集和人工抽审；不自动上线。"]},{"id":"memory","title":"记忆整理","subtitle":"版本条件提交","model":"规则优先；gpt-6.1-sol 可选","effort":"low；显式偏好无需模型","role":"把可证据化的持久偏好整理为写入提案。仅由自己的存储服务提交；其他 Agent 通过消息获得获准摘要。","rights":["CAS 版本条件写入、去重、过期、撤销","当前明确偏好由程序立即生效，不等后台","不能读写其他 Agent 私有记忆；不能把一次表现固化为人格判断"],"inputs":["ReflectionPacket 或明确 PreferencePacket","expected_memory_version / preference_epoch"],"outputs":["MemoryCommit 或 StaleProposalRejected","下轮按需显式 MemoryExcerptPacket"],"token_budget":"规则写入 0。可选整理：输入 600–1,200；结构化输出 60–120；R 待测；生成上限初设 2,048。","latency_budget":"规则写入预算 1–20 ms；可选模型整理 1–5 s；后台目标总体 10–60 s。","depends":["需要反思结果的整理须等反思","提交前必须比较最新偏好与记忆版本"],"parallel":[],"logs":["memory.proposed","memory.cas_committed","memory.rejected_newer_preference"],"errors":["历史 R10 旧记忆被 newer_explicit_preference_conflict 拒绝。","逻辑隔离已按显式传包验证；独立进程/权限隔离仍需真实后端实现。"]}],"scenarios":[{"id":"spawn","title":"① 出生迷茫 · FAQ 直答","kind":"预算预演 / 合成快照","user":"我刚进来，有点不知道该往哪走。","context":"魔兽世界“无限”国服；兽人萨满，1 级，试炼谷，任务栏空。附近 NPC 未知。假设 G0001 的适配条件已经实现并批准。","nodes":["input","route","instant","gate","deliver"],"first_delta_ms":null,"first_useful_ms":120,"foreground_ms":120,"background_ms":null,"duration_ms":260,"token_summary":"前台 0 次模型 · 0 在线模型 token","token_detail":"使用 G0001 的已写好自然表达。无在线 embedding、无润色调用；后台本例跳过。离线建库成本另计。","output":"先看看任务栏和你身边能交谈的人，我们挑一件小事开始。","events":[{"at":0,"lane":"foreground","node":"input","type":"input.received","text":"玩家输入到达","payload":{"state_version":11,"preference_epoch":4}},{"at":15,"lane":"foreground","node":"route","type":"faq.candidates","text":"找到 G0001；相似度只用于召回","payload":{"card_id":"G0001","intent":"first_spawn"}},{"at":28,"lane":"foreground","node":"route","type":"route.selected","text":"已确认一级且无目标；附近 NPC 保持未知","payload":{"evidence":"player.level_one_and_no_goal","version":11}},{"at":40,"lane":"foreground","node":"instant","type":"variant.selected","text":"选用完整短答，不在线润色","payload":{"input_tokens":0,"output_tokens":0}},{"at":50,"lane":"foreground","node":"gate","type":"gate.accepted","text":"状态、偏好、意图与去重通过","payload":{"reply_epoch":1,"dependencies_current":true}},{"at":120,"lane":"user","node":"deliver","type":"client.first_useful","text":"第一有用句整句显示","payload":{"timing_kind":"design_budget"},"delivery_text":"先看看任务栏和你身边能交谈的人，我们挑一件小事开始。","delivery_id":"answer-1"},{"at":130,"lane":"background","node":"reflect","type":"reflection.sampled_out","text":"本次常见直答不触发反思","payload":{"calls":0}}],"segments":[{"node":"route","lane":"foreground","label":"召回与条件","start":0,"end":40},{"node":"gate","lane":"foreground","label":"审核","start":40,"end":50},{"node":"deliver","lane":"user","label":"桥接 + 显示","start":50,"end":120}],"conditions":["目标区间：首个有用交付 50–200 ms；建议 P95 验收线 250 ms。","这里的 120 ms 是时序预算，不是实测。","没有接口证据时不报 NPC 名称、方向或坐标。"]},{"id":"mana","title":"② 技能放不出 · 已知失败原因","kind":"预算预演 / 合成快照","user":"这个技能怎么按不出来？","context":"内部接口明确返回本次施法失败原因为法力不足；同一技能与同一施法事件，状态尚未变化。","nodes":["input","route","instant","gate","deliver"],"first_delta_ms":null,"first_useful_ms":90,"foreground_ms":90,"background_ms":null,"duration_ms":220,"token_summary":"前台 0 次模型 · 0 在线模型 token","token_detail":"复用 G0041；不是只看到蓝条低就猜。若接口只给出失败、没有原因，须转快速决策或补读取。","output":"现在法力不足，这个技能暂时用不了。先别反复按它。","events":[{"at":0,"lane":"foreground","node":"input","type":"input.received","text":"收到提问与施法失败事件","payload":{"cast_event":"cast-22","failure":"insufficient_mana"}},{"at":12,"lane":"foreground","node":"route","type":"faq.candidates","text":"召回 G0041","payload":{"candidate_only":true}},{"at":26,"lane":"foreground","node":"instant","type":"candidate.ready","text":"法力不足证据和本次施法一致","payload":{"card_id":"G0041","online_model_calls":0}},{"at":36,"lane":"foreground","node":"gate","type":"gate.accepted","text":"相关状态版本未变化","payload":{"cast_version":22}},{"at":90,"lane":"user","node":"deliver","type":"client.first_useful","text":"有用说明完整显示","payload":{},"delivery_text":"现在法力不足，这个技能暂时用不了。先别反复按它。","delivery_id":"answer-1"}],"segments":[{"node":"route","lane":"foreground","label":"匹配失败原因","start":0,"end":26},{"node":"gate","lane":"foreground","label":"审核","start":26,"end":36},{"node":"deliver","lane":"user","label":"桥接 + 显示","start":36,"end":90}],"conditions":["与“距离太远 / 冷却中 / 未知原因”做同问异态对照。","当前事件不满足时不复用，命中率可以降低，错误直答不可接受。"]},{"id":"novel","title":"③ 新说法 · 单次轻思考流式回答","kind":"预算预演 / 合成文字","user":"今天现实里下了雨，刚好游戏里也想停一停。你能想象窗外吗？","context":"这句话的现实信息仅来自用户文字；大肥鱼没有视觉或天气传感器。没有完全合适的获准 FAQ，允许一次轻思考。","nodes":["input","route","fast","gate","deliver"],"first_delta_ms":850,"first_useful_ms":1350,"foreground_ms":2300,"background_ms":null,"duration_ms":2800,"token_summary":"前台 1 次 Sol low · 输入 1,200–2,200 + 输出 30–100 + R","token_detail":"R 为隐藏推理 token，尚无实测均值。生成预算上限 1,024（包含 R 与可见输出）；不是期望耗尽。示例只有假设 delta 时间，不是 API 捕获。","output":"我只能借你说的话想象窗外。你在雨边停一会儿，我也把故事翻慢一点。","events":[{"at":0,"lane":"foreground","node":"input","type":"input.received","text":"只记录用户明确提供的现实信息","payload":{"user_said_rain":true,"screen_or_audio_input":false}},{"at":20,"lane":"foreground","node":"route","type":"route.miss","text":"有相关卡片但当前表达不适合直接拼接","payload":{"route":"single_fast_model"}},{"at":100,"lane":"foreground","node":"fast","type":"model.request_sent","text":"发送最小显式消息包","payload":{"model":"gpt-6.1-sol","reasoning.effort":"low","stream":true,"planned_input_range":[1200,2200],"usage":null}},{"at":850,"lane":"foreground","node":"fast","type":"response.output_text.delta","text":"第一非空文字进入内部缓冲","payload":{"simulated_delta":"我只能借你说的话","planned_api_ttft_ms":750,"actual_api_ttft_ms":null}},{"at":1250,"lane":"foreground","node":"fast","type":"candidate.chunk_ready","text":"第一完整语义句形成","payload":{"text":"我只能借你说的话想象窗外。"}},{"at":1280,"lane":"foreground","node":"gate","type":"gate.accepted","text":"没有感知越界，偏好与当前轮次有效","payload":{"chunk":1}},{"at":1350,"lane":"user","node":"deliver","type":"client.first_useful","text":"第一句传到玩家端","payload":{},"delivery_text":"我只能借你说的话想象窗外。","delivery_id":"answer-1"},{"at":2100,"lane":"foreground","node":"fast","type":"candidate.chunk_ready","text":"第二句补充，保持同一回答","payload":{"text":"你在雨边停一会儿，我也把故事翻慢一点。"}},{"at":2200,"lane":"foreground","node":"gate","type":"gate.accepted","text":"没有现实感知断言和强迫追问","payload":{"chunk":2}},{"at":2300,"lane":"user","node":"deliver","type":"client.append","text":"通过审核的第二句追加","payload":{},"delivery_text":"你在雨边停一会儿，我也把故事翻慢一点。","delivery_id":"answer-1"},{"at":2400,"lane":"foreground","node":"fast","type":"response.completed","text":"API 流结束；完整内容已于 2.3 s 显示，usage 待实测","payload":{"input_tokens":null,"output_tokens":null,"reasoning_tokens":null}}],"segments":[{"node":"route","lane":"foreground","label":"检索 / 组包","start":0,"end":100},{"node":"fast","lane":"foreground","label":"轻思考 + 生成","start":100,"end":2400},{"node":"gate","lane":"foreground","label":"首句缓冲与检查","start":850,"end":1280},{"node":"deliver","lane":"user","label":"首句 → 完整短答","start":1350,"end":2300}],"conditions":["目标区间：第一有用句 1–2.5 s；完整短答 2–5 s。建议 P95 探索线分别 3 s / 6 s。","流式事件不是 token 数；首 delta 与首个有用交付分开计时。","超过 3 s 没有有用句则进入截止时间处理；不要用“好问题”刷首字指标。"]},{"id":"plan","title":"④ 半小时冒险 · 按需规划与并发","kind":"预算预演 / 合成任务 A、B、C","user":"我只有半小时，帮我安排一下，尽量少跑。","context":"A/B/C 是合成任务标签，不是无限的真实任务攻略。已知 A 可进行；B 必须交付 A 后再接。未知路线时间，适配器在本例假设能查询估计耗时与任务状态。","nodes":["input","route","instant","plan","tools","fast","gate","deliver","reflect","memory"],"first_delta_ms":4050,"first_useful_ms":140,"foreground_ms":5500,"background_ms":35000,"duration_ms":36000,"token_summary":"前台 2 次模型 · 输入 3,000–5,900 + 生成文本 280–680 + R₁+R₂","token_detail":"第一步为已批准条件卡，0 token。规划 medium 一次（输入 1,800–3,500 / 文本 200–500）+ 合流决策 low 一次（输入 1,200–2,400 / 文本 80–180），生成上限合计 5,120；并发读取无 LLM token。可选后台再 2 次：输入 1,800–3,600 + 文本 180–370 + R₃+R₄，生成上限合计 10,240。本例展示抽样入选，其他轮可完全跳过。","output":"已知信息下的保守安排已交付。C 的耗时仍未知，未证明全局最省路；不承诺半小时升几级。","events":[{"at":0,"lane":"foreground","node":"input","type":"input.received","text":"建立时间与少跑动约束","payload":{"available_minutes":30,"task_labels":"synthetic A/B/C"}},{"at":25,"lane":"foreground","node":"route","type":"route.selected","text":"第一步已知；完整路线有可查询缺口","payload":{"first_step":"approved_template","remaining_goal":"路线与时间预算"}},{"at":45,"lane":"foreground","node":"plan","type":"model.request_sent","text":"只对未完成目标启动规划","payload":{"model":"gpt-6.1-sol","effort":"medium","stream":false,"deadline_ms":8000}},{"at":70,"lane":"foreground","node":"instant","type":"candidate.ready","text":"第一步不依赖未知路线耗时","payload":{"depends_on":["A_available","B_after_A_turnin"]}},{"at":90,"lane":"foreground","node":"gate","type":"gate.accepted","text":"核对任务依赖与当前版本","payload":{"chunk":"known-first-step"}},{"at":140,"lane":"user","node":"deliver","type":"client.first_useful","text":"先交付可以确定的第一步","payload":{},"delivery_text":"先做 A，回来交付后才能接 B。","delivery_id":"answer-1"},{"at":2400,"lane":"foreground","node":"plan","type":"plan.dag_ready","text":"规划选择两项独立读取，结果合流后决策","payload":{"nodes":[{"id":"quest_state","depends_on":[]},{"id":"route_estimate","depends_on":[]},{"id":"final_decision","depends_on":["quest_state","route_estimate"]}],"skip":["独立润色Agent","重复全量复盘"]}},{"at":2450,"lane":"foreground","node":"tools","type":"tool.requested","text":"并发读取任务状态与路线估计","payload":{"parallel_group":"read-1","adapter_capabilities":"假设已实现；非官方 API 名称"}},{"at":2850,"lane":"foreground","node":"tools","type":"tool.completed","text":"任务状态先返回，仍等路线证据","payload":{"task_A_available":true,"B_after_A_turnin":true}},{"at":3250,"lane":"foreground","node":"tools","type":"tool.completed","text":"路线估计返回；明确是估计","payload":{"A_and_turnin_estimate_min":[22,28],"B_extra_estimate_min":[12,18],"C_estimate_min":null,"synthetic_fixture":true}},{"at":3300,"lane":"foreground","node":"fast","type":"model.request_sent","text":"决策消费合流后的显式信息包","payload":{"effort":"low","previous_response_id":null,"agent_context":"independent"}},{"at":4050,"lane":"foreground","node":"fast","type":"response.output_text.delta","text":"补充段首 delta 进入缓冲","payload":{"simulated":true,"planned_api_ttft_ms":750}},{"at":5400,"lane":"foreground","node":"gate","type":"gate.accepted","text":"只交付新增时间取舍，标明估计","payload":{"has_new_value":true,"reply_epoch":1,"preference_epoch":4,"dependency_versions":{"quest_state":12,"route_estimate":3},"dependencies_current":true}},{"at":5500,"lane":"user","node":"deliver","type":"client.append","text":"新增规划结果显示","payload":{},"delivery_text":"按刚补到的估计，A 加交付约要 22–28 分钟。先只安排这一趟吧，B 留到回来再看，比较不赶。C 的耗时还不清楚，我先不把它排进去。","delivery_id":"answer-2"},{"at":6200,"lane":"foreground","node":"fast","type":"response.completed","text":"API 流结束确认；保守安排已于 5.5 s 显示","payload":{"foreground_done":true,"task_status":"bounded_plan_with_unknown_C","usage":null}},{"at":6500,"lane":"background","node":"reflect","type":"reflection.enqueued","text":"本例被抽样：检查是否重复、是否过度承诺","payload":{"effort":"high","independent_context":true}},{"at":6600,"lane":"background","node":"reflect","type":"model.request_sent","text":"后台反思开始调用，独立消息包","payload":{"model":"gpt-6.1-sol","effort":"high","usage":null}},{"at":30000,"lane":"background","node":"reflect","type":"reflection.proposed","text":"没有新持久偏好；形成一条评测建议","payload":{"proposal":"路线估计必须标注不确定性，不存为玩家偏好"}},{"at":30200,"lane":"background","node":"memory","type":"model.request_sent","text":"可选整理开始调用，独立消息包","payload":{"effort":"low","expected_memory_version":2}},{"at":35000,"lane":"background","node":"memory","type":"memory.no_change","text":"无值得新增的记忆；后台结束","payload":{"writes":0,"player_interruptions":0}}],"segments":[{"node":"instant","lane":"foreground","label":"可靠第一步","start":25,"end":90},{"node":"deliver","lane":"user","label":"第一步","start":90,"end":140},{"node":"plan","lane":"foreground","label":"规划 DAG","start":45,"end":2400},{"node":"tools","lane":"foreground","label":"任务状态","start":2450,"end":2850},{"node":"tools","lane":"foreground","label":"路线估计","start":2450,"end":3250},{"node":"fast","lane":"foreground","label":"合流决策","start":3300,"end":5400},{"node":"deliver","lane":"user","label":"规划结果显示","start":5500,"end":5500},{"node":"reflect","lane":"background","label":"抽样反思","start":6500,"end":30000},{"node":"memory","lane":"background","label":"可选整理","start":30200,"end":35000}],"conditions":["并行项：独立短答与规划；两个工具读取。先后项：计划→读取；两项结果→决策；审核→显示；反思提案→对应记忆整理。","第一有用步 50–200 ms 的前提是已有合格内容。没有这一前提，不能预设 140 ms 交付。","规划回复目标 3–8 s；本例交付的是保守方案，C 未知且最优性未证明。8 s 截止时仅有进度或缺口不得算任务已解决。","后台 10–60 s 预算；默认抽样与事件触发，不能每条 FAQ 都跑。"]},{"id":"stale","title":"⑤ 窗口已关闭 · 旧流拦截","kind":"预算预演 / 合成状态变化","user":"这个任务现在能接吗？","context":"起初任务窗口打开。生成期间窗口关闭并进入战斗；主程序增加相关状态版本。旧候选不得送到玩家端。","nodes":["input","route","fast","gate","instant","deliver"],"first_delta_ms":700,"first_useful_ms":1050,"foreground_ms":1050,"background_ms":null,"duration_ms":1400,"token_summary":"已发出 1 次模型 · token 按实际 usage 记录；取消不等于零费用","token_detail":"原调用输入预算 1,200–2,200，生成上限 1,024；实际产生多少、取消后是否继续生成均未测。新的状态说明由批准模板生成，额外模型 token 为 0。","output":"任务窗口已经关上了。等你打开它，我再确认能不能接。","events":[{"at":0,"lane":"foreground","node":"input","type":"input.received","text":"快照 v41，任务窗口打开","payload":{"quest_dialog_version":41}},{"at":60,"lane":"foreground","node":"fast","type":"model.request_sent","text":"未知组合转入快速判断","payload":{"dependency_version":41}},{"at":450,"lane":"foreground","node":"input","type":"state.changed","text":"窗口关闭、进入战斗；相关依赖升到 v42","payload":{"quest_dialog_version":42,"combat":true}},{"at":460,"lane":"foreground","node":"fast","type":"cancel.requested","text":"尽力取消旧请求；门控仍负责防晚到","payload":{"cancel_acknowledged":false}},{"at":700,"lane":"foreground","node":"fast","type":"response.output_text.delta","text":"晚到的旧候选只进入内部缓冲","payload":{"simulated_delta":"可以点击接受","depends_on_version":41}},{"at":760,"lane":"foreground","node":"gate","type":"gate.rejected_state_changed","text":"旧建议被丢弃，玩家看不到","payload":{"expected":41,"actual":42}},{"at":850,"lane":"foreground","node":"instant","type":"candidate.ready","text":"根据新状态组装短说明","payload":{"template":"dialog_closed","source":"game_snapshot_v42"}},{"at":920,"lane":"foreground","node":"gate","type":"gate.accepted","text":"新说明使用当前证据","payload":{"version":42}},{"at":1050,"lane":"user","node":"deliver","type":"client.first_useful","text":"只交付当前有效说明","payload":{},"delivery_text":"任务窗口已经关上了。等你打开它，我再确认能不能接。","delivery_id":"answer-1"},{"at":1100,"lane":"foreground","node":"deliver","type":"delivery.accounting_pending","text":"文本已于 1.05 s 显示，旧请求消耗仍待核对","payload":{"actual_usage":null}}],"segments":[{"node":"fast","lane":"foreground","label":"在途模型（后失效）","start":60,"end":760},{"node":"gate","lane":"foreground","label":"失效拦截","start":450,"end":760},{"node":"instant","lane":"foreground","label":"新状态说明","start":850,"end":920},{"node":"deliver","lane":"user","label":"有效说明","start":920,"end":1050}],"conditions":["验收指标：旧状态可见交付 0；另报取消确认率和已消耗 token。","不能将 rejected 当作已取消推理；真实请求可能已经消耗生成成本。","第一有用句 1.05 s 仍是预算预演，旧实测 R9 的拒绝在约 13.06 s。"]},{"id":"quiet","title":"⑥ 用户要安静 · 正确结果是沉默","kind":"预算预演 / 明确用户偏好","user":"先别说话，也不用回复我。","context":"用户明确要求本轮没有任何可见回复。立即更新会话偏好；不等反思、不追加确认。","nodes":["input","route","instant","gate","memory","deliver"],"first_delta_ms":null,"first_useful_ms":null,"foreground_ms":40,"background_ms":null,"duration_ms":180,"token_summary":"0 模型调用 · 0 在线模型 token","token_detail":"明确偏好由规则即时生效；使用 P0177 的 silence 语义。没有文本，不计算“首个有用句”，另记偏好生效时间。","output":"保持沉默；本会话主动对白关闭，直到用户明确改变偏好。","events":[{"at":0,"lane":"foreground","node":"input","type":"input.received","text":"识别明确不回复要求","payload":{"explicit_no_reply":true}},{"at":12,"lane":"foreground","node":"memory","type":"preference.applied","text":"会话偏好立即更新，不需要模型","payload":{"preference_epoch":8,"proactive_allowed":false}},{"at":20,"lane":"foreground","node":"instant","type":"candidate.silence","text":"选择严格沉默 P0177","payload":{"text":"","delivery_kind":"silence"}},{"at":35,"lane":"foreground","node":"gate","type":"gate.accepted_silence","text":"结束前台，禁止补一句确认","payload":{"visible_characters":0}},{"at":40,"lane":"foreground","node":"deliver","type":"delivery.silence_committed","text":"正确成果：没有玩家可见消息","payload":{"silence_success":true,"first_useful_ms":null}}],"segments":[{"node":"memory","lane":"foreground","label":"偏好生效","start":0,"end":12},{"node":"gate","lane":"foreground","label":"静默提交","start":20,"end":40}],"conditions":["静默不记为超时失败，也不伪造 0 ms 有用回复。","与迟到反思并发时，新明确偏好优先；旧提案必须拒绝。"]}],"acceptance":[{"stage":"01 先打通真实测量","deliverable":"真实 API + 客户端日志；每轮一个 trace_id；同一 Sol 6.1 配置建立基线。","gate":"记录输入、首非空 delta、首渲染、第一有用句、最终回复、后台结束；usage 与 service_tier 不缺失。无实际调用的数据保持 null。","adjust":"先定位队列、接口、prefill、推理、生成和客户端缓冲；不把工具任务总时长归因于模型。"},{"stage":"02 批准高频直答","deliverable":"先将 100 张高频候选变成具备可执行 guard 的批准卡；保留来源与版本。","gate":"建议 600 条留出情境，按意图/状态分组隔离近似问法；错误直答目标 \u003c1%，关键版本/状态反例 0 放行。报告置信区间，不能用少量 0 错误宣称全局为零。","adjust":"错答就收紧 guard 或降为澄清；检索漏召回才补别名。先看正确率，再争取命中率。"},{"stage":"03 验证速度与流式收益","deliverable":"直答 / 单模型 / 并行规划三个可重复的真实路径；冷/热缓存、负载、网络分组。","gate":"直答首有用 P95 目标 ≤250 ms；单模型首有用 P95 探索目标 ≤3 s，完成 ≤6 s；复杂完整结果 ≤8 s 的目标另报达成率。每个主要路径至少 200 例起步，稳定后增至 ≥1,000 例。","adjust":"只要质量达标，依次减调用→缩上下文/输出→low→缓存→服务档位；每次保持相同输入与评分，报告 P50/P95 和失败率。"},{"stage":"04 证明不会错发","deliverable":"状态变化、偏好覆盖、重复事件、超时、断线、流中断的竞争条件集。","gate":"旧状态和旧偏好结果可见交付 0；不符合首领条件不欢呼；请求安静无追加确认；API incomplete 不能伪装完成。","adjust":"取消是尽力而为，发布 epoch 复查不可省。超时只交付有依据的部分与缺口，另记任务是否真正完成。"},{"stage":"05 让大肥鱼更像她自己","deliverable":"高频卡片盲评、用户修正集、离线 skill/FAQ 更新与可回滚版本。","gate":"至少 100 组配对样例，评“有用、可信、体贴、不打扰、不过度可爱”；分别报评分与分歧。主动提问初设 5–10 分钟冷却、上一问未答不催问；需真实体验调整。","adjust":"缺自然度先改场景选择、信息密度、变体和沉默时机。后台抽样起步 5%，重大纠正必入队；不要每轮高思考。"}],"architecture_notes":["在线优先级：当前用户输入 > 必要状态更新 > 被请求的补充 > 主动互动 > 反思与整理。为前台保留队列与并发额度；不让后台 high 挡住下一问。","前台并不要求每轮六个 Agent 全部启动。角色职责可分离，调用按需；主程序把公开规则与本轮证据复制为明确消息，不共享私有历史。","每个 Agent 独立会话、独立工具权限、独立缓存命名空间。消息带 agent_id、turn_id、reply_epoch、evidence_ids、dependency_versions、preference_epoch、deadline 与预算。","Planner 只安排允许的 DAG。上游数据没回来不能执行依赖步骤；无关读取并行。若新结果没有改变下一步，就不追加用户消息。","流式发布用语义段门控；模型原始 delta 先留内部。普通情绪表达可轻量检查，涉及新游戏事实则必须有证据，不能先说错再让后台纠正。","显式“这次简短”只作用本轮；“以后少提醒”才形成持久候选。明确偏好即时生效，慢记忆晚到时通过 CAS 比较拒绝覆盖。","主动试探初期保守：仅在允许、非战斗、无未回复问题、有打扰预算时发起。胜利欢呼与剧情叙述各自去重；用户沉默不视为同意或学习奖励。","超时策略是产品截止时间：直答门未过就降级；普通模型 3 s 无有用句时提供有依据的短澄清或真实状态；复杂 8 s 截止后只保留可信部分。不得编答案赶 SLA。"],"token_notes":["所有预算以 token 为单位，不是汉字数；输入 I、生成文本 O、隐藏推理 R 分开。实际单次总量按 I + O + R 记录，前台与后台分别求和。","API 的 output_tokens 已包含 reasoning_tokens。若由 output_tokens 推导总量，不可再次加 R；页面中的 O 特指非隐藏推理的生成文本，包含结构化输出。","cached_tokens 是 input_tokens 的子集，不从逻辑输入量中消失。缓存写入与命中读取分列成本；Prompt/KV 缓存不减少必须新生成的输出。","给出的 max_output_tokens 是工程初始上限，包含可见文本和隐藏推理，不是消费预测。若达到上限导致 incomplete，要调整任务与额度；不把残缺回答当成功。","没有真实 usage 前，R 保持未知。不得按字数伪造 token，不能由 low/medium/high 推导固定 token 倍率。","每轮摊销成本 = 前台路径成本 + 反思触发率 × 反思成本 + 记忆触发率 × 记忆成本 + 预取/重试/被取消请求成本。触发率需要实际测量。","本页 50–200 ms、1–2.5 s、3–8 s、10–60 s 都是拟定预算区间，非已有实验分位数或服务保证。真实网络、冷启动、并发与难例可能超过。"],"evidence":{"date":"2026-11-18","historical_summary":{"passed":6,"total":8,"unit_passed":30,"unit_total":30,"unit_note":"v2 22项 + v3定向8项，非单一版本全套","business_model_tasks":16,"offline_review_tasks":1,"baseline_candidate_median_ms":21323.5768165,"baseline_min_ms":14437.611586,"baseline_max_ms":40247.798995},"historical_rows":[{"scenario":"出生迷茫：只给一个可靠起步动作","candidate_ms":23209.088378,"loop_ms":23220.344437},{"scenario":"偏好纠正：这次简短，长期偏好保留","candidate_ms":21463.655824,"loop_ms":21486.928309},{"scenario":"代词指代：从最近原文找回那个","candidate_ms":17484.134509,"loop_ms":32628.125382},{"scenario":"平静闲聊：好奇但不连环提问","candidate_ms":14437.611586,"loop_ms":14461.094293},{"scenario":"用户受挫：回应原话，避免揣测状态","candidate_ms":16390.128908,"loop_ms":32991.635702},{"scenario":"经验倍率未知（历史夹具）：不编经验倍率","candidate_ms":22652.319999,"loop_ms":22676.982582},{"scenario":"用户纠正API：保留冲突并刷新任务日志","candidate_ms":40247.798995,"loop_ms":263248.987918},{"scenario":"复杂规划：半小时、少跑动与未知耗时","candidate_ms":21183.497809,"loop_ms":274828.467459}],"faq_counts":{"faq_cards":958,"answer_variants":1851,"authored_queries":3127,"retrieval_query_variants":9255,"total_search_queries":12382,"atomic_facts":185,"source_documents":40,"original_source_records":48,"official_source_documents":29,"community_source_documents":11,"story_frames":18,"story_delivery_cards":26,"categories":90,"proactive_candidates":15,"official_atomic_facts":181,"community_question_evidence":4},"local_lookup":{"samples":160,"median_ms":0.4807365003216546,"p95_ms":0.7055970054352656,"scope":"本机内存索引与示例发送门控，非真实游戏、非模型API、非UI端到端"},"gate_fixture_tests":{"passed":59,"total":59},"actual_api_usage":null,"actual_api_ttft_ms":null,"actual_client_first_useful_ms":null},"packet_contract":{"required":["agent_id","turn_id","reply_epoch","evidence_ids","dependency_versions","preference_epoch","deadline_ms","budget"],"private_context_policy":"Each agent receives explicit packets only. No cross-agent conversation ID / previous_response_id / memory-store access."},"metric_definitions":{"api_ttft":"模型请求发出 → 第一个非空 response.output_text.delta，同一服务端单调时钟","client_first_visible":"用户输入提交 → 客户端首个可见渲染，同一客户端单调时钟","client_first_useful":"用户输入提交 → 第一段审核通过、独立有用的内容实际显示；空泛开场不计","foreground_complete":"用户输入提交 → 本轮最后一段已批准回复实际显示；与 API 流结束分开。task_status 区分完全解决、保守方案、澄清与进度","background_complete":"同一 trace 的最后一个已选择后台任务完成；未选择则不适用","clock_policy":"客户端和服务端各用自身 monotonic clock；不能直接相减跨机器时间。用 trace/span 关联，墙钟仅供阅读。"}}</script>
+  <script>(() => {
+  'use strict';
+  const $ = id => document.getElementById(id);
+  const sourceElement = $('streaming-data');
+  let data;
+  try { data = JSON.parse(sourceElement.textContent); }
+  catch (error) { $('footer-note').textContent = '数据暂时无法读取，请重新打开完整 HTML 文件。'; return; }
+  const sources = new Map((data.sources || []).map(s => [s.id, s]));
+  const modules = new Map((data.modules || []).map(m => [m.id, m]));
+  let selectedModule = 'route';
+  let scenarioIndex = 0;
+  let currentMs = 0;
+  let playing = false;
+  let animation = null;
+  let previousFrame = null;
+  let renderedCount = -1;
+  let timelineWidth = 720;
+  const maxMs = () => Math.max(1, Number(scenario().duration_ms) || 1);
+  const scenario = () => (data.scenarios || [])[scenarioIndex] || {events: [], segments: [], nodes: []};
+  const fmt = value => {
+    if (value === null || value === undefined || !Number.isFinite(Number(value))) return '—';
+    const n = Number(value);
+    return `${(n / 1000).toFixed(n < 1000 ? 3 : n < 10000 ? 2 : 1)} s`;
+  };
+  const text = (tag, value, cls) => {
+    const el = document.createElement(tag);
+    el.textContent = value == null ? '' : String(value);
+    if (cls) el.className = cls;
+    return el;
+  };
+  const array = value => Array.isArray(value) ? value : value == null ? [] : [value];
+  const list = values => { const el = document.createElement('ul'); array(values).forEach(v => el.append(text('li', v))); return el; };
+  const safeLink = (label, value) => {
+    const el = text('a', label);
+    try {
+      const base = /^https?:$/.test(location.protocol) ? location.href : 'https://companion-agent-studio-nov15.mylssssdddd.chatgpt.site/';
+      const url = new URL(value, base);
+      if (['http:', 'https:'].includes(url.protocol)) { el.href = url.href; el.target = '_blank'; el.rel = 'noopener noreferrer'; }
+    } catch (_) {}
+    return el;
+  };
+  const setList = (id, values) => { const el = $(id); el.replaceChildren(...array(values).map(v => text('li', v))); };
+  const laneName = lane => ({user: '玩家可见', foreground: '前台内部', background: '后台静默'}[lane] || lane || '前台内部');
+  const announce = value => { $('live-status').textContent = value; };
+  $('data-date').textContent = data.meta && data.meta.date ? `资料核对：${data.meta.date}` : '';
+  $('footer-note').textContent = data.meta?.note || '本页展示设计预算与既有证据；预演不会调用模型 API 或游戏接口。';
+  if (data.meta?.title) document.title = data.meta.title;
+
+  function setupTabs() {
+    const buttons = Array.from(document.querySelectorAll('[data-tab]'));
+    function select(name, focus) {
+      for (const button of buttons) {
+        const active = button.dataset.tab === name;
+        button.setAttribute('aria-selected', String(active));
+        button.tabIndex = active ? 0 : -1;
+        $(`panel-${button.dataset.tab}`).hidden = !active;
+        if (active && focus) button.focus();
+      }
+      if (name === 'plan') requestAnimationFrame(drawEdges);
+      else pause();
+    }
+    buttons.forEach((button, index) => {
+      button.addEventListener('click', () => select(button.dataset.tab, false));
+      button.addEventListener('keydown', event => {
+        let next;
+        if (event.key === 'ArrowRight') next = (index + 1) % buttons.length;
+        if (event.key === 'ArrowLeft') next = (index + buttons.length - 1) % buttons.length;
+        if (event.key === 'Home') next = 0;
+        if (event.key === 'End') next = buttons.length - 1;
+        if (next != null) { event.preventDefault(); select(buttons[next].dataset.tab, true); }
+      });
+    });
+    select('plan', false);
+  }
+
+  function renderBaseline() {
+    const target = $('baseline-metrics'); target.replaceChildren();
+    for (const metric of data.baseline?.metrics || []) {
+      const box = text('article', '', 'metric');
+      if (metric.kind) box.append(text('span', metric.kind, `tag ${/未测|未采集|未知/.test(metric.kind) ? 'unknown-tag' : /预算|目标/.test(metric.kind) ? 'planned-tag' : 'measured-tag'}`));
+      box.append(text('div', metric.value, 'metric-value'), text('h3', metric.label), text('p', metric.detail));
+      if (metric.href) box.append(safeLink('查看证据 ↗', metric.href));
+      target.append(box);
+    }
+    const rows = $('baseline-rows'); rows.replaceChildren();
+    for (const row of data.baseline?.rows || []) {
+      const tr = document.createElement('tr');
+      tr.append(text('td', row.scenario), text('td', fmt(row.candidate_ms)), text('td', fmt(row.loop_ms)));
+      rows.append(tr);
+    }
+    setList('baseline-limits', data.baseline?.limits || []);
+    const issues = $('difficulties-list'); issues.replaceChildren();
+    for (const item of data.difficulties || []) {
+      const row = text('article', '', 'issue'); row.append(text('h3', item.title), text('p', item.evidence), text('p', item.change, 'issue-change')); issues.append(row);
+    }
+  }
+
+  function renderResearch() {
+    const target = $('research-list'); target.replaceChildren();
+    (data.research || []).forEach((item, index) => {
+      const row = text('article', '', 'research-item');
+      const heading = document.createElement('div');
+      heading.append(text('span', `${String(index + 1).padStart(2, '0')} · ${item.priority || '研究方案'}`, 'research-number'), text('h3', item.title));
+      const links = text('div', '', 'research-links');
+      array(item.source_ids).forEach(id => { const s = sources.get(id); if (s) links.append(safeLink(s.publisher || s.title, s.url)); });
+      heading.append(links);
+      const body = text('div', '', 'research-body');
+      [['机制', item.mechanism, ''], ['用于本项目', item.fit, ''], ['适用边界', item.limit, 'research-limit']].forEach(([label, value, cls]) => {
+        const p = text('p', '', cls); p.append(text('b', label), document.createTextNode(value || '')); body.append(p);
+      });
+      row.append(heading, body); target.append(row);
+    });
+    const refs = $('sources-list'); refs.replaceChildren();
+    for (const source of data.sources || []) {
+      const li = document.createElement('li'); li.id = `source-${source.id}`;
+      li.append(safeLink(source.title, source.url), text('small', `${source.publisher || ''}${source.checked ? ` · 核对 ${source.checked}` : ''}`)); refs.append(li);
+    }
+  }
+
+  function renderModule(id) {
+    selectedModule = id;
+    const module = modules.get(id); if (!module) return;
+    const target = $('module-detail'); target.replaceChildren();
+    const overview = text('div', '', 'module-overview');
+    overview.append(text('p', '模块详情 · 点击流程切换', 'inspector-type'));
+    const title = text('h3', module.title); title.id = 'inspector-title'; overview.append(title);
+    const model = text('div', '', 'inspector-model'); model.append(text('b', module.model || '应用代码'), document.createTextNode(module.effort ? ` · ${module.effort}` : '')); overview.append(model, text('p', module.role, 'role')); target.append(overview);
+    function section(title, values, disclosure) {
+      const box = text('section', '', 'inspector-section');
+      if (disclosure) { const details = document.createElement('details'); details.append(text('summary', title), list(values)); box.append(details); }
+      else { box.append(text('h4', title), list(values)); }
+      target.append(box);
+    }
+    section('职责与权能', module.rights);
+    const budget = text('section', '', 'inspector-section inspector-budget'); budget.append(text('h4', '预期消耗 · 规划预算'));
+    [['TOKEN', module.token_budget], ['时间', module.latency_budget]].forEach(([label, value]) => { const p = document.createElement('p'); p.append(text('strong', label), document.createTextNode(value || '尚待确定')); budget.append(p); }); target.append(budget);
+    section('接收的信息包', module.inputs);
+    section('交出的成果', module.outputs);
+    section('先后与并行', [...array(module.depends).map(v => `先后：${v}`), ...array(module.parallel).map(v => `并行：${v}`)]);
+    section('Log · 应记录什么', module.logs, true);
+    section('错误历史与防线', module.errors, true);
+    updateNodeState();
+  }
+
+  const edgeDefinitions = [
+    ['input', 'route', 'vertical'], ['route', 'instant', 'branch'], ['route', 'fast', 'branch'], ['route', 'plan', 'branch'], ['route', 'tools', 'branch', false, true],
+    ['instant', 'gate', 'join'], ['fast', 'gate', 'join'], ['plan', 'fast', 'side'], ['plan', 'tools', 'side'], ['tools', 'fast', 'return'],
+    ['gate', 'deliver', 'vertical'], ['deliver', 'reflect', 'branch', true], ['reflect', 'memory', 'side', true]
+  ];
+  function drawEdges() {
+    const flow = $('flow'), svg = $('flow-lines'), target = $('flow-edges');
+    if (!flow || flow.offsetWidth === 0) return;
+    target.replaceChildren(); svg.setAttribute('viewBox', `0 0 ${flow.offsetWidth} ${flow.offsetHeight}`);
+    const flowRect = flow.getBoundingClientRect();
+    const get = id => {
+      const el = flow.querySelector(`[data-node="${id}"]`); if (!el) return null;
+      const r = el.getBoundingClientRect(); return {x:r.left-flowRect.left,y:r.top-flowRect.top,w:r.width,h:r.height};
+    };
+    for (const [from, to, shape, background, optional] of edgeDefinitions) {
+      const a = get(from), b = get(to); if (!a || !b) continue;
+      const path = document.createElementNS('http://www.w3.org/2000/svg','path');
+      let d;
+      if (shape === 'return') {
+        // Tool results return under the whole branch row, then enter the
+        // decision node from its left edge without crossing the planner.
+        const x1=a.x+a.w*.72, y1=a.y+a.h, x2=b.x, y2=b.y+b.h/2;
+        const rail=y1+30, left=x2-7;
+        d=`M ${x1} ${y1} L ${x1} ${rail-5} Q ${x1} ${rail} ${x1-5} ${rail} L ${left+5} ${rail} Q ${left} ${rail} ${left} ${rail-5} L ${left} ${y2+5} Q ${left} ${y2} ${left+5} ${y2} L ${x2} ${y2}`;
+      } else if (shape === 'side') {
+        const rightward = b.x > a.x;
+        const x1 = rightward ? a.x+a.w : a.x, x2 = rightward ? b.x : b.x+b.w;
+        const y = a.y+a.h/2;
+        d = `M ${x1} ${y} L ${x2} ${y}`;
+      } else {
+        const x1 = a.x+a.w/2, y1 = a.y+a.h, x2=b.x+b.w/2, y2=b.y;
+        const middle = y1+(y2-y1)/2;
+        d=`M ${x1} ${y1} L ${x1} ${middle} L ${x2} ${middle} L ${x2} ${y2}`;
+      }
+      path.setAttribute('d',d); path.setAttribute('class',`flow-edge${background ? ' is-background' : ''}${optional ? ' is-optional' : ''}`); path.dataset.from=from; path.dataset.to=to; target.append(path);
+    }
+    updateNodeState();
+  }
+
+  function updateNodeState() {
+    const nodes = new Set(scenario().nodes || []);
+    const currentEvent = array(scenario().events).filter(e => e.at <= currentMs).at(-1);
+    document.querySelectorAll('[data-node]').forEach(button => {
+      const id = button.dataset.node;
+      button.classList.toggle('selected', id === selectedModule);
+      button.classList.toggle('is-route', nodes.has(id));
+      button.classList.toggle('is-outside', nodes.size > 0 && !nodes.has(id));
+      button.classList.toggle('is-now', currentMs > 0 && currentEvent?.node === id);
+      button.setAttribute('aria-pressed', String(id === selectedModule));
+    });
+    document.querySelectorAll('.flow-edge').forEach(edge => {
+      let active=nodes.has(edge.dataset.from) && nodes.has(edge.dataset.to);
+      // With planning selected, tool requests and the final decision depend
+      // on its DAG/packet. The direct refresh shortcut is inactive.
+      if(nodes.has('plan') && edge.dataset.from==='route' && ['tools','fast'].includes(edge.dataset.to))active=false;
+      edge.classList.toggle('is-route',active);
+    });
+  }
+
+  function setupDiagram() {
+    document.querySelectorAll('[data-node]').forEach(button => {
+      const module=modules.get(button.dataset.node); if (!module) return;
+      button.querySelector('b').textContent=module.title;
+      button.querySelector('small').textContent=module.subtitle || module.model || '';
+      button.type='button'; button.setAttribute('aria-label',`查看${module.title}的职责与预算`);
+      button.addEventListener('click',()=>{renderModule(button.dataset.node);announce(`已切换到${module.title}`);});
+    });
+    renderModule(selectedModule);
+    if (typeof ResizeObserver !== 'undefined') new ResizeObserver(drawEdges).observe($('flow'));
+    else window.addEventListener('resize',drawEdges);
+    requestAnimationFrame(drawEdges);
+  }
+
+  function metricsForScenario(s) {
+    return [
+      ['对话流首个非空 delta', s.first_delta_ms, s.first_delta_ms == null ? '不调用模型' : '相对本轮输入', false],
+      ['第一有用交付', s.first_useful_ms, s.first_useful_ms == null ? '静默正确 · 不适用' : '用户已收到可用内容', true],
+      ['前台完成', s.foreground_ms, '本轮可见交付完成', false],
+      ['后台完成', s.background_ms, s.background_ms == null ? '本轮跳过' : '不阻塞前台', false]
+    ];
+  }
+
+  function selectScenario(index) {
+    pause(); scenarioIndex = Number(index) || 0; currentMs = 0; renderedCount = -1;
+    const s = scenario(); $('scenario-select').value = String(scenarioIndex);
+    $('scenario-kind').textContent = s.kind || '预算预演';
+    $('scenario-user').textContent = s.user || '游戏事件触发';
+    $('scenario-context').textContent = s.context || '仅使用本轮显式传入的信息。';
+    $('token-summary').textContent = s.token_summary || '待确定';
+    $('token-detail').textContent = s.token_detail || '';
+    $('scenario-output').textContent = s.output || '';
+    setList('scenario-conditions', s.conditions || []);
+    const metrics=$('timing-metrics'); metrics.replaceChildren();
+    for (const [label,value,detail,key] of metricsForScenario(s)) {
+      const box=text('div','',`timing-metric${key?' key-metric':''}`);
+      const displayed=value==null ? (label==='后台完成'?'跳过':label==='第一有用交付'?'静默':'无需') : fmt(value);
+      box.append(text('h4',label),text('b',displayed),text('small',detail)); metrics.append(box);
+    }
+    $('scrubber').max=String(maxMs()); $('scrubber').value='0';
+    $('total-time').textContent=`/ ${fmt(maxMs())}`;
+    $('jump-useful').disabled=s.first_useful_ms==null;
+    $('jump-background').disabled=s.background_ms==null;
+    $('jump-foreground').disabled=s.foreground_ms==null;
+    buildTimeline(); renderPlayback(true); updateNodeState();
+    $('timeline-scroll').scrollLeft=0;
+  }
+
+  function timelineLayout(segments) {
+    const laneIds=['user','foreground','background'];
+    const lanes={}, placements={};
+    let top=34;
+    for(const lane of laneIds){
+      const rows=[];
+      const items=(Array.isArray(segments)?segments:[]).map((segment,index)=>({segment,index}))
+        .filter(item=>(laneIds.includes(item.segment.lane)?item.segment.lane:'foreground')===lane)
+        .sort((a,b)=>Number(a.segment.start)-Number(b.segment.start)||Number(a.segment.end)-Number(b.segment.end)||a.index-b.index);
+      for(const {segment,index} of items){
+        const start=Number(segment.start)||0, end=Math.max(start+1,Number(segment.end)||start);
+        let row=rows.findIndex(previousEnd=>previousEnd<=start);
+        if(row<0){row=rows.length;rows.push(end);}else rows[row]=end;
+        placements[index]={lane,row,top:top+24+row*33};
+      }
+      const tracks=Math.max(1,rows.length),height=32+tracks*33;
+      lanes[lane]={top,height,tracks,eventTop:top+height-10};
+      top+=height+2;
+    }
+    return {lanes,placements,height:top+10};
+  }
+
+  function buildTimeline() {
+    const target=$('timeline'); target.replaceChildren();
+    const duration=maxMs();
+    const segments=array(scenario().segments), layout=timelineLayout(segments);
+    timelineWidth=Math.max(720,Math.min(6500,duration/12));
+    target.style.width=`${timelineWidth}px`;
+    target.style.height=`${layout.height}px`;
+    ['user','foreground','background'].forEach((lane,index)=>{
+      const box=text('div','',`timeline-lane ${['user-lane','front-lane','back-lane'][index]}`);
+      box.style.top=`${layout.lanes[lane].top}px`;box.style.height=`${layout.lanes[lane].height}px`;
+      box.append(text('span',laneName(lane),'lane-name'));target.append(box);
+    });
+    let step = duration <= 500 ? 100 : duration <= 2000 ? 250 : duration <= 6000 ? 1000 : duration <= 20000 ? 2000 : duration <= 60000 ? 5000 : 10000;
+    for(let t=0;t<=duration;t+=step){const tick=text('div','', 'timeline-tick');tick.style.left=`${t/duration*100}%`;tick.style.height=`${layout.height-12}px`;tick.append(text('span',fmt(t)));target.append(tick);}
+    segments.forEach((segment,index)=>{
+      const start=Math.max(0,Math.min(duration,Number(segment.start)||0));
+      const end=Math.max(start,Math.min(duration,Number(segment.end)||start));
+      const bar=text('button',segment.label||modules.get(segment.node)?.title||segment.node,`segment ${segment.lane||'foreground'}`);
+      bar.type='button'; bar.style.left=`${start/duration*100}%`;bar.style.width=`${(end-start)/duration*100}%`;
+      bar.style.top=`${layout.placements[index].top}px`;bar.dataset.subtrack=String(layout.placements[index].row);
+      bar.dataset.start=String(start);bar.dataset.end=String(end);bar.dataset.segment=String(index);bar.dataset.module=segment.node;
+      bar.title=`${segment.label||segment.node} · ${fmt(start)} → ${fmt(end)}`;
+      bar.setAttribute('aria-label',`查看${segment.label||segment.node}，${fmt(start)}至${fmt(end)}`);
+      bar.addEventListener('click',()=>{pause();currentMs=start;renderModule(segment.node);renderPlayback(true);});target.append(bar);
+    });
+    for(const event of array(scenario().events)){
+      const lane=layout.lanes[event.lane]?event.lane:'foreground';
+      const dot=text('span','',`event-mark ${lane}`);dot.style.left=`${Math.max(0,Math.min(duration,event.at))/duration*100}%`;dot.style.top=`${layout.lanes[lane].eventTop}px`;dot.title=`${fmt(event.at)} ${event.type}`;target.append(dot);
+    }
+    const head=text('div','', 'playhead');head.id='playhead';target.append(head);
+  }
+
+  function eventRow(event) {
+    const row=text('div','',`event-row ${event.lane||'foreground'}`);
+    row.append(text('time',fmt(event.at)),text('span',laneName(event.lane),'event-lane'));
+    const content=text('div','', 'event-content');content.append(text('b',event.type||'event'),text('p',event.text||''));
+    const details=document.createElement('details');details.append(text('summary','展开事件数据'));
+    details.append(text('pre',JSON.stringify({at_ms:event.at,lane:event.lane,node:event.node,type:event.type,payload:event.payload||{}},null,2)));content.append(details);row.append(content);return row;
+  }
+
+  function renderConversation(events) {
+    const target=$('chat-messages'),position=target.scrollTop,wasNearBottom=target.scrollHeight-target.scrollTop-target.clientHeight<30;target.replaceChildren();
+    function bubble(role,value){const item=text('div','',`chat-item ${role}`);item.append(text('span',role==='user'?'玩家':'大肥鱼','speaker'),text('p',value,'bubble'));target.append(item);}
+    if(scenario().user) bubble('user',scenario().user);
+    const messages=[];const byId=new Map();
+    for(const event of events){
+      if(typeof event.delivery_text !== 'string' || event.delivery_text.length===0)continue;
+      const id=event.delivery_id||`event-${event.at}-${messages.length}`;
+      const existing=byId.get(id);
+      if(existing) existing.value+=event.delivery_text;
+      else {const entry={id,value:event.delivery_text,role:event.payload?.delivery_role==='user'?'user':'assistant'};byId.set(id,entry);messages.push(entry);}
+    }
+    messages.forEach(m=>bubble(m.role,m.value));
+    if(wasNearBottom||playing)target.scrollTop=target.scrollHeight;else target.scrollTop=position;
+    const s=scenario();
+    if(currentMs>=maxMs())$('chat-status').textContent=s.first_useful_ms==null?'本轮静默结束。没有给玩家额外打扰。':'本轮预演结束。';
+    else if(s.foreground_ms!=null&&currentMs>=s.foreground_ms)$('chat-status').textContent=s.background_ms!=null&&currentMs<s.background_ms?(events.some(e=>e.lane==='background'&&/enqueued|request_sent|started/.test(e.type))?'可见交付已完成，后台仍在继续。':'可见交付已完成；后台任务尚未开始。'):'可见交付已完成。';
+    else if(messages.length)$('chat-status').textContent='已通过审核的内容正在交付。';
+    else $('chat-status').textContent=s.first_useful_ms==null?'当前情境选择静默。':'尚未发布内容。';
+  }
+
+  function renderPlayback(force=false) {
+    const duration=maxMs();currentMs=Math.max(0,Math.min(duration,currentMs));
+    $('current-time').textContent=fmt(currentMs);$('scrubber').value=String(Math.round(currentMs));
+    $('scrubber').setAttribute('aria-valuetext',`${fmt(currentMs)}，总时长${fmt(duration)}`);
+    const head=$('playhead');if(head)head.style.left=`${currentMs/duration*100}%`;
+    document.querySelectorAll('.segment').forEach(bar=>{
+      const start=Number(bar.dataset.start),end=Number(bar.dataset.end);
+      bar.classList.toggle('future',currentMs<start);bar.classList.toggle('active',currentMs>=start&&currentMs<end);bar.classList.toggle('complete',currentMs>=end);bar.classList.toggle('selected-segment',bar.dataset.module===selectedModule);
+    });
+    const events=array(scenario().events).filter(e=>Number(e.at)<=currentMs);
+    if(force||events.length!==renderedCount){
+      renderedCount=events.length;
+      const log=$('event-log');const position=log.scrollTop;const atBottom=log.scrollHeight-log.scrollTop-log.clientHeight<30;
+      log.replaceChildren(...events.map(eventRow));
+      if(!events.length)log.append(text('p','点击播放或下一事件，查看这条路径的具体设计事件。','log-empty'));
+      if(playing||atBottom)log.scrollTop=log.scrollHeight;else log.scrollTop=position;
+      $('event-count').textContent=`${events.length} / ${array(scenario().events).length}`;
+      renderConversation(events);updateNodeState();
+    }
+    $('next-event').disabled=currentMs>=duration;
+    if(playing){const viewport=$('timeline-scroll');const x=currentMs/duration*timelineWidth;if(x>viewport.scrollLeft+viewport.clientWidth-55)viewport.scrollLeft=Math.max(0,x-viewport.clientWidth*.6);}
+  }
+
+  function pause() {
+    playing=false;previousFrame=null;if(animation!=null)cancelAnimationFrame(animation);animation=null;
+    if($('play-pause'))$('play-pause').textContent='播放预演';
+  }
+  function tick(now) {
+    if(!playing)return;
+    if(previousFrame!=null)currentMs+=(now-previousFrame)*Number($('play-speed').value||1);
+    previousFrame=now;renderPlayback();
+    if(currentMs>=maxMs()){pause();renderPlayback(true);announce('本轮预演结束。');return;}
+    animation=requestAnimationFrame(tick);
+  }
+  function play(){if(currentMs>=maxMs()){currentMs=0;renderedCount=-1;renderPlayback(true);$('timeline-scroll').scrollLeft=0;}playing=true;previousFrame=null;$('play-pause').textContent='暂停';animation=requestAnimationFrame(tick);}
+  function jump(value){if(value==null)return;pause();currentMs=value;renderPlayback(true);const view=$('timeline-scroll');view.scrollLeft=Math.max(0,currentMs/maxMs()*timelineWidth-view.clientWidth*.45);}
+
+  function setupPlayback() {
+    const select=$('scenario-select');select.replaceChildren();
+    (data.scenarios||[]).forEach((s,index)=>{const option=text('option',s.title);option.value=String(index);select.append(option);});
+    select.addEventListener('change',()=>{selectScenario(select.value);announce(`已选择${scenario().title}，预演已重置。`);});
+    $('play-pause').addEventListener('click',()=>playing?pause():play());
+    $('restart').addEventListener('click',()=>selectScenario(scenarioIndex));
+    $('next-event').addEventListener('click',()=>{const next=array(scenario().events).find(e=>e.at>currentMs);jump(next?next.at:maxMs());});
+    $('scrubber').addEventListener('input',()=>{pause();currentMs=Number($('scrubber').value);renderPlayback(true);});
+    $('jump-useful').addEventListener('click',()=>jump(scenario().first_useful_ms));
+    $('jump-foreground').addEventListener('click',()=>jump(scenario().foreground_ms));
+    $('jump-background').addEventListener('click',()=>jump(scenario().background_ms));
+    document.addEventListener('visibilitychange',()=>{if(document.hidden)pause();});
+    selectScenario(0);
+  }
+
+  function renderAcceptance() {
+    const rows=$('acceptance-rows');rows.replaceChildren();
+    for(const item of data.acceptance||[]){const tr=document.createElement('tr');['stage','deliverable','gate','adjust'].forEach(key=>tr.append(text('td',item[key])));rows.append(tr);}
+    setList('architecture-notes',data.architecture_notes||[]);setList('token-notes',data.token_notes||[]);
+  }
+  function download(content,type,name){const url=URL.createObjectURL(new Blob([content],{type}));const anchor=document.createElement('a');anchor.href=url;anchor.download=name;document.body.append(anchor);anchor.click();anchor.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);}
+  $('download-json').addEventListener('click',()=>download(JSON.stringify(data,null,2),'application/json;charset=utf-8','dafeyu-streaming-plan.json'));
+  $('download-html').addEventListener('click',()=>{pause();download('<!doctype html>\n'+document.documentElement.outerHTML,'text/html;charset=utf-8','dafeyu-streaming-plan.html');announce('已下载自包含 HTML。');});
+
+  renderBaseline();renderResearch();renderAcceptance();setupTabs();setupPlayback();setupDiagram();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,1 @@
+{"event": "experiment_started", "wall_ns": 1794915220049975257, "mono_ns": 22755618570337, "data": {"synthetic_game": true, "model_transport": "isolated_collaboration_workers", "direct_api": false, "token_telemetry": null, "provider_resolved_model": null}}

@@ -1,0 +1,1 @@
+{"job_id": "r3_decision_low", "result": {"intent": "紧急单步脱离近身威胁", "reply_draft": "先朝远离这只野猪的方向移动！", "action_count": 1, "evidence_ids": ["R3-SNAPSHOT", "R3U"], "unknowns": ["地形、路线、距离、朝向及按键未知；治疗技能未提供。"], "reason_brief": "当前生命仅28%、法力为零且正在受攻击，先给一个远离威胁的移动建议。"}, "completed_unix_ms": 1794681140323}

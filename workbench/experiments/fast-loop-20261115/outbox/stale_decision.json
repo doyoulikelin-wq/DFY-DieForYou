@@ -1,0 +1,1 @@
+{"job_id": "stale_decision", "result": {"action_id": "ACCEPT_CURRENT_QUEST", "template_id": "curious", "evidence_ids": ["FAST-R2-OBS"], "needs_deep_work": false}, "completed_unix_ms": 1794684286996}

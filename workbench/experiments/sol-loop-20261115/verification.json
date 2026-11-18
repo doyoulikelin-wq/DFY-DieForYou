@@ -1,0 +1,17 @@
+{
+  "reviewer": "root independent artifact cross-check",
+  "formal_calls": 19,
+  "main_calls": 16,
+  "comparison_calls": 3,
+  "pilot_outbox_count": 1,
+  "raw_input_output_timestamp_match": true,
+  "approval_execution_verbatim_match": true,
+  "later_feedback_not_in_foreground_messages": true,
+  "cross_round_packet_matches_previous_commit": true,
+  "timing_arithmetic_and_interval_union_match": true,
+  "comparison_business_input_and_normalized_prompt_identical": true,
+  "comparison_sequential": true,
+  "token_usage_null": true,
+  "results_sha256": "de37595bdcc46cf4b70997df040204c32e78b207375218660aa7330b4539ec15",
+  "business_quality": "Contains recorded failures; data integrity passing is not a claim that every business requirement passed."
+}

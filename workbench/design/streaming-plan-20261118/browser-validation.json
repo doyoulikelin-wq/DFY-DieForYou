@@ -1,0 +1,78 @@
+{
+  "date": "2026-11-18",
+  "environment": "Sites managed preview / cloud Chrome",
+  "scope": "真实浏览器验证网页交互；页面中的模型时序仍为模拟预算",
+  "checks": [
+    {
+      "name": "four_chapters_render",
+      "pass": true,
+      "observed": "8 historical rows; 6 difficulties; 8 research patterns; 14 sources"
+    },
+    {
+      "name": "clickable_module_inspector",
+      "pass": true,
+      "observed": "点击按需规划，inspector-title 变为按需规划"
+    },
+    {
+      "name": "spawn_direct_reply",
+      "pass": true,
+      "observed": "0.120 s 跳转显示一条完整 FAQ"
+    },
+    {
+      "name": "mana_conditioned_reply",
+      "pass": true,
+      "observed": "显示法力不足说明，无其他猜测"
+    },
+    {
+      "name": "novel_chunk_append",
+      "pass": true,
+      "observed": "1.35 s 首句；随后第二句追加到同一气泡；最终回复时间统一为2.3s"
+    },
+    {
+      "name": "complex_parallel_tracks",
+      "pass": true,
+      "observed": "两个查询同从2450ms开始，分居125px/158px；保守安排保留C未知"
+    },
+    {
+      "name": "stale_candidate_hidden",
+      "pass": true,
+      "observed": "内部有gate.rejected_state_changed，聊天仅显示窗口已关闭"
+    },
+    {
+      "name": "explicit_silence",
+      "pass": true,
+      "observed": "聊天只有玩家原文；第一有用交付按钮禁用"
+    },
+    {
+      "name": "play_pause_and_next_event",
+      "pass": true,
+      "observed": "下一事件0.025s；播放变暂停并可停止"
+    },
+    {
+      "name": "slider_end",
+      "pass": true,
+      "observed": "End跳到36.0s，预演最终内容保留"
+    },
+    {
+      "name": "foreground_and_background_distinguished",
+      "pass": true,
+      "observed": "5.5s前台结束/后台未开始；6.5s后台入队后显示继续"
+    },
+    {
+      "name": "json_download_matches_source",
+      "pass": true,
+      "sha256": "201e122f5a2fe365a813577b8e0c79d721d3aba454104ff20ec84370c7630937"
+    },
+    {
+      "name": "html_download_embeds_exact_source",
+      "pass": true,
+      "sha256": "2bab52de523bce9ef0c665ddfdb89d667d0f91f5f30db2e3f733cec2b10e0070"
+    }
+  ],
+  "passed": 13,
+  "total": 13,
+  "mobile_visual_test": "not_performed; responsive CSS present",
+  "real_api_latency_test": false,
+  "real_wow_integration": false,
+  "note": "浏览器扩展自身报告metadata传送错误；未将其计为应用性能数据。"
+}

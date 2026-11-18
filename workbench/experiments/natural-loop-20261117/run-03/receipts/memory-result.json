@@ -1,0 +1,1 @@
+{"received": true, "id": "r10-memory-low", "gate": null, "memory_commit": {"accepted": false, "reason": "newer_explicit_preference_conflict", "memory_version": 0}}

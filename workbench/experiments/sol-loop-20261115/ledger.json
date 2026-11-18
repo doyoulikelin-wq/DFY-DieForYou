@@ -1,0 +1,21 @@
+{
+  "experiment": "wow-companion-sol-20261115",
+  "requested_model": "gpt-6.1-sol",
+  "game_environment": "scripted synthetic fixtures; not a live WoW client",
+  "context_isolation": "fresh fork_turns=none per role invocation; only explicit messages; no file or web reads; own outbox write only",
+  "timing": "dispatch request to completed output message file, wall clock; includes orchestration/tool/queue overhead; not pure inference time",
+  "token_usage": null,
+  "token_unavailability_reason": "isolated-agent channel does not expose usage telemetry; CLI channel initialization failed with read-only filesystem",
+  "jobs": [
+    {
+      "job_id": "wow_r1_planning_high",
+      "round": 1,
+      "role": "planning",
+      "effort": "high",
+      "dispatch_unix_ms": 1794680395498,
+      "input_packet_ids": [
+        "R1-SNAPSHOT"
+      ]
+    }
+  ]
+}

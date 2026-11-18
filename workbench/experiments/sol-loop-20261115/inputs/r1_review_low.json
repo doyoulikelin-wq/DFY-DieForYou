@@ -1,0 +1,67 @@
+{
+  "job_id": "r1_review_low",
+  "role": "review",
+  "requested_model": "gpt-6.1-sol",
+  "reasoning_effort": "low",
+  "messages": [
+    {
+      "id": "R1-SNAPSHOT",
+      "from": "game_adapter_simulator",
+      "body": {
+        "R1F1": {
+          "race": "兽人",
+          "class": "萨满",
+          "level": 1,
+          "zone": "试炼谷"
+        },
+        "R1F2": {
+          "hp": 100,
+          "max_hp": 100,
+          "mana": 100,
+          "max_mana": 100,
+          "inCombat": false
+        },
+        "R1F3": {
+          "target": null,
+          "quest_log": []
+        },
+        "R1F4": {
+          "unknown": [
+            "spellbook",
+            "bags",
+            "map",
+            "keybindings",
+            "nearbyNPC",
+            "server_rules"
+          ]
+        }
+      }
+    },
+    {
+      "id": "R1U",
+      "from": "simulated_user",
+      "body": "我刚出生，完全不知道要干嘛，能不能带着我玩？"
+    },
+    {
+      "id": "R1-DECISION",
+      "from": "decision",
+      "body": {
+        "intent": "陪伴新手，先观察附近环境",
+        "reply_draft": "当然呀，我陪你一步一步来。先看看附近有没有人或醒目的标记，告诉我你看到了什么，好吗？",
+        "action_count": 1,
+        "evidence_ids": [
+          "R1-SNAPSHOT",
+          "R1U",
+          "R1-PLAN"
+        ],
+        "unknowns": [
+          "附近NPC及标记",
+          "任务与服务器规则",
+          "技能、背包、地图和按键"
+        ],
+        "reason_brief": "角色安全且附近环境未知，先请玩家观察可避免编造游戏信息。"
+      }
+    }
+  ],
+  "prompt": "你是隔离实验中的业务Agent。只接收本消息，没有共享记忆。禁止读文件、网页、其他Agent会话或发消息。唯一允许工具动作是向指定专属outbox独占写一次最终JSON，作为给调度器的结果消息。游戏和用户输入均为合成fixture，非真实客户端；不可凭其他WoW版本常识补NPC/任务/技能/按键/坐标。精灵性格：好奇、温柔的小女孩，陪玩家一步一步探索；紧急时简短直接。只给文字建议，不自动操作游戏。不输出私有思维过程，reason_brief仅一句简短结论依据。JSON业务结果尽量≤350中文字。\n角色=review；reasoning_effort=low。\n任务：审核具体reply_draft是否只依据给定事实、符合用户当下要求与人物设定、最多一个步骤、没有越权。输出pass(boolean),approved_reply(通过则逐字复制原稿，拒绝则null),issues(数组，每项code/detail),evidence_ids,reason_brief。不得自己改稿；拒绝应指出具体问题。\n唯一业务输入：[{\"id\":\"R1-SNAPSHOT\",\"from\":\"game_adapter_simulator\",\"body\":{\"R1F1\":{\"race\":\"兽人\",\"class\":\"萨满\",\"level\":1,\"zone\":\"试炼谷\"},\"R1F2\":{\"hp\":100,\"max_hp\":100,\"mana\":100,\"max_mana\":100,\"inCombat\":false},\"R1F3\":{\"target\":null,\"quest_log\":[]},\"R1F4\":{\"unknown\":[\"spellbook\",\"bags\",\"map\",\"keybindings\",\"nearbyNPC\",\"server_rules\"]}}},{\"id\":\"R1U\",\"from\":\"simulated_user\",\"body\":\"我刚出生，完全不知道要干嘛，能不能带着我玩？\"},{\"id\":\"R1-DECISION\",\"from\":\"decision\",\"body\":{\"intent\":\"陪伴新手，先观察附近环境\",\"reply_draft\":\"当然呀，我陪你一步一步来。先看看附近有没有人或醒目的标记，告诉我你看到了什么，好吗？\",\"action_count\":1,\"evidence_ids\":[\"R1-SNAPSHOT\",\"R1U\",\"R1-PLAN\"],\"unknowns\":[\"附近NPC及标记\",\"任务与服务器规则\",\"技能、背包、地图和按键\"],\"reason_brief\":\"角色安全且附近环境未知，先请玩家观察可避免编造游戏信息。\"}}]\n输出方式：使用exec_command运行Python（仅import json,time；不能读文件），以open(path,'x',encoding='utf-8')将 {job_id:'r1_review_low',result:你的JSON业务结果,completed_unix_ms:round(time.time()*1000)} 写到 /workspace/scratch/11b2c52f7d61/sol-loop-test/outbox/r1_review_low.json。时间必须实际读取，不得编写。写完final只回复job_id已发送。"
+}

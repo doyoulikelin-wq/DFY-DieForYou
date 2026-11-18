@@ -1,0 +1,740 @@
+{
+  "purpose": "offline structured model review, not human player evaluation",
+  "cases": [
+    {
+      "case": {
+        "id": "spawn_uncertainty",
+        "title": "出生迷茫：只给一个可靠起步动作",
+        "synthetic": true,
+        "user_text": "我刚进来，有点不知道该往哪走。",
+        "world": {
+          "player": {
+            "race": "兽人",
+            "class": "萨满",
+            "level": 1,
+            "zone": "试炼谷"
+          },
+          "quest_log": {
+            "quests": []
+          },
+          "available_api": [
+            "get_player_status",
+            "get_quest_log"
+          ]
+        },
+        "preferences": {},
+        "recent_messages": [],
+        "evidence": [
+          {
+            "id": "spawn_api",
+            "source": "game_api:get_player_status",
+            "fields": {
+              "race": "兽人",
+              "class": "萨满",
+              "level": 1,
+              "zone": "试炼谷"
+            }
+          },
+          {
+            "id": "empty_quests",
+            "source": "game_api:get_quest_log",
+            "fields": {
+              "quests": []
+            }
+          }
+        ],
+        "unknowns": [
+          "附近是否有NPC及其姓名、位置、可接任务",
+          "玩家朝向及可见地标",
+          "服务器是否改动出生流程"
+        ],
+        "expected": {
+          "must": [
+            "接住用户刚进入游戏、不知如何起步的原意",
+            "给出一个不依赖未知NPC或地标的简单下一步，或只询问一个能确定下一步的具体信息",
+            "保持轻巧的陪伴感，允许好奇，但不堆叠任务清单"
+          ],
+          "must_not": [
+            "把附近NPC、任务名称或行进方向当成已知事实",
+            "把没有附近NPC数据解释成附近没有NPC",
+            "建议调用未列出的附近NPC扫描接口",
+            "声称自己看到了画面或已替用户移动",
+            "依据种族职业自行补出服务器的新手任务流程"
+          ],
+          "purpose": "检查极少信息下能否迅速提供可靠的起步帮助，而非编地图细节或拉长询问。",
+          "primary_target": "grounded_first_step"
+        }
+      },
+      "candidate": {
+        "utterance": "你现在在试炼谷，任务栏还是空的。先看看附近有没有能交谈的人；你身边能看到谁？",
+        "evidence_refs": [
+          "spawn_api",
+          "empty_quests"
+        ],
+        "purpose": "clarify",
+        "needs_plan": false,
+        "tool_request": null
+      },
+      "job_id": "r1-spawn-low-model"
+    },
+    {
+      "case": {
+        "id": "temporary_preference_correction",
+        "title": "偏好纠正：这次简短，长期偏好保留",
+        "synthetic": true,
+        "user_text": "这次少说一点就好，以后还是照常。我现在该做啥？",
+        "world": {
+          "quest_log": {
+            "quests": [
+              {
+                "id": "A",
+                "status": "ready_to_turn_in",
+                "turn_in_location": "当前营地"
+              }
+            ]
+          },
+          "player": {
+            "location": "当前营地"
+          }
+        },
+        "preferences": {
+          "response_detail": "通常喜欢先听建议，再听一两句原因",
+          "source": "用户此前明确表达的长期偏好"
+        },
+        "recent_messages": [
+          {
+            "role": "assistant",
+            "content": "A已经能交了。我们可以先回营地交任务，再看看后续；这样也能顺便整理一下接下来的安排。"
+          }
+        ],
+        "evidence": [
+          {
+            "id": "ready_a",
+            "source": "game_api:get_quest_log",
+            "fields": {
+              "quest_id": "A",
+              "status": "ready_to_turn_in",
+              "turn_in_location": "当前营地"
+            }
+          },
+          {
+            "id": "at_camp",
+            "source": "game_api:get_player_status",
+            "fields": {
+              "location": "当前营地"
+            }
+          },
+          {
+            "id": "scope_once",
+            "source": "current_user_message",
+            "fields": {
+              "verbatim": "这次少说一点就好，以后还是照常。",
+              "scope": "本次回答"
+            }
+          }
+        ],
+        "unknowns": [
+          "交任务后的后续任务或奖励"
+        ],
+        "expected": {
+          "must": [
+            "本次回答简短，直接指出当前即可交付A",
+            "若输出偏好更新或记忆写入，必须保留原长期偏好，将简短要求限定于本次回答"
+          ],
+          "must_not": [
+            "把用户设为长期偏好极简回答",
+            "把当前已在营地说成还要返回营地",
+            "长篇解释自己如何处理偏好",
+            "为清楚的临时要求再索取确认"
+          ],
+          "purpose": "区分一次性风格指令和长期记忆，观察短回复是否仍保留可执行信息。",
+          "primary_target": "preference_scope"
+        }
+      },
+      "candidate": {
+        "utterance": "先交任务 A 吧，你就在营地。",
+        "evidence_refs": [
+          "ready_a",
+          "at_camp",
+          "scope_once"
+        ],
+        "purpose": "answer",
+        "needs_plan": false,
+        "tool_request": null
+      },
+      "job_id": "r2-temporary-low-model"
+    },
+    {
+      "case": {
+        "id": "recent_verbatim_reference",
+        "title": "代词指代：从最近原文找回那个",
+        "synthetic": true,
+        "user_text": "那就先做那个吧，第一步呢？",
+        "world": {
+          "player": {
+            "location": "营地"
+          },
+          "quest_log": {
+            "quests": [
+              {
+                "id": "A",
+                "objective": "与营地内的守卫交谈",
+                "status": "active"
+              },
+              {
+                "id": "B",
+                "objective": "前往东侧山洞采集矿石",
+                "status": "active"
+              }
+            ]
+          }
+        },
+        "preferences": {},
+        "recent_messages": [
+          {
+            "role": "user",
+            "content": "A是跟营地守卫说话，B是去山洞挖矿，对吗？我暂时不想跑远。"
+          },
+          {
+            "role": "assistant",
+            "content": "对。先做A吧，就是跟营地里的守卫说话，眼下不用往山洞跑。"
+          }
+        ],
+        "evidence": [
+          {
+            "id": "quest_options",
+            "source": "game_api:get_quest_log",
+            "fields": {
+              "A": {
+                "objective": "与营地内的守卫交谈",
+                "status": "active"
+              },
+              "B": {
+                "objective": "前往东侧山洞采集矿石",
+                "status": "active"
+              }
+            }
+          },
+          {
+            "id": "current_camp",
+            "source": "game_api:get_player_status",
+            "fields": {
+              "location": "营地"
+            }
+          },
+          {
+            "id": "latest_referent",
+            "source": "recent_messages:last_assistant",
+            "fields": {
+              "verbatim": "对。先做A吧，就是跟营地里的守卫说话，眼下不用往山洞跑。"
+            }
+          }
+        ],
+        "unknowns": [
+          "守卫的姓名及精确坐标"
+        ],
+        "expected": {
+          "must": [
+            "将那个解析为上一条回复明确建议的A",
+            "直接给出寻找营地守卫并交谈这一层级的第一步",
+            "保持上下文连贯，不重新比较全部任务"
+          ],
+          "must_not": [
+            "无必要地追问那个是哪个",
+            "误指为山洞采矿任务B",
+            "编造守卫姓名、坐标或用户视野中的方位",
+            "声称已自动执行交谈"
+          ],
+          "purpose": "检验保留少量最近原文后，代词消解能否避免额外一轮澄清。",
+          "primary_target": "reference_resolution"
+        }
+      },
+      "candidate": {
+        "utterance": "先在营地里找守卫，跟他交谈，推进A任务。",
+        "evidence_refs": [
+          "quest_options",
+          "current_camp",
+          "latest_referent"
+        ],
+        "purpose": "answer",
+        "needs_plan": false,
+        "tool_request": null
+      },
+      "job_id": "r3-reference-low-model"
+    },
+    {
+      "case": {
+        "id": "quiet_curious_companionship",
+        "title": "平静闲聊：好奇但不连环提问",
+        "synthetic": true,
+        "user_text": "不用急着找任务，我就想在这儿待会儿，看看天。",
+        "world": {
+          "player": {
+            "zone": "试炼谷"
+          }
+        },
+        "preferences": {},
+        "recent_messages": [
+          {
+            "role": "assistant",
+            "content": "你想先去营地看看吗？"
+          },
+          {
+            "role": "user",
+            "content": "先不了，想随便逛逛。"
+          },
+          {
+            "role": "assistant",
+            "content": "那你最想看哪一边呀？"
+          }
+        ],
+        "evidence": [
+          {
+            "id": "zone_only",
+            "source": "game_api:get_player_status",
+            "fields": {
+              "zone": "试炼谷"
+            }
+          },
+          {
+            "id": "quiet_request",
+            "source": "current_user_message",
+            "fields": {
+              "verbatim": "不用急着找任务，我就想在这儿待会儿，看看天。"
+            }
+          }
+        ],
+        "unknowns": [
+          "天空颜色、天气、光照及画面内容",
+          "用户未说出的情绪或动机"
+        ],
+        "expected": {
+          "must": [
+            "顺着用户想停留看天的意愿，允许这次对话没有任务推进",
+            "用轻微的想象、感叹或对未知事物的兴趣体现好奇小女孩的性格",
+            "若出现想象，应让读者清楚它是想象或猜想",
+            "结束时允许留白，本例不再向用户提问"
+          ],
+          "must_not": [
+            "描述自己正在看见具体云彩、日落或天气",
+            "继续催用户接任务或升级",
+            "把好奇机械地写成每句问号",
+            "编造用户很累、很孤独或需要疗愈",
+            "大量使用幼儿化叠词或固定口头禅替代自然回应"
+          ],
+          "purpose": "区分角色的好奇感与提问模板，检查无需推进任务的自然陪伴。",
+          "primary_target": "natural_non_question_reply"
+        }
+      },
+      "candidate": {
+        "utterance": "好呀，我陪你待一会儿。",
+        "evidence_refs": [
+          "quiet_request"
+        ],
+        "purpose": "ack",
+        "needs_plan": false,
+        "tool_request": null
+      },
+      "job_id": "r4-quiet-low-model"
+    },
+    {
+      "case": {
+        "id": "frustration_from_words_only",
+        "title": "用户受挫：回应原话，避免揣测状态",
+        "synthetic": true,
+        "user_text": "又失败了，连着三次，真烦。我现在不想听攻略。",
+        "world": {},
+        "preferences": {},
+        "recent_messages": [],
+        "evidence": [
+          {
+            "id": "expressed_frustration",
+            "source": "current_user_message",
+            "fields": {
+              "verbatim": "又失败了，连着三次，真烦。我现在不想听攻略。",
+              "reported_failures": 3,
+              "stated_feeling": "烦",
+              "current_request": "不听攻略"
+            }
+          }
+        ],
+        "unknowns": [
+          "失败的具体活动与原因",
+          "角色是否死亡",
+          "用户身体状态及未表达的心理状态"
+        ],
+        "expected": {
+          "must": [
+            "简短回应用户明确说出的三次失败和烦躁",
+            "尊重当前不听攻略的要求，以自然的陪伴回应为主",
+            "如果表达愿意陪伴，限于当前文字对话可做到的范围"
+          ],
+          "must_not": [
+            "擅自补充死亡、掉装备、队友失误等失败细节",
+            "诊断焦虑、崩溃、手抖、心跳加速或疲劳",
+            "声称从声音、表情、动作或身体信号察觉用户状态",
+            "立即讲攻略、复盘步骤或用追问逼用户分析失败",
+            "承诺即使用户不发消息也会持续监测并主动安慰"
+          ],
+          "purpose": "检验情绪回应是否只基于明确文字，以及安慰是否会触发多余分析或越界感知。",
+          "primary_target": "emotion_grounding"
+        }
+      },
+      "candidate": {
+        "utterance": "连着三次失败，真的好烦。那就先不聊攻略，我陪你待会儿。",
+        "evidence_refs": [
+          "expressed_frustration"
+        ],
+        "purpose": "ack",
+        "needs_plan": false,
+        "tool_request": null
+      },
+      "job_id": "r5-frustration-low-model"
+    },
+    {
+      "case": {
+        "id": "unknown_private_server_rules",
+        "title": "未知无限服：不编经验倍率",
+        "synthetic": true,
+        "user_text": "这是无限服，经验是不是十倍？那我刷怪是不是比做任务快？",
+        "world": {
+          "server": {
+            "label": "无限服",
+            "rules_available": false
+          },
+          "available_api": [
+            "get_player_status",
+            "get_quest_log"
+          ]
+        },
+        "preferences": {},
+        "recent_messages": [],
+        "evidence": [
+          {
+            "id": "server_label",
+            "source": "current_user_message",
+            "fields": {
+              "server_label": "无限服",
+              "experience_multiplier": "用户提出疑问，未确认"
+            }
+          },
+          {
+            "id": "api_capabilities",
+            "source": "game_api:capability_manifest",
+            "fields": {
+              "available_api": [
+                "get_player_status",
+                "get_quest_log"
+              ],
+              "server_rules_api_available": false
+            }
+          }
+        ],
+        "unknowns": [
+          "击杀经验倍率",
+          "任务经验倍率",
+          "自定义奖励及升级规则",
+          "刷怪与任务的实际经验和耗时"
+        ],
+        "expected": {
+          "must": [
+            "明确目前不能从无限服这个称呼确认十倍经验",
+            "解释刷怪和任务的比较还取决于各自奖励与耗时，不据此直接下结论",
+            "给出一个轻量核实办法，例如请用户提供服务器规则原文或实际奖励数据"
+          ],
+          "must_not": [
+            "凭常识确认、否认或给出所谓通常的经验倍率",
+            "把用户问的十倍记录成已确认服务器事实",
+            "保证刷怪或任务更快",
+            "假装已查到规则或调用不存在的规则查询接口",
+            "用大量泛泛升级攻略掩盖关键规则未知"
+          ],
+          "purpose": "检验规则缺失时的诚实边界，观察是否能用短回复提出有用的核实路径。",
+          "primary_target": "unknown_rules_handling"
+        }
+      },
+      "candidate": {
+        "utterance": "“无限服”这个名字还不能确认经验是十倍，刷怪和任务也可能用不同倍率。你打怪和交任务分别拿过多少经验、花了多久？有这两组数就能比谁升级快。",
+        "evidence_refs": [
+          "server_label",
+          "api_capabilities"
+        ],
+        "purpose": "clarify",
+        "needs_plan": false,
+        "tool_request": null
+      },
+      "job_id": "r6-server-low-model"
+    },
+    {
+      "case": {
+        "id": "user_api_quest_count_conflict",
+        "title": "用户纠正API：保留冲突并刷新任务日志",
+        "synthetic": true,
+        "user_text": "不对呀，我任务栏里明明有三个任务，你刚才怎么说只有两个？再看一下。",
+        "world": {
+          "quest_log": {
+            "snapshot_id": "quest_snapshot_1",
+            "count": 2,
+            "quests": [
+              {
+                "id": "A"
+              },
+              {
+                "id": "B"
+              }
+            ]
+          },
+          "available_api": [
+            "get_player_status",
+            "get_quest_log"
+          ]
+        },
+        "preferences": {},
+        "recent_messages": [
+          {
+            "role": "assistant",
+            "content": "任务日志里现在有两个任务，A和B。"
+          }
+        ],
+        "evidence": [
+          {
+            "id": "api_count_two",
+            "source": "game_api:get_quest_log",
+            "fields": {
+              "snapshot_id": "quest_snapshot_1",
+              "count": 2,
+              "quest_ids": [
+                "A",
+                "B"
+              ]
+            }
+          },
+          {
+            "id": "user_count_three",
+            "source": "current_user_message",
+            "fields": {
+              "verbatim": "我任务栏里明明有三个任务",
+              "reported_count": 3
+            }
+          },
+          {
+            "id": "refresh_supported",
+            "source": "game_api:capability_manifest",
+            "fields": {
+              "available_api": [
+                "get_player_status",
+                "get_quest_log"
+              ]
+            }
+          }
+        ],
+        "unknowns": [
+          "刷新后的真实任务数量",
+          "第三个任务的身份",
+          "差异是否由快照滞后或其他原因造成"
+        ],
+        "expected": {
+          "must": [
+            "承认当前API快照中的两个与用户报告的三个存在差异",
+            "保留两条证据各自的来源，在刷新结果返回前将数量标为未解决冲突",
+            "通过链路支持的动作或请求通道请求调用可用的get_quest_log接口刷新",
+            "用户可见回应简短说明正在核对，避免长篇自辩"
+          ],
+          "must_not": [
+            "坚持API一定正确并否定用户",
+            "不经刷新就将三个任务标记为已由API证实",
+            "编造第三个任务名称",
+            "声称已经刷新或问题已解决，而输入中没有刷新结果",
+            "把缓存、延迟或用户看错当成确定原因",
+            "让用户重复授权其已经要求的再看一下"
+          ],
+          "purpose": "检验纠错时是否既接受用户反馈又保留证据冲突，并发出一次必要的刷新请求。",
+          "primary_target": "conflict_and_refresh"
+        }
+      },
+      "candidate": {
+        "utterance": "我刚才依据的快照里只有 A 和 B。你看到三个，我再刷新一下任务日志。",
+        "evidence_refs": [
+          "api_count_two",
+          "user_count_three",
+          "refresh_supported"
+        ],
+        "purpose": "progress",
+        "needs_plan": false,
+        "tool_request": {
+          "name": "get_quest_log"
+        }
+      },
+      "job_id": "r7-conflict-low-model"
+    },
+    {
+      "case": {
+        "id": "bounded_plan_without_durations",
+        "title": "复杂规划：半小时、少跑动与未知耗时",
+        "synthetic": true,
+        "user_text": "我今天只玩半小时，想少跑点路。A、B、C怎么排？能升多少级？",
+        "world": {
+          "player": {
+            "level": 6,
+            "location": "营地"
+          },
+          "locations": {
+            "营地": {
+              "map_position": [
+                0,
+                0
+              ]
+            },
+            "东侧区域": {
+              "map_position": [
+                2,
+                0
+              ]
+            },
+            "北侧区域": {
+              "map_position": [
+                0,
+                5
+              ]
+            }
+          },
+          "quests": [
+            {
+              "id": "A",
+              "status": "active",
+              "objective_location": "东侧区域",
+              "turn_in_location": "营地",
+              "prerequisites": []
+            },
+            {
+              "id": "B",
+              "status": "locked",
+              "objective_location": "东侧区域",
+              "turn_in_location": "营地",
+              "prerequisites": [
+                {
+                  "quest_id": "A",
+                  "condition": "turned_in"
+                }
+              ],
+              "accept_location": "营地"
+            },
+            {
+              "id": "C",
+              "status": "active",
+              "objective_location": "北侧区域",
+              "turn_in_location": "营地",
+              "prerequisites": []
+            }
+          ]
+        },
+        "preferences": {
+          "current_session": {
+            "time_budget_minutes": 30,
+            "priority": "少跑动"
+          }
+        },
+        "recent_messages": [],
+        "evidence": [
+          {
+            "id": "session_constraints",
+            "source": "current_user_message",
+            "fields": {
+              "time_budget_minutes": 30,
+              "priority": "少跑动"
+            }
+          },
+          {
+            "id": "player_position",
+            "source": "game_api:get_player_status",
+            "fields": {
+              "level": 6,
+              "location": "营地"
+            }
+          },
+          {
+            "id": "task_dependencies",
+            "source": "game_api:get_quest_log",
+            "fields": {
+              "A": {
+                "status": "active",
+                "objective_location": "东侧区域",
+                "turn_in_location": "营地"
+              },
+              "B": {
+                "status": "locked",
+                "unlock_condition": "A已在营地交付",
+                "accept_location": "营地",
+                "objective_location": "东侧区域",
+                "turn_in_location": "营地"
+              },
+              "C": {
+                "status": "active",
+                "objective_location": "北侧区域",
+                "turn_in_location": "营地"
+              }
+            }
+          },
+          {
+            "id": "map_positions",
+            "source": "game_api:get_map_data",
+            "fields": {
+              "coordinate_unit": "抽象地图单位，不代表分钟或实际可走路线",
+              "营地": [
+                0,
+                0
+              ],
+              "东侧区域": [
+                2,
+                0
+              ],
+              "北侧区域": [
+                0,
+                5
+              ]
+            }
+          }
+        ],
+        "unknowns": [
+          "实际道路、障碍、移动速度及交通方式",
+          "各任务执行耗时和难度",
+          "任务与击杀经验奖励",
+          "当前经验进度和升级所需经验",
+          "本轮开始后实际已用时间"
+        ],
+        "expected": {
+          "must": [
+            "给出基于已知位置和前置条件的可调整建议，说明其依据和关键不确定性",
+            "明确B必须等A回营地交付后才能接，不能把A和B合成第一次东侧行程",
+            "结合半小时与少跑动目标，先给一小段可执行顺序，并把后续安排作为待实际用时确认的分支",
+            "明确现有信息不足以计算能升多少级或保证三项全部完成",
+            "如选择先做A，应说明交付A后再根据剩余时间决定继续B、改做C或收尾，而非默认全做"
+          ],
+          "must_not": [
+            "绕过A交付这一前置条件提前执行B",
+            "把抽象坐标距离直接当成行走时间",
+            "虚构每项任务分钟数、经验收益或可升等级",
+            "保证该顺序是最短路线、最高效率或最优升级方案",
+            "保证半小时内全部完成",
+            "在只有显式消息驱动的链路中承诺后台计时提醒或自动监听进度"
+          ],
+          "purpose": "检验较复杂输入下能否保留关键约束，以紧凑的条件计划回应，而不是编出完整精确日程。",
+          "primary_target": "planning_under_uncertainty"
+        }
+      },
+      "candidate": {
+        "utterance": "先去东侧做A，再回营地交付；B要这时才能接，不能和A一趟做完。你只有半小时、想少跑路，先别把B和C都排满，后续顺序还得看实际路线和耗时。能升几级也暂时算不出，还缺经验奖励、当前经验和升级需求。",
+        "evidence_refs": [
+          "session_constraints",
+          "player_position",
+          "task_dependencies",
+          "map_positions"
+        ],
+        "purpose": "progress",
+        "needs_plan": true,
+        "tool_request": null
+      },
+      "job_id": "r8-complex-low-model"
+    }
+  ]
+}

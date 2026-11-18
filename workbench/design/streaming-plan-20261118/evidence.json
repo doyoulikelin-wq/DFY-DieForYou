@@ -1,0 +1,88 @@
+{
+  "date": "2026-11-18",
+  "historical_summary": {
+    "passed": 6,
+    "total": 8,
+    "unit_passed": 30,
+    "unit_total": 30,
+    "unit_note": "v2 22项 + v3定向8项，非单一版本全套",
+    "business_model_tasks": 16,
+    "offline_review_tasks": 1,
+    "baseline_candidate_median_ms": 21323.5768165,
+    "baseline_min_ms": 14437.611586,
+    "baseline_max_ms": 40247.798995
+  },
+  "historical_rows": [
+    {
+      "scenario": "出生迷茫：只给一个可靠起步动作",
+      "candidate_ms": 23209.088378,
+      "loop_ms": 23220.344437
+    },
+    {
+      "scenario": "偏好纠正：这次简短，长期偏好保留",
+      "candidate_ms": 21463.655824,
+      "loop_ms": 21486.928309
+    },
+    {
+      "scenario": "代词指代：从最近原文找回那个",
+      "candidate_ms": 17484.134509,
+      "loop_ms": 32628.125382
+    },
+    {
+      "scenario": "平静闲聊：好奇但不连环提问",
+      "candidate_ms": 14437.611586,
+      "loop_ms": 14461.094293
+    },
+    {
+      "scenario": "用户受挫：回应原话，避免揣测状态",
+      "candidate_ms": 16390.128908,
+      "loop_ms": 32991.635702
+    },
+    {
+      "scenario": "经验倍率未知（历史夹具）：不编经验倍率",
+      "candidate_ms": 22652.319999,
+      "loop_ms": 22676.982582
+    },
+    {
+      "scenario": "用户纠正API：保留冲突并刷新任务日志",
+      "candidate_ms": 40247.798995,
+      "loop_ms": 263248.987918
+    },
+    {
+      "scenario": "复杂规划：半小时、少跑动与未知耗时",
+      "candidate_ms": 21183.497809,
+      "loop_ms": 274828.467459
+    }
+  ],
+  "faq_counts": {
+    "faq_cards": 958,
+    "answer_variants": 1851,
+    "authored_queries": 3127,
+    "retrieval_query_variants": 9255,
+    "total_search_queries": 12382,
+    "atomic_facts": 185,
+    "source_documents": 40,
+    "original_source_records": 48,
+    "official_source_documents": 29,
+    "community_source_documents": 11,
+    "story_frames": 18,
+    "story_delivery_cards": 26,
+    "categories": 90,
+    "proactive_candidates": 15,
+    "official_atomic_facts": 181,
+    "community_question_evidence": 4
+  },
+  "local_lookup": {
+    "samples": 160,
+    "median_ms": 0.4807365003216546,
+    "p95_ms": 0.7055970054352656,
+    "scope": "本机内存索引与示例发送门控，非真实游戏、非模型API、非UI端到端"
+  },
+  "gate_fixture_tests": {
+    "passed": 59,
+    "total": 59
+  },
+  "actual_api_usage": null,
+  "actual_api_ttft_ms": null,
+  "actual_client_first_useful_ms": null
+}

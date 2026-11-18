@@ -1,0 +1,26 @@
+{
+  "round": "R3",
+  "queued_unix_ms": 1794684285104.9885,
+  "accepted_unix_ms": 1794684285105.657,
+  "delivered_unix_ms": 1794684285105.6714,
+  "foreground_ms": 0.682861328125,
+  "pending_model_jobs_at_delivery": [
+    "stale_decision"
+  ],
+  "result": {
+    "accepted": true,
+    "reason": "accepted",
+    "reply": "蓝用完啦，先别施放闪电箭。",
+    "action_id": "AVOID_UNUSABLE_SPELL",
+    "state_version": 3,
+    "processing_ms": 0.007251001079566777
+  },
+  "candidate": {
+    "action_id": "AVOID_UNUSABLE_SPELL",
+    "template_id": "curious",
+    "evidence_ids": [
+      "FAST-R3-OBS"
+    ],
+    "needs_deep_work": false
+  }
+}

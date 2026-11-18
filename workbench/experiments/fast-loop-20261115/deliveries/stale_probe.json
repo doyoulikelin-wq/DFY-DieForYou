@@ -1,0 +1,15 @@
+{
+  "job_id": "stale_decision",
+  "result": {
+    "accepted": false,
+    "reason": "state_version_mismatch",
+    "reply": "",
+    "action_id": "ACCEPT_CURRENT_QUEST",
+    "state_version": 3,
+    "processing_ms": 0.0043670006562024355
+  },
+  "delivered_unix_ms": 1794684286998.7407,
+  "foreground_ms": 12659.703125,
+  "expected_state_version": 2,
+  "current_state_version": 3
+}

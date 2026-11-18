@@ -1,0 +1,452 @@
+{
+  "date": "2026-11-18",
+  "scope": "本机内存索引与示例发送门控，非真实游戏、非模型API、非UI端到端",
+  "gate_tests": [
+    {
+      "name": "resource_failure_known",
+      "pass": true
+    },
+    {
+      "name": "same_question_different_error",
+      "pass": true
+    },
+    {
+      "name": "unknown_is_not_true",
+      "pass": true
+    },
+    {
+      "name": "state_changed_rejects_cached_answer",
+      "pass": true
+    },
+    {
+      "name": "late_preference_rejects_cached_answer",
+      "pass": true
+    },
+    {
+      "name": "other_wow_version_rejected",
+      "pass": true
+    },
+    {
+      "name": "semantic_match_not_intent_proof",
+      "pass": true
+    },
+    {
+      "name": "ordinary_card_not_proactive",
+      "pass": true
+    },
+    {
+      "name": "explicit_silence_rejected",
+      "pass": true
+    },
+    {
+      "name": "accept_all_conditions",
+      "pass": true
+    },
+    {
+      "name": "accept_block_evidence.quest.dialog_open",
+      "pass": true
+    },
+    {
+      "name": "accept_block_evidence.quest.same_entity_as_current",
+      "pass": true
+    },
+    {
+      "name": "accept_block_evidence.quest.can_accept",
+      "pass": true
+    },
+    {
+      "name": "accept_block_evidence.quest.no_pending_choice",
+      "pass": true
+    },
+    {
+      "name": "unnamed_boss_variant_does_not_require_name",
+      "pass": true
+    },
+    {
+      "name": "named_boss_variant_requires_grounded_name",
+      "pass": true
+    },
+    {
+      "name": "grounded_name_renders",
+      "pass": true
+    },
+    {
+      "name": "strict_silence_is_empty_success",
+      "pass": true
+    },
+    {
+      "name": "reference_conditions_require_review",
+      "pass": true
+    },
+    {
+      "name": "JN001_positive",
+      "pass": true
+    },
+    {
+      "name": "JN001_negative",
+      "pass": true
+    },
+    {
+      "name": "JN002_positive",
+      "pass": true
+    },
+    {
+      "name": "JN002_negative",
+      "pass": true
+    },
+    {
+      "name": "JN003_positive",
+      "pass": true
+    },
+    {
+      "name": "JN003_negative",
+      "pass": true
+    },
+    {
+      "name": "JN004_positive",
+      "pass": true
+    },
+    {
+      "name": "JN004_negative",
+      "pass": true
+    },
+    {
+      "name": "JN005_positive",
+      "pass": true
+    },
+    {
+      "name": "JN005_negative",
+      "pass": true
+    },
+    {
+      "name": "JN006_positive",
+      "pass": true
+    },
+    {
+      "name": "JN006_negative",
+      "pass": true
+    },
+    {
+      "name": "JN007_positive",
+      "pass": true
+    },
+    {
+      "name": "JN007_negative",
+      "pass": true
+    },
+    {
+      "name": "JN008_positive",
+      "pass": true
+    },
+    {
+      "name": "JN008_negative",
+      "pass": true
+    },
+    {
+      "name": "JN009_positive",
+      "pass": true
+    },
+    {
+      "name": "JN009_negative",
+      "pass": true
+    },
+    {
+      "name": "JN010_positive",
+      "pass": true
+    },
+    {
+      "name": "JN010_negative",
+      "pass": true
+    },
+    {
+      "name": "JN011_positive",
+      "pass": true
+    },
+    {
+      "name": "JN011_negative",
+      "pass": true
+    },
+    {
+      "name": "JN012_positive",
+      "pass": true
+    },
+    {
+      "name": "JN012_negative",
+      "pass": true
+    },
+    {
+      "name": "JN013_positive",
+      "pass": true
+    },
+    {
+      "name": "JN013_negative",
+      "pass": true
+    },
+    {
+      "name": "JN014_positive",
+      "pass": true
+    },
+    {
+      "name": "JN014_negative",
+      "pass": true
+    },
+    {
+      "name": "JN015_positive",
+      "pass": true
+    },
+    {
+      "name": "JN015_negative",
+      "pass": true
+    },
+    {
+      "name": "JN016_positive",
+      "pass": true
+    },
+    {
+      "name": "JN016_negative",
+      "pass": true
+    },
+    {
+      "name": "JN017_positive",
+      "pass": true
+    },
+    {
+      "name": "JN017_negative",
+      "pass": true
+    },
+    {
+      "name": "JN018_positive",
+      "pass": true
+    },
+    {
+      "name": "JN018_negative",
+      "pass": true
+    },
+    {
+      "name": "JN019_positive",
+      "pass": true
+    },
+    {
+      "name": "JN019_negative",
+      "pass": true
+    },
+    {
+      "name": "JN020_positive",
+      "pass": true
+    },
+    {
+      "name": "JN020_negative",
+      "pass": true
+    }
+  ],
+  "gate_tests_passed": 59,
+  "gate_tests_total": 59,
+  "local_lookup_samples": 160,
+  "lookup_median_ms": 0.4807365003216546,
+  "lookup_p95_ms": 0.7055970054352656,
+  "cards": 958,
+  "probes": [
+    {
+      "query": "我刚出生不知道干什么",
+      "top_candidates": [
+        {
+          "card_id": "G0001",
+          "lexical_score": 1.0,
+          "question": "我刚出生不知道干什么",
+          "category": "初入无限"
+        },
+        {
+          "card_id": "P0182",
+          "lexical_score": 0.82353,
+          "question": "我刚出生不知道干嘛",
+          "category": "探索与路上发现"
+        },
+        {
+          "card_id": "P0090",
+          "lexical_score": 0.42857,
+          "question": "好无聊啊",
+          "category": "日常节奏与小闲聊"
+        }
+      ],
+      "lookup_ms": 1.624484997591935
+    },
+    {
+      "query": "技能为什么放不出来",
+      "top_candidates": [
+        {
+          "card_id": "G0041",
+          "lexical_score": 1.0,
+          "question": "技能为什么放不出来",
+          "category": "战斗"
+        },
+        {
+          "card_id": "J0055",
+          "lexical_score": 0.82353,
+          "question": "载具技能怎么全灰了",
+          "category": "载具与临时控制"
+        },
+        {
+          "card_id": "G0047",
+          "lexical_score": 0.53333,
+          "question": "走着怎么放不出来",
+          "category": "战斗"
+        }
+      ],
+      "lookup_ms": 1.061994997144211
+    },
+    {
+      "query": "这个东西有用吗",
+      "top_candidates": [
+        {
+          "card_id": "G0077",
+          "lexical_score": 1.0,
+          "question": "这个东西有用吗",
+          "category": "装备背包"
+        },
+        {
+          "card_id": "G0155",
+          "lexical_score": 0.54545,
+          "question": "这个食物加什么",
+          "category": "专业露营"
+        },
+        {
+          "card_id": "J0053",
+          "lexical_score": 0.42857,
+          "question": "怎么从载具下来",
+          "category": "载具与临时控制"
+        }
+      ],
+      "lookup_ms": 1.06907600275008
+    },
+    {
+      "query": "为什么不能和他组队",
+      "top_candidates": [
+        {
+          "card_id": "G0100",
+          "lexical_score": 1.0,
+          "question": "为什么不能和他组队",
+          "category": "组队社交"
+        },
+        {
+          "card_id": "H0092",
+          "lexical_score": 0.53333,
+          "question": "闷棍为什么不能用",
+          "category": "职业·潜行者"
+        },
+        {
+          "card_id": "H0142",
+          "lexical_score": 0.53333,
+          "question": "尸体为什么不能剥",
+          "category": "专业·剥皮"
+        }
+      ],
+      "lookup_ms": 0.8223530021496117
+    },
+    {
+      "query": "副本怎么没有经验",
+      "top_candidates": [
+        {
+          "card_id": "G0126",
+          "lexical_score": 1.0,
+          "question": "副本怎么没有经验",
+          "category": "地下城"
+        },
+        {
+          "card_id": "G0014",
+          "lexical_score": 0.5,
+          "question": "打了半天任务不算",
+          "category": "任务"
+        },
+        {
+          "card_id": "G0022",
+          "lexical_score": 0.42857,
+          "question": "这个后续怎么接不到",
+          "category": "任务"
+        }
+      ],
+      "lookup_ms": 1.061264003510587
+    },
+    {
+      "query": "你能看我的屏幕吗",
+      "top_candidates": [
+        {
+          "card_id": "G0174",
+          "lexical_score": 1.0,
+          "question": "你为什么不知道这个",
+          "category": "技术状态"
+        },
+        {
+          "card_id": "P0102",
+          "lexical_score": 0.28571,
+          "question": "你知道真实的天空吗",
+          "category": "跨过屏幕的现实好奇"
+        },
+        {
+          "card_id": "P0166",
+          "lexical_score": 0.18182,
+          "question": "都是我的错",
+          "category": "失利与挫折"
+        }
+      ],
+      "lookup_ms": 0.1840980039560236
+    },
+    {
+      "query": "不想聊现实",
+      "top_candidates": [
+        {
+          "card_id": "G0186",
+          "lexical_score": 1.0,
+          "question": "不想聊现实",
+          "category": "节奏偏好"
+        },
+        {
+          "card_id": "G0113",
+          "lexical_score": 0.44444,
+          "question": "今天不想聊天",
+          "category": "组队社交"
+        },
+        {
+          "card_id": "P0131",
+          "lexical_score": 0.4,
+          "question": "只聊游戏",
+          "category": "偏好与互动控制"
+        }
+      ],
+      "lookup_ms": 0.21049899805802852
+    },
+    {
+      "query": "别每杀一只都欢呼",
+      "top_candidates": [
+        {
+          "card_id": "G0184",
+          "lexical_score": 1.0,
+          "question": "别每杀一只都欢呼",
+          "category": "节奏偏好"
+        },
+        {
+          "card_id": "P0013",
+          "lexical_score": 0.28571,
+          "question": "又打掉一次",
+          "category": "战果与欢呼"
+        },
+        {
+          "card_id": "G0192",
+          "lexical_score": 0.2,
+          "question": "这次赢了但我不想庆祝",
+          "category": "节奏偏好"
+        }
+      ],
+      "lookup_ms": 0.20271700486773625
+    }
+  ],
+  "not_measured": [
+    "真实自然语言意图识别准确率",
+    "真实流量命中率",
+    "完整语义检索召回率",
+    "真实玩家自然度",
+    "API TTFT",
+    "客户端可见延迟",
+    "联网游戏适配器"
+  ],
+  "evaluation_warning": "探针取自已有别名或近似表达，不是盲测；门控条件由测试夹具提供，不证明真实接口已正确识别条件。"
+}

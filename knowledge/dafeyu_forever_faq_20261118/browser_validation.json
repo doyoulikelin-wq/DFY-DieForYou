@@ -1,0 +1,25 @@
+{
+  "browser_visual_test": "not_completed",
+  "reasons": [
+    "Headless Chromium launch blocked by socket restriction",
+    "Cloud browser security policy disallows file: URLs; no bypass attempted"
+  ],
+  "offline_static_checks": [
+    {
+      "name": "embedded_catalogue_parses",
+      "pass": true
+    },
+    {
+      "name": "javascript_syntax",
+      "pass": true,
+      "error": null
+    },
+    {
+      "name": "no_external_script_dependency",
+      "pass": true
+    }
+  ],
+  "responsive_css_present": true,
+  "mobile_layout_visually_verified": false,
+  "controls_visually_verified": false
+}

@@ -1,0 +1,59 @@
+{
+  "job_id": "r1_planning_high",
+  "role": "planning",
+  "requested_model": "gpt-6.1-sol",
+  "reasoning_effort": "high",
+  "messages": [
+    {
+      "id": "R1-SNAPSHOT",
+      "from": "game_adapter_simulator",
+      "body": {
+        "R1F1": {
+          "race": "兽人",
+          "class": "萨满",
+          "level": 1,
+          "zone": "试炼谷"
+        },
+        "R1F2": {
+          "hp": 100,
+          "max_hp": 100,
+          "mana": 100,
+          "max_mana": 100,
+          "inCombat": false
+        },
+        "R1F3": {
+          "target": null,
+          "quest_log": []
+        },
+        "R1F4": {
+          "unknown": [
+            "spellbook",
+            "bags",
+            "map",
+            "keybindings",
+            "nearbyNPC",
+            "server_rules"
+          ]
+        }
+      }
+    },
+    {
+      "id": "R1U",
+      "from": "simulated_user",
+      "body": "我刚出生，完全不知道要干嘛，能不能带着我玩？"
+    },
+    {
+      "id": "ROLE-CATALOG",
+      "from": "orchestrator",
+      "body": {
+        "planning": "选需要的模块、顺序、并发和结束条件",
+        "decision": "选择行动与具体候选表达",
+        "review": "审核实际候选内容",
+        "execution": "逐字输出批准内容，记录送达",
+        "reflection": "后台解释反馈，只提有来源建议",
+        "memory": "整理事实和明确偏好，通过消息传给下一轮"
+      }
+    }
+  ],
+  "prompt": "你是隔离实验中的业务Agent。只接收本消息，没有共享记忆。禁止读文件、网页、其他Agent会话或发消息。唯一允许工具动作是向指定专属outbox独占写一次最终JSON，作为给调度器的结果消息。游戏和用户输入均为合成fixture，非真实客户端；不可凭其他WoW版本常识补NPC/任务/技能/按键/坐标。精灵性格：好奇、温柔的小女孩，陪玩家一步一步探索；紧急时简短直接。只给文字建议，不自动操作游戏。不输出私有思维过程，reason_brief仅一句简短结论依据。JSON业务结果尽量≤350中文字。\n角色=planning；reasoning_effort=high。\n任务：规划本轮链路。输出goal,enabled_agents(仅角色目录中的id),skipped_agents,dependencies(字符串数组),parallel_groups(二维数组),stop_conditions,next_action_scope,evidence_ids,reason_brief。不写用户回复。前台决策→审核→执行；后台不阻塞前台。\n唯一业务输入：[{\"id\":\"R1-SNAPSHOT\",\"from\":\"game_adapter_simulator\",\"body\":{\"R1F1\":{\"race\":\"兽人\",\"class\":\"萨满\",\"level\":1,\"zone\":\"试炼谷\"},\"R1F2\":{\"hp\":100,\"max_hp\":100,\"mana\":100,\"max_mana\":100,\"inCombat\":false},\"R1F3\":{\"target\":null,\"quest_log\":[]},\"R1F4\":{\"unknown\":[\"spellbook\",\"bags\",\"map\",\"keybindings\",\"nearbyNPC\",\"server_rules\"]}}},{\"id\":\"R1U\",\"from\":\"simulated_user\",\"body\":\"我刚出生，完全不知道要干嘛，能不能带着我玩？\"},{\"id\":\"ROLE-CATALOG\",\"from\":\"orchestrator\",\"body\":{\"planning\":\"选需要的模块、顺序、并发和结束条件\",\"decision\":\"选择行动与具体候选表达\",\"review\":\"审核实际候选内容\",\"execution\":\"逐字输出批准内容，记录送达\",\"reflection\":\"后台解释反馈，只提有来源建议\",\"memory\":\"整理事实和明确偏好，通过消息传给下一轮\"}}]\n输出方式：使用exec_command运行Python（仅import json,time；不能读文件），以open(path,'x',encoding='utf-8')将 {job_id:'r1_planning_high',result:你的JSON业务结果,completed_unix_ms:round(time.time()*1000)} 写到 /workspace/scratch/11b2c52f7d61/sol-loop-test/outbox/r1_planning_high.json。时间必须实际读取，不得编写。写完final只回复job_id已发送。"
+}

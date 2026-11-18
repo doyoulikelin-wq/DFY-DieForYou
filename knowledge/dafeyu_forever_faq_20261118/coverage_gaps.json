@@ -1,0 +1,42 @@
+[
+  {
+    "topic": "全量新旧任务与NPC",
+    "status": "incomplete",
+    "needed": "无限当前客户端任务ID、文本、前置、交付人与阶段；不得复用别版本坐标当证据"
+  },
+  {
+    "topic": "首领与有名敌人全表",
+    "status": "incomplete",
+    "needed": "版本匹配的实体ID、敌对/首领分类、击败归属、具体机制与掉落"
+  },
+  {
+    "topic": "每种技能/天赋精确数值",
+    "status": "dynamic_not_exhaustive",
+    "needed": "当前客户端技能说明、学习条件、等级与最新国服热修"
+  },
+  {
+    "topic": "全部配方/物品/掉率/拍卖价格",
+    "status": "incomplete",
+    "needed": "当前无限来源；价格实时获取；概率没有依据保留未知"
+  },
+  {
+    "topic": "尚未开放内容",
+    "status": "future_reference_only",
+    "needed": "正式开放与客户端验证后，再批准当前行动建议"
+  },
+  {
+    "topic": "真实玩家口语和自然度",
+    "status": "not_measured",
+    "needed": "留出真实问法与连续会话盲评；不把合成问法命中率当真实覆盖"
+  },
+  {
+    "topic": "国服与海外差异",
+    "status": "separated",
+    "needed": "热修生效区服和时间核对；海外蓝帖不自动升级为国服现状"
+  },
+  {
+    "topic": "接口映射和自动触发",
+    "status": "not_integrated",
+    "needed": "真实插件提供标准字段、更新序号、权限、状态失效与撤回通道"
+  }
+]

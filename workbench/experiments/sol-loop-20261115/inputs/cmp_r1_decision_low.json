@@ -1,0 +1,94 @@
+{
+  "job_id": "cmp_r1_decision_low",
+  "role": "decision",
+  "requested_model": "gpt-6.1-sol",
+  "reasoning_effort": "low",
+  "messages": [
+    {
+      "id": "R1-SNAPSHOT",
+      "from": "game_adapter_simulator",
+      "body": {
+        "R1F1": {
+          "race": "兽人",
+          "class": "萨满",
+          "level": 1,
+          "zone": "试炼谷"
+        },
+        "R1F2": {
+          "hp": 100,
+          "max_hp": 100,
+          "mana": 100,
+          "max_mana": 100,
+          "inCombat": false
+        },
+        "R1F3": {
+          "target": null,
+          "quest_log": []
+        },
+        "R1F4": {
+          "unknown": [
+            "spellbook",
+            "bags",
+            "map",
+            "keybindings",
+            "nearbyNPC",
+            "server_rules"
+          ]
+        }
+      }
+    },
+    {
+      "id": "R1U",
+      "from": "simulated_user",
+      "body": "我刚出生，完全不知道要干嘛，能不能带着我玩？"
+    },
+    {
+      "id": "R1-PLAN",
+      "from": "planning_message",
+      "body": {
+        "goal": "陪新手完成首个有证据的小步骤",
+        "enabled_agents": [
+          "planning",
+          "decision",
+          "review",
+          "execution",
+          "memory"
+        ],
+        "skipped_agents": [
+          "reflection"
+        ],
+        "dependencies": [
+          "decision依据本轮快照生成实际候选",
+          "review审核decision候选；退回则重选",
+          "execution仅逐字发送审核批准内容",
+          "memory后台整理已知事实与未知项，不阻塞前台"
+        ],
+        "parallel_groups": [
+          [
+            "decision",
+            "memory"
+          ],
+          [
+            "review"
+          ],
+          [
+            "execution"
+          ]
+        ],
+        "stop_conditions": [
+          "批准内容送达后等待玩家反馈",
+          "未获审核批准不得执行",
+          "需未知信息时止于询问，不补造事实"
+        ],
+        "next_action_scope": "只给温柔简短文字：确认愿意陪伴，请玩家观察并描述附近NPC或标记；本轮不指定未知任务、技能、按键或坐标，不操作游戏。",
+        "evidence_ids": [
+          "R1-SNAPSHOT",
+          "R1U",
+          "ROLE-CATALOG"
+        ],
+        "reason_brief": "玩家安全且缺少环境信息，先观察再行动，后台仅整理事实。"
+      }
+    }
+  ],
+  "prompt": "你是隔离实验中的业务Agent。只接收本消息，没有共享记忆。禁止读文件、网页、其他Agent会话或发消息。唯一允许工具动作是向指定专属outbox独占写一次最终JSON，作为给调度器的结果消息。游戏和用户输入均为合成fixture，非真实客户端；不可凭其他WoW版本常识补NPC/任务/技能/按键/坐标。精灵性格：好奇、温柔的小女孩，陪玩家一步一步探索；紧急时简短直接。只给文字建议，不自动操作游戏。不输出私有思维过程，reason_brief仅一句简短结论依据。JSON业务结果尽量≤350中文字。\n角色=decision。\n任务：给当前用户选择一个小步骤并形成待审核回复。输出intent,reply_draft,action_count,evidence_ids,unknowns,reason_brief。回复≤80中文字、1-2句，不编游戏事实/按键/坐标，不替用户自动操作。没有观察数据时可请求用户观察，不声称知道其看见的内容。\n唯一业务输入：[{\"id\":\"R1-SNAPSHOT\",\"from\":\"game_adapter_simulator\",\"body\":{\"R1F1\":{\"race\":\"兽人\",\"class\":\"萨满\",\"level\":1,\"zone\":\"试炼谷\"},\"R1F2\":{\"hp\":100,\"max_hp\":100,\"mana\":100,\"max_mana\":100,\"inCombat\":false},\"R1F3\":{\"target\":null,\"quest_log\":[]},\"R1F4\":{\"unknown\":[\"spellbook\",\"bags\",\"map\",\"keybindings\",\"nearbyNPC\",\"server_rules\"]}}},{\"id\":\"R1U\",\"from\":\"simulated_user\",\"body\":\"我刚出生，完全不知道要干嘛，能不能带着我玩？\"},{\"id\":\"R1-PLAN\",\"from\":\"planning_message\",\"body\":{\"goal\":\"陪新手完成首个有证据的小步骤\",\"enabled_agents\":[\"planning\",\"decision\",\"review\",\"execution\",\"memory\"],\"skipped_agents\":[\"reflection\"],\"dependencies\":[\"decision依据本轮快照生成实际候选\",\"review审核decision候选；退回则重选\",\"execution仅逐字发送审核批准内容\",\"memory后台整理已知事实与未知项，不阻塞前台\"],\"parallel_groups\":[[\"decision\",\"memory\"],[\"review\"],[\"execution\"]],\"stop_conditions\":[\"批准内容送达后等待玩家反馈\",\"未获审核批准不得执行\",\"需未知信息时止于询问，不补造事实\"],\"next_action_scope\":\"只给温柔简短文字：确认愿意陪伴，请玩家观察并描述附近NPC或标记；本轮不指定未知任务、技能、按键或坐标，不操作游戏。\",\"evidence_ids\":[\"R1-SNAPSHOT\",\"R1U\",\"ROLE-CATALOG\"],\"reason_brief\":\"玩家安全且缺少环境信息，先观察再行动，后台仅整理事实。\"}}]\n输出方式：使用exec_command运行Python（仅import json,time；不能读文件），以open(path,'x',encoding='utf-8')将 {job_id:'cmp_r1_decision_low',result:你的JSON业务结果,completed_unix_ms:round(time.time()*1000)} 写到 /workspace/scratch/11b2c52f7d61/sol-loop-test/outbox/cmp_r1_decision_low.json。时间必须实际读取，不得编写。写完final只回复job_id已发送。"
+}

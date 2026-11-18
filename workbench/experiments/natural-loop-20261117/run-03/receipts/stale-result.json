@@ -1,0 +1,1 @@
+{"received": true, "id": "r9-stale-reply-model", "gate": {"accepted": false, "reason": "state_dependency_mismatch", "reply": "", "processing_ms": 0.04768200233229436}, "memory_commit": null}

@@ -1,0 +1,57 @@
+{
+  "job_id": "memory_race",
+  "new_preference_unix_ms": 1794684379014.2742,
+  "model_completed_unix_ms": 1794684378180,
+  "new_preference_arrived_before_model_result": false,
+  "commit_result": {
+    "accepted": false,
+    "reason": "memory_version_mismatch",
+    "memory_version": 1
+  },
+  "final_state": {
+    "snapshot": {
+      "observation_id": "FAST-R2-OBS",
+      "player": {
+        "race": "兽人",
+        "class": "萨满",
+        "level": 1,
+        "zone": "试炼谷",
+        "hp": 100,
+        "max_hp": 100,
+        "mana": 100,
+        "max_mana": 100,
+        "in_combat": false
+      },
+      "target": {
+        "name": "试炼谷引导员",
+        "hostile": false
+      },
+      "quest_offer": {
+        "title": "最初的试炼",
+        "buttons": [
+          "接受",
+          "取消"
+        ],
+        "open": true
+      },
+      "quest_log": [],
+      "known_spell": null,
+      "unknown": [
+        "keybindings",
+        "server_rules",
+        "coordinates"
+      ]
+    },
+    "state_version": 1,
+    "memory_version": 1,
+    "explicit_preference": {
+      "text": "以后每次只说一步",
+      "source_quote": "以后每次只说一步",
+      "value": {
+        "max_steps": 1
+      },
+      "scope": "future_guidance"
+    }
+  },
+  "scope": "真实模型在处理旧消息期间，协调器收到新的明确偏好；模型无共享状态访问。"
+}
