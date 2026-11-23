@@ -8,6 +8,7 @@
 
 | 内容 | 入口 | 说明 |
 |---|---|---|
+| 陪伴精灵动作设计 | [离线动作评审页](docs/companion-motion/index.html) · [114 动作设计](docs/companion-motion/motion-design-114.xlsx) · [三入口源表](docs/companion-motion/three-entry-source.xlsx) | 游戏内信息、主动互动与待机的逐动作配对、调度规则和验收场景 |
 | 可编辑协作设计台 | [design-board.html](workbench/dist/design-board.html) | 原版功能看板、链路规划、并发调度、运行预演、验收、规则与版本、角色分工 |
 | 最新六 Agent 架构 | [index.html](workbench/dist/index.html) | 模块职责、模型配置、信息边界与示例日志 |
 | Streaming 路径 | [streaming-plan.html](workbench/dist/streaming-plan.html) | 现状、难点、调研、方案、时间与 token 预算、预期成果 |
